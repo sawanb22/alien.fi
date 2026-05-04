@@ -14,6 +14,8 @@ const DK='rgb(21,24,43)';
 const MN="var(--font-azeret), 'Azeret Mono', monospace",
   SN="var(--font-poppins), 'Poppins', sans-serif";
 const OT=51,CW=309;
+/** Left hero rail (.rvl) width; inner vertical divider sits at OT+CWL */
+const CWL=CW-10;
 
 const TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"showStats":true}/*EDITMODE-END*/;
 
@@ -265,17 +267,17 @@ function Hero({tweaks}){
     <section ref={heroRef} style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative',minHeight:'100vh'}}>
       {/* Grid lines */}
       <div style={{position:'absolute',left:OT,right:OT,top:60,bottom:0,border:`1px solid ${PL}`,borderTop:'none',pointerEvents:'none'}}/>
-      <div style={{position:'absolute',left:OT+CW,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
+      <div style={{position:'absolute',left:OT+CWL,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       <div style={{position:'absolute',right:OT+CW,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       {/* Row-1 divider comes from matching borderBottom on grid cells */}
       {/* Scanning dots on vertical lines */}
-      {[OT+CW-3, (()=>{ const w=typeof window!=='undefined'?window.innerWidth:1440; return w-OT-CW-3; })()].map((l,i)=>(
+      {[OT+CWL-3, (()=>{ const w=typeof window!=='undefined'?window.innerWidth:1440; return w-OT-CW-3; })()].map((l,i)=>(
         <div key={i} style={{position:'absolute',left:l,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:`scan ${3+i}s linear infinite`,pointerEvents:'none',zIndex:10}}/>
       ))}
 
       {/* Inset matches absolute frame (left/right OT) — columns were edge-to-edge and sat outside guides */}
       <div style={{marginLeft:OT,marginRight:OT}}>
-      <div style={{display:'grid',gridTemplateColumns:`${CW}px 1fr ${CW}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
+      <div style={{display:'grid',gridTemplateColumns:`${CWL}px 1fr ${CW}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
 
         {/* Row 1 — shared auto height so headline can grow on large screens */}
         <div className="rvl" style={{minHeight:220,padding:'40px 18px 40px 28px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
