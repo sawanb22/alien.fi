@@ -187,7 +187,7 @@ function Nav(){
   useEffect(()=>{const f=()=>setSc(window.scrollY>20);window.addEventListener('scroll',f);return()=>window.removeEventListener('scroll',f);},[]);
   return(
     <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:300,background:L,height:60,display:'flex',alignItems:'center',justifyContent:'space-between',padding:`0 ${OT+9}px`,boxShadow:sc?'0 2px 28px rgba(0,0,0,0.14)':'none',transition:'box-shadow .3s'}}>
-      <Link href="/landing" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
+      <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
         <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
       </Link>
       <div style={{display:'flex',gap:32,alignItems:'center'}}>

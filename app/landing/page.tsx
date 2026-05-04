@@ -1,5 +1,6 @@
-import LandingPageClient from "./LandingPageClient";
+import { redirect } from "next/navigation";
 
-export default function LandingPage() {
-  return <LandingPageClient />;
+/** Canonical home is `/`; keep route for bookmarks. */
+export default function LandingLegacyRedirectPage() {
+  redirect("/");
 }

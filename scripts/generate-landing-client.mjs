@@ -26,7 +26,7 @@ body = body.replace(/logo-3d\.png/g, "logo-3d.svg");
 // Nav: HTML file links -> Next routes
 body = body.replace(
   /<a href="Landing Page\.html"/g,
-  '<Link href="/landing"',
+  '<Link href="/"',
 );
 body = body.replace(
   /\{\[\['Services','Services\.html'\],\['Industries','Industries\.html'\],\['Solutions','Solutions\.html'\],\['Case Studies','Case Studies\.html'\],\['Contact','Contact\.html'\]\]\.map\(\(\[l,h\]\)=>/g,

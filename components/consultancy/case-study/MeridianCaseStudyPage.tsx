@@ -38,7 +38,7 @@ function StudyHero() {
                 marginBottom: 32,
               }}
             >
-              <Link href="/landing" className="hv" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+              <Link href="/" className="hv" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
                 Home
               </Link>
               <span style={{ opacity: 0.4 }}>/</span>

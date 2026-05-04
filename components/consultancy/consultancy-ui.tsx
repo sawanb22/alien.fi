@@ -333,7 +333,7 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
       }}
     >
       <Link
-        href="/landing"
+        href="/"
         className="hv"
         style={{
           display: "flex",
@@ -620,7 +620,7 @@ export function Footer() {
     {
       h: "Company",
       links: [
-        ["About", "/landing"],
+        ["About", "/"],
         ["Case Studies", "/case-studies"],
         ["Careers", "/contact"],
         ["Contact", "/contact"],
@@ -905,7 +905,7 @@ export function PageHero({
               color: "rgba(0,0,0,0.3)",
             }}
           >
-            <Link href="/landing" className="hv" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
+            <Link href="/" className="hv" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
               Home
             </Link>
             <span style={{ opacity: 0.4 }}>/</span>

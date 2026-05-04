@@ -20,7 +20,7 @@ export default function InventoryPage() {
           ← Home
         </Link>
         {" · "}
-        <Link href="/landing" style={{ color: "var(--af-accent-strong)" }}>
+        <Link href="/" style={{ color: "var(--af-accent-strong)" }}>
           AI landing (Next)
         </Link>
       </p>
