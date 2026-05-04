@@ -356,7 +356,7 @@ function Hero({tweaks}){
             </div>
 
             {/* Text — ABOVE logo (z:3) with frosted backing */}
-            <div style={{position:'relative',zIndex:3,padding:'32px 52px 0',pointerEvents:'none'}}>
+            <div style={{position:'relative',zIndex:3,padding:'32px 52px 0 20px',pointerEvents:'none'}}>
               <div className="rv d1" style={{display:'inline-block',pointerEvents:'all'}}>
                 <div style={{fontFamily:SN,fontSize:13.5,lineHeight:1.8,color:'rgba(0,0,0,0.55)',marginBottom:28,maxWidth:320,background:'rgba(243,243,255,0.75)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:12,padding:'14px 18px',boxShadow:'0 4px 24px rgba(0,0,0,0.06)'}}>
                   From strategy and consulting to deployment and managed services — we guide your organization through every phase of AI adoption.
