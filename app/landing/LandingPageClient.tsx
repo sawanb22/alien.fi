@@ -283,7 +283,7 @@ function Hero({tweaks}){
         <div className="rvl" style={{minHeight:220,padding:'40px 18px 40px 28px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
           <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1}}/>
         </div>
-        <div style={{minHeight:220,padding:'36px 52px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
+        <div style={{minHeight:220,padding:'36px 52px 36px 20px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
           <div className="rv">
             <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
             <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
