@@ -459,13 +459,35 @@ function Methodology() {
   ];
   return (
     <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 48, display: "grid", gridTemplateColumns: "320px 1fr", gap: 60, alignItems: "flex-end" }}>
-        <div>
+      <div
+        style={{
+          padding: "0 9px",
+          marginBottom: 48,
+          display: "grid",
+          gridTemplateColumns: "auto minmax(0, 1fr)",
+          columnGap: 28,
+          rowGap: 16,
+          alignItems: "start",
+        }}
+      >
+        <div style={{ justifySelf: "start", maxWidth: "100%" }}>
           <Lbl ch="How we earn vertical depth" lt />
-          <Ttl ch="METHODOLOGY." lt />
+          <Ttl ch="METHODOLOGY." lt sx={{ whiteSpace: "nowrap" }} />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(255,255,255,0.5)", maxWidth: 520, lineHeight: 1.7 }}>
-          Every vertical has a hidden grammar — what data exists, what regulators care about, where the bodies are buried. Generic AI shops miss it. We don't.
+        <div
+          style={{
+            minWidth: 0,
+            fontFamily: SN,
+            fontSize: 14,
+            color: "rgba(255,255,255,0.5)",
+            maxWidth: 520,
+            lineHeight: 1.7,
+            paddingLeft: 0,
+          }}
+        >
+          {
+            "Every vertical has a hidden grammar — what data exists, what regulators care about, where the bodies are buried. Generic AI shops miss it. We don't."
+          }
         </div>
       </div>
       <div style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
