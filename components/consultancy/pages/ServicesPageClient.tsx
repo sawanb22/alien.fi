@@ -480,13 +480,38 @@ function Principles() {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0 9px", marginBottom: 36, display: "grid", gridTemplateColumns: "320px 1fr", gap: 60, alignItems: "flex-end" }}>
-        <div>
+      <div
+        style={{
+          padding: "0 9px",
+          marginBottom: 36,
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 420px) minmax(0, 1fr)",
+          columnGap: 28,
+          rowGap: 16,
+          alignItems: "start",
+        }}
+      >
+        <div style={{ minWidth: 0 }}>
           <Lbl ch="What you can count on" />
-          <Ttl ch="PRINCIPLES." />
+          <Ttl
+            ch="PRINCIPLES."
+            sx={{ maxWidth: "100%", overflowWrap: "anywhere", wordBreak: "break-word" }}
+          />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 14, lineHeight: 1.7, color: "rgba(0,0,0,0.55)", maxWidth: 540 }}>
-          The shortlist. We've watched a lot of consulting go sideways for predictable reasons. These four are how we don't.
+        <div
+          style={{
+            minWidth: 0,
+            fontFamily: SN,
+            fontSize: 14,
+            lineHeight: 1.7,
+            color: "rgba(0,0,0,0.55)",
+            maxWidth: 540,
+            paddingLeft: 0,
+          }}
+        >
+          {
+            "The shortlist. We've watched a lot of consulting go sideways for predictable reasons. These four are how we don't."
+          }
         </div>
       </div>
       <div
