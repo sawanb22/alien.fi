@@ -485,18 +485,15 @@ function Principles() {
           padding: "0 9px",
           marginBottom: 36,
           display: "grid",
-          gridTemplateColumns: "minmax(0, 420px) minmax(0, 1fr)",
+          gridTemplateColumns: "auto minmax(0, 1fr)",
           columnGap: 28,
           rowGap: 16,
           alignItems: "start",
         }}
       >
-        <div style={{ minWidth: 0 }}>
+        <div style={{ justifySelf: "start", maxWidth: "100%" }}>
           <Lbl ch="What you can count on" />
-          <Ttl
-            ch="PRINCIPLES."
-            sx={{ maxWidth: "100%", overflowWrap: "anywhere", wordBreak: "break-word" }}
-          />
+          <Ttl ch="PRINCIPLES." sx={{ whiteSpace: "nowrap" }} />
         </div>
         <div
           style={{
