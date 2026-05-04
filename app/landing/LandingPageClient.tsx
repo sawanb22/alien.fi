@@ -4,12 +4,6 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  TweaksPanel,
-  TweakSection,
-  TweakToggle,
-  useTweaks,
-} from "@/components/tweaks-panel/tweaks-panel";
 import { LandingChrome } from "./LandingChrome";
 
 /* ── TOKENS ── */
@@ -20,8 +14,6 @@ const DK='rgb(21,24,43)';
 const MN="var(--font-azeret), 'Azeret Mono', monospace",
   SN="var(--font-poppins), 'Poppins', sans-serif";
 const OT=51,CW=309;
-
-const TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"showStats":true}/*EDITMODE-END*/;
 
 /* ── SMALL ATOMS ── */
 const Arr = ({ sz = 10, cl = "#fff", sw = 1.8 }) => (
@@ -121,11 +113,11 @@ function StatCell({val,raw,lbl}){
   const isDecimal=val.includes('.');
   const display=isDecimal?(count/10).toFixed(1)+suffix:count+suffix;
   return(
-    <div ref={ref} className="hv" style={{background:`linear-gradient(135deg,${BG},${BG2})`,padding:'26px 24px',transition:'background .3s',cursor:'default'}}
+    <div ref={ref} className="hv" style={{background:`linear-gradient(135deg,${BG},${BG2})`,padding:'22px 14px',transition:'background .3s',cursor:'default',boxSizing:'border-box',minWidth:0,overflow:'hidden'}}
       onMouseEnter={e=>e.currentTarget.style.background='rgb(218,242,200)'}
       onMouseLeave={e=>e.currentTarget.style.background=`linear-gradient(135deg,${BG},${BG2})`}>
-      <div style={{fontFamily:MN,fontWeight:700,fontSize:34,letterSpacing:'0.02em',color:L2,lineHeight:1,animation:triggered?'statPop .5s ease':'none'}}>{display}</div>
-      <div style={{fontFamily:SN,fontWeight:500,fontSize:10,color:'rgba(0,0,0,0.38)',marginTop:5}}>{lbl}</div>
+      <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(22px,4vw,34px)',letterSpacing:'0.02em',color:L2,lineHeight:1.05,animation:triggered?'statPop .5s ease':'none'}}>{display}</div>
+      <div style={{fontFamily:SN,fontWeight:500,fontSize:9,color:'rgba(0,0,0,0.38)',marginTop:6,lineHeight:1.35,wordBreak:'break-word',hyphens:'auto'}}>{lbl}</div>
     </div>
   );
 }
@@ -206,7 +198,7 @@ function Nav(){
 }
 
 /* ── HERO ── */
-function Hero({tweaks}){
+function Hero(){
   const heroRef=useRef();
   const logoRef=useRef();
   const [dragging,setDragging]=useState(false);
@@ -271,25 +263,19 @@ function Hero({tweaks}){
     <section ref={heroRef} style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative',minHeight:'100vh'}}>
       {/* Grid lines */}
       <div style={{position:'absolute',left:OT,right:OT,top:60,bottom:0,border:`1px solid ${PL}`,borderTop:'none',pointerEvents:'none'}}/>
-      <div style={{position:'absolute',left:OT+CW,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       <div style={{position:'absolute',right:OT+CW,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       {/* Row-1 divider comes from matching borderBottom on grid cells */}
       {/* Scanning dots on vertical lines */}
-      {[OT+CW-3, (()=>{ const w=typeof window!=='undefined'?window.innerWidth:1440; return w-OT-CW-3; })()].map((l,i)=>(
-        <div key={i} style={{position:'absolute',left:l,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:`scan ${3+i}s linear infinite`,pointerEvents:'none',zIndex:10}}/>
-      ))}
+      <div style={{position:'absolute',right:OT+CW-3,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:'scan 3s linear infinite',pointerEvents:'none',zIndex:10}}/>
 
-      <div style={{display:'grid',gridTemplateColumns:`${CW}px 1fr ${CW}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
+      <div style={{display:'grid',gridTemplateColumns:`minmax(0,1fr) ${CW}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
 
         {/* Row 1 — shared auto height so headline can grow on large screens */}
-        <div className="rvl" style={{minHeight:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
-          <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1}}/>
-        </div>
-        <div style={{minHeight:220,padding:'36px 52px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
-          <div className="rv">
-            <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
-            <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
-            <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,whiteSpace:'nowrap',
+        <div style={{minHeight:220,padding:'36px 52px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box',minWidth:0,overflow:'hidden'}}>
+          <div className="rv" style={{minWidth:0}}>
+            <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(28px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>WE BUILD</div>
+            <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(28px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>AI THAT</div>
+            <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(28px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',
               background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
               backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
               animation:'shimmer 4s linear infinite'}}>WORKS.</div>
@@ -303,7 +289,7 @@ function Hero({tweaks}){
             </div>
           </Tilt>
         </div>
-        <div className="rvr" style={{minHeight:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
+        <div className="rvr" style={{minHeight:220,padding:'40px 24px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box',minWidth:0,overflow:'hidden'}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
             <Lbl ch="Services"/>
             <div className="hv" style={{width:20,height:20,borderRadius:5,background:'#000',display:'flex',alignItems:'center',justifyContent:'center',marginTop:-8,transition:'background .2s'}}
@@ -312,34 +298,15 @@ function Hero({tweaks}){
             </div>
           </div>
           {['AI Strategy & Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'].map((s,i)=>(
-            <div key={s} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)} style={{padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:hovSvc===i?'#000':'rgba(0,0,0,0.45)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'color .15s,padding-left .2s',paddingLeft:hovSvc===i?8:0}}>
-              {s}<span style={{opacity:.25,fontSize:9}}>0{i+1}</span>
+            <div key={s} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)} style={{padding:'10px 0',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',gap:8,minWidth:0,transition:'color .15s,padding-left .2s',paddingLeft:hovSvc===i?8:0}}>
+              <span style={{flex:1,minWidth:0,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing:'0.03em',lineHeight:1.35,color:hovSvc===i?'#000':'rgba(0,0,0,0.45)',overflowWrap:'break-word'}}>{s}</span>
+              <span style={{opacity:.25,fontSize:9,flexShrink:0,fontFamily:MN}}>0{i+1}</span>
             </div>
           ))}
         </div>
 
         {/* Row 2 */}
-        <div className="rvl" style={{padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
-          <div>
-            <Lbl ch="About"/>
-            <div style={{fontFamily:SN,fontWeight:400,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:28}}>
-              alien.fi is a full-service AI consultancy. We help organizations at every stage of AI maturity integrate, deploy, and maintain AI that delivers measurable results.
-            </div>
-            <div className="ld" style={{height:1,background:PL,marginBottom:28}}/>
-            <Lbl ch="Engagement models"/>
-            {['Project-based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
-              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
-                <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
-              </div>
-            ))}
-          </div>
-          <div style={{marginTop:32}}>
-            <Lbl ch="Location"/>
-            <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>Austin, TX 78701<br/>Operating globally</div>
-          </div>
-        </div>
-
-        <div style={{display:'flex',flexDirection:'column',position:'relative',minHeight:0,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`}}>
+        <div style={{display:'flex',flexDirection:'column',position:'relative',minHeight:0,minWidth:0,overflow:'hidden',borderRight:`1px solid ${PL}`}}>
           {/* LOGO + COPY — fixed z-index layering */}
           <div style={{flex:1,display:'flex',flexDirection:'column',position:'relative',minHeight:0}}>
             {/* 3D logo — BEHIND text (z:1), draggable */}
@@ -380,17 +347,15 @@ function Hero({tweaks}){
             </div>
 
             {/* Stats — z:3, always on top */}
-            {tweaks.showStats&&(
-              <div className="rv d3" style={{marginTop:'auto',position:'relative',zIndex:3,display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
-                <StatCell val="20+" raw={20} lbl="Industries served"/>
-                <StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/>
-                <StatCell val="62%" raw={62} lbl="Faster operations"/>
-              </div>
-            )}
+            <div className="rv d3" style={{marginTop:'auto',position:'relative',zIndex:3,display:'grid',gridTemplateColumns:'repeat(3,minmax(0,1fr))',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
+              <StatCell val="20+" raw={20} lbl="Industries served"/>
+              <StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/>
+              <StatCell val="62%" raw={62} lbl="Faster operations"/>
+            </div>
           </div>
         </div>
 
-        <div className="rvr" style={{padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+        <div className="rvr" style={{padding:'36px 24px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0,minWidth:0,overflow:'hidden'}}>
           <div>
             <Lbl ch="Collaborate"/>
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:24}}>Partner with us to build next-generation AI infrastructure for your business.</div>
@@ -797,7 +762,6 @@ function Footer(){
 /* ── APP ── */
 export default function LandingPageClient(){
   const [loaded,setLoaded]=useState(false);
-  const [tweaks,setTweak]=useTweaks(TWEAK_DEFAULTS);
   useEffect(()=>{
     if(loaded)setTimeout(()=>{window.initRv&&window.initRv();document.querySelectorAll('.rv,.rvl,.rvr,.ld').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight*.95)el.classList.add('in');});},120);
   },[loaded]);
@@ -806,15 +770,10 @@ export default function LandingPageClient(){
       <LandingChrome />
       {!loaded&&<Loader onDone={()=>setLoaded(true)}/>}
       <div style={{opacity:loaded?1:0,transition:'opacity .5s',pointerEvents:loaded?'all':'none'}}>
-        <Nav/><Hero tweaks={tweaks}/><Ticker/>
+        <Nav/><Hero/><Ticker/>
         <Services/><Process/><Differentiators/><Industries/>
         <CaseStudy/><Solutions/><EngagementModels/><CTA/><Footer/>
       </div>
-      <TweaksPanel defaultOpen>
-        <TweakSection label="Hero">
-          <TweakToggle label="Show stats strip" value={!!tweaks.showStats} onChange={(v) => setTweak('showStats', v)} />
-        </TweakSection>
-      </TweaksPanel>
     </>
   );
 }
