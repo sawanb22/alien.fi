@@ -3,8 +3,22 @@
 /* Generated from repo-root `Landing Page.html` via `scripts/generate-landing-client.mjs` (then link/tag fixes). Regenerate after editing the HTML source. */
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { CW, OT } from "@/lib/consultancy/tokens";
+import {
+  LandingLayoutProvider,
+  gridCols,
+  sectionGutter,
+  sectionVPad,
+  useLandingLayout,
+} from "@/lib/landing-layout-context";
 import { LandingChrome } from "./LandingChrome";
+import { SplineHeroLogo } from "./SplineHeroLogo";
 
 /* ── TOKENS ── */
 const L='rgb(150,238,82)',L2='rgb(177,238,82)';
@@ -13,7 +27,6 @@ const PL='rgb(199,200,211)',CD='rgb(229,231,245)';
 const DK='rgb(21,24,43)';
 const MN="var(--font-azeret), 'Azeret Mono', monospace",
   SN="var(--font-poppins), 'Poppins', sans-serif";
-const OT=51,CW=309;
 /** Hero side rails (.rvl / .rvr); inner verticals at OT+CWS from each edge */
 const CWS=CW-20;
 
@@ -179,101 +192,90 @@ function Loader({onDone}){
 
 /* ── NAV ── */
 function Nav(){
+  const layout=useLandingLayout();
   const [sc,setSc]=useState(false);
+  const [menu,setMenu]=useState(false);
   useEffect(()=>{const f=()=>setSc(window.scrollY>20);window.addEventListener('scroll',f);return()=>window.removeEventListener('scroll',f);},[]);
+  useEffect(()=>{
+    if(!menu)return;
+    const prev=document.body.style.overflow;
+    document.body.style.overflow='hidden';
+    return()=>{document.body.style.overflow=prev;};
+  },[menu]);
+
+  /** Match `HeroNarrow` framed column: margin `sectionGutter` + 1px rule + same inner inset as body copy */
+  const navFrameInset=layout==='mobile'?10:12;
+  const navHPad=layout==='desktop'?OT+9:sectionGutter(layout)+1+navFrameInset;
+  const links=[['Services','/services'],['Industries','/industries'],['Solutions','/solutions'],['Case Studies','/case-studies'],['Contact','/contact']]as const;
+
+  if(layout==='desktop'){
+    return(
+      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:300,background:L,height:60,display:'flex',alignItems:'center',justifyContent:'space-between',padding:`0 ${OT+9}px`,boxShadow:sc?'0 2px 28px rgba(0,0,0,0.14)':'none',transition:'box-shadow .3s'}}>
+        <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
+          <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
+        </Link>
+        <div style={{display:'flex',gap:32,alignItems:'center'}}>
+          {links.map(([l,h])=>(
+            <Link key={l} href={h} className="hv" style={{fontFamily:MN,fontWeight:500,fontSize:12,letterSpacing:'0.06em',color:'rgba(0,0,0,0.6)',textDecoration:'none',transition:'color .2s'}}
+              onMouseEnter={e=>{e.currentTarget.style.color='#000';}} onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0.6)';}}>{l}</Link>
+          ))}
+        </div>
+        <button className="hv" onClick={()=>document.getElementById('contact')?.scrollIntoView({block:'start'})}
+          style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.08em',padding:'10px 18px',cursor:'none',transition:'background .2s,transform .15s'}}
+          onMouseMove={e=>window.magnet?.(e.currentTarget,e)}
+          onMouseLeave={e=>window.magnetReset?.(e.currentTarget)}
+        >Start a project <Arr sz={9} cl={L} sw={2.2}/></button>
+      </nav>
+    );
+  }
+
   return(
-    <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:300,background:L,height:60,display:'flex',alignItems:'center',justifyContent:'space-between',padding:`0 ${OT+9}px`,boxShadow:sc?'0 2px 28px rgba(0,0,0,0.14)':'none',transition:'box-shadow .3s'}}>
-      <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
-        <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
-      </Link>
-      <div style={{display:'flex',gap:32,alignItems:'center'}}>
-        {[['Services','/services'],['Industries','/industries'],['Solutions','/solutions'],['Case Studies','/case-studies'],['Contact','/contact']].map(([l,h])=>(
-          <Link key={l} href={h} className="hv" style={{fontFamily:MN,fontWeight:500,fontSize:12,letterSpacing:'0.06em',color:'rgba(0,0,0,0.6)',textDecoration:'none',transition:'color .2s'}}
-            onMouseEnter={e=>{e.currentTarget.style.color='#000';}} onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0.6)';}}>{l}</Link>
-        ))}
-      </div>
-      <button ref={r=>{}} className="hv" onClick={()=>document.getElementById('contact').scrollIntoView({block:'start'})}
-        style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.08em',padding:'10px 18px',cursor:'none',transition:'background .2s,transform .15s'}}
-        onMouseMove={e=>window.magnet(e.currentTarget,e)}
-        onMouseLeave={e=>window.magnetReset(e.currentTarget)}
-      >Start a project <Arr sz={9} cl={L} sw={2.2}/></button>
-    </nav>
+    <>
+      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:300,background:L,height:60,display:'flex',alignItems:'center',justifyContent:'space-between',padding:`0 ${navHPad}px`,boxShadow:sc?'0 2px 28px rgba(0,0,0,0.14)':'none',transition:'box-shadow .3s'}}>
+        <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
+          <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
+        </Link>
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
+          <button type="button" className="hv landing-nav-menu-btn" aria-expanded={menu} aria-controls="landing-nav-sheet" aria-label={menu?'Close menu':'Open menu'} onClick={()=>setMenu(m=>!m)}
+            style={{width:42,height:40,borderRadius:10,border:'1.5px solid rgba(0,0,0,0.35)',background:menu?'#000':'rgba(255,255,255,0.35)',color:menu?'#fff':'#000',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,padding:0}}
+          >
+            <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
+            <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
+          </button>
+          <button type="button" className="hv landing-nav-cta" onClick={()=>{setMenu(false);document.getElementById('contact')?.scrollIntoView({block:'start'});}}
+            style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:layout==='mobile'?10:11,letterSpacing:'0.06em',padding:layout==='mobile'?'9px 12px':'10px 16px'}}>
+            Start <Arr sz={9} cl={L} sw={2.2}/>
+          </button>
+        </div>
+      </nav>
+      {menu&&<>
+        <div style={{position:'fixed',inset:0,zIndex:280,background:'rgba(21,24,43,0.35)',backdropFilter:'blur(6px)',WebkitBackdropFilter:'blur(6px)'}} aria-hidden onClick={()=>setMenu(false)}/>
+        <div id="landing-nav-sheet" role="dialog" aria-modal style={{position:'fixed',top:58,left:sectionGutter(layout),right:sectionGutter(layout),maxHeight:'min(560px,calc(100vh - 80px))',zIndex:310,overflow:'hidden',borderRadius:16,border:`1px solid ${PL}`,boxShadow:'0 24px 60px rgba(0,0,0,0.18)',background:BG}}>
+          <div style={{overflowY:'auto',padding:'22px 20px 26px'}}>
+            {links.map(([l,h])=>(
+              <Link key={l} href={h} onClick={()=>setMenu(false)} style={{display:'block',padding:'14px 4px',fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',color:'#000',textDecoration:'none',borderBottom:`1px solid ${PL}`}}>{l}</Link>
+            ))}
+          </div>
+        </div>
+      </>}
+    </>
   );
 }
 
-/* ── HERO ── */
-function Hero({tweaks}){
-  const heroRef=useRef();
-  const logoRef=useRef();
-  const [dragging,setDragging]=useState(false);
-  const [rot,setRot]=useState({x:-5,y:15});
-  const dragStart=useRef(null);
-  const velRef=useRef({x:0,y:0});
-  const rafRef=useRef(null);
+/* ── HERO DESKTOP — unchanged grid (>=1120px only) ── */
+function HeroDesktop({tweaks}){
   const [hovSvc,setHovSvc]=useState(null);
 
-  /* Parallax on non-drag */
-  useEffect(()=>{
-    const hero=heroRef.current;
-    if(!hero)return;
-    const mv=e=>{
-      if(dragging)return;
-      const r=hero.getBoundingClientRect();
-      const x=(e.clientX-r.left-r.width/2)/r.width;
-      const y=(e.clientY-r.top-r.height/2)/r.height;
-      setRot(prev=>({x:prev.x+(-y*8-prev.x)*.08,y:prev.y+(x*12-prev.y)*.08}));
-    };
-    hero.addEventListener('mousemove',mv);
-    return()=>hero.removeEventListener('mousemove',mv);
-  },[dragging]);
-
-  /* Drag spin */
-  const onDragStart=useCallback(e=>{
-    e.preventDefault();
-    setDragging(true);
-    dragStart.current={x:e.clientX,y:e.clientY,rot:{...rot}};
-    document.body.style.userSelect='none';
-  },[rot]);
-
-  useEffect(()=>{
-    if(!dragging)return;
-    const mv=e=>{
-      if(!dragStart.current)return;
-      const dx=e.clientX-dragStart.current.x;
-      const dy=e.clientY-dragStart.current.y;
-      velRef.current={x:dy*.35,y:dx*.35};
-      setRot({x:dragStart.current.rot.x+dy*.35,y:dragStart.current.rot.y+dx*.35});
-    };
-    const up=()=>{
-      setDragging(false);
-      document.body.style.userSelect='';
-      // momentum decay
-      const decay=()=>{
-        velRef.current.x*=.92; velRef.current.y*=.92;
-        if(Math.abs(velRef.current.x)<0.05&&Math.abs(velRef.current.y)<0.05)return;
-        setRot(p=>({x:p.x+velRef.current.x,y:p.y+velRef.current.y}));
-        rafRef.current=requestAnimationFrame(decay);
-      };
-      rafRef.current=requestAnimationFrame(decay);
-    };
-    window.addEventListener('mousemove',mv);
-    window.addEventListener('mouseup',up);
-    return()=>{window.removeEventListener('mousemove',mv);window.removeEventListener('mouseup',up);cancelAnimationFrame(rafRef.current);};
-  },[dragging]);
-
-  const logoTransform=`perspective(800px) rotateX(${rot.x}deg) rotateY(${rot.y}deg)`;
-
   return(
-    <section ref={heroRef} style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative',minHeight:'100vh'}}>
+    <section style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative',minHeight:'100vh'}}>
       {/* Grid lines */}
       <div style={{position:'absolute',left:OT,right:OT,top:60,bottom:0,border:`1px solid ${PL}`,borderTop:'none',pointerEvents:'none'}}/>
       <div style={{position:'absolute',left:OT+CWS,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       <div style={{position:'absolute',right:OT+CWS,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       {/* Row-1 divider comes from matching borderBottom on grid cells */}
-      {/* Scanning dots on vertical lines */}
-      {[OT+CWS-3, (()=>{ const w=typeof window!=='undefined'?window.innerWidth:1440; return w-OT-CWS-3; })()].map((l,i)=>(
-        <div key={i} style={{position:'absolute',left:l,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:`scan ${3+i}s linear infinite`,pointerEvents:'none',zIndex:10}}/>
-      ))}
+      {/* Scanning dots on vertical lines — inset from rails (no innerWidth; avoids SSR/client hydration mismatch) */}
+      <div style={{position:'absolute',left:OT+CWS-3,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:'scan 3s linear infinite',pointerEvents:'none',zIndex:10}}/>
+      <div style={{position:'absolute',right:OT+CWS-3,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:'scan 4s linear infinite',pointerEvents:'none',zIndex:10}}/>
 
       {/* Inset matches absolute frame (left/right OT) — columns were edge-to-edge and sat outside guides */}
       <div style={{marginLeft:OT,marginRight:OT}}>
@@ -340,19 +342,30 @@ function Hero({tweaks}){
         <div style={{display:'flex',flexDirection:'column',position:'relative',minHeight:0,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`}}>
           {/* LOGO + COPY — fixed z-index layering */}
           <div style={{flex:1,display:'flex',flexDirection:'column',position:'relative',minHeight:0}}>
-            {/* 3D logo — BEHIND text (z:1), draggable */}
-            <div style={{position:'absolute',right:-20,top:0,bottom:0,display:'flex',alignItems:'center',zIndex:1,pointerEvents:'none'}}>
-              <img ref={logoRef} src="/assets/logo-3d.svg" alt=""
-                style={{height:'90%',maxHeight:450,objectFit:'contain',
-                  transform:logoTransform,
-                  transition:dragging?'none':'transform .08s ease-out',
-                  filter:'drop-shadow(0 20px 60px rgba(0,0,0,0.14))',
-                  cursor:'grab',pointerEvents:'all',
-                  userSelect:'none',WebkitUserDrag:'none',
-                }}
-                onMouseDown={onDragStart}
-                title="Drag to spin"
-              />
+            {/* 3D logo — middle-right void between copy card & stats (clears frosted panel, sits above stats) */}
+            <div style={{
+              position:'absolute',
+              left:'max(296px, 34%)',
+              right:12,
+              top:'5%',
+              bottom:tweaks.showStats?96:28,
+              zIndex:1,
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+              pointerEvents:'none',
+              /* visible: Spline height is vh-based and may extend past inset box; UI stays above (z:3) */
+              overflow:'visible',
+            }}>
+              <div style={{
+                width:'100%',
+                height:'min(720px, max(420px, 48vh))',
+                maxHeight:'min(760px, calc(100vh - 240px))',
+                pointerEvents:'auto',
+                filter:'drop-shadow(0 18px 56px rgba(0,0,0,0.12))',
+              }}>
+                <SplineHeroLogo />
+              </div>
             </div>
 
             {/* Text — ABOVE logo (z:3) with frosted backing */}
@@ -371,9 +384,8 @@ function Hero({tweaks}){
                 <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 4px',transition:'color .2s'}}
                   onMouseEnter={e=>e.currentTarget.style.color='#000'} onMouseLeave={e=>e.currentTarget.style.color='rgba(0,0,0,0.4)'}>See services →</Link>
               </div>
-              {/* Drag hint */}
               <div className="rv d3" style={{marginTop:20,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(0,0,0,0.25)',pointerEvents:'all'}}>
-                <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Drag the logo to spin it
+                <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
               </div>
             </div>
 
@@ -417,11 +429,127 @@ function Hero({tweaks}){
   );
 }
 
+/* ── HERO TABLET / MOBILE — edge-to-edge gutters, stacked (Spline + copy rails) ── */
+function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet"|"mobile"}){
+  const [hovSvc,setHovSvc]=useState<number|null>(null);
+  const g=sectionGutter(layout);
+  /** Keeps typography off the framed vertical rules without a heavy gutter */
+  const frameInset=layout==='mobile'?10:12;
+  const headlineFs=layout==='mobile'?'clamp(28px,8vw,44px)':'clamp(34px,5vw,52px)';
+  const svc=['AI Strategy & Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'];
+  const socialPaths=['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
+    'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
+    'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'];
+
+  return(
+    <section style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative'}}>
+      <div style={{borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,marginLeft:g,marginRight:g,paddingLeft:frameInset,paddingRight:frameInset,boxSizing:'border-box'}}>
+
+        <div className="rv" style={{padding:'30px 0 22px',borderBottom:`1px solid ${PL}`}}>
+          <div style={{fontFamily:MN,fontWeight:300,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,color:'#000'}}>WE BUILD</div>
+          <div style={{fontFamily:MN,fontWeight:500,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,color:'#000'}}>AI THAT</div>
+          <div style={{fontFamily:MN,fontWeight:700,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,
+            background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
+            animation:'shimmer 4s linear infinite'}}>WORKS.</div>
+        </div>
+
+        <div style={{padding:'22px 0 8px',borderBottom:`1px solid ${PL}`}}>
+          <div style={{width:'100%',maxWidth:layout==='tablet'?560:440,margin:'0 auto',height:layout==='mobile'?'min(38vh,320px)':'min(42vh,380px)',minHeight:236,filter:'drop-shadow(0 14px 40px rgba(0,0,0,0.1))'}}>
+            <SplineHeroLogo />
+          </div>
+        </div>
+
+        <div className="rv d1" style={{padding:'26px 0 28px'}}>
+          <div style={{fontFamily:SN,fontSize:13.5,lineHeight:1.8,color:'rgba(0,0,0,0.55)',marginBottom:22,background:'rgba(243,243,255,0.85)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:14,padding:'16px 18px',boxShadow:'0 4px 24px rgba(0,0,0,0.06)',border:`1px solid ${PL}`}}>
+            From strategy and consulting to deployment and managed services — we guide your organization through every phase of AI adoption.
+          </div>
+          <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
+            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none'}}>
+              Start a project <Arr sz={9} cl={L} sw={2}/>
+            </Link>
+            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 2px'}}>See services →</Link>
+          </div>
+          <div style={{marginTop:18,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(0,0,0,0.25)'}}>
+            <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
+          </div>
+        </div>
+
+        {tweaks.showStats&&(
+          <div className="rv d2" style={{display:'grid',gridTemplateColumns:layout==='mobile'?'1fr':'repeat(3,1fr)',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
+            <StatCell val="20+" raw={20} lbl="Industries served"/>
+            <StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/>
+            <StatCell val="62%" raw={62} lbl="Faster operations"/>
+          </div>
+        )}
+
+        <div style={{padding:'28px 0',borderTop:`1px solid ${PL}`}} className="rv d2">
+          <Lbl ch="Services"/>
+          <div style={{marginTop:4,borderRadius:14,border:`1px solid ${PL}`,overflow:'hidden'}}>
+            {svc.map((s,i)=>(
+              <Link key={s} href="/services" style={{padding:'12px 14px',borderBottom:i<svc.length-1?`1px solid ${PL}`:'none',fontFamily:MN,fontSize:layout==='mobile'?10:11,fontWeight:500,letterSpacing:'0.03em',
+                color:hovSvc===i?'#000':'rgba(0,0,0,0.52)',transition:'background .15s,padding-left .15s',
+                paddingLeft:hovSvc===i?18:14,background:hovSvc===i?`rgba(150,238,82,0.12)`:'transparent',display:'flex',justifyContent:'space-between',gap:12,textDecoration:'none'}}
+                onTouchStart={()=>setHovSvc(i)} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)}>
+                <span>{s}</span><span style={{opacity:.22,fontSize:9,flexShrink:0}}>{String(i+1).padStart(2,'0')}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="rv d3" style={{padding:'26px 0',borderTop:`1px solid ${PL}`,display:'grid',gridTemplateColumns:layout==='tablet'?'1fr 1fr':'1fr',gap:layout==='tablet'?20:26}}>
+          <div>
+            <Lbl ch="About"/>
+            <div style={{fontFamily:SN,fontSize:13,lineHeight:1.75,color:'rgba(0,0,0,0.5)',marginBottom:22}}>
+              alien.fi is a full-service AI consultancy. We help organizations at every stage of AI maturity integrate, deploy, and maintain AI that delivers measurable results.
+            </div>
+            <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
+            <Lbl ch="Engagement models"/>
+            {['Project-based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
+              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
+                <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
+              </div>
+            ))}
+            <div style={{marginTop:22}}>
+              <Lbl ch="Location"/>
+              <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.42)',lineHeight:1.8}}>Austin, TX 78701<br/>Operating globally</div>
+            </div>
+          </div>
+          <div style={{borderTop:layout==='tablet'?'none':`1px solid ${PL}`,paddingTop:layout==='tablet'?0:26}}>
+            <Lbl ch="Collaborate"/>
+            <div style={{fontFamily:SN,fontSize:13,lineHeight:1.75,color:'rgba(0,0,0,0.5)',marginBottom:22}}>
+              Partner with us to build next-generation AI infrastructure for your business.
+            </div>
+            <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
+            <Lbl ch="Contact"/>
+            <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing:'0.04em',marginBottom:22}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
+            <Lbl ch="Follow"/>
+            <div style={{display:'flex',gap:10}}>
+              {socialPaths.map((d,i)=>(
+                <div key={i} className="hv" style={{width:36,height:36,borderRadius:9,background:CD,border:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.6}><path d={d}/></svg>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Hero({tweaks}:{tweaks:typeof TWEAK_DEFAULTS}){
+  const layout=useLandingLayout();
+  if(layout==='desktop')return<HeroDesktop tweaks={tweaks}/>;
+  return<HeroNarrow tweaks={tweaks} layout={layout}/>;
+}
+
 /* ── TICKER ── */
 function Ticker(){
   const words=['AI Strategy','Custom ML Models','NLP & LLMs','Computer Vision','MLOps','Managed AI','RAG Systems','Fraud Detection','Predictive Analytics','Knowledge Bases','Responsible AI','End-to-End Delivery'];
+  const layout=useLandingLayout();
+  const g=sectionGutter(layout);
   return(
-    <div style={{overflow:'hidden',borderTop:`1px solid ${PL}`,borderBottom:`1px solid ${PL}`,background:BG,padding:'13px 0'}}>
+    <div style={{overflow:'hidden',borderTop:`1px solid ${PL}`,borderBottom:`1px solid ${PL}`,background:BG,padding:`13px ${g}px`}}>
       <div style={{display:'flex',gap:64,animation:'ticker 32s linear infinite',whiteSpace:'nowrap'}}>
         {[...words,...words].map((w,i)=>(
           <span key={i} style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.1em',textTransform:'uppercase',opacity:.28,flexShrink:0,display:'flex',alignItems:'center',gap:10}}>
@@ -435,7 +563,10 @@ function Ticker(){
 
 /* ── SERVICES ── */
 function Services(){
+  const layout=useLandingLayout();
   const [hov,setHov]=useState(null);
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const svcs=[
     {n:'01',t:'AI Strategy\n& Consulting',d:'AI readiness assessments, roadmap development, use case prioritization, and ROI modeling aligned with your business objectives.',tags:['Readiness Assessment','AI Roadmap','Use Case Discovery','ROI Modeling']},
     {n:'02',t:'Custom AI\nDevelopment',d:'ML models, NLP applications, computer vision, predictive analytics, and conversational AI built for your exact requirements.',tags:['Machine Learning','NLP & LLMs','Computer Vision','Predictive Analytics']},
@@ -444,12 +575,12 @@ function Services(){
     {n:'05',t:'Training &\nEnablement',d:'Executive workshops, technical training, change management, and documentation to build lasting internal AI capabilities.',tags:['Executive Workshops','Technical Training','Documentation','Change Mgmt']},
   ];
   return(
-    <section id="services" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`80px ${OT}px`,position:'relative',zIndex:2}}>
-      <div style={{padding:'0 9px',marginBottom:52,display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
+    <section id="services" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:2}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Lbl ch="What we do"/><Ttl ch="SERVICES"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:'right',lineHeight:1.6}}>From first assessment to long-term partnership.</div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From first assessment to long-term partnership.</div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:1,background:PL,borderRadius:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {svcs.map((s,i)=>(
           <Tilt key={s.n} int={8} sx={{height:'100%'}}>
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(160deg,rgb(228,244,210),${BG2})`:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .3s',height:'100%',boxShadow:hov===i?'inset 0 0 0 1.5px rgba(150,238,82,0.35)':'none'}}>
@@ -478,6 +609,9 @@ function Services(){
 
 /* ── PROCESS (dark, card stacks under services) ── */
 function Process(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const steps=[
     {n:'01',t:'Assess',sub:'AI Readiness',d:'We audit your data, systems, and workflows to baseline AI maturity and identify high-value opportunities.',time:'2–4 wk'},
     {n:'02',t:'Strategize',sub:'Roadmap & ROI',d:'A prioritized AI roadmap with clear business cases, success metrics, and phased implementation plans.',time:'2–3 wk'},
@@ -485,16 +619,16 @@ function Process(){
     {n:'04',t:'Operate',sub:'Monitor & Improve',d:'Continuous model monitoring, retraining on new data, and expanding AI capabilities as you grow.',time:'Ongoing'},
   ];
   return(
-    <section id="process" style={{background:DK,padding:`80px ${OT}px`,position:'relative',zIndex:3,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0 9px'}}>
-        <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginBottom:52}}>
+    <section id="process" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:3,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+      <div style={{padding:'0'}}>
+        <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
           <div className="rv"><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
-          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:280,textAlign:'right',lineHeight:1.6}}>A four-phase engagement from discovery to continuous improvement.</div>
+          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement from discovery to continuous improvement.</div>
         </div>
-        <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(255,255,255,0.06)',borderRadius:20,overflow:'hidden'}}>
+        <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.06)',borderRadius:layout==='mobile'?16:20,overflow:'hidden'}}>
           {steps.map((s,i)=>(
             <Tilt key={s.n} int={6} sx={{height:'100%'}}>
-              <div style={{background:'rgb(21,24,43)',padding:'36px 28px',borderRight:i<3?'1px solid rgba(255,255,255,0.06)':'none',display:'flex',flexDirection:'column',gap:16,height:'100%'}}>
+              <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 20px':'36px 28px',display:'flex',flexDirection:'column',gap:16,height:'100%'}}>
                 <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                   <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.12em',color:L2}}>{s.n}</span>
                   <Chip ch={s.time} bg='rgba(150,238,82,0.12)' cl={L} sx={{fontSize:9}}/>
@@ -517,6 +651,9 @@ function Process(){
 
 /* ── DIFFERENTIATORS (light, slides over dark) ── */
 function Differentiators(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const items=[
     {n:'01',t:'Deep Cross-Industry Expertise',d:'Our team spans healthcare, finance, legal, insurance, manufacturing, and 15+ more industries. AI is our sole focus — not an add-on.'},
@@ -527,11 +664,11 @@ function Differentiators(){
     {n:'06',t:'Local + Global Reach',d:'Headquartered in Austin, TX with international delivery. Nordic transparency and reliability, world-class technical execution.'},
   ];
   return(
-    <section id="why-us" style={{background:BG,padding:`80px ${OT}px`,position:'relative',zIndex:4,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0 9px',marginBottom:52}}>
+    <section id="why-us" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:4,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48}}>
         <div className="rv"><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:1,background:PL,borderRadius:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,3,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {items.map((item,i)=>(
           <Tilt key={item.n} int={5} sx={{height:'100%'}}>
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(140deg,rgb(220,244,200),${BG2})`:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .28s',display:'flex',flexDirection:'column',gap:14,height:'100%',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}33`:'none'}}>
@@ -549,6 +686,9 @@ function Differentiators(){
 
 /* ── INDUSTRIES ── */
 function Industries(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const list=[
     {name:'Healthcare',detail:'Diagnostic AI, EHR integration, patient management, prior auth automation'},
@@ -565,11 +705,11 @@ function Industries(){
     {name:'Tech Startups',detail:'Product AI, churn prediction, growth analytics'},
   ];
   return(
-    <section id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`80px ${OT}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0 9px',marginBottom:52}}>
+    <section id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48}}>
         <div className="rv"><Lbl ch="Who we help"/><Ttl ch="INDUSTRIES"/></div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:PL,borderRadius:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {list.map((ind,i)=>(
           <div key={ind.name} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
             style={{background:hov===i?`linear-gradient(135deg,rgb(218,244,200),${BG2})`:`linear-gradient(135deg,${BG},${BG2})`,padding:'24px 28px',transition:'background .22s',position:'relative',zIndex:hov===i?2:1}}>
@@ -589,6 +729,9 @@ function Industries(){
 
 /* ── CASE STUDY (dark, stacks over industries) ── */
 function CaseStudy(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const metrics=[
     {val:'62%',lbl:'Faster claims processing',sub:'14 days → 5.3 days'},
     {val:'47%',lbl:'Fraud loss reduction',sub:'$3.2M saved annually'},
@@ -596,34 +739,34 @@ function CaseStudy(){
     {val:'3.1×',lbl:'First-year ROI',sub:'Full deployment in 9 months'},
   ];
   return(
-    <section id="case-studies" style={{background:DK,padding:`80px ${OT}px`,position:'relative',zIndex:6,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0 9px'}}>
-        <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginBottom:52}}>
+    <section id="case-studies" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:6,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+      <div style={{padding:'0'}}>
+        <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
           <div className="rv"><Lbl ch="Case study" lt/><Ttl ch="REAL RESULTS." lt/></div>
-          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:300,textAlign:'right',lineHeight:1.65}}>Regional insurance company, 500+ employees.<br/>9-month AI transformation.</div>
+          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees.<br/>9-month AI transformation.</div>
         </div>
-        <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(255,255,255,0.05)',borderRadius:20,overflow:'hidden',marginBottom:20}}>
+        <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
           {metrics.map(m=>(
             <Tilt key={m.val} int={8} sx={{height:'100%'}}>
-              <div style={{background:'rgb(21,24,43)',padding:'36px 28px',height:'100%'}}>
-                <div style={{fontFamily:MN,fontWeight:700,fontSize:52,letterSpacing:'0.02em',color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
+              <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 22px':'36px 28px',height:'100%'}}>
+                <div style={{fontFamily:MN,fontWeight:700,fontSize:layout==='mobile'?'clamp(28px,8vw,40px)':52,letterSpacing:'0.02em',color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
                 <div style={{fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing:'0.06em',color:'rgba(255,255,255,0.65)',marginBottom:4}}>{m.lbl}</div>
                 <div style={{fontFamily:SN,fontSize:11,color:'rgba(255,255,255,0.28)'}}>{m.sub}</div>
               </div>
             </Tilt>
           ))}
         </div>
-        <div className="rv d2" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(255,255,255,0.04)',borderRadius:16,overflow:'hidden',marginBottom:20}}>
+        <div className="rv d2" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.04)',borderRadius:16,overflow:'hidden',marginBottom:20}}>
           {[{p:'Phase 1',n:'Claims Automation',d:'NLP-powered extraction automated 70% of routine claims intake and routing.'},{p:'Phase 2',n:'Fraud Detection AI',d:'Real-time ML model flags suspicious patterns before payouts.'},{p:'Phase 3',n:'Customer Experience AI',d:'Conversational assistant handling policy inquiries 24/7.'},{p:'Phase 4',n:'Unified Data Platform',d:'Integrated siloed systems into a centralized pipeline.'}].map((p,i)=>(
-            <div key={p.p} style={{background:'rgba(255,255,255,0.02)',padding:'24px 24px',borderRight:i<3?'1px solid rgba(255,255,255,0.04)':'none'}}>
+            <div key={p.p} style={{background:'rgba(255,255,255,0.02)',padding:layout==='mobile'?'20px 18px':'24px 24px'}}>
               <Chip ch={p.p} bg='rgba(150,238,82,0.1)' cl={L} sx={{marginBottom:12}}/>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:'rgba(255,255,255,0.75)',marginBottom:8,letterSpacing:'0.03em',lineHeight:1.35}}>{p.n}</div>
               <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(255,255,255,0.3)'}}>{p.d}</div>
             </div>
           ))}
         </div>
-        <div className="rv d3" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:'36px 44px',display:'flex',alignItems:'flex-start',gap:32}}>
-          <div style={{fontSize:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>"</div>
+        <div className="rv d3" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
+          <div style={{fontSize:layout==='mobile'?42:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>"</div>
           <div>
             <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing:'0.03em',color:'rgba(255,255,255,0.65)',marginBottom:20,maxWidth:700}}>alien.fi didn't just deliver technology — they delivered a transformation. Their team took the time to understand our business deeply, proposed solutions that were realistic and well-scoped, and stood by us through every phase.</div>
             <div style={{fontFamily:MN,fontWeight:600,fontSize:10,letterSpacing:'0.12em',color:L2,textTransform:'uppercase'}}>Chief Operations Officer — Regional Insurance Company</div>
@@ -636,6 +779,9 @@ function CaseStudy(){
 
 /* ── SOLUTIONS ── */
 function Solutions(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const items=[
     {tag:'2–4 wk deploy',t:'AI Customer Service Chatbot',d:'Handles FAQs, scheduling, order tracking. Integrates with Salesforce, Zendesk, HubSpot.'},
@@ -648,12 +794,12 @@ function Solutions(){
     {tag:'Real-time',t:'Marketing Personalization Engine',d:'Next-best-action, email optimization, content recommendations from behavioral data.'},
   ];
   return(
-    <section id="solutions" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`80px ${OT}px`,position:'relative',zIndex:7,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0 9px',marginBottom:52,display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
+    <section id="solutions" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:7,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Lbl ch="Ready-to-deploy"/><Ttl ch="SOLUTIONS"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:260,textAlign:'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value.</div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:260,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value.</div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:PL,borderRadius:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {items.map((item,i)=>(
           <Tilt key={item.t} int={7} sx={{height:'100%'}}>
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(150deg,rgb(220,244,200),${BG2})`:`linear-gradient(150deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .22s',height:'100%',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}44`:'none'}}>
@@ -673,6 +819,9 @@ function Solutions(){
 
 /* ── ENGAGEMENT MODELS ── */
 function EngagementModels(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const models=[
     {t:'Project-Based',r:'$25K – $500K',d:'Clearly scoped, fixed-deliverable projects with defined milestones, timelines, and success metrics.',f:['Fixed scope & budget','Milestone delivery','2–24 weeks','Clear deliverables']},
@@ -681,12 +830,12 @@ function EngagementModels(){
     {t:'Strategic Advisory',r:'$10K – $50K/mo',d:'Senior-level AI consulting for leadership teams defining long-term AI roadmaps and governance frameworks.',f:['CAIO-level access','Board-ready output','Risk & ethics review','Quarterly sessions']},
   ];
   return(
-    <section id="engagements" style={{background:BG,padding:`80px ${OT}px`,position:'relative',zIndex:8,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0 9px',marginBottom:52,display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
+    <section id="engagements" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:8,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Lbl ch="How to work with us"/><Ttl ch="ENGAGEMENT MODELS"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:'right',lineHeight:1.6}}>From a sprint to a multi-year partnership.</div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From a sprint to a multi-year partnership.</div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:PL,borderRadius:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {models.map((m,i)=>(
           <div key={m.t} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'36px 28px',display:'flex',flexDirection:'column',gap:16,transition:'background .4s'}}>
             <div>
@@ -714,10 +863,13 @@ function EngagementModels(){
 
 /* ── CTA ── */
 function CTA(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
+  const pv=sectionVPad(layout);
   const [hovBtn,setHovBtn]=useState(false);
   return(
-    <section id="contact" style={{padding:`0 ${OT}px`,position:'relative',zIndex:9}}>
-      <div className="rv" style={{background:DK,borderRadius:'20px 20px 0 0',padding:'80px 60px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
+    <section id="contact" style={{padding:`0 ${gv}px`,position:'relative',zIndex:9}}>
+      <div className="rv" style={{background:DK,borderRadius:'20px 20px 0 0',padding:layout==='mobile'?`${Math.max(48,pv-12)}px ${sectionGutter(layout)+4}px`:layout==='tablet'?`${pv}px 36px`:`${pv}px 60px`,display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:layout==='mobile'?40:layout==='tablet'?48:80,alignItems:'start'}}>
         <div>
           <Lbl ch="Let's build together" lt/>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing:'0.04em',lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
@@ -731,7 +883,7 @@ function CTA(){
           </div>
         </div>
         <div style={{display:'flex',flexDirection:'column',gap:14}}>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+          <div style={{display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:12}}>
             {[['Full name','Your name'],['Company','Company name'],['Email','you@company.com'],['Budget','$25K – $500K+']].map(([lb,ph])=>(
               <div key={lb}>
                 <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>{lb}</div>
@@ -758,9 +910,11 @@ function CTA(){
 
 /* ── FOOTER ── */
 function Footer(){
+  const layout=useLandingLayout();
+  const gv=sectionGutter(layout);
   return(
-    <footer style={{background:DK,padding:`0 ${OT}px`,borderTop:'1px solid rgba(255,255,255,0.05)',position:'relative',zIndex:9}}>
-      <div style={{padding:'48px 9px 32px',display:'grid',gridTemplateColumns:'1.4fr 1fr 1fr 1fr',gap:48}}>
+    <footer style={{background:DK,padding:`0 ${gv}px`,borderTop:'1px solid rgba(255,255,255,0.05)',position:'relative',zIndex:9}}>
+      <div style={{padding:layout==='mobile'?'40px 4px 28px':layout==='tablet'?'44px 12px 36px':'48px 9px 32px',display:'grid',gridTemplateColumns:layout==='desktop'?'1.4fr 1fr 1fr 1fr':layout==='tablet'?'1fr 1fr':'1fr',gap:layout==='mobile'?32:40}}>
         <div>
           <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:18,filter:'invert(1)',marginBottom:16}}/>
           <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:'rgba(255,255,255,0.28)',marginBottom:20}}>A full-service AI consultancy.<br/>Austin, TX — Operating globally.</div>
@@ -785,7 +939,7 @@ function Footer(){
           </div>
         ))}
       </div>
-      <div style={{padding:'20px 9px',borderTop:'1px solid rgba(255,255,255,0.05)',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      <div style={{padding:layout==='mobile'?'18px 4px':layout==='tablet'?'18px 12px':'20px 9px',borderTop:'1px solid rgba(255,255,255,0.05)',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'center',justifyContent:'space-between',gap:layout==='mobile'?10:0}}>
         <span style={{fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.18)'}}>© 2024 Alien.fi. All rights reserved.</span>
         <span style={{fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.08em',color:'rgba(255,255,255,0.18)'}}>alien.fi</span>
       </div>
@@ -803,11 +957,13 @@ export default function LandingPageClient(){
     <>
       <LandingChrome />
       {!loaded&&<Loader onDone={()=>setLoaded(true)}/>}
-      <div style={{opacity:loaded?1:0,transition:'opacity .5s',pointerEvents:loaded?'all':'none'}}>
-        <Nav/><Hero tweaks={TWEAK_DEFAULTS}/><Ticker/>
-        <Services/><Process/><Differentiators/><Industries/>
-        <CaseStudy/><Solutions/><EngagementModels/><CTA/><Footer/>
-      </div>
+      <LandingLayoutProvider>
+        <div style={{opacity:loaded?1:0,transition:'opacity .5s',pointerEvents:loaded?'all':'none'}}>
+          <Nav/><Hero tweaks={TWEAK_DEFAULTS}/><Ticker/>
+          <Services/><Process/><Differentiators/><Industries/>
+          <CaseStudy/><Solutions/><EngagementModels/><CTA/><Footer/>
+        </div>
+      </LandingLayoutProvider>
     </>
   );
 }

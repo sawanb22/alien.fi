@@ -6,6 +6,25 @@
   cursor: none;
   min-height: 100vh;
 }
+
+/* Tablet / phone: usable cursor & tap targets (desktop chrome unchanged at >=1120px via layout) */
+@media (max-width: 1119px) {
+  .landing-shell {
+    cursor: auto;
+  }
+  .landing-shell .landing-nav-menu-btn,
+  .landing-shell .landing-nav-cta,
+  .landing-shell a,
+  .landing-shell button,
+  .landing-shell [role="button"] {
+    cursor: pointer;
+  }
+  /* Custom cursor halo is distracting on touch / small screens */
+  .landing-shell #c-dot,
+  .landing-shell #c-ring {
+    display: none !important;
+  }
+}
 .landing-shell ::selection {
   background: rgb(150, 238, 82);
   color: #000;

@@ -14,7 +14,8 @@ import {
   Tilt,
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
+import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { useMemo, useState } from "react";
 
@@ -171,6 +172,7 @@ function Filters({
 }
 
 function FeaturedCard({ s }: { s: StudyHub }) {
+  const layout = useLandingLayout();
   const [hov, setHov] = useState(false);
   return (
     <Link
@@ -180,7 +182,7 @@ function FeaturedCard({ s }: { s: StudyHub }) {
       onMouseLeave={() => setHov(false)}
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1.2fr",
+        gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1.2fr",
         background: DK,
         borderRadius: 20,
         overflow: "hidden",
@@ -192,7 +194,17 @@ function FeaturedCard({ s }: { s: StudyHub }) {
         transform: hov ? "translateY(-4px)" : "none",
       }}
     >
-      <div style={{ padding: "48px 44px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, position: "relative", overflow: "hidden" }}>
+      <div
+        style={{
+          padding: layout === "mobile" ? "32px 22px" : "48px 44px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          gap: 24,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
         <div style={{ position: "absolute", right: -100, top: -100, width: 280, height: 280, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
         <div style={{ position: "relative" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
@@ -226,7 +238,17 @@ function FeaturedCard({ s }: { s: StudyHub }) {
           <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)" }}>{s.duration}</div>
         </div>
       </div>
-      <div style={{ background: `linear-gradient(135deg,${L},${L2})`, padding: "48px 44px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+      <div
+        style={{
+          background: `linear-gradient(135deg,${L},${L2})`,
+          padding: layout === "mobile" ? "32px 22px" : "48px 44px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
         <div
           style={{
             position: "absolute",
@@ -252,6 +274,7 @@ function FeaturedCard({ s }: { s: StudyHub }) {
 }
 
 function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
+  const layout = useLandingLayout();
   const [hov, setHov] = useState(false);
   return (
     <Link
@@ -261,7 +284,7 @@ function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
       onMouseLeave={() => setHov(false)}
       style={{
         background: hov ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : `linear-gradient(160deg,${BG},${BG2})`,
-        padding: "30px 30px",
+        padding: layout === "mobile" ? "22px 18px" : "30px 30px",
         display: "flex",
         flexDirection: "column",
         gap: 14,
@@ -276,7 +299,18 @@ function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
         <Arr sz={10} cl={hov ? "#000" : PL} sw={2} />
       </div>
       <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
-        <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 42, color: "#000", letterSpacing: "0.02em", lineHeight: 1 }}>{s.hero}</div>
+        <div
+          style={{
+            fontFamily: MN,
+            fontWeight: 700,
+            fontSize: layout === "mobile" ? "clamp(28px,8vw,36px)" : 42,
+            color: "#000",
+            letterSpacing: "0.02em",
+            lineHeight: 1,
+          }}
+        >
+          {s.hero}
+        </div>
         <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 10.5, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{s.heroLbl}</div>
       </div>
       <div style={{ height: 1, background: hov ? L2 : PL, transition: "background .25s" }} />
@@ -296,6 +330,9 @@ function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
 }
 
 function Grid() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const [active, setActive] = useState("All");
   const counts: Record<string, number> = { All: STUDIES.length };
   STUDIES.forEach((s) => {
@@ -305,18 +342,37 @@ function Grid() {
   const featured = filtered.find((s) => s.featured);
   const rest = filtered.filter((s) => !s.featured);
   return (
-    <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
-      <div style={{ padding: "0 9px", marginBottom: 36, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+      <div
+        style={{
+          marginBottom: layout === "mobile" ? 28 : 36,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 12 : 0,
+        }}
+      >
         <div className="rv">
           <Lbl ch="Eight stories" />
           <Ttl ch="REAL OUTCOMES" />
         </div>
-        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: "right", lineHeight: 1.6 }}>
+        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
           Production deployments. Audited numbers. Boring buzzwords removed.
         </div>
       </div>
       <Filters active={active} setActive={setActive} counts={counts} />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 3, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
+      >
         {featured ? <FeaturedCard s={featured} /> : null}
         {rest.map((s, i) => (
           <StudyCard key={s.id} s={s} delayClass={`d${(i % 5) + 1}`} />
@@ -327,6 +383,9 @@ function Grid() {
 }
 
 function StatsBar() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const stats = [
     { v: "480+", l: "Engagements delivered" },
     { v: "94%", l: "Client retention rate" },
@@ -334,21 +393,41 @@ function StatsBar() {
     { v: "3.4×", l: "Average first-year ROI" },
   ];
   return (
-    <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 40, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div
+        style={{
+          marginBottom: 40,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 12 : 0,
+        }}
+      >
         <div className="rv">
           <Lbl ch="By the numbers" lt />
           <Ttl ch="WHAT WE'VE SHIPPED" lt />
         </div>
-        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.4)", maxWidth: 280, textAlign: "right", lineHeight: 1.6 }}>
+        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.4)", maxWidth: 280, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
           Eight years. Twelve verticals. Audited annually.
         </div>
       </div>
-      <div className="rv d1" style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
+      <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden" }}>
         {stats.map((stat) => (
           <Tilt key={stat.l} int={6}>
-            <div style={{ background: DK, padding: "40px 32px" }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 54, color: L, letterSpacing: "0.02em", lineHeight: 1 }}>{stat.v}</div>
+            <div style={{ background: DK, padding: layout === "mobile" ? "28px 22px" : "40px 32px" }}>
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 700,
+                  fontSize: layout === "mobile" ? "clamp(32px,8vw,44px)" : 54,
+                  color: L,
+                  letterSpacing: "0.02em",
+                  lineHeight: 1,
+                }}
+              >
+                {stat.v}
+              </div>
               <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginTop: 14 }}>{stat.l}</div>
             </div>
           </Tilt>

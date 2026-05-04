@@ -9,6 +9,11 @@ import {
   type MouseEventHandler,
   type ReactNode,
 } from "react";
+import {
+  sectionGutter,
+  sectionVPad,
+  useLandingLayout,
+} from "@/lib/landing-layout-context";
 import { MN, OT, SN } from "@/lib/consultancy/tokens";
 
 const L = "rgb(150,238,82)";
@@ -307,119 +312,259 @@ const navLinks: { l: NavPage; href: string }[] = [
 ];
 
 export function Nav({ current = "Services" }: { current?: NavPage }) {
+  const layout = useLandingLayout();
   const [sc, setSc] = useState(false);
+  const [menu, setMenu] = useState(false);
+
   useEffect(() => {
     const f = () => setSc(window.scrollY > 20);
     window.addEventListener("scroll", f);
     return () => window.removeEventListener("scroll", f);
   }, []);
-  return (
-    <nav
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 300,
-        background: L,
-        height: 60,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: `0 ${OT + 9}px`,
-        gap: 24,
-        boxShadow: sc ? "0 2px 28px rgba(0,0,0,0.14)" : "none",
-        transition: "box-shadow .3s",
-      }}
-    >
+
+  useEffect(() => {
+    if (!menu) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [menu]);
+
+  const g = layout === "desktop" ? OT + 9 : sectionGutter(layout) + 10;
+
+  const navInner = navLinks.map(({ l, href }) => {
+    const active = current === l;
+    return (
       <Link
-        href="/"
+        key={l}
+        href={href}
         className="hv"
         style={{
-          display: "flex",
-          alignItems: "center",
-          textDecoration: "none",
-          flexShrink: 0,
-          marginRight: 16,
-        }}
-      >
-        <img
-          src="/assets/logo-with-font.svg"
-          alt="Alien.fi"
-          style={{ height: 20 }}
-        />
-      </Link>
-      <div
-        style={{
-          display: "flex",
-          gap: 22,
-          alignItems: "center",
-          flexShrink: 0,
-        }}
-      >
-        {navLinks.map(({ l, href }) => {
-          const active = current === l;
-          return (
-            <Link
-              key={l}
-              href={href}
-              className="hv"
-              style={{
-                fontFamily: MN,
-                fontWeight: active ? 700 : 500,
-                fontSize: 12,
-                letterSpacing: "0.06em",
-                color: active ? "#000" : "rgba(0,0,0,0.6)",
-                textDecoration: "none",
-                transition: "color .2s",
-                position: "relative",
-                paddingBottom: 4,
-                borderBottom: active
-                  ? "1.5px solid #000"
-                  : "1.5px solid transparent",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "#000";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = active ? "#000" : "rgba(0,0,0,0.6)";
-              }}
-            >
-              {l}
-            </Link>
-          );
-        })}
-      </div>
-      <Link
-        href="/contact"
-        className="hv"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          background: "#000",
-          color: "#fff",
-          border: "none",
-          borderRadius: 8,
           fontFamily: MN,
-          fontWeight: 600,
-          fontSize: 11,
-          letterSpacing: "0.08em",
-          padding: "10px 18px",
-          cursor: "none",
-          transition: "background .2s,transform .15s",
+          fontWeight: active ? 700 : 500,
+          fontSize: 12,
+          letterSpacing: "0.06em",
+          color: active ? "#000" : "rgba(0,0,0,0.6)",
           textDecoration: "none",
+          transition: "color .2s",
+          position: "relative",
+          paddingBottom: 4,
+          borderBottom: active ? "1.5px solid #000" : "1.5px solid transparent",
         }}
-        onMouseMove={(e) => window.magnet?.(e.currentTarget, e)}
-        onMouseLeave={(e) => window.magnetReset?.(e.currentTarget)}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = "#000";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = active ? "#000" : "rgba(0,0,0,0.6)";
+        }}
       >
-        Start a project <Arr sz={9} cl={L} sw={2.2} />
+        {l}
       </Link>
-    </nav>
+    );
+  });
+
+  if (layout === "desktop") {
+    return (
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 300,
+          background: L,
+          height: 60,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: `0 ${OT + 9}px`,
+          gap: 24,
+          boxShadow: sc ? "0 2px 28px rgba(0,0,0,0.14)" : "none",
+          transition: "box-shadow .3s",
+        }}
+      >
+        <Link
+          href="/"
+          className="hv"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            flexShrink: 0,
+            marginRight: 16,
+          }}
+        >
+          <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{ height: 20 }} />
+        </Link>
+        <div style={{ display: "flex", gap: 22, alignItems: "center", flexShrink: 0 }}>{navInner}</div>
+        <Link
+          href="/contact"
+          className="hv"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            background: "#000",
+            color: "#fff",
+            border: "none",
+            borderRadius: 8,
+            fontFamily: MN,
+            fontWeight: 600,
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            padding: "10px 18px",
+            cursor: "none",
+            transition: "background .2s,transform .15s",
+            textDecoration: "none",
+          }}
+          onMouseMove={(e) => window.magnet?.(e.currentTarget, e)}
+          onMouseLeave={(e) => window.magnetReset?.(e.currentTarget)}
+        >
+          Start a project <Arr sz={9} cl={L} sw={2.2} />
+        </Link>
+      </nav>
+    );
+  }
+
+  return (
+    <>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 300,
+          background: L,
+          height: 60,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: `0 ${g}px`,
+          gap: 16,
+          boxShadow: sc ? "0 2px 28px rgba(0,0,0,0.14)" : "none",
+          transition: "box-shadow .3s",
+        }}
+      >
+        <Link href="/" className="hv" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+          <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{ height: 20 }} />
+        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <button
+            type="button"
+            className="hv consultancy-nav-menu-btn"
+            aria-expanded={menu}
+            aria-controls="consultancy-nav-sheet"
+            aria-label={menu ? "Close menu" : "Open menu"}
+            onClick={() => setMenu((m) => !m)}
+            style={{
+              width: 42,
+              height: 40,
+              borderRadius: 10,
+              border: "1.5px solid rgba(0,0,0,0.35)",
+              background: menu ? "#000" : "rgba(255,255,255,0.35)",
+              color: menu ? "#fff" : "#000",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 5,
+              padding: 0,
+            }}
+          >
+            <span style={{ display: "block", width: 18, height: 2, background: "currentColor", borderRadius: 2 }} />
+            <span style={{ display: "block", width: 18, height: 2, background: "currentColor", borderRadius: 2 }} />
+          </button>
+          <Link
+            href="/contact"
+            className="hv consultancy-nav-cta"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#000",
+              color: "#fff",
+              borderRadius: 8,
+              fontFamily: MN,
+              fontWeight: 600,
+              fontSize: layout === "mobile" ? 10 : 11,
+              letterSpacing: "0.06em",
+              padding: layout === "mobile" ? "9px 12px" : "10px 16px",
+              textDecoration: "none",
+            }}
+          >
+            Start <Arr sz={9} cl={L} sw={2.2} />
+          </Link>
+        </div>
+      </nav>
+      {menu ? (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 280,
+              background: "rgba(21,24,43,0.35)",
+              backdropFilter: "blur(6px)",
+            }}
+            aria-hidden
+            onClick={() => setMenu(false)}
+          />
+          <div
+            id="consultancy-nav-sheet"
+            role="dialog"
+            aria-modal
+            style={{
+              position: "fixed",
+              top: 58,
+              left: sectionGutter(layout),
+              right: sectionGutter(layout),
+              maxHeight: "min(520px,calc(100vh - 80px))",
+              zIndex: 310,
+              overflow: "hidden",
+              borderRadius: 16,
+              border: `1px solid ${PL}`,
+              boxShadow: "0 24px 60px rgba(0,0,0,0.18)",
+              background: BG,
+            }}
+          >
+            <div style={{ overflowY: "auto", padding: "22px 20px 26px" }}>
+              {navLinks.map(({ l, href }) => {
+                const active = current === l;
+                return (
+                  <Link
+                    key={l}
+                    href={href}
+                    onClick={() => setMenu(false)}
+                    style={{
+                      display: "block",
+                      padding: "14px 4px",
+                      fontFamily: MN,
+                      fontWeight: active ? 700 : 600,
+                      fontSize: 12,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "#000",
+                      textDecoration: "none",
+                      borderBottom: `1px solid ${PL}`,
+                    }}
+                  >
+                    {l}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : null}
+    </>
   );
 }
 
 export function Ticker({ words }: { words?: string[] }) {
+  const layout = useLandingLayout();
+  const gx = sectionGutter(layout);
   const w = words ?? [
     "AI Strategy",
     "Custom ML Models",
@@ -441,7 +586,7 @@ export function Ticker({ words }: { words?: string[] }) {
         borderTop: `1px solid ${PL}`,
         borderBottom: `1px solid ${PL}`,
         background: BG,
-        padding: "13px 0",
+        padding: `13px ${gx}px`,
       }}
     >
       <div
@@ -497,22 +642,30 @@ export function CTAStrip({
   cta?: string;
   href?: string;
 }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const [hov, setHov] = useState(false);
   const parts = title.trim().split(/\s+/).filter(Boolean);
   const rest = parts.slice(0, -1).join(" ");
   const last =
     parts.length > 0 ? (parts[parts.length - 1] ?? "") : title;
   return (
-    <section style={{ padding: `60px ${OT}px 0`, position: "relative", zIndex: 9 }}>
+    <section style={{ padding: layout === "desktop" ? `60px ${gv}px 0` : `48px ${gv}px 0`, position: "relative", zIndex: 9 }}>
       <div
         className="rv"
         style={{
           background: DK,
           borderRadius: "20px 20px 0 0",
-          padding: "72px 60px",
+          padding:
+            layout === "mobile"
+              ? `${Math.max(44, pv - 12)}px ${gv + 6}px`
+              : layout === "tablet"
+                ? `${pv}px 36px`
+                : "72px 60px",
           display: "grid",
-          gridTemplateColumns: "1.2fr 1fr",
-          gap: 60,
+          gridTemplateColumns: layout === "desktop" ? "1.2fr 1fr" : "1fr",
+          gap: layout === "mobile" ? 32 : layout === "tablet" ? 40 : 60,
           alignItems: "center",
           position: "relative",
           overflow: "hidden",
@@ -563,7 +716,7 @@ export function CTAStrip({
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: layout === "desktop" ? "flex-end" : "stretch",
             position: "relative",
           }}
         >
@@ -581,18 +734,20 @@ export function CTAStrip({
               color: "#000",
               border: "none",
               borderRadius: 14,
-              padding: "24px 40px",
+              padding: layout === "mobile" ? "18px 28px" : "24px 40px",
               fontFamily: MN,
               fontWeight: 700,
               fontSize: 14,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              cursor: "none",
+              cursor: layout === "desktop" ? "none" : "pointer",
               display: "flex",
               alignItems: "center",
+              justifyContent: "center",
               gap: 14,
               transition: "background .2s,transform .15s",
               textDecoration: "none",
+              width: layout === "desktop" ? "auto" : "100%",
               boxShadow: hov
                 ? `0 12px 40px ${L}66`
                 : "0 4px 16px rgba(0,0,0,0.3)",
@@ -609,6 +764,8 @@ export function CTAStrip({
 type FooterMouseHandler = MouseEventHandler<HTMLAnchorElement>;
 
 export function Footer() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
   const social = [
     "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613z",
     "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z",
@@ -658,7 +815,7 @@ export function Footer() {
     <footer
       style={{
         background: DK,
-        padding: `0 ${OT}px`,
+        padding: `0 ${gv}px`,
         borderTop: "1px solid rgba(255,255,255,0.05)",
         position: "relative",
         zIndex: 9,
@@ -667,10 +824,11 @@ export function Footer() {
     >
       <div
         style={{
-          padding: "48px 9px 32px",
+          padding: layout === "mobile" ? "40px 4px 28px" : layout === "tablet" ? "44px 12px 36px" : "48px 9px 32px",
           display: "grid",
-          gridTemplateColumns: "1.4fr 1fr 1fr 1fr",
-          gap: 48,
+          gridTemplateColumns:
+            layout === "desktop" ? "1.4fr 1fr 1fr 1fr" : layout === "tablet" ? "1fr 1fr" : "1fr",
+          gap: layout === "mobile" ? 32 : 40,
         }}
       >
         <div>
@@ -767,11 +925,13 @@ export function Footer() {
       </div>
       <div
         style={{
-          padding: "20px 9px",
+          padding: layout === "mobile" ? "18px 4px" : layout === "tablet" ? "18px 12px" : "20px 9px",
           borderTop: "1px solid rgba(255,255,255,0.05)",
           display: "flex",
-          alignItems: "center",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "center",
           justifyContent: "space-between",
+          gap: layout === "mobile" ? 10 : 0,
         }}
       >
         <span
@@ -801,6 +961,8 @@ export function Footer() {
   );
 }
 
+const PAGE_HERO_SIDE = 240;
+
 export function PageHero({
   eyebrow,
   title,
@@ -814,7 +976,149 @@ export function PageHero({
   meta?: [string, string][];
   accent?: string;
 }) {
+  const layout = useLandingLayout();
+  const g = sectionGutter(layout);
   const titleParts = title.split("|").filter(Boolean);
+
+  const titleBlock = (
+    <div
+      className="rv"
+      style={{
+        fontFamily: MN,
+        fontWeight: 300,
+        fontSize: layout === "mobile" ? "clamp(26px,7vw,40px)" : "clamp(30px,4.5vw,72px)",
+        letterSpacing: "0.04em",
+        lineHeight: 0.98,
+        color: "#000",
+        wordBreak: "keep-all" as const,
+      }}
+    >
+      {titleParts.map((part, i) => (
+        <div
+          key={i}
+          style={{
+            fontWeight: i === 0 ? 300 : i === 1 ? 500 : 700,
+            ...(i === 2
+              ? {
+                  background: `linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
+                  backgroundSize: "200% auto",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  animation: "consultancy-shimmer 4s linear infinite",
+                }
+              : {}),
+          }}
+        >
+          {part}
+        </div>
+      ))}
+    </div>
+  );
+
+  if (layout !== "desktop") {
+    return (
+      <section
+        style={{
+          paddingTop: 60,
+          background: `linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,
+          position: "relative",
+          borderBottom: `1px solid ${PL}`,
+        }}
+      >
+        <div style={{ marginLeft: g, marginRight: g, paddingBottom: layout === "mobile" ? 32 : 40, boxSizing: "border-box" }}>
+          <div
+            style={{
+              borderLeft: `1px solid ${PL}`,
+              borderRight: `1px solid ${PL}`,
+              padding: layout === "mobile" ? "28px 16px 32px" : "36px 22px 40px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: MN,
+                fontSize: 9,
+                fontWeight: 600,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "rgba(0,0,0,0.35)",
+                marginBottom: 20,
+              }}
+            >
+              <Link href="/" className="hv" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
+                Home
+              </Link>
+              <span style={{ opacity: 0.4 }}>/</span>
+              <span>{eyebrow}</span>
+            </div>
+            <Lbl ch={eyebrow} />
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.75, color: "rgba(0,0,0,0.5)", marginTop: 8, marginBottom: 24 }}>
+              {sub}
+            </div>
+            {titleBlock}
+            {(meta?.length ?? 0) > 0 ? (
+              <div style={{ marginTop: layout === "mobile" ? 28 : 36 }}>
+                <Lbl ch="Quick facts" />
+                {(meta ?? []).map((m, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 0,
+                      padding: "10px 0",
+                      borderBottom: `1px solid ${PL}`,
+                      fontFamily: MN,
+                      fontSize: 11,
+                      fontWeight: 500,
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    <span style={{ flex: 1, minWidth: 0, color: "rgba(0,0,0,0.45)", paddingRight: 2 }}>{m[0]}</span>
+                    <span aria-hidden style={{ alignSelf: "stretch", width: 1, flexShrink: 0, background: PL }} />
+                    <span style={{ flex: 1, minWidth: 0, color: "#000", fontWeight: 700, paddingLeft: 2, textAlign: "right" }}>
+                      {m[1]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {accent ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontFamily: MN,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: L2,
+                  marginTop: 28,
+                }}
+              >
+                <div
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: L2,
+                    animation: "consultancy-dotPulse 1.8s ease-in-out infinite",
+                  }}
+                />
+                {accent}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       style={{
@@ -834,35 +1138,38 @@ export function PageHero({
           border: `1px solid ${PL}`,
           borderTop: "none",
           pointerEvents: "none",
+          zIndex: 0,
         }}
       />
       <div
         style={{
           position: "absolute",
-          left: OT + 240,
+          left: OT + PAGE_HERO_SIDE,
           top: 60,
           bottom: 0,
           width: 1,
           background: PL,
           pointerEvents: "none",
+          zIndex: 0,
         }}
       />
       <div
         style={{
           position: "absolute",
-          right: OT + 240,
+          right: OT + PAGE_HERO_SIDE,
           top: 60,
           bottom: 0,
           width: 1,
           background: PL,
           pointerEvents: "none",
+          zIndex: 0,
         }}
       />
 
       <div
         style={{
           position: "absolute",
-          left: OT + 240 - 3,
+          left: OT + PAGE_HERO_SIDE - 3,
           top: 60,
           width: 7,
           height: 7,
@@ -875,13 +1182,31 @@ export function PageHero({
         }}
       />
 
-      {/* Align 3-col grid with framed guides (OT inset); full-bleed grid sat off by OT vs verticals */}
-      <div style={{ marginLeft: OT, marginRight: OT }}>
-      <div style={{ display: "grid", gridTemplateColumns: `240px 1fr 240px`, minHeight: 300 }}>
+      {/* Inset grid with OT so column edges match guides; z-index keeps copy above lines */}
+      <div
+        style={{
+          marginLeft: OT,
+          marginRight: OT,
+          position: "relative",
+          zIndex: 1,
+          width: `calc(100% - ${OT * 2}px)`,
+          maxWidth: "100%",
+          boxSizing: "border-box",
+        }}
+      >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: `${PAGE_HERO_SIDE}px 1fr ${PAGE_HERO_SIDE}px`,
+          minHeight: 300,
+          width: "100%",
+          boxSizing: "border-box",
+        }}
+      >
         <div
           className="rvl"
           style={{
-            padding: "52px 30px",
+            padding: "52px 28px 52px 20px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -917,7 +1242,7 @@ export function PageHero({
         </div>
         <div
           style={{
-            padding: "52px 44px",
+            padding: "52px 44px 52px 20px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -926,41 +1251,11 @@ export function PageHero({
             position: "relative",
             overflow: "hidden",
             minWidth: 0,
+            boxSizing: "border-box",
+            background: `linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,
           }}
         >
-          <div
-            className="rv"
-            style={{
-              fontFamily: MN,
-              fontWeight: 300,
-              fontSize: "clamp(34px,4.5vw,72px)",
-              letterSpacing: "0.04em",
-              lineHeight: 0.98,
-              color: "#000",
-              wordBreak: "keep-all",
-            }}
-          >
-            {titleParts.map((part, i) => (
-              <div
-                key={i}
-                style={{
-                  fontWeight: i === 0 ? 300 : i === 1 ? 500 : 700,
-                  ...(i === 2
-                    ? {
-                        background: `linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
-                        backgroundSize: "200% auto",
-                        WebkitBackgroundClip: "text",
-                        backgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        animation: "consultancy-shimmer 4s linear infinite",
-                      }
-                    : {}),
-                }}
-              >
-                {part}
-              </div>
-            ))}
-          </div>
+          {titleBlock}
         </div>
         <div
           className="rvr"

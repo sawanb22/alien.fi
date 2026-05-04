@@ -13,16 +13,32 @@ import {
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import type { CaseStudyTemplateData } from "@/lib/consultancy/studies/types";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
+import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 
 function StudyHero({ d }: { d: CaseStudyTemplateData }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
   const titleParts = d.title.split("|").filter(Boolean);
+  const stacked = layout !== "desktop";
   return (
     <section style={{ paddingTop: 60, background: DK, position: "relative", borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
       <div style={{ position: "absolute", right: -200, top: 60, width: 520, height: 520, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
-      <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", minHeight: 440 }}>
-        <div className="rvl" style={{ padding: "52px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ paddingLeft: gv, paddingRight: gv, boxSizing: "border-box", width: "100%" }}>
+        <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 440 }}>
+          <div
+            className="rvl"
+            style={{
+              padding: stacked ? "36px 0 28px" : "52px 36px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              gap: 24,
+              borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)",
+              borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none",
+            }}
+          >
           <div>
             <div
               style={{
@@ -74,7 +90,15 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
             ))}
           </div>
         </div>
-        <div style={{ padding: "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
+          <div
+            style={{
+              padding: stacked ? "32px 0 44px" : "72px 60px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              position: "relative",
+            }}
+          >
           <Chip ch="Case Study" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
           <div
             className="rv"
@@ -110,8 +134,9 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
               </div>
             ))}
           </div>
-          <div className="rv d3" style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,0.55)", maxWidth: 620 }}>
+          <div className="rv d3" style={{ fontFamily: SN, fontSize: stacked ? 15 : 16, lineHeight: 1.7, color: "rgba(255,255,255,0.55)", maxWidth: 620 }}>
             {d.lead}
+          </div>
           </div>
         </div>
       </div>
@@ -120,13 +145,14 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
 }
 
 function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
   return (
-    <section style={{ padding: `60px ${OT}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div
         style={{
-          padding: "0 9px",
           display: "grid",
-          gridTemplateColumns: `repeat(${m.length},1fr)`,
+          gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${m.length},1fr)`,
           gap: 1,
           background: "rgba(255,255,255,0.05)",
           borderRadius: 20,
@@ -134,13 +160,29 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
         }}
       >
         {m.map((x) => (
-          <Tilt key={x.l} int={6}>
-            <div style={{ background: DK, padding: "36px 30px" }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 52, color: L, letterSpacing: "0.02em", lineHeight: 1, marginBottom: 14 }}>{x.v}</div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
-              <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
-            </div>
-          </Tilt>
+          <Tilt
+            key={x.l}
+            int={6}
+            ch={
+              <div style={{ background: DK, padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
+                <div
+                  style={{
+                    fontFamily: MN,
+                    fontWeight: 700,
+                    fontSize: layout === "mobile" ? "clamp(28px,7vw,40px)" : 52,
+                    color: L,
+                    letterSpacing: "0.02em",
+                    lineHeight: 1,
+                    marginBottom: 14,
+                  }}
+                >
+                  {x.v}
+                </div>
+                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
+                <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
+              </div>
+            }
+          />
         ))}
       </div>
     </section>
@@ -148,10 +190,13 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
 }
 
 function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   return (
     <section
       style={{
-        padding: `80px ${OT}px`,
+        padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG2},${BG})`,
         position: "relative",
         zIndex: 3,
@@ -159,7 +204,7 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "320px 1fr", gap: 60 }}>
+      <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr", gap: layout === "mobile" ? 28 : 60 }}>
         <div className="rvl">
           <Lbl ch="The challenge" />
           <Ttl ch={c.heading} />
@@ -173,7 +218,7 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${c.stats.length},1fr)`,
+              gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${c.stats.length},1fr)`,
               gap: 1,
               background: PL,
               borderRadius: 14,
@@ -202,9 +247,23 @@ function Approach({
   phases: CaseStudyTemplateData["phases"];
   heading?: string;
 }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
+  const n = phases.length;
+  const phaseCols =
+    layout === "mobile" ? "1fr" : layout === "tablet" ? (n <= 2 ? `repeat(${n},1fr)` : "repeat(2,1fr)") : `repeat(${n},1fr)`;
   return (
-    <section style={{ padding: `80px ${OT}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 48, display: "grid", gridTemplateColumns: "320px 1fr", gap: 60, alignItems: "flex-end" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div
+        style={{
+          marginBottom: layout === "mobile" ? 32 : 48,
+          display: "grid",
+          gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr",
+          gap: layout === "mobile" ? 20 : 60,
+          alignItems: layout === "mobile" ? "start" : "flex-end",
+        }}
+      >
         <div className="rvl">
           <Lbl ch="The approach" />
           <Ttl ch={heading} />
@@ -215,12 +274,11 @@ function Approach({
       </div>
       <div
         style={{
-          padding: "0 9px",
           display: "grid",
-          gridTemplateColumns: `repeat(${phases.length},1fr)`,
+          gridTemplateColumns: phaseCols,
           gap: 1,
           background: PL,
-          borderRadius: 20,
+          borderRadius: layout === "mobile" ? 16 : 20,
           overflow: "hidden",
           border: `1px solid ${PL}`,
         }}
@@ -271,13 +329,37 @@ function Approach({
 }
 
 function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px" }}>
-        <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "56px 64px", display: "grid", gridTemplateColumns: "auto 1fr", gap: 40 }}>
-          <div style={{ fontSize: 120, lineHeight: 0.7, color: L, fontFamily: "Georgia, serif", marginTop: -12 }}>&quot;</div>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div>
+        <div
+          style={{
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 20,
+            padding: layout === "mobile" ? "32px 22px" : "56px 64px",
+            display: "grid",
+            gridTemplateColumns: layout === "desktop" ? "auto 1fr" : "1fr",
+            gap: layout === "mobile" ? 20 : 40,
+          }}
+        >
+          <div style={{ fontSize: layout === "mobile" ? 72 : 120, lineHeight: 0.7, color: L, fontFamily: "Georgia, serif", marginTop: -12 }}>&quot;</div>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 400, fontSize: 22, lineHeight: 1.6, letterSpacing: "0.02em", color: "rgba(255,255,255,0.85)", marginBottom: 32, maxWidth: 780 }}>
+            <div
+              style={{
+                fontFamily: MN,
+                fontWeight: 400,
+                fontSize: layout === "mobile" ? 17 : 22,
+                lineHeight: 1.6,
+                letterSpacing: "0.02em",
+                color: "rgba(255,255,255,0.85)",
+                marginBottom: 32,
+                maxWidth: 780,
+              }}
+            >
               {q.text}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
@@ -313,10 +395,13 @@ function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
 }
 
 function Related({ rel }: { rel: CaseStudyTemplateData["related"] }) {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   return (
     <section
       style={{
-        padding: `80px ${OT}px`,
+        padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
         position: "relative",
         zIndex: 6,
@@ -324,7 +409,16 @@ function Related({ rel }: { rel: CaseStudyTemplateData["related"] }) {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0 9px", marginBottom: 40, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+      <div
+        style={{
+          marginBottom: 40,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 16 : 0,
+        }}
+      >
         <div className="rv">
           <Lbl ch="More like this" />
           <Ttl ch="RELATED STUDIES" />
@@ -350,7 +444,15 @@ function Related({ rel }: { rel: CaseStudyTemplateData["related"] }) {
       </div>
       <div
         className="rv d1"
-        style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 3, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
       >
         {rel.map((r) => (
           <Link

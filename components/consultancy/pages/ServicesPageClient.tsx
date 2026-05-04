@@ -14,7 +14,13 @@ import {
   Tilt,
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import {
+  gridCols,
+  sectionGutter,
+  sectionVPad,
+  useLandingLayout,
+} from "@/lib/landing-layout-context";
+import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { useState } from "react";
 
@@ -135,6 +141,8 @@ function ServiceRow({
   open: boolean;
   onToggle: () => void;
 }) {
+  const layout = useLandingLayout();
+  const narrow = layout !== "desktop";
   const isOpen = open;
   return (
     <div
@@ -152,104 +160,154 @@ function ServiceRow({
           width: "100%",
           background: "transparent",
           border: "none",
-          padding: "30px 32px",
-          display: "grid",
-          gridTemplateColumns: "80px 1fr 200px 100px 40px",
-          gap: 24,
-          alignItems: "center",
-          cursor: "none",
+          padding: narrow ? "20px 18px" : "30px 32px",
+          display: narrow ? "flex" : "grid",
+          flexDirection: narrow ? "column" : undefined,
+          gap: narrow ? 14 : 24,
+          gridTemplateColumns: narrow ? undefined : "80px 1fr 200px 100px 40px",
+          alignItems: narrow ? "stretch" : "center",
+          cursor: narrow ? "pointer" : "none",
           textAlign: "left",
         }}
       >
-        <div
-          style={{
-            fontFamily: MN,
-            fontWeight: 700,
-            fontSize: 36,
-            color: isOpen ? "#000" : "rgba(0,0,0,0.25)",
-            letterSpacing: "0.04em",
-            lineHeight: 1,
-            transition: "color .25s",
-          }}
-        >
-          {s.n}
-        </div>
-        <div>
-          <div
-            style={{
-              fontFamily: MN,
-              fontWeight: 700,
-              fontSize: 9,
-              letterSpacing: "0.16em",
-              color: L2,
-              marginBottom: 6,
-            }}
-          >
-            {s.cat}
-          </div>
-          <div
-            style={{
-              fontFamily: MN,
-              fontWeight: 600,
-              fontSize: 22,
-              color: "#000",
-              letterSpacing: "0.03em",
-            }}
-          >
-            {s.t}
-          </div>
-        </div>
-        <div
-          style={{
-            fontFamily: MN,
-            fontSize: 11,
-            letterSpacing: "0.06em",
-            color: "rgba(0,0,0,0.55)",
-          }}
-        >
-          <div style={{ fontWeight: 700, color: "#000", fontSize: 13 }}>{s.price}</div>
-          <div style={{ marginTop: 4, fontSize: 10 }}>{s.duration}</div>
-        </div>
-        <div
-          style={{
-            width: 42,
-            height: 42,
-            borderRadius: 10,
-            background: isOpen ? "#000" : CD,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: MN,
-            fontSize: 22,
-            fontWeight: 300,
-            color: isOpen ? L : "rgba(0,0,0,0.5)",
-            transition: "all .25s",
-          }}
-        >
-          {s.ic}
-        </div>
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
-            border: `1.5px solid ${isOpen ? "#000" : PL}`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: MN,
-            fontSize: 18,
-            fontWeight: 300,
-            color: isOpen ? "#000" : "rgba(0,0,0,0.4)",
-            transition: "all .25s",
-            transform: isOpen ? "rotate(45deg)" : "none",
-          }}
-        >
-          +
-        </div>
+        {narrow ? (
+          <>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 700,
+                  fontSize: 28,
+                  color: isOpen ? "#000" : "rgba(0,0,0,0.25)",
+                  letterSpacing: "0.04em",
+                  lineHeight: 1,
+                }}
+              >
+                {s.n}
+              </div>
+              <div
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: "50%",
+                  border: `1.5px solid ${isOpen ? "#000" : PL}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: MN,
+                  fontSize: 16,
+                  fontWeight: 300,
+                  color: isOpen ? "#000" : "rgba(0,0,0,0.4)",
+                  transform: isOpen ? "rotate(45deg)" : "none",
+                  flexShrink: 0,
+                }}
+              >
+                +
+              </div>
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 6 }}>
+                {s.cat}
+              </div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#000", letterSpacing: "0.03em" }}>{s.t}</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+              <div
+                style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: 10,
+                  background: isOpen ? "#000" : CD,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: MN,
+                  fontSize: 18,
+                  fontWeight: 300,
+                  color: isOpen ? L : "rgba(0,0,0,0.5)",
+                  flexShrink: 0,
+                }}
+              >
+                {s.ic}
+              </div>
+              <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.06em", color: "rgba(0,0,0,0.55)" }}>
+                <div style={{ fontWeight: 700, color: "#000", fontSize: 13 }}>{s.price}</div>
+                <div style={{ marginTop: 4, fontSize: 10 }}>{s.duration}</div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              style={{
+                fontFamily: MN,
+                fontWeight: 700,
+                fontSize: 36,
+                color: isOpen ? "#000" : "rgba(0,0,0,0.25)",
+                letterSpacing: "0.04em",
+                lineHeight: 1,
+                transition: "color .25s",
+              }}
+            >
+              {s.n}
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 6 }}>{s.cat}</div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#000", letterSpacing: "0.03em" }}>{s.t}</div>
+            </div>
+            <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.06em", color: "rgba(0,0,0,0.55)" }}>
+              <div style={{ fontWeight: 700, color: "#000", fontSize: 13 }}>{s.price}</div>
+              <div style={{ marginTop: 4, fontSize: 10 }}>{s.duration}</div>
+            </div>
+            <div
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: 10,
+                background: isOpen ? "#000" : CD,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: MN,
+                fontSize: 22,
+                fontWeight: 300,
+                color: isOpen ? L : "rgba(0,0,0,0.5)",
+                transition: "all .25s",
+              }}
+            >
+              {s.ic}
+            </div>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                border: `1.5px solid ${isOpen ? "#000" : PL}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: MN,
+                fontSize: 18,
+                fontWeight: 300,
+                color: isOpen ? "#000" : "rgba(0,0,0,0.4)",
+                transition: "all .25s",
+                transform: isOpen ? "rotate(45deg)" : "none",
+              }}
+            >
+              +
+            </div>
+          </>
+        )}
       </button>
       {isOpen ? (
-        <div style={{ padding: "0 32px 32px 144px", display: "grid", gridTemplateColumns: "2fr 1fr", gap: 40 }}>
+        <div
+          style={{
+            padding: narrow ? "0 18px 24px" : "0 32px 32px 144px",
+            display: "grid",
+            gridTemplateColumns: narrow ? "1fr" : "2fr 1fr",
+            gap: narrow ? 28 : 40,
+          }}
+        >
           <div>
             <div style={{ fontFamily: SN, fontSize: 14.5, lineHeight: 1.7, color: "rgba(0,0,0,0.6)", marginBottom: 20 }}>
               {s.d}
@@ -346,20 +404,41 @@ function ServiceRow({
 }
 
 function ServicesAccordion() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
-      <div style={{ padding: "0 9px", marginBottom: 36, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+      <div
+        style={{
+          marginBottom: layout === "mobile" ? 28 : 36,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 12 : 0,
+        }}
+      >
         <div>
           <Lbl ch="Six engagement modes" />
           <Ttl ch="HOW WE WORK" />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: "right", lineHeight: 1.6 }}>
+        <div
+          style={{
+            fontFamily: SN,
+            fontSize: 13,
+            color: "rgba(0,0,0,0.4)",
+            maxWidth: 340,
+            textAlign: layout === "mobile" ? "left" : "right",
+            lineHeight: 1.6,
+          }}
+        >
           Click any service to see deliverables, pricing, and timeline.
         </div>
       </div>
-      <div style={{ padding: "0 9px" }}>
-        <div style={{ background: BG, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <div>
+        <div style={{ background: BG, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}` }}>
           {SERVICES.map((s, i) => (
             <ServiceRow key={s.n} s={s} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
           ))}
@@ -370,13 +449,17 @@ function ServicesAccordion() {
 }
 
 function ProcessTimeline() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
+  const showHr = layout === "desktop";
   return (
-    <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 48 }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
         <Lbl ch="Boring is good" lt />
         <Ttl ch="THE PROCESS" lt />
       </div>
-      <div style={{ padding: "0 9px", position: "relative" }}>
+      <div style={{ position: "relative" }}>
         <div
           style={{
             position: "absolute",
@@ -386,9 +469,11 @@ function ProcessTimeline() {
             height: 1,
             background: `linear-gradient(90deg,transparent,${L}66 10%,${L}66 90%,transparent)`,
             zIndex: 0,
+            opacity: showHr ? 1 : 0,
+            pointerEvents: "none",
           }}
         />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 20, position: "relative", zIndex: 1 }}>
+        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 5, 2), gap: layout === "mobile" ? 16 : 20, position: "relative", zIndex: 1 }}>
           {PROCESS.map((p) => (
             <div key={p.p} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <div
@@ -446,6 +531,9 @@ function ProcessTimeline() {
 }
 
 function Principles() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const ps = [
     {
       n: "01",
@@ -472,7 +560,7 @@ function Principles() {
   return (
     <section
       style={{
-        padding: `80px ${OT}px`,
+        padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
         position: "relative",
         zIndex: 4,
@@ -482,10 +570,9 @@ function Principles() {
     >
       <div
         style={{
-          padding: "0 9px",
-          marginBottom: 36,
+          marginBottom: layout === "mobile" ? 28 : 36,
           display: "grid",
-          gridTemplateColumns: "auto minmax(0, 1fr)",
+          gridTemplateColumns: layout === "mobile" ? "1fr" : "auto minmax(0, 1fr)",
           columnGap: 28,
           rowGap: 16,
           alignItems: "start",
@@ -493,7 +580,7 @@ function Principles() {
       >
         <div style={{ justifySelf: "start", maxWidth: "100%" }}>
           <Lbl ch="What you can count on" />
-          <Ttl ch="PRINCIPLES." sx={{ whiteSpace: "nowrap" }} />
+          <Ttl ch="PRINCIPLES." sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap" }} />
         </div>
         <div
           style={{
@@ -513,12 +600,11 @@ function Principles() {
       </div>
       <div
         style={{
-          padding: "0 9px",
           display: "grid",
-          gridTemplateColumns: "repeat(2,1fr)",
+          gridTemplateColumns: gridCols(layout, 2, 2),
           gap: 1,
           background: PL,
-          borderRadius: 20,
+          borderRadius: layout === "mobile" ? 16 : 20,
           overflow: "hidden",
           border: `1px solid ${PL}`,
         }}

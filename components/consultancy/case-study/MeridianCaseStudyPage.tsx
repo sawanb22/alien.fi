@@ -12,96 +12,117 @@ import {
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
 import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
+import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { CW, MN, OT, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 
 function StudyHero() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const stacked = layout !== "desktop";
   return (
     <section style={{ paddingTop: 60, background: DK, position: "relative", borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
       <div style={{ position: "absolute", right: -200, top: 60, width: 520, height: 520, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
-      <div style={{ position: "absolute", left: OT, right: OT, top: 60, bottom: 0, border: "1px solid rgba(255,255,255,0.06)", borderTop: "none", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", left: OT + CW, top: 60, bottom: 0, width: 1, background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
-      <div style={{ display: "grid", gridTemplateColumns: `${CW}px 1fr`, minHeight: 440 }}>
-        <div className="rvl" style={{ padding: "52px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24 }}>
-          <div>
+      {!stacked ? (
+        <>
+          <div style={{ position: "absolute", left: OT, right: OT, top: 60, bottom: 0, border: "1px solid rgba(255,255,255,0.06)", borderTop: "none", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", left: OT + CW, top: 60, bottom: 0, width: 1, background: "rgba(255,255,255,0.06)", pointerEvents: "none" }} />
+        </>
+      ) : null}
+      <div style={{ paddingLeft: gv, paddingRight: gv, boxSizing: "border-box", width: "100%" }}>
+        <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : `${CW}px 1fr`, minHeight: stacked ? undefined : 440 }}>
+          <div
+            className="rvl"
+            style={{
+              padding: stacked ? "36px 0 28px" : "52px 36px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              gap: 24,
+              borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)",
+              borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontFamily: MN,
+                  fontSize: 9,
+                  fontWeight: 600,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.4)",
+                  marginBottom: 32,
+                }}
+              >
+                <Link href="/" className="hv" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+                  Home
+                </Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <Link href="/case-studies" className="hv" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+                  Case Studies
+                </Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <span style={{ color: L2 }}>Meridian</span>
+              </div>
+              <Lbl ch="Insurance · 9 months" lt />
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: stacked ? 22 : 24, color: "#fff", letterSpacing: "0.03em", marginBottom: 8 }}>Meridian Insurance</div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>
+                Regional P&C carrier serving 240,000 policyholders across the Mountain West. 500+ employees. Founded 1962.
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {(
+                [
+                  ["Industry", "Insurance · P&C"],
+                  ["Engagement", "Strategy + Custom + Managed"],
+                  ["Duration", "9 months · ongoing"],
+                  ["Team", "6 alien.fi · 4 client"],
+                  ["Stack", "Python · PyTorch · AWS · Snowflake"],
+                ] as const
+              ).map(([k, v]) => (
+                <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
+                    {k}
+                  </span>
+                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: "0.02em" }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
+            <Chip ch="Featured Case Study" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
+            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
+              HOW WE CUT
+            </div>
+            <div className="rv d1" style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
+              CLAIMS TIME
+            </div>
             <div
+              className="rv d2"
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
                 fontFamily: MN,
-                fontSize: 9,
-                fontWeight: 600,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.4)",
+                fontWeight: 700,
+                fontSize: "clamp(36px,4.8vw,72px)",
+                lineHeight: 1.0,
+                letterSpacing: "0.04em",
+                background: `linear-gradient(90deg,#fff 40%,${L} 60%,#fff 80%)`,
+                backgroundSize: "200% auto",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                animation: "consultancy-shimmer 4s linear infinite",
                 marginBottom: 32,
               }}
             >
-              <Link href="/" className="hv" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
-                Home
-              </Link>
-              <span style={{ opacity: 0.4 }}>/</span>
-              <Link href="/case-studies" className="hv" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
-                Case Studies
-              </Link>
-              <span style={{ opacity: 0.4 }}>/</span>
-              <span style={{ color: L2 }}>Meridian</span>
+              BY 62%.
             </div>
-            <Lbl ch="Insurance · 9 months" lt />
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 24, color: "#fff", letterSpacing: "0.03em", marginBottom: 8 }}>Meridian Insurance</div>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>
-              Regional P&C carrier serving 240,000 policyholders across the Mountain West. 500+ employees. Founded 1962.
+            <div className="rv d3" style={{ fontFamily: SN, fontSize: stacked ? 15 : 16, lineHeight: 1.7, color: "rgba(255,255,255,0.55)", maxWidth: 620 }}>
+              A 9-month transformation that automated routine claims, deployed real-time fraud ML, and saved $3.2M in fraud losses while lifting CSAT 38 points.
             </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {(
-              [
-                ["Industry", "Insurance · P&C"],
-                ["Engagement", "Strategy + Custom + Managed"],
-                ["Duration", "9 months · ongoing"],
-                ["Team", "6 alien.fi · 4 client"],
-                ["Stack", "Python · PyTorch · AWS · Snowflake"],
-              ] as const
-            ).map(([k, v]) => (
-              <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
-                  {k}
-                </span>
-                <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: "0.02em" }}>{v}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div style={{ padding: "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
-          <Chip ch="Featured Case Study" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
-          <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(40px,5vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
-            HOW WE CUT
-          </div>
-          <div className="rv d1" style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(40px,5vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
-            CLAIMS TIME
-          </div>
-          <div
-            className="rv d2"
-            style={{
-              fontFamily: MN,
-              fontWeight: 700,
-              fontSize: "clamp(40px,5vw,72px)",
-              lineHeight: 1.0,
-              letterSpacing: "0.04em",
-              background: `linear-gradient(90deg,#fff 40%,${L} 60%,#fff 80%)`,
-              backgroundSize: "200% auto",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              animation: "consultancy-shimmer 4s linear infinite",
-              marginBottom: 32,
-            }}
-          >
-            BY 62%.
-          </div>
-          <div className="rv d3" style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,0.55)", maxWidth: 620 }}>
-            A 9-month transformation that automated routine claims, deployed real-time fraud ML, and saved $3.2M in fraud losses while lifting CSAT 38 points.
           </div>
         </div>
       </div>
@@ -110,6 +131,8 @@ function StudyHero() {
 }
 
 function MetricsBar() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
   const m = [
     { v: "62%", l: "Faster claims", sub: "14 days → 5.3 days" },
     { v: "$3.2M", l: "Fraud loss reduction", sub: "In year one" },
@@ -117,16 +140,41 @@ function MetricsBar() {
     { v: "3.1×", l: "First-year ROI", sub: "Payback in 5.8 months" },
   ];
   return (
-    <section style={{ padding: `60px ${OT}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div className="rv d1" style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
+    <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${m.length},1fr)`,
+          gap: 1,
+          background: "rgba(255,255,255,0.05)",
+          borderRadius: 20,
+          overflow: "hidden",
+        }}
+      >
         {m.map((x) => (
-          <Tilt key={x.l} int={6}>
-            <div style={{ background: DK, padding: "36px 30px" }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 52, color: L, letterSpacing: "0.02em", lineHeight: 1, marginBottom: 14 }}>{x.v}</div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
-              <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
-            </div>
-          </Tilt>
+          <Tilt
+            key={x.l}
+            int={6}
+            ch={
+              <div style={{ background: DK, padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
+                <div
+                  style={{
+                    fontFamily: MN,
+                    fontWeight: 700,
+                    fontSize: layout === "mobile" ? "clamp(28px,7vw,40px)" : 52,
+                    color: L,
+                    letterSpacing: "0.02em",
+                    lineHeight: 1,
+                    marginBottom: 14,
+                  }}
+                >
+                  {x.v}
+                </div>
+                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
+                <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
+              </div>
+            }
+          />
         ))}
       </div>
     </section>
@@ -134,9 +182,26 @@ function MetricsBar() {
 }
 
 function Challenge() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
+  const stats = [
+    ["14 days", "Avg claim cycle"],
+    ["$6.8M", "Annual fraud loss"],
+    ["60%", "Adjuster re-keying time"],
+  ] as const;
   return (
-    <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "320px 1fr", gap: 60 }}>
+    <section
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: `linear-gradient(180deg,${BG2},${BG})`,
+        position: "relative",
+        zIndex: 3,
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
+      }}
+    >
+      <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr", gap: layout === "mobile" ? 28 : 60 }}>
         <div className="rvl">
           <Lbl ch="The challenge" />
           <Ttl ch="STUCK IN PAPER." />
@@ -148,15 +213,20 @@ function Challenge() {
           <p style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.8, color: "rgba(0,0,0,0.55)" }}>
             Leadership had piloted three "AI" vendors over four years. Each promised transformation. Each delivered a fragile chatbot. The board was AI-skeptical and wanted measurable, audited results — or nothing.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}`, marginTop: 12 }}>
-            {(
-              [
-                ["14 days", "Avg claim cycle"],
-                ["$6.8M", "Annual fraud loss"],
-                ["60%", "Adjuster re-keying time"],
-              ] as const
-            ).map(([v, l]) => (
-              <div key={l} style={{ background: BG, padding: "24px 24px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${stats.length},1fr)`,
+              gap: 1,
+              background: PL,
+              borderRadius: 14,
+              overflow: "hidden",
+              border: `1px solid ${PL}`,
+              marginTop: 12,
+            }}
+          >
+            {stats.map(([v, l]) => (
+              <div key={l} style={{ background: BG, padding: "24px" }}>
                 <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#000", lineHeight: 1, letterSpacing: "0.02em" }}>{v}</div>
                 <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginTop: 8 }}>{l}</div>
               </div>
@@ -199,9 +269,23 @@ function Approach() {
       deliverables: ["Snowflake warehouse", "dbt transformation layer", "Real-time CDC pipelines", "Executive dashboards"],
     },
   ];
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
+  const n = phases.length;
+  const phaseCols =
+    layout === "mobile" ? "1fr" : layout === "tablet" ? (n <= 2 ? `repeat(${n},1fr)` : "repeat(2,1fr)") : `repeat(${n},1fr)`;
   return (
-    <section style={{ padding: `80px ${OT}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 48, display: "grid", gridTemplateColumns: "320px 1fr", gap: 60, alignItems: "flex-end" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div
+        style={{
+          marginBottom: layout === "mobile" ? 32 : 48,
+          display: "grid",
+          gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr",
+          gap: layout === "mobile" ? 20 : 60,
+          alignItems: layout === "mobile" ? "start" : "flex-end",
+        }}
+      >
         <div className="rvl">
           <Lbl ch="The approach" />
           <Ttl ch="FOUR PHASES." />
@@ -210,7 +294,18 @@ function Approach() {
           Sequenced for cash-flow positive value at every milestone. Each phase paid for the next.
         </div>
       </div>
-      <div className="rv d1" style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <div
+        className="rv d1"
+        style={{
+          display: "grid",
+          gridTemplateColumns: phaseCols,
+          gap: 1,
+          background: PL,
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
+      >
         {phases.map((p) => (
           <div key={p.n} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -248,13 +343,37 @@ function Approach() {
 }
 
 function Quote() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div className="rv" style={{ padding: "0 9px" }}>
-        <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "56px 64px", display: "grid", gridTemplateColumns: "auto 1fr", gap: 40 }}>
-          <div style={{ fontSize: 120, lineHeight: 0.7, color: L, fontFamily: "Georgia, serif", marginTop: -12 }}>&quot;</div>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div className="rv">
+        <div
+          style={{
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 20,
+            padding: layout === "mobile" ? "32px 22px" : "56px 64px",
+            display: "grid",
+            gridTemplateColumns: layout === "desktop" ? "auto 1fr" : "1fr",
+            gap: layout === "mobile" ? 20 : 40,
+          }}
+        >
+          <div style={{ fontSize: layout === "mobile" ? 72 : 120, lineHeight: 0.7, color: L, fontFamily: "Georgia, serif", marginTop: -12 }}>&quot;</div>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 400, fontSize: 22, lineHeight: 1.6, letterSpacing: "0.02em", color: "rgba(255,255,255,0.85)", marginBottom: 32, maxWidth: 780 }}>
+            <div
+              style={{
+                fontFamily: MN,
+                fontWeight: 400,
+                fontSize: layout === "mobile" ? 17 : 22,
+                lineHeight: 1.6,
+                letterSpacing: "0.02em",
+                color: "rgba(255,255,255,0.85)",
+                marginBottom: 32,
+                maxWidth: 780,
+              }}
+            >
               alien.fi didn't just deliver technology — they delivered a transformation. Their team understood our business deeply, proposed solutions that were realistic and well-scoped, and stood by us through every phase. We've already extended into a multi-year managed services partnership.
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
@@ -313,9 +432,30 @@ function Related() {
       h: "Benefits fraud ML recovered $28M in year one while reducing false positives 38%.",
     },
   ];
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 6, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 40, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+    <section
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: `linear-gradient(180deg,${BG},${BG2})`,
+        position: "relative",
+        zIndex: 6,
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
+      }}
+    >
+      <div
+        style={{
+          marginBottom: 40,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 16 : 0,
+        }}
+      >
         <div className="rv">
           <Lbl ch="More like this" />
           <Ttl ch="RELATED STUDIES" />
@@ -324,7 +464,18 @@ function Related() {
           See all 8 →
         </Link>
       </div>
-      <div className="rv d1" style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <div
+        className="rv d1"
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 3, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
+      >
         {related.map((r) => (
           <Link
             key={r.n}

@@ -12,7 +12,8 @@ import {
   Ticker,
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
+import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { useState } from "react";
 
@@ -411,21 +412,40 @@ function DetailPanel({ ind }: { ind: Ind }) {
 }
 
 function Selector() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const [activeId, setActiveId] = useState("ins");
   const active = INDUSTRIES.find((i) => i.id === activeId) ?? INDUSTRIES[0]!;
   return (
-    <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
-      <div style={{ padding: "0 9px", marginBottom: 36, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+      <div
+        style={{
+          marginBottom: layout === "mobile" ? 28 : 36,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 12 : 0,
+        }}
+      >
         <div>
           <Lbl ch="Twelve verticals · 270+ engagements" />
           <Ttl ch="WHO WE SERVE" />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: "right", lineHeight: 1.6 }}>
+        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 320, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
           Click any industry to see selected clients, our use-case repertoire, and signature outcomes.
         </div>
       </div>
-      <div style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 32, alignItems: "flex-start" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: layout === "desktop" ? "1.4fr 1fr" : "1fr",
+          gap: layout === "mobile" ? 28 : 32,
+          alignItems: "flex-start",
+        }}
+      >
+        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 12 }}>
           {INDUSTRIES.map((ind) => (
             <IndustryCard key={ind.id} ind={ind} active={activeId === ind.id} onClick={() => setActiveId(ind.id)} />
           ))}
@@ -437,6 +457,9 @@ function Selector() {
 }
 
 function Methodology() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const items = [
     {
       h: "Vertical fluency",
@@ -458,13 +481,12 @@ function Methodology() {
     },
   ];
   return (
-    <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div
         style={{
-          padding: "0 9px",
-          marginBottom: 48,
+          marginBottom: layout === "mobile" ? 32 : 48,
           display: "grid",
-          gridTemplateColumns: "auto minmax(0, 1fr)",
+          gridTemplateColumns: layout === "mobile" ? "1fr" : "auto minmax(0, 1fr)",
           columnGap: 28,
           rowGap: 16,
           alignItems: "start",
@@ -472,7 +494,7 @@ function Methodology() {
       >
         <div style={{ justifySelf: "start", maxWidth: "100%" }}>
           <Lbl ch="How we earn vertical depth" lt />
-          <Ttl ch="METHODOLOGY." lt sx={{ whiteSpace: "nowrap" }} />
+          <Ttl ch="METHODOLOGY." lt sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap" }} />
         </div>
         <div
           style={{
@@ -490,7 +512,16 @@ function Methodology() {
           }
         </div>
       </div>
-      <div style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 2, 2),
+          gap: 1,
+          background: "rgba(255,255,255,0.05)",
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+        }}
+      >
         {items.map((it, i) => (
           <div key={it.h} style={{ background: DK, padding: "34px 32px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>

@@ -14,7 +14,8 @@ import {
   Tilt,
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
+import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { useState } from "react";
 
@@ -114,21 +115,33 @@ const CATS = [
 ] as const;
 
 function SolutionsGrid() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const [cat, setCat] = useState<(typeof CATS)[number]>("ALL");
   const [hov, setHov] = useState<number | null>(null);
   const filtered = cat === "ALL" ? SOLUTIONS : SOLUTIONS.filter((s) => s.cat === cat);
   return (
-    <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
-      <div style={{ padding: "0 9px", marginBottom: 36, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+      <div
+        style={{
+          marginBottom: layout === "mobile" ? 28 : 36,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 12 : 0,
+        }}
+      >
         <div className="rv">
           <Lbl ch="Pre-built · production-ready" />
           <Ttl ch="THE CATALOG" />
         </div>
-        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 280, textAlign: "right", lineHeight: 1.6 }}>
+        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
           Eight battle-tested solutions. Configure to your stack in weeks, not quarters.
         </div>
       </div>
-      <div className="rv d1" style={{ padding: "0 9px", marginBottom: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <div className="rv d1" style={{ marginBottom: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
         {CATS.map((c) => {
           const isActive = cat === c;
           return (
@@ -161,10 +174,10 @@ function SolutionsGrid() {
         className="rv d2"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(2,1fr)",
+          gridTemplateColumns: gridCols(layout, 2, 2),
           gap: 1,
           background: PL,
-          borderRadius: 20,
+          borderRadius: layout === "mobile" ? 16 : 20,
           overflow: "hidden",
           border: `1px solid ${PL}`,
         }}
@@ -180,9 +193,10 @@ function SolutionsGrid() {
               className="hv"
               style={{
                 background: active ? `linear-gradient(150deg,rgb(220,244,200),${BG2})` : `linear-gradient(150deg,${BG},${BG2})`,
-                padding: "32px 32px",
+                padding: layout === "mobile" ? "24px 20px" : "32px 32px",
                 display: "flex",
-                gap: 24,
+                flexDirection: layout === "mobile" ? "column" : "row",
+                gap: layout === "mobile" ? 18 : 24,
                 transition: "background .25s",
                 boxShadow: active ? `inset 0 0 0 1.5px ${L}66` : "none",
               }}
@@ -237,7 +251,7 @@ function SolutionsGrid() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3,1fr)",
+                    gridTemplateColumns: layout === "mobile" ? "1fr" : "repeat(3,1fr)",
                     gap: 8,
                     marginTop: 8,
                     paddingTop: 14,
@@ -282,6 +296,9 @@ function SolutionsGrid() {
 }
 
 function HowItWorks() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const steps = [
     {
       n: "01",
@@ -305,14 +322,14 @@ function HowItWorks() {
     },
   ];
   return (
-    <section style={{ padding: `80px ${OT}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ padding: "0 9px", marginBottom: 48 }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
         <div className="rv">
           <Lbl ch="From shelf to production" lt />
           <Ttl ch="HOW IT WORKS" lt />
         </div>
       </div>
-      <div className="rv d1" style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
+      <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden" }}>
         {steps.map((s, i) => (
           <Tilt key={s.n} int={6} sx={{ height: "100%" }}>
             <div style={{ background: DK, padding: "36px 28px", display: "flex", flexDirection: "column", gap: 14, height: "100%" }}>
@@ -332,6 +349,9 @@ function HowItWorks() {
 }
 
 function StackStrip() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   const stacks = [
     { h: "LLMs & Foundation Models", i: ["OpenAI", "Anthropic", "Mistral", "Llama", "Cohere", "Gemini"] },
     { h: "Data & ML Infra", i: ["Snowflake", "Databricks", "BigQuery", "MLflow", "Weights & Biases", "Airflow"] },
@@ -341,7 +361,7 @@ function StackStrip() {
   return (
     <section
       style={{
-        padding: `80px ${OT}px`,
+        padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
         position: "relative",
         zIndex: 4,
@@ -349,7 +369,7 @@ function StackStrip() {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0 9px", marginBottom: 40 }}>
+      <div style={{ marginBottom: 40 }}>
         <div className="rv">
           <Lbl ch="Built on what works" />
           <Ttl ch="OUR STACK" />
@@ -357,7 +377,15 @@ function StackStrip() {
       </div>
       <div
         className="rv d1"
-        style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 4, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
       >
         {stacks.map((s) => (
           <div key={s.h} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "28px 28px" }}>

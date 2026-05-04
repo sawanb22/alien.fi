@@ -11,7 +11,8 @@ import {
   PageHero,
   Ticker,
 } from "@/components/consultancy/consultancy-ui";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import { sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
+import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { type ReactNode, useState } from "react";
 
@@ -65,6 +66,9 @@ const inputStyle: React.CSSProperties = {
 };
 
 export default function ContactPageClient() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
   return (
     <ConsultancyLoadedShell label="CONTACT">
       <Nav current="Contact" />
@@ -76,8 +80,8 @@ export default function ContactPageClient() {
         accent="Booking 3 strategy calls per week"
       />
       <Ticker words={["Send a brief", "Schedule a fit call", "Get a quote", "Sign an NDA", "Request references", "Tour the team"]} />
-      <section style={{ padding: `80px ${OT}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
-        <div style={{ padding: "0 9px", display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 32 }}>
+      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+        <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "1.6fr 1fr" : "1fr", gap: layout === "mobile" ? 28 : 32 }}>
           <Form />
           <SidePanel />
         </div>
@@ -116,9 +120,11 @@ function Form() {
     (e.target as HTMLInputElement | HTMLTextAreaElement).style.borderColor = PL;
   };
 
+  const layout = useLandingLayout();
+
   if (sent) {
     return (
-      <div className="rv" style={{ background: DK, borderRadius: 20, padding: "80px 60px", textAlign: "center", color: "#fff" }}>
+      <div className="rv" style={{ background: DK, borderRadius: 20, padding: layout === "mobile" ? "52px 24px" : "80px 60px", textAlign: "center", color: "#fff" }}>
         <div style={{ fontSize: 60, color: L, marginBottom: 20 }}>✓</div>
         <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 32, letterSpacing: "0.04em", marginBottom: 14 }}>TRANSMISSION RECEIVED</div>
         <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(255,255,255,0.6)", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>
@@ -129,7 +135,15 @@ function Form() {
   }
 
   return (
-    <div className="rv" style={{ background: `linear-gradient(165deg,${BG},${BG2})`, borderRadius: 20, padding: "40px 40px", border: `1px solid ${PL}` }}>
+    <div
+      className="rv"
+      style={{
+        background: `linear-gradient(165deg,${BG},${BG2})`,
+        borderRadius: 20,
+        padding: layout === "mobile" ? "28px 20px" : "40px 40px",
+        border: `1px solid ${PL}`,
+      }}
+    >
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 30 }}>
         {[1, 2, 3].map((n) => (
           <div key={n} style={{ display: "flex", alignItems: "center", gap: 14, flex: n < 3 ? 1 : "none" }}>
@@ -161,7 +175,7 @@ function Form() {
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>About you</div>
             <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>So we route to the right solution lead.</div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr", gap: 18 }}>
             <Field lbl="Name">
               <input style={inputStyle} placeholder="Sarah Reyes" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("name", e.target.value)} />
             </Field>
@@ -215,7 +229,7 @@ function Form() {
               })}
             </div>
           </Field>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr", gap: 18 }}>
             <Field lbl="Budget range">
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {BUDGETS.map((b) => {

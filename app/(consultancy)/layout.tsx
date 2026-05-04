@@ -1,6 +1,7 @@
 import { Azeret_Mono, Poppins } from "next/font/google";
 import type { Metadata } from "next";
 import { ConsultancyChrome } from "@/components/consultancy/ConsultancyChrome";
+import { ConsultancyResponsiveProvider } from "@/components/consultancy/ConsultancyResponsiveProvider";
 import "./consultancy-core.css";
 
 const azeret = Azeret_Mono({
@@ -25,12 +26,14 @@ export default function ConsultancyGroupLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div
-      className={`consultancy-shell ${azeret.variable} ${poppins.variable}`}
-      data-consultancy="1"
-    >
-      <ConsultancyChrome />
-      {children}
-    </div>
+    <ConsultancyResponsiveProvider>
+      <div
+        className={`consultancy-shell ${azeret.variable} ${poppins.variable}`}
+        data-consultancy="1"
+      >
+        <ConsultancyChrome />
+        {children}
+      </div>
+    </ConsultancyResponsiveProvider>
   );
 }
