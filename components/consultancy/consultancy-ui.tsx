@@ -875,15 +875,18 @@ export function PageHero({
         }}
       />
 
+      {/* Align 3-col grid with framed guides (OT inset); full-bleed grid sat off by OT vs verticals */}
+      <div style={{ marginLeft: OT, marginRight: OT }}>
       <div style={{ display: "grid", gridTemplateColumns: `240px 1fr 240px`, minHeight: 300 }}>
         <div
           className="rvl"
           style={{
-            padding: "52px 28px",
+            padding: "52px 30px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
             gap: 24,
+            boxSizing: "border-box",
           }}
         >
           <div>
@@ -962,11 +965,12 @@ export function PageHero({
         <div
           className="rvr"
           style={{
-            padding: "52px 28px",
+            padding: "52px 30px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
             gap: 24,
+            boxSizing: "border-box",
           }}
         >
           <div>
@@ -977,7 +981,7 @@ export function PageHero({
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  gap: 0,
                   padding: "10px 0",
                   borderBottom: `1px solid ${PL}`,
                   fontFamily: MN,
@@ -986,8 +990,30 @@ export function PageHero({
                   letterSpacing: "0.04em",
                 }}
               >
-                <span style={{ color: "rgba(0,0,0,0.45)" }}>{m[0]}</span>
-                <span style={{ color: "#000", fontWeight: 700 }}>{m[1]}</span>
+                <span style={{ flex: 1, minWidth: 0, color: "rgba(0,0,0,0.45)", paddingRight: 2 }}>
+                  {m[0]}
+                </span>
+                <span
+                  aria-hidden
+                  style={{
+                    alignSelf: "stretch",
+                    width: 1,
+                    flexShrink: 0,
+                    background: PL,
+                  }}
+                />
+                <span
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    color: "#000",
+                    fontWeight: 700,
+                    paddingLeft: 2,
+                    textAlign: "right",
+                  }}
+                >
+                  {m[1]}
+                </span>
               </div>
             ))}
           </div>
@@ -1018,6 +1044,7 @@ export function PageHero({
             </div>
           ) : null}
         </div>
+      </div>
       </div>
     </section>
   );
