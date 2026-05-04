@@ -273,68 +273,75 @@ function Hero({tweaks}){
       <div style={{position:'absolute',left:OT,right:OT,top:60,bottom:0,border:`1px solid ${PL}`,borderTop:'none',pointerEvents:'none'}}/>
       <div style={{position:'absolute',left:OT+CW,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
       <div style={{position:'absolute',right:OT+CW,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
-      <div style={{position:'absolute',left:OT,right:OT,top:60+220,height:1,background:PL,pointerEvents:'none'}}/>
+      {/* Row-1 divider comes from matching borderBottom on grid cells */}
       {/* Scanning dots on vertical lines */}
       {[OT+CW-3, (()=>{ const w=typeof window!=='undefined'?window.innerWidth:1440; return w-OT-CW-3; })()].map((l,i)=>(
         <div key={i} style={{position:'absolute',left:l,top:60,width:7,height:7,borderRadius:'50%',background:L,boxShadow:`0 0 10px ${L}`,animation:`scan ${3+i}s linear infinite`,pointerEvents:'none',zIndex:10}}/>
       ))}
 
-      <div style={{display:'grid',gridTemplateColumns:`${CW}px 1fr ${CW}px`,minHeight:'calc(100vh - 60px)'}}>
+      <div style={{display:'grid',gridTemplateColumns:`${CW}px 1fr ${CW}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
 
-        {/* LEFT */}
-        <div className="rvl" style={{display:'flex',flexDirection:'column'}}>
-          <div style={{height:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center'}}>
-            <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1}}/>
+        {/* Row 1 — shared auto height so headline can grow on large screens */}
+        <div className="rvl" style={{minHeight:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
+          <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1}}/>
+        </div>
+        <div style={{minHeight:220,padding:'36px 52px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
+          <div className="rv">
+            <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
+            <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
+            <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,whiteSpace:'nowrap',
+              background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
+              backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
+              animation:'shimmer 4s linear infinite'}}>WORKS.</div>
           </div>
-          <div style={{flex:1,padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-            <div>
-              <Lbl ch="About"/>
-              <div style={{fontFamily:SN,fontWeight:400,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:28}}>
-                alien.fi is a full-service AI consultancy. We help organizations at every stage of AI maturity integrate, deploy, and maintain AI that delivers measurable results.
+          <Tilt int={20} sx={{flexShrink:0}}>
+            <div className="hv rv d2" style={{width:96,height:96,borderRadius:26,background:CD,border:`1.5px solid ${L2}`,display:'flex',alignItems:'center',justifyContent:'center',cursor:'none',transition:'background .2s'}}
+              onClick={()=>document.getElementById('contact').scrollIntoView({block:'start'})}
+              onMouseEnter={e=>e.currentTarget.style.background='rgb(208,245,185)'}
+              onMouseLeave={e=>e.currentTarget.style.background=CD}>
+              <svg width={38} height={38} viewBox="0 0 40 40" fill="none"><path d="M8 32L32 8M32 8H14M32 8V26" stroke={L2} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </div>
+          </Tilt>
+        </div>
+        <div className="rvr" style={{minHeight:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
+            <Lbl ch="Services"/>
+            <div className="hv" style={{width:20,height:20,borderRadius:5,background:'#000',display:'flex',alignItems:'center',justifyContent:'center',marginTop:-8,transition:'background .2s'}}
+              onMouseEnter={e=>e.currentTarget.style.background=L2} onMouseLeave={e=>e.currentTarget.style.background='#000'}>
+              <Arr sz={9} cl="#fff" sw={1.8}/>
+            </div>
+          </div>
+          {['AI Strategy & Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'].map((s,i)=>(
+            <div key={s} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)} style={{padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:hovSvc===i?'#000':'rgba(0,0,0,0.45)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'color .15s,padding-left .2s',paddingLeft:hovSvc===i?8:0}}>
+              {s}<span style={{opacity:.25,fontSize:9}}>0{i+1}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Row 2 */}
+        <div className="rvl" style={{padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+          <div>
+            <Lbl ch="About"/>
+            <div style={{fontFamily:SN,fontWeight:400,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:28}}>
+              alien.fi is a full-service AI consultancy. We help organizations at every stage of AI maturity integrate, deploy, and maintain AI that delivers measurable results.
+            </div>
+            <div className="ld" style={{height:1,background:PL,marginBottom:28}}/>
+            <Lbl ch="Engagement models"/>
+            {['Project-based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
+              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
+                <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
               </div>
-              <div className="ld" style={{height:1,background:PL,marginBottom:28}}/>
-              <Lbl ch="Engagement models"/>
-              {['Project-based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
-                <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
-                  <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
-                </div>
-              ))}
-            </div>
-            <div style={{marginTop:32}}>
-              <Lbl ch="Location"/>
-              <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>Austin, TX 78701<br/>Operating globally</div>
-            </div>
+            ))}
+          </div>
+          <div style={{marginTop:32}}>
+            <Lbl ch="Location"/>
+            <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>Austin, TX 78701<br/>Operating globally</div>
           </div>
         </div>
 
-        {/* CENTER */}
-        <div style={{display:'flex',flexDirection:'column',borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`}}>
-          {/* HEADLINE — Figma-faithful large type */}
-          <div style={{height:220,padding:'36px 52px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,overflow:'hidden'}}>
-            <div className="rv">
-              {/* Light weight line */}
-              <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
-              {/* Medium weight line */}
-              <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
-              {/* Bold + shimmer accent */}
-              <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,whiteSpace:'nowrap',
-                background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
-                backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
-                animation:'shimmer 4s linear infinite'}}>WORKS.</div>
-            </div>
-            {/* Arrow CTA */}
-            <Tilt int={20} sx={{flexShrink:0}}>
-              <div className="hv rv d2" style={{width:96,height:96,borderRadius:26,background:CD,border:`1.5px solid ${L2}`,display:'flex',alignItems:'center',justifyContent:'center',cursor:'none',transition:'background .2s'}}
-                onClick={()=>document.getElementById('contact').scrollIntoView({block:'start'})}
-                onMouseEnter={e=>e.currentTarget.style.background='rgb(208,245,185)'}
-                onMouseLeave={e=>e.currentTarget.style.background=CD}>
-                <svg width={38} height={38} viewBox="0 0 40 40" fill="none"><path d="M8 32L32 8M32 8H14M32 8V26" stroke={L2} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </div>
-            </Tilt>
-          </div>
-
+        <div style={{display:'flex',flexDirection:'column',position:'relative',minHeight:0,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`}}>
           {/* LOGO + COPY — fixed z-index layering */}
-          <div style={{flex:1,display:'flex',flexDirection:'column',position:'relative'}}>
+          <div style={{flex:1,display:'flex',flexDirection:'column',position:'relative',minHeight:0}}>
             {/* 3D logo — BEHIND text (z:1), draggable */}
             <div style={{position:'absolute',right:-20,top:0,bottom:0,display:'flex',alignItems:'center',zIndex:1,pointerEvents:'none'}}>
               <img ref={logoRef} src="/assets/logo-3d.svg" alt=""
@@ -383,43 +390,26 @@ function Hero({tweaks}){
           </div>
         </div>
 
-        {/* RIGHT */}
-        <div className="rvr" style={{display:'flex',flexDirection:'column'}}>
-          <div style={{height:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`}}>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
-              <Lbl ch="Services"/>
-              <div className="hv" style={{width:20,height:20,borderRadius:5,background:'#000',display:'flex',alignItems:'center',justifyContent:'center',marginTop:-8,transition:'background .2s'}}
-                onMouseEnter={e=>e.currentTarget.style.background=L2} onMouseLeave={e=>e.currentTarget.style.background='#000'}>
-                <Arr sz={9} cl="#fff" sw={1.8}/>
-              </div>
-            </div>
-            {['AI Strategy & Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'].map((s,i)=>(
-              <div key={s} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)} style={{padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:hovSvc===i?'#000':'rgba(0,0,0,0.45)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'color .15s,padding-left .2s',paddingLeft:hovSvc===i?8:0}}>
-                {s}<span style={{opacity:.25,fontSize:9}}>0{i+1}</span>
-              </div>
-            ))}
+        <div className="rvr" style={{padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+          <div>
+            <Lbl ch="Collaborate"/>
+            <div style={{fontFamily:SN,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:24}}>Partner with us to build next-generation AI infrastructure for your business.</div>
+            <div className="ld" style={{height:1,background:PL,marginBottom:24}}/>
+            <Lbl ch="Contact"/>
+            <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing:'0.04em'}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
           </div>
-          <div style={{flex:1,padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-            <div>
-              <Lbl ch="Collaborate"/>
-              <div style={{fontFamily:SN,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:24}}>Partner with us to build next-generation AI infrastructure for your business.</div>
-              <div className="ld" style={{height:1,background:PL,marginBottom:24}}/>
-              <Lbl ch="Contact"/>
-              <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing:'0.04em'}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
-            </div>
-            <div>
-              <Lbl ch="Follow"/>
-              <div style={{display:'flex',gap:10}}>
-                {['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
-                  'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
-                  'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'].map((d,i)=>(
-                  <div key={i} className="hv" style={{width:34,height:34,borderRadius:8,background:CD,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s'}}
-                    onMouseEnter={e=>{e.currentTarget.style.background=L;e.currentTarget.style.transform='scale(1.15)rotate(-8deg)';}}
-                    onMouseLeave={e=>{e.currentTarget.style.background=CD;e.currentTarget.style.transform='scale(1)rotate(0)';}}>
-                    <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.65}><path d={d}/></svg>
-                  </div>
-                ))}
-              </div>
+          <div>
+            <Lbl ch="Follow"/>
+            <div style={{display:'flex',gap:10}}>
+              {['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
+                'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
+                'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'].map((d,i)=>(
+                <div key={i} className="hv" style={{width:34,height:34,borderRadius:8,background:CD,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s'}}
+                  onMouseEnter={e=>{e.currentTarget.style.background=L;e.currentTarget.style.transform='scale(1.15)rotate(-8deg)';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background=CD;e.currentTarget.style.transform='scale(1)rotate(0)';}}>
+                  <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.65}><path d={d}/></svg>
+                </div>
+              ))}
             </div>
           </div>
         </div>
