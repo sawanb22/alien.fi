@@ -1,0 +1,288 @@
+.consultancy-shell {
+  font-family: var(--font-azeret), "Azeret Mono", monospace;
+  background: rgb(243, 243, 255);
+  color: #000;
+  overflow-x: hidden;
+  cursor: none;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.consultancy-shell ::selection {
+  background: rgb(150, 238, 82);
+  color: #000;
+}
+
+.consultancy-shell a,
+.consultancy-shell button,
+.consultancy-shell [role="button"] {
+  cursor: none;
+}
+
+.consultancy-shell input,
+.consultancy-shell textarea,
+.consultancy-shell select {
+  font-family: var(--font-azeret), "Azeret Mono", monospace;
+}
+
+.consultancy-shell input::placeholder,
+.consultancy-shell textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consultancy-shell * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+#c-dot-consultancy {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgb(150, 238, 82);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  transition: width 0.18s, height 0.18s;
+}
+
+#c-ring-consultancy {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(150, 238, 82);
+  transform: translate(-50%, -50%);
+  opacity: 0.45;
+  transition:
+    width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s,
+    opacity 0.25s;
+}
+
+body.ch #c-dot-consultancy {
+  width: 4px;
+  height: 4px;
+  opacity: 0.3;
+}
+
+body.ch #c-ring-consultancy {
+  width: 52px;
+  height: 52px;
+  border-color: rgb(177, 238, 82);
+  opacity: 0.9;
+}
+
+body.cc #c-ring-consultancy {
+  width: 26px;
+  height: 26px;
+}
+
+/* Scroll-reveal helpers — match legacy shared/core.css ("disabled for reliability"). */
+.consultancy-shell .rv,
+.consultancy-shell .rvl,
+.consultancy-shell .rvr {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.consultancy-shell .d1 {
+  transition-delay: 0.09s !important;
+}
+.consultancy-shell .d2 {
+  transition-delay: 0.18s !important;
+}
+.consultancy-shell .d3 {
+  transition-delay: 0.27s !important;
+}
+.consultancy-shell .d4 {
+  transition-delay: 0.36s !important;
+}
+.consultancy-shell .d5 {
+  transition-delay: 0.45s !important;
+}
+.consultancy-shell .d6 {
+  transition-delay: 0.54s !important;
+}
+.consultancy-shell .d7 {
+  transition-delay: 0.63s !important;
+}
+.consultancy-shell .d8 {
+  transition-delay: 0.72s !important;
+}
+
+.consultancy-shell .ld {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.consultancy-shell .ld.in {
+  transform: scaleX(1);
+}
+
+@-webkit-keyframes consultancy-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes consultancy-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@-webkit-keyframes consultancy-scan {
+  0% {
+    top: 0;
+    opacity: 0.7;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes consultancy-scan {
+  0% {
+    top: 0;
+    opacity: 0.7;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes consultancy-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes consultancy-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes consultancy-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px rgba(150, 238, 82, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(150, 238, 82, 1));
+  }
+}
+
+@keyframes consultancy-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px rgba(150, 238, 82, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(150, 238, 82, 1));
+  }
+}
+
+@-webkit-keyframes consultancy-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -20px);
+  }
+}
+
+@keyframes consultancy-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -20px);
+  }
+}
+
+@-webkit-keyframes consultancy-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes consultancy-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@-webkit-keyframes consultancy-dotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes consultancy-dotPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes consultancy-pulseRing {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
