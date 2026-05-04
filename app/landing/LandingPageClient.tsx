@@ -278,7 +278,7 @@ function Hero({tweaks}){
       <div style={{display:'grid',gridTemplateColumns:`${CW}px 1fr ${CW}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
 
         {/* Row 1 — shared auto height so headline can grow on large screens */}
-        <div className="rvl" style={{minHeight:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
+        <div className="rvl" style={{minHeight:220,padding:'40px 18px 40px 28px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
           <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1}}/>
         </div>
         <div style={{minHeight:220,padding:'36px 52px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
@@ -299,7 +299,7 @@ function Hero({tweaks}){
             </div>
           </Tilt>
         </div>
-        <div className="rvr" style={{minHeight:220,padding:'40px 36px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
+        <div className="rvr" style={{minHeight:220,padding:'40px 28px 40px 18px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
             <Lbl ch="Services"/>
             <div className="hv" style={{width:20,height:20,borderRadius:5,background:'#000',display:'flex',alignItems:'center',justifyContent:'center',marginTop:-8,transition:'background .2s'}}
@@ -315,7 +315,7 @@ function Hero({tweaks}){
         </div>
 
         {/* Row 2 */}
-        <div className="rvl" style={{padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+        <div className="rvl" style={{padding:'36px 18px 36px 28px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
           <div>
             <Lbl ch="About"/>
             <div style={{fontFamily:SN,fontWeight:400,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:28}}>
@@ -386,7 +386,7 @@ function Hero({tweaks}){
           </div>
         </div>
 
-        <div className="rvr" style={{padding:'36px 36px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+        <div className="rvr" style={{padding:'36px 28px 36px 18px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
           <div>
             <Lbl ch="Collaborate"/>
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:24}}>Partner with us to build next-generation AI infrastructure for your business.</div>
