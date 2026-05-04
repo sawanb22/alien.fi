@@ -1,0 +1,184 @@
+/* Alien.fi — Color & Type tokens
+ * Sourced from /alien.fi-master/src/App.css and codebase styles. */
+
+/* Local brand fonts (uploaded by user). Google Fonts kept as offline fallback. */
+@font-face {
+  font-family: "Azeret Mono";
+  src: url("fonts/AzeretMono-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azeret Mono";
+  src: url("fonts/AzeretMono-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("fonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("fonts/Montserrat-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Color tokens ---------- */
+  /* Cool neutral surfaces */
+  --af-surface-50:  #F3F3FF;   /* lightest surface, gradient top */
+  --af-surface-100: #E0E2F1;   /* page surface, gradient bottom */
+  --af-surface-200: #E2E4F3;   /* hero center fill */
+  --af-surface-300: #C7C8D3;   /* primary frame background */
+  --af-surface-400: #E5E7F5;   /* row hover / divider tint */
+
+  /* Lime energy accents */
+  --af-accent:        #96EE52; /* structural accent, top-of-nav rule */
+  --af-accent-strong: #82d303; /* hover/active links, focus state */
+  --af-accent-soft:   #B1EE52; /* hover fill on cards */
+  --af-accent-grass:  greenyellow; /* legacy hover fill (matches code) */
+
+  /* Borders & ink */
+  --af-border:        #d9d9d9; /* default 1–2px border */
+  --af-border-strong: #00000082; /* icon-button border */
+  --af-rule:          #00000026; /* internal rule separator */
+  --af-ink:           #000000;
+  --af-ink-soft:      rgba(0,0,0,0.54); /* paragraph copy */
+  --af-ink-mute:      rgba(0,0,0,0.6);
+  --af-paper:         #FFFFFF;
+
+  /* Canonical surface gradient */
+  --af-bg-gradient: linear-gradient(178.37deg, #F3F3FF -59.77%, #E0E2F1 98.62%);
+  /* Codebase aliases (preserve original names) */
+  --bg:        #C7C8D3;
+  --bg2:       #96EE52;
+  --light:     var(--af-bg-gradient);
+  --brdc:      #d9d9d9;
+
+  /* ---------- Type families ---------- */
+  --af-font-mono:    "Azeret Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --af-font-display: "Montserrat", system-ui, sans-serif;
+  --mono:      var(--af-font-mono);       /* codebase alias */
+  --monstrate: var(--af-font-display);    /* codebase alias */
+
+  /* ---------- Type scale (lifted from home/about modules) ---------- */
+  --af-type-hero-size:       75px;
+  --af-type-hero-line:       91px;
+  --af-type-hero-weight:     300;
+  --af-type-h1-size:         35px;
+  --af-type-h1-line:         46.36px;
+  --af-type-h1-weight:       500;
+  --af-type-h3-size:         22px;
+  --af-type-h3-line:         25.52px;
+  --af-type-h3-weight:       500;
+  --af-type-body-size:       16px;
+  --af-type-body-line:       18.56px;
+  --af-type-body-weight:     500;
+  --af-type-meta-size:       14px;
+  --af-type-meta-line:       17.36px;
+  --af-type-caption-size:    12px;
+  --af-type-caption-line:    13.92px;
+  --af-tracking:             0.06em;     /* the brand-wide letter-spacing */
+  --af-tracking-tight:       -0.05em;    /* card titles / metadata */
+
+  /* ---------- Geometry ---------- */
+  --af-radius-sm:  8px;   /* icon buttons, checkboxes */
+  --af-radius-md: 20px;   /* cards, panels, frames */
+  --af-radius-lg: 25px;   /* hero accent ring */
+  --af-border-frame: 2px solid var(--af-border);
+  --af-border-card:  1px solid var(--af-border);
+  --af-border-rule:  1px solid var(--af-rule);
+
+  /* ---------- Motion ---------- */
+  --af-transition-fast:   .2s ease;
+  --af-transition-medium: .5s ease;
+}
+
+/* ---------- Semantic helpers ---------- */
+.af-page { background: var(--af-bg-gradient); color: var(--af-ink); font-family: var(--af-font-mono); }
+
+.af-display {
+  font-family: var(--af-font-mono);
+  font-weight: var(--af-type-hero-weight);
+  font-size: var(--af-type-hero-size);
+  line-height: var(--af-type-hero-line);
+  letter-spacing: var(--af-tracking);
+}
+.af-h1 {
+  font-family: var(--af-font-display);
+  font-weight: var(--af-type-h1-weight);
+  font-size: var(--af-type-h1-size);
+  line-height: var(--af-type-h1-line);
+  letter-spacing: var(--af-tracking);
+}
+.af-h3 {
+  font-family: var(--af-font-display);
+  font-weight: 500;
+  font-size: var(--af-type-h3-size);
+  line-height: var(--af-type-h3-line);
+  letter-spacing: var(--af-tracking);
+  text-transform: uppercase;
+  margin: 0;
+}
+.af-body {
+  font-family: var(--af-font-mono);
+  font-weight: 500;
+  font-size: var(--af-type-body-size);
+  line-height: var(--af-type-body-line);
+  letter-spacing: var(--af-tracking);
+  opacity: .54;
+  margin: 0;
+}
+.af-meta {
+  font-family: var(--af-font-mono);
+  font-weight: 500;
+  font-size: var(--af-type-meta-size);
+  line-height: var(--af-type-meta-line);
+  letter-spacing: var(--af-tracking-tight);
+}
+.af-caption {
+  font-family: var(--af-font-mono);
+  font-weight: 500;
+  font-size: var(--af-type-caption-size);
+  line-height: var(--af-type-caption-line);
+  letter-spacing: var(--af-tracking);
+  opacity: .5;
+}
+
+/* ---------- Component primitives ---------- */
+.af-frame  { background: var(--bg); border: var(--af-border-frame); border-top: none; border-bottom: none; }
+.af-panel  { background: var(--af-bg-gradient); border: var(--af-border-card); border-radius: var(--af-radius-md); }
+.af-rule   { border-top: var(--af-border-rule); }
+
+.af-iconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 23px; height: 23px; padding: 5px;
+  border: 1px solid var(--af-border-strong);
+  border-radius: var(--af-radius-sm);
+  background: transparent;
+  transition: var(--af-transition-medium);
+}
+.af-iconbtn svg { stroke: #000; }
+.af-iconbtn:hover { background: #000; }
+.af-iconbtn:hover svg { stroke: #fff; }
+
+.af-checkbox {
+  width: 18px; height: 18px;
+  border: 1px solid var(--af-border-strong);
+  border-radius: var(--af-radius-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+}
+.af-checkbox.is-on { background: var(--af-accent-strong); }
+
+/* Subtle interactive cell — used by nav items, list rows, info tiles */
+.af-cell { transition: var(--af-transition-medium); cursor: pointer; }
+.af-cell:hover { background: var(--af-accent-grass); }
