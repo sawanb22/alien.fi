@@ -568,16 +568,16 @@ function Services(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const svcs=[
-    {n:'01',t:'AI Strategy\n& Consulting',d:'AI readiness assessments, roadmap development, use case prioritization, and ROI modeling aligned with your business objectives.',tags:['Readiness Assessment','AI Roadmap','Use Case Discovery','ROI Modeling']},
-    {n:'02',t:'Custom AI\nDevelopment',d:'ML models, NLP applications, computer vision, predictive analytics, and conversational AI built for your exact requirements.',tags:['Machine Learning','NLP & LLMs','Computer Vision','Predictive Analytics']},
-    {n:'03',t:'Implementation\n& Integration',d:'System architecture, API development, cloud infrastructure (AWS/Azure/GCP), data pipelines, and legacy system integration.',tags:['Cloud Setup','API Development','Data Pipelines','Legacy Integration']},
-    {n:'04',t:'Managed AI\nServices',d:'24/7 monitoring, model retraining, security patches, compliance management, and continuous performance optimization.',tags:['24/7 Monitoring','Model Retraining','Compliance','Scaling']},
-    {n:'05',t:'Training &\nEnablement',d:'Executive workshops, technical training, change management, and documentation to build lasting internal AI capabilities.',tags:['Executive Workshops','Technical Training','Documentation','Change Mgmt']},
+    {n:'01',href:'/services#strategy-consulting',t:'AI Strategy\n& Consulting',d:'AI readiness assessments, roadmap development, use case prioritization, and ROI modeling aligned with your business objectives.',tags:['Readiness Assessment','AI Roadmap','Use Case Discovery','ROI Modeling']},
+    {n:'02',href:'/services#custom-ai-development',t:'Custom AI\nDevelopment',d:'ML models, NLP applications, computer vision, predictive analytics, and conversational AI built for your exact requirements.',tags:['Machine Learning','NLP & LLMs','Computer Vision','Predictive Analytics']},
+    {n:'03',href:'/services#implementation-integration',t:'Implementation\n& Integration',d:'System architecture, API development, cloud infrastructure (AWS/Azure/GCP), data pipelines, and legacy system integration.',tags:['Cloud Setup','API Development','Data Pipelines','Legacy Integration']},
+    {n:'04',href:'/services#managed-ai-services',t:'Managed AI\nServices',d:'24/7 monitoring, model retraining, security patches, compliance management, and continuous performance optimization.',tags:['24/7 Monitoring','Model Retraining','Compliance','Scaling']},
+    {n:'05',href:'/services#training-enablement',t:'Training &\nEnablement',d:'Executive workshops, technical training, change management, and documentation to build lasting internal AI capabilities.',tags:['Executive Workshops','Technical Training','Documentation','Change Mgmt']},
   ];
   return(
     <section id="services" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:2}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Lbl ch="What we do"/><Ttl ch="SERVICES"/></div>
+        <div className="rv"><Link href="/services" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="What we do"/></Link><Ttl ch="SERVICES"/></div>
         <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From first assessment to long-term partnership.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
@@ -586,17 +586,21 @@ function Services(){
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(160deg,rgb(228,244,210),${BG2})`:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .3s',height:'100%',boxShadow:hov===i?'inset 0 0 0 1.5px rgba(150,238,82,0.35)':'none'}}>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                 <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.12em',color:L2}}>{s.n}</span>
-                <div style={{width:20,height:20,borderRadius:5,background:hov===i?'#000':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)'}}>
+                <Link
+                  href={s.href}
+                  className="hv"
+                  style={{width:20,height:20,borderRadius:5,background:hov===i?'#000':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)',textDecoration:'none'}}
+                >
                   <Arr sz={8} cl={hov===i?'#fff':'rgba(0,0,0,0.4)'} sw={1.8}/>
-                </div>
+                </Link>
               </div>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing:'0.04em',lineHeight:1.45,whiteSpace:'pre-line'}}>{s.t}</div>
               <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(0,0,0,0.48)',flexGrow:1}}>{s.d}</div>
               <div style={{display:'flex',flexDirection:'column',gap:6}}>
                 {s.tags.map(t=>(
-                  <div key={t} style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing:'0.05em',color:'rgba(0,0,0,0.38)'}}>
+                  <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing:'0.05em',color:'rgba(0,0,0,0.38)',textDecoration:'none'}}>
                     <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .2s'}}/>{t}
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -707,11 +711,11 @@ function Industries(){
   return(
     <section id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48}}>
-        <div className="rv"><Lbl ch="Who we help"/><Ttl ch="INDUSTRIES"/></div>
+        <div className="rv"><Link href="/industries" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Who we help"/></Link><Ttl ch="INDUSTRIES"/></div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {list.map((ind,i)=>(
-          <div key={ind.name} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
+          <Link key={ind.name} href="/industries" className="hv" onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
             style={{background:hov===i?`linear-gradient(135deg,rgb(218,244,200),${BG2})`:`linear-gradient(135deg,${BG},${BG2})`,padding:'24px 28px',transition:'background .22s',position:'relative',zIndex:hov===i?2:1}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:hov===i?10:0}}>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing:'0.04em',color:hov===i?'#000':'rgba(0,0,0,0.72)',transition:'color .2s'}}>{ind.name}</div>
@@ -720,7 +724,7 @@ function Industries(){
               </div>
             </div>
             <div style={{fontFamily:SN,fontSize:11,lineHeight:1.6,color:'rgba(0,0,0,0.4)',maxHeight:hov===i?60:0,overflow:'hidden',transition:'max-height .32s ease,opacity .28s',opacity:hov===i?1:0}}>{ind.detail}</div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
@@ -742,7 +746,7 @@ function CaseStudy(){
     <section id="case-studies" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:6,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0'}}>
         <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
-          <div className="rv"><Lbl ch="Case study" lt/><Ttl ch="REAL RESULTS." lt/></div>
+          <div className="rv"><Link href="/case-studies" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Case study" lt/></Link><Ttl ch="REAL RESULTS." lt/></div>
           <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees.<br/>9-month AI transformation.</div>
         </div>
         <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
@@ -796,7 +800,7 @@ function Solutions(){
   return(
     <section id="solutions" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:7,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Lbl ch="Ready-to-deploy"/><Ttl ch="SOLUTIONS"/></div>
+        <div className="rv"><Link href="/solutions" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Ready-to-deploy"/></Link><Ttl ch="SOLUTIONS"/></div>
         <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:260,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
@@ -806,9 +810,9 @@ function Solutions(){
               <Chip ch={item.tag}/>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing:'0.04em',lineHeight:1.35}}>{item.t}</div>
               <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:'rgba(0,0,0,0.44)',flexGrow:1}}>{item.d}</div>
-              <div style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.06em',color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4}}>
+              <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.06em',color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4,textDecoration:'none'}}>
                 Learn more <Arr sz={8} cl={hov===i?L2:'rgba(0,0,0,0.3)'} sw={1.8}/>
-              </div>
+              </Link>
             </div>
           </Tilt>
         ))}
@@ -832,7 +836,7 @@ function EngagementModels(){
   return(
     <section id="engagements" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:8,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Lbl ch="How to work with us"/><Ttl ch="ENGAGEMENT MODELS"/></div>
+        <div className="rv"><Link href="/contact#about-you" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="How to work with us"/></Link><Ttl ch="ENGAGEMENT MODELS"/></div>
         <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From a sprint to a multi-year partnership.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
@@ -851,9 +855,9 @@ function EngagementModels(){
                 </div>
               ))}
             </div>
-            <div style={{display:'flex',alignItems:'center',gap:6,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.08em',textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',marginTop:4}}>
+            <Link href="/contact#about-you" className="hv" style={{display:'flex',alignItems:'center',gap:6,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.08em',textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',marginTop:4,textDecoration:'none'}}>
               Get started <Arr sz={9} cl={hov===i?L:'rgba(0,0,0,0.3)'} sw={1.8}/>
-            </div>
+            </Link>
           </div>
         ))}
       </div>
@@ -867,6 +871,42 @@ function CTA(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const [hovBtn,setHovBtn]=useState(false);
+  const [form,setForm]=useState({name:'',company:'',email:'',budget:'',project:''});
+  const [touched,setTouched]=useState({name:false,company:false,email:false,budget:false,project:false});
+  const [submitted,setSubmitted]=useState(false);
+  const [status,setStatus]=useState('');
+
+  const errors={
+    name:!form.name.trim()?'Full name is required.':!/^[A-Za-z][A-Za-z\s'.-]{1,59}$/.test(form.name.trim())?'Use letters only for name (no numbers).':'',
+    company:form.company.trim().length<2?'Company name is required.':'',
+    email:!form.email.trim()?'Work email is required.':!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())?'Enter a valid email format.':'',
+    budget:!form.budget.trim()?'Budget is required.':!/[0-9]/.test(form.budget)?'Budget should include a numeric range.':'',
+    project:form.project.trim().length<20?'Please add at least 20 characters about your project.':'',
+  };
+  const hasErrors=Object.values(errors).some(Boolean);
+  const showErr=(k)=>Boolean((submitted||touched[k])&&errors[k]);
+  const inp=(k,ph)=>(
+    <input
+      value={form[k]}
+      onChange={e=>setForm(v=>({...v,[k]:e.target.value}))}
+      onBlur={()=>setTouched(v=>({...v,[k]:true}))}
+      placeholder={ph}
+      className="hv"
+      style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr(k)?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing:'0.03em',transition:'border-color .2s'}}
+      onFocus={e=>e.target.style.borderColor=showErr(k)?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
+    />
+  );
+
+  const submit=(e)=>{
+    e.preventDefault();
+    setSubmitted(true);
+    setTouched({name:true,company:true,email:true,budget:true,project:true});
+    if(hasErrors){
+      setStatus('Please fix highlighted fields before sending.');
+      return;
+    }
+    setStatus('Looks good. Message is ready to send.');
+  };
   return(
     <section id="contact" style={{padding:`0 ${gv}px`,position:'relative',zIndex:9}}>
       <div className="rv" style={{background:DK,borderRadius:'20px 20px 0 0',padding:layout==='mobile'?`${Math.max(48,pv-12)}px ${sectionGutter(layout)+4}px`:layout==='tablet'?`${pv}px 36px`:`${pv}px 60px`,display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:layout==='mobile'?40:layout==='tablet'?48:80,alignItems:'start'}}>
@@ -882,27 +922,31 @@ function CTA(){
             ))}
           </div>
         </div>
-        <div style={{display:'flex',flexDirection:'column',gap:14}}>
+        <form onSubmit={submit} style={{display:'flex',flexDirection:'column',gap:14}}>
           <div style={{display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:12}}>
-            {[['Full name','Your name'],['Company','Company name'],['Email','you@company.com'],['Budget','$25K – $500K+']].map(([lb,ph])=>(
-              <div key={lb}>
+            {[['name','Full name','Your name'],['company','Company','Company name'],['email','Email','you@company.com'],['budget','Budget','$25K – $500K+']].map(([k,lb,ph])=>(
+              <div key={k}>
                 <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>{lb}</div>
-                <input placeholder={ph} className="hv" style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,outline:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing:'0.03em',transition:'border-color .2s'}}
-                  onFocus={e=>e.target.style.borderColor='rgba(150,238,82,0.5)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}/>
+                {inp(k,ph)}
+                {showErr(k)?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors[k]}</div>:null}
               </div>
             ))}
           </div>
           <div>
             <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>Tell us about your project</div>
-            <textarea rows={4} placeholder="What are you looking to build or improve?" className="hv" style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:8,outline:'none',resize:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing:'0.03em',transition:'border-color .2s'}}
-              onFocus={e=>e.target.style.borderColor='rgba(150,238,82,0.5)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.1)'}/>
+            <textarea rows={4} value={form.project} placeholder="What are you looking to build or improve?" className="hv" style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr('project')?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',resize:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing:'0.03em',transition:'border-color .2s'}}
+              onChange={e=>setForm(v=>({...v,project:e.target.value}))}
+              onFocus={e=>e.target.style.borderColor=showErr('project')?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
+              onBlur={()=>setTouched(v=>({...v,project:true}))}/>
+            {showErr('project')?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors.project}</div>:null}
           </div>
-          <button className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
+          {status?<div style={{fontFamily:SN,fontSize:12,color:hasErrors?'rgba(255,130,130,0.95)':'rgba(177,238,82,0.95)'}}>{status}</div>:null}
+          <button type="submit" className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
             onMouseMove={e=>window.magnet(e.currentTarget,e,.2)} onMouseOut={e=>window.magnetReset(e.currentTarget)}
             style={{background:hovBtn?L2:L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',cursor:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none'}}>
             Send message <Arr sz={11} cl="#000" sw={2.5}/>
           </button>
-        </div>
+        </form>
       </div>
     </section>
   );

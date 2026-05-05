@@ -27,6 +27,7 @@ import { useState } from "react";
 const SERVICES = [
   {
     n: "01",
+    anchor: "strategy-consulting",
     cat: "STRATEGY",
     t: "AI Strategy & Roadmap",
     d:
@@ -44,6 +45,7 @@ const SERVICES = [
   },
   {
     n: "02",
+    anchor: "custom-ai-development",
     cat: "BUILD",
     t: "Custom AI Development",
     d:
@@ -55,6 +57,7 @@ const SERVICES = [
   },
   {
     n: "03",
+    anchor: "implementation-integration",
     cat: "DEPLOY",
     t: "Implementation & Integration",
     d:
@@ -66,6 +69,7 @@ const SERVICES = [
   },
   {
     n: "04",
+    anchor: "managed-ai-services",
     cat: "OPERATE",
     t: "Managed AI Operations",
     d:
@@ -77,6 +81,7 @@ const SERVICES = [
   },
   {
     n: "05",
+    anchor: "training-enablement",
     cat: "ENABLE",
     t: "Training & Enablement",
     d:
@@ -88,6 +93,7 @@ const SERVICES = [
   },
   {
     n: "06",
+    anchor: "responsible-ai-governance",
     cat: "GOVERN",
     t: "Responsible AI & Governance",
     d:
@@ -146,6 +152,7 @@ function ServiceRow({
   const isOpen = open;
   return (
     <div
+      id={s.anchor}
       style={{
         borderBottom: `1px solid ${PL}`,
         background: isOpen ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : "transparent",

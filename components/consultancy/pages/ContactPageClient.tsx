@@ -170,7 +170,7 @@ function Form() {
         ))}
       </div>
       {step === 1 ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div id="about-you" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>About you</div>
             <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>So we route to the right solution lead.</div>
