@@ -4,8 +4,10 @@ import { civicaStateStudy } from "./civica-state";
 import { kestrelBankStudy } from "./kestrel-bank";
 import { lumenLegalStudy } from "./lumen-legal";
 import { northbayHealthStudy } from "./northbay-health";
+import { nimbusCommerceStudy } from "./nimbus-commerce";
 import { oakridgeIndustrialStudy } from "./oakridge-industrial";
 import { redlineLogisticsStudy } from "./redline-logistics";
+import { signalnorthCollectiveStudy } from "./signalnorth-collective";
 
 export type { CaseStudyTemplateData } from "./types";
 
@@ -15,6 +17,8 @@ export const CASE_STUDY_TEMPLATES: Record<string, CaseStudyTemplateData> = {
   "redline-logistics": redlineLogisticsStudy,
   "oakridge-industrial": oakridgeIndustrialStudy,
   "aurora-retail": auroraRetailStudy,
+  "nimbus-commerce": nimbusCommerceStudy,
+  "signalnorth-collective": signalnorthCollectiveStudy,
   "lumen-legal": lumenLegalStudy,
   "civica-state": civicaStateStudy,
 };

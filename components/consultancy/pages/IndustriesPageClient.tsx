@@ -20,123 +20,222 @@ import { useState } from "react";
 type Ind = {
   id: string;
   n: string;
+  industryLabel?: string;
   ic: string;
   engagements: number;
   clients: string[];
+  clientCount?: number;
   usecases: string[];
   highlight?: { v: string; l: string };
   color?: string;
   featured?: boolean;
+  cta1?: string;
 };
 
 const INDUSTRIES: Ind[] = [
   {
     id: "fin",
     n: "Financial Services",
+    industryLabel: "AI Solutions for Finance",
     ic: "$",
     engagements: 42,
+    clientCount: 6,
     clients: ["Kestrel Bank", "Atlas Capital", "Civica Credit Union"],
-    usecases: ["Real-time fraud scoring", "Credit underwriting AI", "AML transaction monitoring", "Wealth advisor copilots"],
-    highlight: { v: "$47M", l: "Fraud recovered · Kestrel Bank" },
+    usecases: [
+      "Fraud detection and AML monitoring",
+      "Credit risk scoring and loan underwriting AI",
+      "Algorithmic trading and portfolio risk systems",
+      "Customer churn prediction",
+    ],
+    highlight: { v: "$47M", l: "In fraud losses prevented · Regional bank" },
+    cta1: "Talk to a Financial Services Lead",
     color: L,
   },
   {
     id: "health",
     n: "Healthcare",
+    industryLabel: "AI in the Healthcare Industry",
     ic: "✚",
     engagements: 38,
+    clientCount: 5,
     clients: ["NorthBay Health", "Mercy Regional", "Ridgeline Pharma"],
-    usecases: ["EHR documentation copilots", "Imaging triage AI", "Clinical decision support", "Drug discovery pipelines"],
-    highlight: { v: "41%", l: "Less charting · NorthBay Health" },
+    usecases: [
+      "Ambient clinical documentation AI",
+      "Patient risk stratification and care gap identification",
+      "Prior authorization and payer denial automation",
+      "Appointment no-show prediction",
+    ],
+    highlight: { v: "41%", l: "Reduction in clinical admin time · Regional health network" },
+    cta1: "Talk to a Healthcare Lead",
     color: "rgb(255,170,170)",
   },
   {
     id: "ins",
     n: "Insurance",
+    industryLabel: "AI in Industry :- Insurance",
     ic: "⊡",
     engagements: 31,
+    clientCount: 3,
     clients: ["Meridian Insurance", "Fairway P&C", "Atlas Re"],
-    usecases: ["Claims automation", "SIU fraud detection", "Underwriting risk models", "Customer FNOL chatbots"],
+    usecases: [
+      "Claims automation",
+      "SIU fraud detection",
+      "Underwriting risk models",
+      "Customer FNOL chatbots",
+    ],
     highlight: { v: "62%", l: "Faster claims · Meridian" },
+    cta1: "Talk to an Insurance Lead",
     color: L,
     featured: true,
   },
   {
     id: "mfg",
     n: "Manufacturing",
+    industryLabel: "AI Solutions for Manufacturing",
     ic: "⚙",
-    engagements: 28,
+    engagements: 29,
+    clientCount: 4,
     clients: ["Oakridge Industrial", "Steele Auto", "Apex Components"],
-    usecases: ["Predictive maintenance", "CV quality control", "Supply-chain forecasting", "Energy optimization"],
-    highlight: { v: "34%", l: "Less downtime · Oakridge" },
+    usecases: [
+      "Predictive maintenance and downtime reduction",
+      "Computer vision quality control and defect detection",
+      "Production scheduling optimization",
+      "Supply chain demand forecasting",
+    ],
+    highlight: { v: "34%", l: "Reduction in unplanned downtime · Tier 1 manufacturer" },
+    cta1: "Talk to a Manufacturing Lead",
   },
   {
     id: "retail",
     n: "Retail & Commerce",
+    industryLabel: "AI in Industry :- Retail",
     ic: "◫",
-    engagements: 35,
+    engagements: 33,
+    clientCount: 5,
     clients: ["Aurora Retail", "Northwind Goods", "Bayside Brands"],
-    usecases: ["Personalization engines", "Demand forecasting", "Inventory optimization", "Conversational search"],
-    highlight: { v: "18%", l: "Conversion lift · Aurora" },
+    usecases: [
+      "Product recommendation and personalization engines",
+      "Dynamic pricing and markdown optimization",
+      "Inventory demand forecasting",
+      "Customer lifetime value prediction",
+    ],
+    highlight: { v: "18%", l: "Markdown reduction · National retailer" },
+    cta1: "Talk to a Retail Lead",
   },
   {
     id: "log",
     n: "Logistics",
+    industryLabel: "Vertical AI Solutions :- Logistics",
     ic: "⛟",
-    engagements: 22,
+    engagements: 32,
+    clientCount: 4,
     clients: ["Redline Logistics", "Pacific Freight", "Vector 3PL"],
-    usecases: ["Route optimization", "ETA prediction", "Yard management AI", "Carrier scoring"],
-    highlight: { v: "21%", l: "Fuel savings · Redline" },
+    usecases: [
+      "Route optimization AI",
+      "Last-mile delivery visibility and tracking",
+      "Warehouse automation and pick-and-pack AI",
+      "Carrier performance and delay analytics",
+    ],
+    highlight: { v: "21%", l: "Fuel cost reduction · National carrier" },
+    cta1: "Talk to a Logistics Lead",
   },
   {
     id: "gov",
     n: "Government",
+    industryLabel: "AI in Industry :- Government",
     ic: "⌂",
     engagements: 14,
+    clientCount: 3,
     clients: ["Civica State Agency", "Westport Municipality", "Federal Benefits Office"],
-    usecases: ["Benefits fraud detection", "Constituent service AI", "Procurement intelligence", "Public records search"],
-    highlight: { v: "$28M", l: "Recovered · Civica" },
+    usecases: [
+      "Citizen service automation and chatbots",
+      "Benefits fraud detection",
+      "Document processing and form automation",
+      "Workforce planning and procurement AI",
+    ],
+    highlight: { v: "$28M", l: "Annual savings · State agency" },
+    cta1: "Talk to a Government Lead",
   },
   {
     id: "legal",
     n: "Legal & Compliance",
+    industryLabel: "Vertical AI Solutions :- Legal",
     ic: "§",
     engagements: 19,
+    clientCount: 3,
     clients: ["Lumen Legal", "Steel & Vance", "Ironside Compliance"],
-    usecases: ["Contract review AI", "M&A diligence copilots", "Regulatory change tracking", "Privilege detection"],
-    highlight: { v: "82%", l: "Faster review · Lumen" },
+    usecases: [
+      "Contract analysis and review AI",
+      "Legal research and precedent automation",
+      "E-discovery and document extraction",
+      "Matter billing and utilization optimization",
+    ],
+    highlight: { v: "82%", l: "Research time reduction · AmLaw 200 firm" },
+    cta1: "Talk to a Legal Lead",
   },
   {
     id: "energy",
     n: "Energy & Utilities",
+    industryLabel: "AI in Industry :- Energy",
     ic: "◈",
     engagements: 11,
+    clientCount: 2,
     clients: ["Helix Energy", "Ridgepoint Utilities", "BlueGrid"],
-    usecases: ["Grid load forecasting", "Wellsite anomaly detection", "Customer churn models", "Carbon accounting AI"],
+    usecases: [
+      "Grid predictive maintenance",
+      "Energy consumption forecasting",
+      "Regulatory compliance monitoring AI",
+      "Asset performance optimization",
+    ],
+    cta1: "Talk to an Energy Lead",
   },
   {
     id: "edu",
     n: "Education",
+    industryLabel: "Vertical AI Solutions :- Education",
     ic: "⌘",
-    engagements: 9,
+    engagements: 8,
+    clientCount: 2,
     clients: ["Heritage University", "MapleNorth Schools", "EdNorth Group"],
-    usecases: ["Student-success ML", "Adaptive curriculum", "Admin chatbots", "Plagiarism detection"],
+    usecases: [
+      "Student retention and at-risk prediction",
+      "Personalized learning path AI",
+      "Administrative workflow automation",
+      "Enrollment demand forecasting",
+    ],
+    cta1: "Talk to an Education Lead",
   },
   {
     id: "media",
     n: "Media & Entertainment",
+    industryLabel: "AI in Industry :- Media",
     ic: "⏵",
     engagements: 13,
+    clientCount: 2,
     clients: ["Beacon Studios", "Loop Media", "Crescendo Audio"],
-    usecases: ["Content recommendation", "Rights management AI", "Generative production tools", "Audience forecasting"],
+    usecases: [
+      "Content recommendation engines",
+      "Subscriber churn prediction",
+      "Ad yield and programmatic optimization AI",
+      "Automated content tagging and metadata",
+    ],
+    cta1: "Talk to a Media Lead",
   },
   {
     id: "tele",
     n: "Telecom",
+    industryLabel: "Vertical AI Solutions :- Telecom",
     ic: "⌁",
-    engagements: 8,
+    engagements: 9,
+    clientCount: 2,
     clients: ["Northwave Telecom", "Pinnacle Mobile", "SignalCo"],
-    usecases: ["Network anomaly detection", "Churn prediction", "Field-service optimization", "Customer service AI"],
+    usecases: [
+      "Network anomaly detection AI",
+      "Customer churn prevention",
+      "Service desk and support automation",
+      "Infrastructure predictive maintenance",
+    ],
+    cta1: "Talk to a Telecom Lead",
   },
 ];
 
@@ -265,7 +364,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
             {ind.ic}
           </div>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 4 }}>INDUSTRY</div>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 4, textTransform: "uppercase" }}>{ind.industryLabel ?? "INDUSTRY"}</div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 24, color: "#fff", letterSpacing: "0.03em" }}>{ind.n}</div>
           </div>
         </div>
@@ -290,12 +389,12 @@ function DetailPanel({ ind }: { ind: Ind }) {
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>
               CLIENTS
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#fff", lineHeight: 1 }}>{ind.clients.length}+</div>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#fff", lineHeight: 1 }}>{ind.clientCount ?? ind.clients.length}+</div>
           </div>
         </div>
         <div style={{ marginBottom: 28 }}>
           <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
-            USE CASES WE'VE DEPLOYED
+            USE CASES DEPLOYED
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {ind.usecases.map((u) => (
@@ -355,12 +454,13 @@ function DetailPanel({ ind }: { ind: Ind }) {
             <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.06em", color: "#000", opacity: 0.7 }}>{ind.highlight.l}</div>
           </div>
         ) : null}
-        <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "stretch" }}>
           <Link
             href="/contact"
             className="hv"
             style={{
-              flex: 1,
+              flex: "1 1 240px",
+              minWidth: 0,
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
@@ -373,18 +473,21 @@ function DetailPanel({ ind }: { ind: Ind }) {
               fontFamily: MN,
               fontSize: 11,
               fontWeight: 700,
-              letterSpacing: "0.1em",
+              letterSpacing: "0.06em",
+              lineHeight: 1.3,
+              textAlign: "center",
               textTransform: "uppercase",
               cursor: "none",
               textDecoration: "none",
             }}
           >
-            Talk to a {ind.n.split(" ")[0]} lead <Arr sz={11} cl="#000" sw={2.4} />
+            {ind.cta1 ?? `Talk to a ${ind.n.split(" ")[0]} lead`} <Arr sz={11} cl="#000" sw={2.4} />
           </Link>
           <Link
             href="/case-studies"
             className="hv"
             style={{
+              flex: "0 1 auto",
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
@@ -397,10 +500,11 @@ function DetailPanel({ ind }: { ind: Ind }) {
               fontFamily: MN,
               fontSize: 11,
               fontWeight: 700,
-              letterSpacing: "0.1em",
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
               cursor: "none",
               textDecoration: "none",
+              whiteSpace: "nowrap",
             }}
           >
             Case studies →
@@ -430,11 +534,11 @@ function Selector() {
         }}
       >
         <div>
-          <Lbl ch="Twelve verticals · 270+ engagements" />
+          <Lbl ch="Vertical AI Solutions · 12 Industries · 270+ AI in Industry Engagements" />
           <Ttl ch="WHO WE SERVE" />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 320, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
-          Click any industry to see selected clients, our use-case repertoire, and signature outcomes.
+        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 360, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
+          Select an industry to explore our vertical AI solutions, deployed use cases, and client outcomes. Every panel reflects real AI in industry work, not template case studies.
         </div>
       </div>
       <div
@@ -464,20 +568,22 @@ function Methodology() {
     {
       h: "Vertical fluency",
       d:
-        "Every solution lead has 8+ years in the industry they cover. We learn your acronyms, your KPIs, and your regulatory landscape before week one.",
+        "Every AI in industry engagement at alien.fi is led by a specialist with 8+ years inside that sector. We know your KPIs, your compliance landscape, and your data realities before we propose a single solution. Vertical AI solutions only work when the team understands the vertical first.",
     },
     {
       h: "Bring-your-own-stack",
-      d: "We architect for your environment — not the other way around. Snowflake or Databricks, AWS or Azure, on-prem or hybrid. We adapt.",
+      d:
+        "Whether we are deploying AI solutions for finance teams on Snowflake, delivering AI solutions for manufacturing plants running on-prem, or supporting AI in the healthcare industry on Azure-hosted EHR environments :- we architect for your stack, not ours.",
     },
     {
       h: "Compliance-first design",
-      d: "HIPAA, SOC 2, ISO 27001, EU AI Act, FINRA — pick your acronym. Our discovery sprint surfaces compliance constraints in week one, not week ten.",
+      d:
+        "HIPAA, SOC 2, ISO 27001, EU AI Act, FINRA, FedRAMP :- every AI in industry deployment surfaces compliance constraints in week one. Governance is designed into the system architecture, not appended after delivery.",
     },
     {
       h: "Reference network",
       d:
-        "On request, we'll connect you with 3 peer-company executives who've worked with us in your industry. They take your call, not ours.",
+        "When evaluating vertical AI solutions, proof matters more than claims. On request, we connect you with three peer-company executives who have completed AI in industry engagements with alien.fi in your sector. Their experience, not our deck.",
     },
   ];
   return (
@@ -508,7 +614,7 @@ function Methodology() {
           }}
         >
           {
-            "Every vertical has a hidden grammar — what data exists, what regulators care about, where the bodies are buried. Generic AI shops miss it. We don't."
+            "Deploying AI in industry requires more than models :- it requires understanding what data exists in that sector, what regulators enforce, and where operations break down. Generic AI shops miss this layer entirely. We build it in from day one."
           }
         </div>
       </div>
@@ -539,23 +645,145 @@ function Methodology() {
   );
 }
 
+function Outcomes() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
+  const stats: { keyword: string; v: string; l: string }[] = [
+    {
+      keyword: "AI solutions for finance",
+      v: "$47M+",
+      l: "In fraud and loss prevented across AI solutions for finance engagements",
+    },
+    {
+      keyword: "AI in the healthcare industry",
+      v: "40%",
+      l: "Average admin time reduction through AI in the healthcare industry deployments",
+    },
+    {
+      keyword: "AI solutions for manufacturing",
+      v: "34%",
+      l: "Average unplanned downtime reduction via AI solutions for manufacturing clients",
+    },
+    {
+      keyword: "Vertical AI solutions",
+      v: "94%",
+      l: "Client retention rate across all vertical AI solutions engagements",
+    },
+  ];
+  return (
+    <section
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: `linear-gradient(180deg,${BG},${BG2})`,
+        position: "relative",
+        zIndex: 4,
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
+      }}
+    >
+      <div style={{ marginBottom: layout === "mobile" ? 28 : 40 }}>
+        <Lbl ch="AI in Industry :- Results Across Verticals" />
+        <Ttl ch="WHAT AI IN INDUSTRY DELIVERS." />
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 4, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
+      >
+        {stats.map((s) => (
+          <div
+            key={s.keyword}
+            style={{
+              background: `linear-gradient(160deg,${BG},${BG2})`,
+              padding: layout === "mobile" ? "26px 22px" : "32px 28px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+              minHeight: 180,
+            }}
+          >
+            <div
+              style={{
+                fontFamily: MN,
+                fontWeight: 700,
+                fontSize: 9,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: L2,
+              }}
+            >
+              {s.keyword}
+            </div>
+            <div
+              style={{
+                fontFamily: MN,
+                fontWeight: 700,
+                fontSize: "clamp(34px,3.4vw,52px)",
+                letterSpacing: "0.02em",
+                color: "#000",
+                lineHeight: 1,
+              }}
+            >
+              {s.v}
+            </div>
+            <div
+              style={{
+                fontFamily: SN,
+                fontSize: 12.5,
+                lineHeight: 1.6,
+                color: "rgba(0,0,0,0.5)",
+              }}
+            >
+              {s.l}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function IndustriesPageClient() {
   return (
     <ConsultancyLoadedShell label="INDUSTRIES">
       <Nav current="Industries" />
       <PageHero
-        eyebrow="Industries"
-        title="TWELVE|VERTICALS.|DEEP BENCH."
-        sub="Eight years of operational depth across regulated, complex industries. Solution leads with 8+ years of vertical experience own every engagement."
+        eyebrow="AI in Industry :- 12 Verticals"
+        title="AI IN INDUSTRY.|TWELVE VERTICALS.|DEEP BENCH."
+        sub="alien.fi delivers specialized AI in industry engagements across twelve regulated, operationally complex verticals. Every project is led by sector specialists with 8+ years of vertical experience, not generalists, so your AI investment reaches production with the right domain context from day one."
         meta={[["Verticals served", "12"], ["Engagements", "270+"], ["Repeat clients", "94%"], ["Avg vertical tenure", "11 yrs"]]}
-        accent="Adding Aerospace + Agritech in Q3"
+        accent="Discuss your vertical →"
       />
-      <Ticker words={["Banking", "Healthcare", "Insurance", "Manufacturing", "Retail", "Logistics", "Government", "Legal", "Energy", "Education", "Media", "Telecom"]} />
+      <Ticker
+        words={[
+          "Healthcare",
+          "Insurance",
+          "Manufacturing",
+          "Retail",
+          "Logistics",
+          "Government",
+          "Legal",
+          "Energy",
+          "Education",
+          "Media",
+          "Telecom",
+          "Financial Services",
+        ]}
+      />
       <Selector />
       <Methodology />
+      <Outcomes />
       <CTAStrip
         title="WHICH VERTICAL'S YOURS?"
-        sub="Tell us your industry. We'll send 3 case studies, peer-company references, and a vertical-specific playbook."
+        sub="Tell us your industry. We'll send three relevant AI in industry case studies, peer-company references from your sector, and a vertical AI solutions playbook built around your data environment, compliance requirements, and ROI benchmarks."
+        cta="Start A Project"
       />
       <Footer />
     </ConsultancyLoadedShell>

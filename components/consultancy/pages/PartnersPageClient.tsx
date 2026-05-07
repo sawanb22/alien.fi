@@ -2,16 +2,66 @@
 
 import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
-import { Arr, Chip, CTAStrip, Footer, Lbl, Nav, Tilt, Ttl } from "@/components/consultancy/consultancy-ui";
+import { Arr, Chip, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
-import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { BG, BG2, DK, L, PL } from "@/lib/consultancy/theme";
 
-const TIERS = [
-  { tier: "STRATEGIC", color: L, parts: [{ n: "Anthropic", cat: "Foundation Models", d: "Claude across our copilots. Joint solution architecture for regulated verticals." }, { n: "OpenAI", cat: "Foundation Models", d: "GPT-4/5 deployments at enterprise tier. Co-architecture on private-tenant rollouts." }, { n: "Snowflake", cat: "Data Cloud", d: "Snowflake-native deployments. Powered By Snowflake partner. Cortex co-architecture." }, { n: "Databricks", cat: "Lakehouse", d: "Mosaic AI deployments. Brickbuilder Solutions partner." }] },
-  { tier: "TECHNOLOGY", color: L2, parts: [{ n: "AWS", cat: "Cloud", d: "Advanced Tier · ML Competency · Generative AI Competency" }, { n: "Microsoft Azure", cat: "Cloud", d: "Solutions Partner for Data & AI · OpenAI Service co-sell" }, { n: "Google Cloud", cat: "Cloud", d: "Premier Partner · Generative AI Specialization" }, { n: "NVIDIA", cat: "Compute", d: "Solution Provider · Inception alumni" }, { n: "Hugging Face", cat: "Models & Data", d: "Enterprise Hub partner" }, { n: "Pinecone", cat: "Vector DB", d: "Solution partner" }, { n: "MongoDB", cat: "Data", d: "Strategic SI partner" }, { n: "Confluent", cat: "Streaming", d: "Premier SI partner" }] },
-  { tier: "INDUSTRY & ECOSYSTEM", color: "rgb(255,170,170)", parts: [{ n: "Epic", cat: "Healthcare EHR", d: "App Orchard partner. AlienCare integration certified." }, { n: "Salesforce", cat: "CRM", d: "Crest Consulting Partner · Einstein expert" }, { n: "HubSpot", cat: "CRM", d: "Solutions Partner · Diamond Tier" }, { n: "Workday", cat: "HCM", d: "Innovation Partner" }, { n: "iManage", cat: "Legal DM", d: "Premier partner - Lumen Legal integration" }, { n: "Stripe", cat: "Fintech", d: "Verified Partner · Risk Suite SI" }] },
-  { tier: "ADVISORY & RESEARCH", color: "rgb(180,200,255)", parts: [{ n: "Stanford HAI", cat: "Research Affiliate", d: "Joint research on responsible deployment patterns." }, { n: "MIT CSAIL", cat: "Research Affiliate", d: "Visiting industry collaborator program." }, { n: "Future of Privacy Forum", cat: "Policy", d: "Member · authored 2024 vendor due-diligence framework." }, { n: "Partnership on AI", cat: "Industry", d: "Founding member of safety working group." }] },
+const METRICS = [
+  { metric: "22", label: "Active alliances", sub: "Across cloud, data, and industry" },
+  { metric: "4", label: "Partnership tiers", sub: "Strategic to advisory" },
+  { metric: "11", label: "Platform categories", sub: "Models, cloud, data, enterprise" },
+  { metric: "2026", label: "5 new partners added", sub: "This year so far" },
+];
+
+const PARTNER_TIERS = [
+  {
+    tier: "Tier 01 - Strategic",
+    desc: "Our deepest technical alliances with model and data infrastructure providers. These partnerships inform architecture decisions on regulated and high-scale deployments.",
+  },
+  {
+    tier: "Tier 02 - Technology",
+    desc: "Cloud, compute, vector database, and data infrastructure partners that support implementation, deployment, and scaling across client environments.",
+  },
+  {
+    tier: "Tier 03 - Industry",
+    desc: "Enterprise software and workflow ecosystem partners that help us integrate AI into business systems our clients already use every day.",
+  },
+  {
+    tier: "Tier 04 - Advisory",
+    desc: "Research and policy organizations that help us stay current on responsible AI, governance, safety, and deployment best practices.",
+  },
+];
+
+const ALLIANCE_GRID = [
+  { partner: "Anthropic", category: "Foundation models", role: "Claude across copilots and agents" },
+  { partner: "OpenAI", category: "Foundation models", role: "Enterprise LLM deployments" },
+  { partner: "Snowflake", category: "Data cloud", role: "Snowflake native AI architecture" },
+  { partner: "Databricks", category: "Lakehouse", role: "Data and model pipelines" },
+  { partner: "AWS", category: "Cloud", role: "Primary cloud deployment partner" },
+  { partner: "Microsoft Azure", category: "Cloud", role: "Enterprise AI and co-sell" },
+  { partner: "Google Cloud", category: "Cloud", role: "Generative AI and data workloads" },
+  { partner: "NVIDIA", category: "Compute", role: "GPU and inference infrastructure" },
+  { partner: "Hugging Face", category: "Models and data", role: "Model hosting and orchestration" },
+  { partner: "Pinecone", category: "Vector DB", role: "Retrieval infrastructure" },
+  { partner: "MongoDB", category: "Data", role: "Application data layer" },
+  { partner: "Confluent", category: "Streaming", role: "Real-time event pipelines" },
+];
+
+const INDUSTRY_PARTNERS = [
+  { partner: "Epic", category: "Healthcare EHR", role: "Clinical integration partner" },
+  { partner: "Salesforce", category: "CRM", role: "Sales and service workflows" },
+  { partner: "HubSpot", category: "CRM", role: "Marketing and pipeline systems" },
+  { partner: "Workday", category: "HCM", role: "HR and people operations" },
+  { partner: "iManage", category: "Legal DMS", role: "Document and matter management" },
+  { partner: "Stripe", category: "Fintech", role: "Payments and billing workflows" },
+];
+
+const ADVISORY_PARTNERS = [
+  { partner: "Stanford HAI", category: "Research affiliate", role: "Responsible deployment patterns" },
+  { partner: "MIT CSAIL", category: "Research affiliate", role: "Technical research exchange" },
+  { partner: "Future of Privacy Forum", category: "Policy", role: "Data and privacy guidance" },
+  { partner: "Partnership on AI", category: "Industry", role: "Safety and governance collaboration" },
 ];
 
 function Hero() {
@@ -33,8 +83,9 @@ function Hero() {
                 <span style={{ color: "#000" }}>Partners</span>
               </div>
               <Lbl ch="The bench we build with" />
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, color: "#000", lineHeight: 1.5, marginBottom: 14 }}>22 active alliances.</div>
-              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>We stay vendor-neutral on architecture but deep with the platforms our clients run on.</div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>
+                We stay vendor-neutral, but our architecture goes deep with the platforms our clients rely on. 22 active alliances across cloud, data, models, and industry ecosystems help us design faster, integrate cleaner, and keep your options open as your stack evolves.
+              </div>
             </div>
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -44,9 +95,14 @@ function Hero() {
               <div style={{ fontWeight: 500 }}>PLATFORM-DEEP.</div>
               <div style={{ fontWeight: 700, color: DK }}>NEVER LOCKED-IN.</div>
             </div>
-            <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: L, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", alignSelf: "flex-start" }}>
-              Become a partner <Arr sz={10} cl={L} sw={2.4} />
-            </Link>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: L, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
+                Become a partner <Arr sz={10} cl={L} sw={2.4} />
+              </Link>
+              <a href="#alliance-tiers" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: DK, borderRadius: 24, padding: "14px 20px", border: `1px solid ${PL}`, fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
+                See alliance tiers
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -54,21 +110,17 @@ function Hero() {
   );
 }
 
-function PartnerCard({ n, color, dark }: { n: any; color: string; dark: boolean }) {
+function TrioGrid({ items, dark }: { items: { partner: string; category: string; role: string }[]; dark?: boolean }) {
   return (
-    <Tilt
-      int={4}
-      ch={
-        <div style={{ background: dark ? "rgba(255,255,255,0.04)" : `linear-gradient(160deg,${BG},${BG2})`, border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`, borderRadius: 14, padding: "24px 22px", height: "100%", display: "flex", flexDirection: "column", gap: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ width: 38, height: 38, borderRadius: 10, background: color, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontWeight: 700, fontSize: 14, color: "#000" }}>{n.n.split(" ").map((w: string) => w[0]).join("").slice(0, 2)}</div>
-            <div style={{ fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.1em", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", textTransform: "uppercase" }}>{n.cat}</div>
-          </div>
-          <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: dark ? "#fff" : "#000" }}>{n.n}</div>
-          <div style={{ fontFamily: SN, fontSize: 12, lineHeight: 1.6, color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>{n.d}</div>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
+      {items.map((item) => (
+        <div key={item.partner} style={{ background: dark ? "rgba(255,255,255,0.04)" : `linear-gradient(160deg,${BG},${BG2})`, border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`, borderRadius: 14, padding: "18px 16px", display: "grid", gridTemplateColumns: "1.2fr 1fr 1.6fr", gap: 12 }}>
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: dark ? "#fff" : "#000" }}>{item.partner}</div>
+          <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: dark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)" }}>{item.category}</div>
+          <div style={{ fontFamily: SN, fontSize: 12, lineHeight: 1.6, color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>{item.role}</div>
         </div>
-      }
-    />
+      ))}
+    </div>
   );
 }
 
@@ -80,25 +132,52 @@ export default function PartnersPageClient() {
     <ConsultancyLoadedShell label="PARTNERS">
       <Nav current="Services" />
       <Hero />
-      {TIERS.map((t, i) => {
-        const dark = i % 2 === 0;
-        const bg = dark ? DK : `linear-gradient(180deg,${BG2},${BG})`;
-        return (
-          <section key={t.tier} style={{ padding: `${pv}px ${gv}px`, background: bg, position: "relative", zIndex: 2 + i, borderRadius: i === 0 ? undefined : "24px 24px 0 0", marginTop: i === 0 ? 0 : -24 }}>
-            <div style={{ marginBottom: 36, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
-              <div><Lbl ch={`Tier 0${i + 1}`} lt={dark} /><Ttl ch={t.tier} lt={dark} /></div>
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: t.color }} />
-                <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" }}>{t.parts.length} partners</span>
-              </div>
+      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>
+          {METRICS.map((m) => (
+            <div key={m.label} style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "18px 16px", background: "rgba(255,255,255,0.03)" }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 22, color: "#fff", marginBottom: 8 }}>{m.metric}</div>
+              <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>{m.label}</div>
+              <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{m.sub}</div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>
-              {t.parts.map((p: any) => <PartnerCard key={p.n} n={p} color={t.color} dark={dark} />)}
+          ))}
+        </div>
+      </section>
+      <section id="alliance-tiers" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+        <div style={{ marginBottom: 36 }}><Lbl ch="How we work" /><Ttl ch="PARTNER ECOSYSTEM." /></div>
+        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 14 }}>
+          {PARTNER_TIERS.map((tier) => (
+            <div key={tier.tier} style={{ border: `1px solid ${PL}`, borderRadius: 14, background: "#fff", padding: "20px 18px" }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>{tier.tier}</div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.6)" }}>{tier.desc}</div>
             </div>
-          </section>
-        );
-      })}
-      <CTAStrip title="THE BENCH GROWS WHEN OUR CLIENTS NEED IT TO." sub="If you're building something we should integrate with - talk to us. We've onboarded 5 new partners in 2026." />
+          ))}
+        </div>
+      </section>
+      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+        <div style={{ marginBottom: 26 }}><Lbl ch="Strategic and technical" lt /><Ttl ch="PLATFORM PARTNERS." lt /></div>
+        <TrioGrid items={ALLIANCE_GRID} dark />
+      </section>
+      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+        <div style={{ marginBottom: 26 }}><Lbl ch="Enterprise systems" /><Ttl ch="BUSINESS ECOSYSTEM." /></div>
+        <TrioGrid items={INDUSTRY_PARTNERS} />
+      </section>
+      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 6, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+        <div style={{ marginBottom: 26 }}><Lbl ch="Research and policy" lt /><Ttl ch="ADVISORY AND RESEARCH." lt /></div>
+        <TrioGrid items={ADVISORY_PARTNERS} dark />
+      </section>
+      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 7, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+        <div style={{ marginBottom: 18 }}><Lbl ch="Why it matters" /><Ttl ch="BUILT TO INTEGRATE." /></div>
+        <div style={{ maxWidth: 980, fontFamily: SN, fontSize: 14, lineHeight: 1.8, color: "rgba(0,0,0,0.65)" }}>
+          <p style={{ marginTop: 0, marginBottom: 16 }}>
+            Our partnerships are not logo collecting. They help us choose the right stack for each client, negotiate better support, and implement AI with fewer dead ends. That means faster delivery, cleaner architecture, and less lock-in for your team.
+          </p>
+          <p style={{ margin: 0 }}>
+            We are vendor-neutral in principle and platform-deep in practice. Clients get a solution designed around business outcomes, not around whatever stack happens to be easiest to sell.
+          </p>
+        </div>
+      </section>
+      <CTAStrip title="THE BENCH GROWS|WHEN OUR CLIENTS|NEED IT TO." sub="If you are building something we should integrate with, talk to us. We onboarded 5 new partners in 2026 and are open to ecosystem conversations that help clients ship faster." cta="Start a project" />
       <Footer />
     </ConsultancyLoadedShell>
   );

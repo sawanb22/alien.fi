@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type MouseEventHandler,
   type ReactNode,
 } from "react";
@@ -636,20 +637,64 @@ export function CTAStrip({
   sub = "Tell us about your project. We respond within 24 hours.",
   cta = "Start a project",
   href = "/contact",
+  ctaUppercase = true,
 }: {
   title?: string;
   sub?: string;
   cta?: string;
   href?: string;
+  /** When false, button label keeps original casing (e.g. "Start a Project ↗"). */
+  ctaUppercase?: boolean;
 }) {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const [hov, setHov] = useState(false);
+  const titlePipe = title.includes("|");
+  const pipeSegs = titlePipe
+    ? title
+        .split("|")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : [];
   const parts = title.trim().split(/\s+/).filter(Boolean);
   const rest = parts.slice(0, -1).join(" ");
   const last =
     parts.length > 0 ? (parts[parts.length - 1] ?? "") : title;
+  const titleBlock = titlePipe && pipeSegs.length >= 2 ? (
+    <div
+      style={{
+        fontFamily: MN,
+        fontWeight: 700,
+        fontSize: "clamp(36px,3.6vw,56px)",
+        letterSpacing: "0.04em",
+        lineHeight: 1.05,
+        color: "#fff",
+        marginBottom: 18,
+      }}
+    >
+      {pipeSegs.slice(0, -1).map((seg, i) => (
+        <div key={i}>{seg}</div>
+      ))}
+      <div style={{ color: L }}>{pipeSegs[pipeSegs.length - 1]}</div>
+    </div>
+  ) : (
+    <div
+      style={{
+        fontFamily: MN,
+        fontWeight: 700,
+        fontSize: "clamp(36px,3.6vw,56px)",
+        letterSpacing: "0.04em",
+        lineHeight: 1.0,
+        color: "#fff",
+        marginBottom: 18,
+      }}
+    >
+      {rest}
+      {rest ? " " : ""}
+      <span style={{ color: L }}>{last}</span>
+    </div>
+  );
   return (
     <section style={{ padding: layout === "desktop" ? `60px ${gv}px 0` : `48px ${gv}px 0`, position: "relative", zIndex: 9 }}>
       <div
@@ -686,21 +731,7 @@ export function CTAStrip({
         />
         <div style={{ position: "relative" }}>
           <Lbl ch="Let's build together" lt />
-          <div
-            style={{
-              fontFamily: MN,
-              fontWeight: 700,
-              fontSize: "clamp(36px,3.6vw,56px)",
-              letterSpacing: "0.04em",
-              lineHeight: 1.0,
-              color: "#fff",
-              marginBottom: 18,
-            }}
-          >
-            {rest}
-            {rest ? " " : ""}
-            <span style={{ color: L }}>{last}</span>
-          </div>
+          {titleBlock}
           <div
             style={{
               fontFamily: SN,
@@ -720,41 +751,79 @@ export function CTAStrip({
             position: "relative",
           }}
         >
-          <Link
-            href={href}
-            className="hv"
-            onMouseEnter={() => setHov(true)}
-            onMouseLeave={(e) => {
-              setHov(false);
-              window.magnetReset?.(e.currentTarget);
-            }}
-            onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
-            style={{
-              background: hov ? L2 : L,
-              color: "#000",
-              border: "none",
-              borderRadius: 14,
-              padding: layout === "mobile" ? "18px 28px" : "24px 40px",
-              fontFamily: MN,
-              fontWeight: 700,
-              fontSize: 14,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              cursor: layout === "desktop" ? "none" : "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 14,
-              transition: "background .2s,transform .15s",
-              textDecoration: "none",
-              width: layout === "desktop" ? "auto" : "100%",
-              boxShadow: hov
-                ? `0 12px 40px ${L}66`
-                : "0 4px 16px rgba(0,0,0,0.3)",
-            }}
-          >
-            {cta} <Arr sz={14} cl="#000" sw={2.5} />
-          </Link>
+          {href.startsWith("mailto:") ? (
+            <a
+              href={href}
+              className="hv"
+              onMouseEnter={() => setHov(true)}
+              onMouseLeave={(e) => {
+                setHov(false);
+                window.magnetReset?.(e.currentTarget);
+              }}
+              onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
+              style={{
+                background: hov ? L2 : L,
+                color: "#000",
+                border: "none",
+                borderRadius: 14,
+                padding: layout === "mobile" ? "18px 28px" : "24px 40px",
+                fontFamily: MN,
+                fontWeight: 700,
+                fontSize: 14,
+                letterSpacing: "0.08em",
+                textTransform: ctaUppercase ? "uppercase" : "none",
+                cursor: layout === "desktop" ? "none" : "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 14,
+                transition: "background .2s,transform .15s",
+                textDecoration: "none",
+                width: layout === "desktop" ? "auto" : "100%",
+                boxShadow: hov
+                  ? `0 12px 40px ${L}66`
+                  : "0 4px 16px rgba(0,0,0,0.3)",
+              }}
+            >
+              {cta} <Arr sz={14} cl="#000" sw={2.5} />
+            </a>
+          ) : (
+            <Link
+              href={href}
+              className="hv"
+              onMouseEnter={() => setHov(true)}
+              onMouseLeave={(e) => {
+                setHov(false);
+                window.magnetReset?.(e.currentTarget);
+              }}
+              onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
+              style={{
+                background: hov ? L2 : L,
+                color: "#000",
+                border: "none",
+                borderRadius: 14,
+                padding: layout === "mobile" ? "18px 28px" : "24px 40px",
+                fontFamily: MN,
+                fontWeight: 700,
+                fontSize: 14,
+                letterSpacing: "0.08em",
+                textTransform: ctaUppercase ? "uppercase" : "none",
+                cursor: layout === "desktop" ? "none" : "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 14,
+                transition: "background .2s,transform .15s",
+                textDecoration: "none",
+                width: layout === "desktop" ? "auto" : "100%",
+                boxShadow: hov
+                  ? `0 12px 40px ${L}66`
+                  : "0 4px 16px rgba(0,0,0,0.3)",
+              }}
+            >
+              {cta} <Arr sz={14} cl="#000" sw={2.5} />
+            </Link>
+          )}
         </div>
       </div>
     </section>
@@ -969,12 +1038,14 @@ export function PageHero({
   sub,
   meta,
   accent,
+  accentHref,
 }: {
   eyebrow: string;
   title: string;
   sub: string;
   meta?: [string, string][];
   accent?: string;
+  accentHref?: string;
 }) {
   const layout = useLandingLayout();
   const g = sectionGutter(layout);
@@ -1015,6 +1086,35 @@ export function PageHero({
       ))}
     </div>
   );
+
+  const accentInner = accent ? (
+    <>
+      <div
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: "50%",
+          background: L2,
+          animation: "consultancy-dotPulse 1.8s ease-in-out infinite",
+          flexShrink: 0,
+        }}
+      />
+      {accent}
+    </>
+  ) : null;
+
+  const accentRowStyle: CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    fontFamily: MN,
+    fontSize: 10,
+    fontWeight: 600,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: L2,
+    textDecoration: "none",
+  };
 
   if (layout !== "desktop") {
     return (
@@ -1061,7 +1161,7 @@ export function PageHero({
             {titleBlock}
             {(meta?.length ?? 0) > 0 ? (
               <div style={{ marginTop: layout === "mobile" ? 28 : 36 }}>
-                <Lbl ch="Quick facts" />
+                <Lbl ch="Quick Facts" />
                 {(meta ?? []).map((m, i) => (
                   <div
                     key={i}
@@ -1086,32 +1186,16 @@ export function PageHero({
                 ))}
               </div>
             ) : null}
-            {accent ? (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontFamily: MN,
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: L2,
-                  marginTop: 28,
-                }}
+            {accent && accentHref ? (
+              <a
+                href={accentHref}
+                className="hv"
+                style={{ ...accentRowStyle, marginTop: 28 }}
               >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: L2,
-                    animation: "consultancy-dotPulse 1.8s ease-in-out infinite",
-                  }}
-                />
-                {accent}
-              </div>
+                {accentInner}
+              </a>
+            ) : accent ? (
+              <div style={{ ...accentRowStyle, marginTop: 28 }}>{accentInner}</div>
             ) : null}
           </div>
         </div>
@@ -1269,7 +1353,7 @@ export function PageHero({
           }}
         >
           <div>
-            <Lbl ch="Quick facts" />
+            <Lbl ch="Quick Facts" />
             {(meta ?? []).map((m, i) => (
               <div
                 key={i}
@@ -1312,31 +1396,12 @@ export function PageHero({
               </div>
             ))}
           </div>
-          {accent ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                fontFamily: MN,
-                fontSize: 10,
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: L2,
-              }}
-            >
-              <div
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: L2,
-                  animation: "consultancy-dotPulse 1.8s ease-in-out infinite",
-                }}
-              />
-              {accent}
-            </div>
+          {accent && accentHref ? (
+            <a href={accentHref} className="hv" style={accentRowStyle}>
+              {accentInner}
+            </a>
+          ) : accent ? (
+            <div style={accentRowStyle}>{accentInner}</div>
           ) : null}
         </div>
       </div>

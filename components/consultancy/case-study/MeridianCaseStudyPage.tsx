@@ -78,9 +78,9 @@ function StudyHero() {
               {(
                 [
                   ["Industry", "Insurance · P&C"],
-                  ["Engagement", "Strategy + Custom + Managed"],
+                  ["Engagement", "Strategy · Custom · Managed"],
                   ["Duration", "9 months · ongoing"],
-                  ["Team", "6 alien.fi · 4 client"],
+                  ["Team", "6 alien.fi, 4 client"],
                   ["Stack", "Python · PyTorch · AWS · Snowflake"],
                 ] as const
               ).map(([k, v]) => (
@@ -94,7 +94,10 @@ function StudyHero() {
             </div>
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
-            <Chip ch="Featured Case Study" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
+            <Chip ch="Featured case study" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
+            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(18px,1.5vw,22px)", lineHeight: 1.1, color: "rgba(255,255,255,0.72)", letterSpacing: "0.06em", marginBottom: 16 }}>
+              AI FOR INSURANCE COMPANIES:
+            </div>
             <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
               HOW WE CUT
             </div>
@@ -121,7 +124,7 @@ function StudyHero() {
               BY 62%.
             </div>
             <div className="rv d3" style={{ fontFamily: SN, fontSize: stacked ? 15 : 16, lineHeight: 1.7, color: "rgba(255,255,255,0.55)", maxWidth: 620 }}>
-              A 9-month transformation that automated routine claims, deployed real-time fraud ML, and saved $3.2M in fraud losses while lifting CSAT 38 points.
+              This insurance AI solutions engagement transformed Meridian’s claims operation in nine months. We automated routine claims handling, deployed real-time AI fraud detection insurance models, and unified siloed data, cutting claim cycle time by 62%, reducing fraud losses by $3.2M a year, and lifting CSAT by 38 points.
             </div>
           </div>
         </div>
@@ -134,10 +137,10 @@ function MetricsBar() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const m = [
-    { v: "62%", l: "Faster claims", sub: "14 days → 5.3 days" },
+    { v: "62%", l: "Faster claims", sub: "Avg days → 5.3 days (–13 days)" },
     { v: "$3.2M", l: "Fraud loss reduction", sub: "In year one" },
     { v: "+38", l: "CSAT points", sub: "NPS +24 net change" },
-    { v: "3.1×", l: "First-year ROI", sub: "Payback in 5.8 months" },
+    { v: "3.1x", l: "First-year ROI", sub: "Payback in 8 months" },
   ];
   return (
     <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
@@ -208,10 +211,7 @@ function Challenge() {
         </div>
         <div className="rv d1" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <p style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.8, color: "rgba(0,0,0,0.7)" }}>
-            Meridian's claims operation was buried. Average claim took 14 days to close. Adjusters spent 60% of their day re-keying data from PDFs into legacy systems. Fraud losses were creeping up year over year — but the SIU team was overwhelmed reviewing low-priority cases.
-          </p>
-          <p style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.8, color: "rgba(0,0,0,0.55)" }}>
-            Leadership had piloted three "AI" vendors over four years. Each promised transformation. Each delivered a fragile chatbot. The board was AI-skeptical and wanted measurable, audited results — or nothing.
+            Meridian’s claims operation was buried in manual work. Average claim took 14 days to close, and adjusters spent 60% of their day re-keying data from PDFs into legacy systems. Fraud losses were creeping up year over year, but the SIU team was overwhelmed reviewing low-priority cases. Leadership had already tested multiple AI for insurance companies pilots with other vendors; each produced a fragile chatbot and no measurable AI ROI. The board was AI-skeptical and wanted audited outcomes or nothing.
           </p>
           <div
             style={{
@@ -242,31 +242,51 @@ function Approach() {
   const phases = [
     {
       p: "Phase 1",
-      w: "Wks 1–8",
+      w: "Weeks 1–8",
       n: "Claims Automation",
-      d: "NLP-powered extraction automated 70% of routine claims intake and routing. Adjuster dashboard surfaced ranked next-actions.",
-      deliverables: ["LLM extraction layer", "Routing rules engine", "Adjuster cockpit UI", "Audit trail logging"],
+      d: "",
+      deliverables: [
+        "NLP-powered extraction automated 70% of intake from PDFs and email",
+        "Routing rules engine prioritized and assigned claims in real time",
+        "Adjuster cockpit UI surfaced next-best actions and required documents",
+        "Audit trail logging satisfied compliance and regulator review needs",
+      ],
     },
     {
       p: "Phase 2",
-      w: "Wks 9–18",
+      w: "Weeks 8–16",
       n: "Fraud Detection AI",
-      d: "Real-time ML model scores every claim within 50ms before payout. SHAP explanations surface for SIU review queue.",
-      deliverables: ["Gradient-boosted model", "Feature store on Snowflake", "SHAP-based XAI layer", "SIU triage workflow"],
+      d: "",
+      deliverables: [
+        "Real-time ML model scored every claim with AI fraud detection insurance features",
+        "Gradient-boosted models trained on 3 years of historical loss data",
+        "Feature store on Snowflake powered SHAP explanations for regulators",
+        "SIU triage workflows pushed only high-risk claims for human review",
+      ],
     },
     {
       p: "Phase 3",
-      w: "Wks 19–28",
+      w: "Weeks 16–22",
       n: "Customer Experience AI",
-      d: "Conversational assistant handles policy lookup, FNOL, and status checks 24/7. Live agent handoff in 4% of sessions.",
-      deliverables: ["Multi-turn chatbot", "Voice channel (Twilio)", "Knowledge base RAG", "Agent handoff protocol"],
+      d: "",
+      deliverables: [
+        "Multi-turn claims status chatbot for policyholders, 24/7",
+        "Voice channel integration for phone-based updates",
+        "Knowledge-base FAQ for common coverage questions",
+        "Agent handoff protocol preserved full conversation context",
+      ],
     },
     {
       p: "Phase 4",
-      w: "Wks 29–36",
+      w: "Weeks 22–36",
       n: "Unified Data Platform",
-      d: "Integrated 6 siloed systems into a centralized Snowflake pipeline. Powered all upstream models and exec dashboards.",
-      deliverables: ["Snowflake warehouse", "dbt transformation layer", "Real-time CDC pipelines", "Executive dashboards"],
+      d: "",
+      deliverables: [
+        "Snowflake warehouse consolidated policy, claims, and SIU data",
+        "ETL/ELT transformation layer standardized inconsistent source systems",
+        "Real-time CDC pipelines pushed events to downstream apps and dashboards",
+        "Executive dashboards surfaced AI ROI and operational KPIs by line of business",
+      ],
     },
   ];
   const layout = useLandingLayout();
@@ -291,7 +311,7 @@ function Approach() {
           <Ttl ch="FOUR PHASES." />
         </div>
         <div className="rv d1" style={{ fontFamily: SN, fontSize: 14, color: "rgba(0,0,0,0.55)", maxWidth: 480, lineHeight: 1.7 }}>
-          Sequenced for cash-flow positive value at every milestone. Each phase paid for the next.
+          We sequenced the insurance AI solutions program into four phases, each designed to be cash-flow positive on its own. Every phase shipped to production, generated visible AI ROI, and de-risked the next layer of AI for insurance companies.
         </div>
       </div>
       <div
@@ -374,7 +394,7 @@ function Quote() {
                 maxWidth: 780,
               }}
             >
-              alien.fi didn't just deliver technology — they delivered a transformation. Their team understood our business deeply, proposed solutions that were realistic and well-scoped, and stood by us through every phase. We've already extended into a multi-year managed services partnership.
+              “alien.fi didn’t just deliver technology :- they delivered a transformation. Their team understood our business deeply, proposed insurance AI solutions that were realistic and well-scoped, and stood by us through every phase. We’ve already extended into a multi-year managed services partnership.”
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
               <div
@@ -397,7 +417,7 @@ function Quote() {
               <div>
                 <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#fff", letterSpacing: "0.02em" }}>Sarah Reyes</div>
                 <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.06em", color: L2, textTransform: "uppercase", marginTop: 4 }}>
-                  Chief Operations Officer · Meridian Insurance
+                  Chief Operations Officer, Meridian Insurance
                 </div>
               </div>
             </div>
@@ -415,21 +435,21 @@ function Related() {
       i: "Financial Services",
       v: "$47M",
       l: "Fraud recovered",
-      h: "Real-time fraud model recovered $47M in year one with <50ms scoring latency.",
+      h: "Real-time fraud model recovered $47M in year one with <60ms scoring latency, forming one of our flagship AI for insurance companies–adjacent banking deployments.",
     },
     {
-      n: "NorthBay Health",
+      n: "Northbay Health",
       i: "Healthcare",
       v: "41%",
       l: "Less charting",
-      h: "EHR copilot rolled out to 1,800 clinicians cut documentation time 41%.",
+      h: "EHR copilots rolled out to 1,800 clinicians cut documentation time 41% and became a reference point for other regulated industries adopting AI.",
     },
     {
       n: "Civica State Agency",
       i: "Government",
       v: "$28M",
       l: "Recovered",
-      h: "Benefits fraud ML recovered $28M in year one while reducing false positives 38%.",
+      h: "Benefits fraud ML recovered $28M in one year while reducing false positives 38%, validating our playbook for public-sector fraud and risk programs.",
     },
   ];
   const layout = useLandingLayout();
@@ -461,7 +481,7 @@ function Related() {
           <Ttl ch="RELATED STUDIES" />
         </div>
         <Link href="/case-studies" className="rv d2 hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
-          See all 8 →
+          See all →
         </Link>
       </div>
       <div
@@ -521,7 +541,12 @@ export function MeridianCaseStudyPage() {
       <Approach />
       <Quote />
       <Related />
-      <CTAStrip title="WRITE YOUR STORY" sub="Tell us your most painful operational metric. We'll show you 3 ways AI could move it within 9 months." />
+      <CTAStrip
+        title="WRITE YOUR|STORY"
+        sub="Tell us your most painful metric. We’ll show you how AI for insurance companies like Meridian turned similar baselines into audited results :- and outline three insurance AI solutions paths that could deliver measurable AI ROI for your book within 9 months."
+        cta="Start a Project ↗"
+        ctaUppercase={false}
+      />
       <Footer />
     </ConsultancyLoadedShell>
   );

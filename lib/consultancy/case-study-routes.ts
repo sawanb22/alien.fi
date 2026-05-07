@@ -6,6 +6,8 @@ export const CASE_STUDY_SLUG_BY_CLIENT: Record<string, string> = {
   "Redline Logistics": "redline-logistics",
   "Oakridge Industrial": "oakridge-industrial",
   "Aurora Retail Group": "aurora-retail",
+  "Nimbus Commerce": "nimbus-commerce",
+  "SignalNorth Collective": "signalnorth-collective",
   "Lumen Legal": "lumen-legal",
   "Civica State Agency": "civica-state",
 };

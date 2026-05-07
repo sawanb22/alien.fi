@@ -12,21 +12,28 @@ const FEATURED = {
   date: "May 2, 2026",
   read: "12 min",
   t: "The Real Cost of an AI Pilot That Goes Nowhere",
-  d: "After auditing 240 stalled AI pilots across enterprise clients, we found three failure modes. None of them are technical. Here's what to do about each.",
+  d: "After auditing 240 stalled AI pilots across enterprise clients, we found three failure modes. None of them are technical. Here is what to do about each.",
   author: { n: "Jordan Reyes", r: "Co-founder & CEO", init: "JR" },
 };
 const POSTS = [
-  { cat: "IMPLEMENTATION", date: "Apr 28, 2026", read: "8 min", t: "Build vs. Buy in 2026: A Decision Tree That Actually Works", d: "Most build-vs-buy frameworks were written for SaaS. AI is different - defensibility, data flywheels, and buyer-beware compliance change the math.", author: { init: "AK", n: "Anya Kowalski" } },
+  { cat: "IMPLEMENTATION", date: "Apr 28, 2026", read: "8 min", t: "Build vs. Buy in 2026: A Decision Tree That Actually Works", d: "Most build-vs-buy frameworks were written for SaaS. AI is different. Defensibility, data flywheels, and buyer-beware compliance change the math.", author: { init: "AK", n: "Anya Kowalski" } },
   { cat: "GOVERNANCE", date: "Apr 22, 2026", read: "10 min", t: "EU AI Act, One Year In: What Compliance Actually Looks Like", d: "A pragmatic compliance checklist from the trenches of three Tier-1 bank deployments.", author: { init: "PS", n: "Priya Suresh" } },
-  { cat: "IMPLEMENTATION", date: "Apr 18, 2026", read: "6 min", t: "Why Your RAG System Hallucinates (And How to Diagnose It)", d: "Eight specific anti-patterns we keep finding in client RAG deployments - with concrete fixes.", author: { init: "SP", n: "Sebastian Palacios" } },
-  { cat: "CASE NOTES", date: "Apr 14, 2026", read: "9 min", t: "How We Cut Charting Time 41% Without Replacing Epic", d: "The architectural pattern behind the NorthBay Health rollout - and why we did not pull a rip-and-replace.", author: { init: "DK", n: "Dr. Daniel Kim" } },
-  { cat: "STRATEGY", date: "Apr 8, 2026", read: "7 min", t: "The 90-Day AI Audit We Run Before Any Engagement", d: "Our discovery sprint, fully open-sourced. The questions, the scoring, the readout template.", author: { init: "JR", n: "Jordan Reyes" } },
-  { cat: "INFRA", date: "Apr 2, 2026", read: "11 min", t: "Notes From Running 14 Production LLM Stacks", d: "Cost, latency, and reliability numbers from a year of real deployments. With graphs.", author: { init: "NV", n: "Nora Vetrov" } },
+  { cat: "IMPLEMENTATION", date: "Apr 18, 2026", read: "6 min", t: "Why Your RAG System Hallucinates and How to Diagnose It", d: "Eight specific anti-patterns we keep finding in client RAG deployments, with concrete fixes.", author: { init: "SP", n: "Sebastian Palacios" } },
+  { cat: "CASE NOTES", date: "Apr 14, 2026", read: "9 min", t: "How We Cut Charting Time 41% Without Replacing Epic", d: "The architectural pattern behind the NorthBay Health rollout and why we did not pull a rip-and-replace.", author: { init: "DK", n: "Dr. Daniel Kim" } },
+  { cat: "STRATEGY", date: "Apr 8, 2026", read: "7 min", t: "The 90-Day AI Audit We Run Before Any Engagement", d: "Our discovery sprint, fully open-sourced. The questions, the scoring, and the readout template.", author: { init: "JR", n: "Jordan Reyes" } },
+  { cat: "INFRA", date: "Apr 2, 2026", read: "11 min", t: "Notes From Running 14 Production LLM Stacks", d: "Cost, latency, and reliability numbers from a year of real deployments, with graphs.", author: { init: "NV", n: "Nora Vetrov" } },
   { cat: "GOVERNANCE", date: "Mar 28, 2026", read: "9 min", t: "Bias Audits That Are Not Theatre", d: "How to design a bias audit that produces decisions, not just dashboards.", author: { init: "PS", n: "Priya Suresh" } },
-  { cat: "IMPLEMENTATION", date: "Mar 22, 2026", read: "8 min", t: "Eval Frameworks: The Quiet Difference Between AI That Ships and AI That Doesn't", d: "Eval is the most underinvested-in part of every client stack. Here's a starter kit.", author: { init: "AK", n: "Anya Kowalski" } },
+  { cat: "IMPLEMENTATION", date: "Mar 22, 2026", read: "8 min", t: "Eval Frameworks: The Quiet Difference Between AI That Ships and AI That Doesn't", d: "Eval is the most underinvested-in part of every client stack. Here is a starter kit.", author: { init: "AK", n: "Anya Kowalski" } },
   { cat: "CASE NOTES", date: "Mar 18, 2026", read: "10 min", t: "The Architecture Behind a Real-Time Fraud Stack at <50ms", d: "How the Kestrel Bank fraud-scoring engine works, end to end.", author: { init: "NV", n: "Nora Vetrov" } },
 ];
-const CATS = ["ALL", "STRATEGY", "IMPLEMENTATION", "GOVERNANCE", "INFRA", "CASE NOTES"];
+const CATS = [
+  { value: "ALL", label: "All" },
+  { value: "STRATEGY", label: "Strategy" },
+  { value: "IMPLEMENTATION", label: "Implementation" },
+  { value: "GOVERNANCE", label: "Governance" },
+  { value: "INFRA", label: "Infra" },
+  { value: "CASE NOTES", label: "Case Notes" },
+];
 
 function Hero() {
   const layout = useLandingLayout();
@@ -41,11 +48,11 @@ function Hero() {
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
                 <span style={{ color: "rgba(0,0,0,0.5)" }}>Home</span>
                 <span style={{ opacity: 0.4 }}>/</span>
-                <span style={{ color: "#000" }}>Field Notes</span>
+                <span style={{ color: "#000" }}>Blog</span>
               </div>
-              <Lbl ch="Notes from the field" />
+              <Lbl ch="Field notes" />
               <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, color: "#000", lineHeight: 1.5, marginBottom: 14 }}>Working notes, not thought leadership.</div>
-              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>What we have learned from shipping AI in regulated, complex environments. Audited numbers. Real failures. No SEO bait.</div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>Working notes, not thought leadership. What we have learned from shipping AI in regulated, complex environments. Audited numbers. Real failures. No SEO bait.</div>
             </div>
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -93,12 +100,12 @@ export default function BlogPageClient() {
       </section>
       <section style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px ${pv}px`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
         <div style={{ marginBottom: 32, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
-          <div><Lbl ch="All field notes" /><Ttl ch="THE ARCHIVE" /></div>
+          <div><Lbl ch="All field notes" /><Ttl ch="THE ARCHIVE." /></div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
             {CATS.map((c) => {
-              const active = cat === c;
+              const active = cat === c.value;
               return (
-                <button key={c} onClick={() => setCat(c)} className="hv" style={{ background: active ? "#000" : "rgb(229,231,245)", color: active ? L : "rgba(0,0,0,0.6)", border: "none", borderRadius: 20, padding: "7px 14px", fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>{c}</button>
+                <button key={c.value} onClick={() => setCat(c.value)} className="hv" style={{ background: active ? "#000" : "rgb(229,231,245)", color: active ? L : "rgba(0,0,0,0.6)", border: "none", borderRadius: 20, padding: "7px 14px", fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "none" }}>{c.label}</button>
               );
             })}
           </div>
@@ -130,6 +137,9 @@ export default function BlogPageClient() {
               <div style={{ fontWeight: 400 }}>ONE EMAIL.</div>
               <div style={{ fontWeight: 600, color: L }}>FRIDAY MORNINGS.</div>
             </div>
+            <div style={{ fontFamily: SN, fontSize: 14, lineHeight: 1.7, color: "rgba(255,255,255,0.45)", maxWidth: 460 }}>
+              A short note on what we are seeing in AI deployment, governance, and adoption. One useful idea per week, no fluff.
+            </div>
           </div>
           <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "30px", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>Subscribe</div>
@@ -140,7 +150,7 @@ export default function BlogPageClient() {
           </div>
         </div>
       </section>
-      <CTAStrip title="WANT US TO COVER SOMETHING SPECIFIC?" sub="Reply to any newsletter or send a topic. We turn 1 in 4 reader prompts into a full field note." />
+      <CTAStrip title="WANT US TO COVER SOMETHING SPECIFIC?" sub="Reply to the newsletter or send us a topic. We turn 1 in 4 reader prompts into a full field note." />
       <Footer />
     </ConsultancyLoadedShell>
   );

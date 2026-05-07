@@ -9,7 +9,6 @@ import {
   Footer,
   Lbl,
   Nav,
-  PageHero,
   Ticker,
   Tilt,
   Ttl,
@@ -29,99 +28,167 @@ type StudyHub = {
   hero: string;
   heroLbl: string;
   services: string[];
+  footerMetric: string;
+  cardHref: string;
   featured?: boolean;
 };
 
 const STUDIES: StudyHub[] = [
   {
-    id: "meridian-insurance",
-    industry: "Insurance",
-    client: "Meridian Insurance",
-    blurb: "Regional P&C carrier · 500+ employees",
-    duration: "9 months",
-    headline: "9-month transformation cut claims time 62% and saved $3.2M in fraud losses.",
-    hero: "62%",
-    heroLbl: "Faster claims",
-    services: ["Strategy", "Custom Dev", "Managed"],
+    id: "southeast-regional-hospital",
+    industry: "Healthcare",
+    client: "Southeast Regional Hospital",
+    blurb: "400-bed regional hospital · 25,000 inpatients annually",
+    duration: "6 months",
+    headline:
+      "This AI case study shows how a six-month deployment cut 30-day readmissions by 28%, reduced documentation time by 41%, and delivered $1.4M in annual CMS penalty savings through patient risk stratification, ambient documentation AI, and automated discharge workflows.",
+    hero: "28%",
+    heroLbl: "Fewer readmissions",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "6 months",
+    cardHref: "/contact",
     featured: true,
   },
   {
-    id: "northbay-health",
-    industry: "Healthcare",
-    client: "NorthBay Health",
-    blurb: "Regional health system · 12 hospitals",
-    duration: "14 months",
-    headline: "EHR copilot rolled out to 1,800 clinicians cut documentation time 41%.",
-    hero: "41%",
-    heroLbl: "Less charting",
-    services: ["Custom Dev", "Managed"],
-  },
-  {
-    id: "kestrel-bank",
-    industry: "Financial Services",
-    client: "Kestrel Bank",
-    blurb: "Top-50 US bank · $48B AUM",
-    duration: "11 months",
-    headline: "Real-time fraud model recovered $47M in year one with <50ms scoring latency.",
-    hero: "$47M",
-    heroLbl: "Fraud recovered",
-    services: ["Strategy", "Custom", "Managed"],
-  },
-  {
-    id: "redline-logistics",
-    industry: "Logistics",
-    client: "Redline Logistics",
-    blurb: "Regional 3PL · 200 trucks",
-    duration: "7 months",
-    headline: "Route optimization + ETA prediction cut fuel costs 21% across the fleet.",
-    hero: "21%",
-    heroLbl: "Fuel savings",
-    services: ["Custom", "Managed"],
-  },
-  {
-    id: "oakridge-industrial",
-    industry: "Manufacturing",
-    client: "Oakridge Industrial",
-    blurb: "Tier-1 auto supplier · 4 plants",
-    duration: "10 months",
-    headline: "Predictive maintenance and CV quality control cut downtime 34% in 9 months.",
-    hero: "34%",
-    heroLbl: "Less downtime",
-    services: ["Custom", "CV", "Managed"],
-  },
-  {
-    id: "aurora-retail",
-    industry: "Retail",
-    client: "Aurora Retail Group",
-    blurb: "$2B specialty retailer · 340 stores",
-    duration: "8 months",
-    headline: "Personalization engine drove 18% conversion lift and 24% larger basket sizes.",
-    hero: "18%",
-    heroLbl: "Conv. lift",
-    services: ["Custom", "Managed"],
-  },
-  {
-    id: "lumen-legal",
+    id: "chicago-commercial-litigation-firm",
     industry: "Legal",
-    client: "Lumen Legal",
-    blurb: "AmLaw 100 firm · 1,200 attorneys",
-    duration: "12 months",
-    headline: "Contract review AI eliminated 82% of routine redline time across M&A practice.",
-    hero: "82%",
-    heroLbl: "Faster review",
-    services: ["Custom", "Governance"],
+    client: "Chicago Commercial Litigation Firm",
+    blurb: "120 attorneys · 450 active matters",
+    duration: "2.1x ROI",
+    headline:
+      "One of our strongest AI transformation examples in legal: NLP-based contract review, AI legal research, and billing optimization helped the firm handle 35% more cases per attorney while improving billing realization by 18%.",
+    hero: "65%",
+    heroLbl: "Faster contract review",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "2.1x ROI",
+    cardHref: "/contact",
   },
   {
-    id: "civica-state",
-    industry: "Government",
-    client: "Civica State Agency",
-    blurb: "State benefits dept · 3M residents",
-    duration: "15 months",
-    headline: "Benefits fraud ML recovered $28M in year one while reducing false positives 38%.",
-    hero: "$28M",
-    heroLbl: "Recovered",
-    services: ["Custom", "Governance"],
+    id: "midwest-community-bank",
+    industry: "Financial Services",
+    client: "Midwest Community Bank",
+    blurb: "$2.1B assets · 34 branches",
+    duration: "$2.8M annual value",
+    headline:
+      "This enterprise AI implementation success story combined real-time fraud scoring, AML pattern recognition, and explainable reporting to cut fraud losses 44%, reduce false positives 52%, and save 1,100 compliance hours per month.",
+    hero: "44%",
+    heroLbl: "Lower fraud losses",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "$2.8M annual value",
+    cardHref: "/contact",
   },
+  {
+    id: "regional-last-mile-carrier",
+    industry: "Logistics",
+    client: "Regional Last-Mile Carrier",
+    blurb: "280 vehicles · 150K packages daily",
+    duration: "$1.1M annual savings",
+    headline:
+      "A route optimization and fleet intelligence deployment improved on-time delivery by 29%, reduced inbound customer calls by 38%, and delivered $1.1M in annual operational savings.",
+    hero: "19%",
+    heroLbl: "Fuel cost reduction",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "$1.1M annual savings",
+    cardHref: "/contact",
+  },
+  {
+    id: "ohio-auto-parts-manufacturer",
+    industry: "Manufacturing",
+    client: "Ohio Auto Parts Manufacturer",
+    blurb: "8 production lines · 1.2M parts/year",
+    duration: "9-month payback",
+    headline:
+      "Among our clearest AI transformation examples in manufacturing, predictive maintenance, computer vision quality control, and energy forecasting reduced downtime 31%, improved defect detection 22%, and created $1.9M in annual savings.",
+    hero: "31%",
+    heroLbl: "Less downtime",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "9-month payback",
+    cardHref: "/contact",
+  },
+  {
+    id: "southwest-retail-chain",
+    industry: "Retail",
+    client: "Southwest Retail Chain",
+    blurb: "140 stores · $450M annual sales",
+    duration: "$2.6M net savings",
+    headline:
+      "This AI case study highlights demand forecasting, automated reordering, and markdown optimization that reduced inventory costs 23%, lowered stockouts 34%, and cut markdown rates 11%.",
+    hero: "23%",
+    heroLbl: "Lower inventory cost",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "$2.6M net savings",
+    cardHref: "/contact",
+  },
+  {
+    id: "mid-atlantic-private-university",
+    industry: "Education",
+    client: "Mid-Atlantic Private University",
+    blurb: "12,000 students · tuition-led model",
+    duration: "4 months to impact",
+    headline:
+      "Early-warning models, advisor alerts, and enrollment yield optimization improved student retention 17%, raised enrollment yield 13%, and retained $3.1M in annual tuition revenue.",
+    hero: "17%",
+    heroLbl: "Retention lift",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "4 months to impact",
+    cardHref: "/contact",
+  },
+  {
+    id: "florida-residential-brokerage",
+    industry: "Real Estate",
+    client: "Florida Residential Brokerage",
+    blurb: "200 agents · 3,000+ monthly leads",
+    duration: "$890K added revenue",
+    headline:
+      "AI lead scoring, 90-second automated follow-up, and valuation modeling improved lead conversion 29%, increased pricing accuracy 16%, and added $890K in annual commission revenue.",
+    hero: "29%",
+    heroLbl: "Higher lead conversion",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "$890K added revenue",
+    cardHref: "/contact",
+  },
+  {
+    id: "fast-casual-restaurant-group",
+    industry: "Restaurant",
+    client: "Fast-Casual Restaurant Group",
+    blurb: "45 locations · $120M revenue",
+    duration: "$620K cost reduction",
+    headline:
+      "Demand forecasting, AI labor scheduling, and review sentiment monitoring reduced food waste 21%, improved labor efficiency 12%, and lowered annual costs by $620K.",
+    hero: "21%",
+    heroLbl: "Less food waste",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "$620K cost reduction",
+    cardHref: "/contact",
+  },
+  {
+    id: "b2b-saas-startup",
+    industry: "SaaS",
+    client: "B2B SaaS Startup",
+    blurb: "180 enterprise customers · 4,200 tickets/month",
+    duration: "$480K avoided hiring cost",
+    headline:
+      "A knowledge-based AI assistant and churn prediction model reduced support tickets 58%, cut response times from 26 hours to 4 hours, and improved retention 22% while avoiding $480K in hiring costs.",
+    hero: "58%",
+    heroLbl: "Fewer support tickets",
+    services: ["AI Strategy", "Implementation", "Managed"],
+    footerMetric: "$480K avoided hiring cost",
+    cardHref: "/contact",
+  },
+];
+
+const FILTER_ORDER = [
+  "All",
+  "Healthcare",
+  "Legal",
+  "Financial Services",
+  "Logistics",
+  "Manufacturing",
+  "Retail",
+  "Education",
+  "Real Estate",
+  "Restaurant",
+  "SaaS",
 ];
 
 function Filters({
@@ -133,7 +200,7 @@ function Filters({
   setActive: (c: string) => void;
   counts: Record<string, number>;
 }) {
-  const cats = useMemo(() => ["All", ...Array.from(new Set(STUDIES.map((s) => s.industry)))], []);
+  const cats = useMemo(() => FILTER_ORDER, []);
   return (
     <div className="rv d1" style={{ padding: "0 9px", marginBottom: 32, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
       <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginRight: 8 }}>
@@ -176,7 +243,7 @@ function FeaturedCard({ s }: { s: StudyHub }) {
   const [hov, setHov] = useState(false);
   return (
     <Link
-      href={`/case-studies/${s.id}`}
+      href={s.cardHref}
       className="rv d1 hv"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
@@ -278,7 +345,7 @@ function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
   const [hov, setHov] = useState(false);
   return (
     <Link
-      href={`/case-studies/${s.id}`}
+      href={s.cardHref}
       className={`rv ${delayClass} hv`}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
@@ -320,7 +387,7 @@ function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
       </div>
       <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.55)", flex: 1 }}>{s.headline}</div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 6, paddingTop: 12, borderTop: `1px solid ${PL}` }}>
-        <div style={{ fontFamily: MN, fontSize: 10, color: "rgba(0,0,0,0.4)", letterSpacing: "0.06em" }}>{s.duration}</div>
+        <div style={{ fontFamily: MN, fontSize: 10, color: "rgba(0,0,0,0.4)", letterSpacing: "0.06em" }}>{s.footerMetric}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: hov ? L2 : "rgba(0,0,0,0.4)", transition: "color .2s" }}>
           Read study <Arr sz={9} cl={hov ? L2 : "rgba(0,0,0,0.4)"} sw={1.8} />
         </div>
@@ -342,7 +409,7 @@ function Grid() {
   const featured = filtered.find((s) => s.featured);
   const rest = filtered.filter((s) => !s.featured);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+    <section id="real-outcomes" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 28 : 36,
@@ -354,11 +421,11 @@ function Grid() {
         }}
       >
         <div className="rv">
-          <Lbl ch="Eight stories" />
+          <Lbl ch="Client Stories" />
           <Ttl ch="REAL OUTCOMES" />
         </div>
         <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
-          Production deployments. Audited numbers. Boring buzzwords removed.
+          Production deployments. Audited numbers. These AI case studies show how enterprise AI implementation success stories translate into real AI ROI, operational gains, and repeatable AI transformation examples across sectors.
         </div>
       </div>
       <Filters active={active} setActive={setActive} counts={counts} />
@@ -382,15 +449,71 @@ function Grid() {
   );
 }
 
+function RoiSnapshot() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const pv = sectionVPad(layout);
+  const stats = [
+    { label: "Annual value delivered", value: "$14.89M+" },
+    { label: "Average payback period", value: "7.3 months" },
+    { label: "Fastest time to measurable impact", value: "4 months" },
+    { label: "Case studies with production deployment", value: "10/10" },
+  ];
+  return (
+    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 2 }}>
+      <div
+        style={{
+          marginBottom: 34,
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          justifyContent: "space-between",
+          gap: layout === "mobile" ? 12 : 0,
+        }}
+      >
+        <div className="rv">
+          <Lbl ch="AI ROI Snapshot" />
+          <Ttl ch="AI ROI ACROSS CASE STUDIES" />
+        </div>
+      </div>
+      <div
+        className="rv d1"
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 4, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: layout === "mobile" ? 16 : 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+        }}
+      >
+        {stats.map((stat) => (
+          <Tilt key={stat.label} int={5}>
+            <div style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: layout === "mobile" ? "28px 22px" : "34px 28px" }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: layout === "mobile" ? "clamp(28px,8vw,42px)" : 44, color: "#000", letterSpacing: "0.02em", lineHeight: 1 }}>
+                {stat.value}
+              </div>
+              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginTop: 12 }}>
+                {stat.label}
+              </div>
+            </div>
+          </Tilt>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function StatsBar() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const stats = [
-    { v: "480+", l: "Engagements delivered" },
-    { v: "94%", l: "Client retention rate" },
-    { v: "$1.2B", l: "Cumulative client value" },
-    { v: "3.4×", l: "Average first-year ROI" },
+    { v: "10", l: "Audited case studies" },
+    { v: "10", l: "Operating environments" },
+    { v: "94%", l: "Client retention" },
+    { v: "7.3", l: "Average payback (months)" },
   ];
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
@@ -409,7 +532,7 @@ function StatsBar() {
           <Ttl ch="WHAT WE'VE SHIPPED" lt />
         </div>
         <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.4)", maxWidth: 280, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
-          Eight years. Twelve verticals. Audited annually.
+          Ten AI case studies. Ten different operating environments. These enterprise AI implementation success stories show how alien.fi turns AI transformation examples into audited AI ROI across healthcare, legal, banking, manufacturing, logistics, retail, education, real estate, restaurants, and SaaS.
         </div>
       </div>
       <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden" }}>
@@ -437,21 +560,132 @@ function StatsBar() {
   );
 }
 
+function CaseStudiesPageHero() {
+  const layout = useLandingLayout();
+  const gv = sectionGutter(layout);
+  const sideWidth = layout === "mobile" ? 0 : layout === "tablet" ? 208 : 240;
+  const title = "AI CASE|STUDIES.|PROOF, NOT|PROMISES.";
+  const facts: Array<[string, string]> = [
+    ["Studies published", "10"],
+    ["Total value delivered", "$14.89M+"],
+    ["Avg payback", "7.3 months"],
+    ["Client retention", "94%"],
+  ];
+
+  return (
+    <section style={{ paddingTop: 60, background: `linear-gradient(180deg,${BG} 0%,${BG2} 100%)`, position: "relative", borderBottom: `1px solid ${PL}` }}>
+      {layout !== "mobile" ? (
+        <>
+          <div style={{ position: "absolute", left: gv, right: gv, top: 60, bottom: 0, border: `1px solid ${PL}`, borderTop: "none", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", left: gv + sideWidth, top: 60, bottom: 0, width: 1, background: PL, pointerEvents: "none" }} />
+          <div style={{ position: "absolute", right: gv + sideWidth, top: 60, bottom: 0, width: 1, background: PL, pointerEvents: "none" }} />
+          <div style={{ position: "absolute", left: gv + sideWidth - 3, top: 60, width: 7, height: 7, borderRadius: "50%", background: L, boxShadow: `0 0 10px ${L}`, animation: "scan 4s linear infinite", pointerEvents: "none", zIndex: 10 }} />
+        </>
+      ) : null}
+
+      <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : `${sideWidth}px 1fr ${sideWidth}px`, minHeight: layout === "mobile" ? "auto" : 300 }}>
+        <div
+          className="rvl"
+          style={{
+            padding: layout === "mobile" ? "28px 18px 18px" : "52px 28px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            gap: 24,
+          }}
+        >
+          <div>
+            <Lbl ch="Case Studies" />
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.5)" }}>
+              Audited outcomes from production AI deployments. Every number below has been signed off by client finance or operations teams, making these AI case studies a proof layer for serious buyers evaluating enterprise AI implementation success stories and measurable AI ROI.
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.3)" }}>
+            <Link href="/" className="hv" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
+              Home
+            </Link>
+            <span style={{ opacity: 0.4 }}>/</span>
+            <span>Case Studies</span>
+          </div>
+        </div>
+        <div
+          style={{
+            padding: layout === "mobile" ? "0 18px 22px" : "52px 44px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            borderLeft: layout === "mobile" ? "none" : `1px solid ${PL}`,
+            borderRight: layout === "mobile" ? "none" : `1px solid ${PL}`,
+            position: "relative",
+            overflow: "hidden",
+            minWidth: 0,
+          }}
+        >
+          <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(34px,4.5vw,72px)", letterSpacing: "0.04em", lineHeight: 0.98, color: "#000", wordBreak: "keep-all" }}>
+            {title.split("|").map((part, i, arr) => (
+              <div
+                key={part}
+                style={{
+                  fontWeight: i === 0 ? 300 : i === 1 ? 500 : 700,
+                  ...(i === arr.length - 1
+                    ? {
+                        background: `linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
+                        backgroundSize: "200% auto",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        animation: "shimmer 4s linear infinite",
+                      }
+                    : {}),
+                }}
+              >
+                {part}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          className="rvr"
+          style={{
+            padding: layout === "mobile" ? "0 18px 28px" : "52px 28px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            gap: 24,
+          }}
+        >
+          <div>
+            <Lbl ch="Quick Facts" />
+            {facts.map((fact) => (
+              <div key={fact[0]} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${PL}`, fontFamily: MN, fontSize: 11, fontWeight: 500, letterSpacing: "0.04em" }}>
+                <span style={{ color: "rgba(0,0,0,0.45)" }}>{fact[0]}</span>
+                <span style={{ color: "#000", fontWeight: 700 }}>{fact[1]}</span>
+              </div>
+            ))}
+          </div>
+          <Link href="#real-outcomes" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
+            View audited outcomes <Arr sz={11} cl="rgba(0,0,0,0.6)" sw={2} />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function CaseStudiesPageClient() {
   return (
     <ConsultancyLoadedShell label="CASE STUDIES">
       <Nav current="Case Studies" />
-      <PageHero
-        eyebrow="Case Studies"
-        title="PROOF.|NOT|PROMISES."
-        sub="Audited outcomes from production AI deployments. Every number below has been signed off by client finance teams."
-        meta={[["Studies published", "8"], ["Total saved/earned", "$1.2B"], ["Avg payback", "7.4 months"], ["Client retention", "94%"]]}
-        accent="2 new studies coming Q3"
-      />
-      <Ticker words={["Insurance", "Healthcare", "Banking", "Logistics", "Manufacturing", "Retail", "Legal", "Government"]} />
+      <CaseStudiesPageHero />
+      <Ticker words={["Healthcare", "Legal", "Manufacturing", "Financial Services", "Retail", "Education", "Logistics", "Real Estate", "Restaurant", "SaaS"]} />
       <Grid />
+      <RoiSnapshot />
       <StatsBar />
-      <CTAStrip title="WRITE THE NEXT ONE" sub="Tell us your boldest goal. We'll show you how 3+ peers got there — and what would change for you." />
+      <CTAStrip
+        title="WRITE THE NEXT ONE"
+        sub="Tell us your boldest goal. We'll show you the most relevant AI case studies, the enterprise AI implementation success stories closest to your environment, and the AI ROI targets that would matter most for your team."
+        cta="Start a Project ↗"
+        href="/contact"
+      />
       <Footer />
     </ConsultancyLoadedShell>
   );

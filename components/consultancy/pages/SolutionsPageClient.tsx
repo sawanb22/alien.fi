@@ -22,82 +22,82 @@ import { useState } from "react";
 const SOLUTIONS = [
   {
     cat: "CONVERSATIONAL",
-    tag: "2–4 wk deploy",
+    tag: "GPT-4 · Claude · RAG · LangChain",
     t: "AI Customer Service Chatbot",
-    d: "Handles FAQs, scheduling, order tracking. Integrates with Salesforce, Zendesk, HubSpot, Freshdesk.",
+    d: "Handles FAQs, scheduling, order tracking, and escalation routing. Integrates with Salesforce, Zendesk, HubSpot, and Freshdesk.",
     price: "$28K + $4K/mo",
     stack: ["GPT-4", "Claude", "RAG", "LangChain"],
-    kpi: ["↓ 64% ticket volume", "↑ 4.2× CSAT", "24/7 coverage"],
+    kpi: ["64% ticket volume", "4.2x CSAT", "24/7 coverage"],
     ic: "◐",
   },
   {
     cat: "AUTOMATION",
-    tag: "95%+ accuracy",
+    tag: "Layout LM · Tesseract · Azure AI · OpenAI",
     t: "Intelligent Document Processing",
-    d: "Automated extraction from invoices, contracts, forms, medical records using OCR + NLP.",
+    d: "Automated extraction from invoices, contracts, forms, and medical records using OCR and NLP.",
     price: "$45K + $6K/mo",
-    stack: ["Layout LM", "Tesseract", "Azure DI", "OpenAI"],
-    kpi: ["↑ 12× throughput", "↓ 78% manual review", "99.2% accuracy"],
+    stack: ["Layout LM", "Tesseract", "Azure AI", "OpenAI"],
+    kpi: ["12x throughput", "78% manual review", "99.2% accuracy"],
     ic: "▤",
   },
   {
     cat: "ANALYTICS",
-    tag: "Plug-and-play",
+    tag: "XGBoost · Prophet · Streamlit · dbt",
     t: "Predictive Analytics Dashboard",
-    d: "Sales forecasting, demand spikes, churn prediction. Connects to Snowflake, BigQuery, Redshift.",
+    d: "Sales forecasting, demand spikes, and churn prediction. Connects to Snowflake, BigQuery, and Redshift.",
     price: "$60K + $8K/mo",
     stack: ["XGBoost", "Prophet", "Streamlit", "dbt"],
-    kpi: ["↑ 31% forecast accuracy", "↓ 22% inventory waste", "Real-time"],
+    kpi: ["31% forecast accuracy", "22% inventory waste", "real time"],
     ic: "▦",
   },
   {
     cat: "RISK",
-    tag: "Real-time",
+    tag: "PyTorch · SHAP · Kafka · Feast",
     t: "AI Fraud Detection Engine",
-    d: "Anomaly detection across financial, insurance, e-commerce platforms with explainable AI reporting.",
+    d: "Anomaly detection across financial, insurance, and e-commerce platforms with explainable AI reporting.",
     price: "$80K + $12K/mo",
     stack: ["PyTorch", "SHAP", "Kafka", "Feast"],
-    kpi: ["↓ 47% fraud loss", "<50ms scoring", "Audit-ready logs"],
+    kpi: ["47% fraud loss", "under 50 ms scoring", "audit-ready logs"],
     ic: "⚠",
   },
   {
-    cat: "HR & PEOPLE",
-    tag: "Bias-reduced",
-    t: "HR & Talent Intelligence",
+    cat: "HR AND PEOPLE",
+    tag: "Sentence-BERT · LightGBM · Streamlit",
+    t: "HR and Talent Intelligence",
     d: "Resume screening, candidate ranking, retention risk predictor, workforce sentiment.",
     price: "$35K + $5K/mo",
     stack: ["Sentence-BERT", "LightGBM", "Streamlit"],
-    kpi: ["↑ 3× recruiter throughput", "↓ 18% regrettable attrition", "Bias-audited"],
+    kpi: ["3x recruiter throughput", "18% predictable attrition", "bias-audited"],
     ic: "◊",
   },
   {
     cat: "OPERATIONS",
-    tag: "ML-driven",
-    t: "Inventory & Supply Chain AI",
-    d: "Demand forecasting, automated reorders, supplier risk scoring in one dashboard.",
+    tag: "Prophet · LightGBM · Airflow · dbt",
+    t: "Inventory and Supply Chain AI",
+    d: "Demand forecasting, automated reorder, supplier risk scoring in one dashboard.",
     price: "$70K + $9K/mo",
     stack: ["Prophet", "LightGBM", "Airflow", "dbt"],
-    kpi: ["↓ 28% stock-outs", "↑ 19% turn rate", "Multi-echelon"],
+    kpi: ["28% stockouts", "19% turn rate", "multi-echelon"],
     ic: "⛟",
   },
   {
     cat: "HEALTHCARE",
-    tag: "HIPAA-compliant",
+    tag: "Med-PaLM · LLMs · FHIR · Epic API",
     t: "Clinical Decision Support",
     d: "Treatment recommendations, drug interaction flags, ICD-10 accuracy improvements for EHRs.",
     price: "$120K + $15K/mo",
-    stack: ["Med-PaLM", "UMLS", "FHIR", "Epic API"],
-    kpi: ["↑ 22% diagnostic confidence", "↓ 41% adverse interactions", "HIPAA·SOC2"],
+    stack: ["Med-PaLM", "LLMs", "FHIR", "Epic API"],
+    kpi: ["22% diagnostic confidence", "41% adverse interactions", "HIPAA-SOC2"],
     ic: "✚",
   },
   {
     cat: "MARKETING",
-    tag: "Real-time",
+    tag: "LightGBM · Vector DB · Segment · Braze",
     t: "Marketing Personalization Engine",
     d: "Next-best-action, email optimization, content recommendations from behavioral data.",
     price: "$50K + $7K/mo",
     stack: ["LightGBM", "Vector DB", "Segment", "Braze"],
-    kpi: ["↑ 38% email CTR", "↑ 24% LTV", "1:1 personalization"],
+    kpi: ["38% email CTR", "24% LTV", "1:1 personalization"],
     ic: "◇",
   },
 ];
@@ -108,7 +108,7 @@ const CATS = [
   "AUTOMATION",
   "ANALYTICS",
   "RISK",
-  "HR & PEOPLE",
+  "HR AND PEOPLE",
   "OPERATIONS",
   "HEALTHCARE",
   "MARKETING",
@@ -135,10 +135,10 @@ function SolutionsGrid() {
       >
         <div className="rv">
           <Lbl ch="Pre-built · production-ready" />
-          <Ttl ch="THE CATALOG" />
+          <Ttl ch="THE CATALOG." />
         </div>
         <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 300, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
-          Eight battle-tested solutions. Configure to your stack in weeks, not quarters.
+          Eight pre-built AI products with proven outcomes. Configure to your data, deploy in weeks, scale with our managed operations.
         </div>
       </div>
       <div className="rv d1" style={{ marginBottom: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -165,7 +165,7 @@ function SolutionsGrid() {
                 textTransform: "uppercase",
               }}
             >
-              {c}
+              {c === "ALL" ? "All" : c === "HR AND PEOPLE" ? "HR and People" : c.charAt(0) + c.slice(1).toLowerCase()}
             </button>
           );
         })}
@@ -302,23 +302,23 @@ function HowItWorks() {
   const steps = [
     {
       n: "01",
-      t: "Pick a solution",
-      d: "Browse the catalog. Schedule a 30-min fit call with one of our solution leads.",
+      t: "Choose a solution",
+      d: "Choose a solution from the catalog.",
     },
     {
       n: "02",
-      t: "Configure",
-      d: "We map the solution to your stack, data sources, and SLAs. Fixed quote within 48 hours.",
+      t: "Connect",
+      d: "Connect your data, tools, and permissions.",
     },
     {
       n: "03",
-      t: "Deploy",
-      d: "2–6 week deployment with daily standups. We handle infra, integrations, security review.",
+      t: "Configure workflows",
+      d: "Configure workflows and success metrics.",
     },
     {
       n: "04",
-      t: "Operate",
-      d: "Optional managed services from day one. We monitor, retrain, and tune as you grow.",
+      t: "Go live",
+      d: "Go live in 2 to 6 weeks with managed support.",
     },
   ];
   return (
@@ -326,7 +326,7 @@ function HowItWorks() {
       <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
         <div className="rv">
           <Lbl ch="From shelf to production" lt />
-          <Ttl ch="HOW IT WORKS" lt />
+          <Ttl ch="HOW IT WORKS." lt />
         </div>
       </div>
       <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden" }}>
@@ -372,7 +372,7 @@ function StackStrip() {
       <div style={{ marginBottom: 40 }}>
         <div className="rv">
           <Lbl ch="Built on what works" />
-          <Ttl ch="OUR STACK" />
+          <Ttl ch="OUR STACK." />
         </div>
       </div>
       <div
@@ -425,16 +425,19 @@ export default function SolutionsPageClient() {
       <Nav current="Solutions" />
       <PageHero
         eyebrow="Solutions"
-        title="OFF-THE-SHELF|YOUR STACK,|FAST."
+        title="OFF-THE-SHELF.|YOUR STACK.|FAST."
         sub="Eight pre-built AI products with proven outcomes. Configure to your data, deploy in weeks, scale with our managed operations."
-        meta={[["Catalog size", "8 solutions"], ["Avg deploy", "2–6 weeks"], ["Starting price", "$28K"], ["Managed SLA", "99.95%"]]}
-        accent="2 new solutions in beta"
+        meta={[["Catalog size", "8 solutions"], ["Avg deploy time", "2 to 6 wks per solution"], ["Starting price", "$28K per solution"], ["Managed SLA", "99.95% available"]]}
       />
-      <Ticker words={["Chatbots", "Document AI", "Forecasting", "Fraud Detection", "HR Intelligence", "Supply Chain", "Clinical Support", "Personalization"]} />
+      <Ticker words={["Fraud Detection", "HR Intelligence", "Supply Chain", "Clinical Support", "Personalization", "Chatbots", "Document AI", "Forecasting"]} />
       <SolutionsGrid />
       <HowItWorks />
       <StackStrip />
-      <CTAStrip title="DEPLOY THIS QUARTER" sub="Pick a solution from the catalog. We'll send a tailored config and quote within 48 hours." />
+      <CTAStrip
+        title="YOUR STACK. OUR SOLUTIONS. FASTER."
+        sub="If you need enterprise AI solutions that are proven, configurable, and supported after launch, we can map the right product or custom fit for your business."
+        cta="Start a project"
+      />
       <Footer />
     </ConsultancyLoadedShell>
   );

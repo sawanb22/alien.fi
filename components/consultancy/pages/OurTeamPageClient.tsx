@@ -21,18 +21,18 @@ import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 
 const LEADERSHIP = [
-  { init: "JR", n: "Jordan Reyes", r: "Co-founder & CEO", bio: "Ex-McKinsey QuantumBlack. Led AI transformation programs at 3 Fortune 100s before starting alien.fi.", tags: ["Strategy", "Operating"] },
-  { init: "AK", n: "Anya Kowalski", r: "Co-founder & CTO", bio: "Former staff ML engineer at Meta. Architected the recommendation stack for 14M MAU. PhD, Stanford.", tags: ["ML Infra", "Research"] },
-  { init: "MO", n: "Marcus Okafor", r: "Chief Operating Officer", bio: "Built the delivery org from 12 to 96. Previously COO of a Series-D fintech.", tags: ["Delivery", "Ops"] },
-  { init: "PS", n: "Priya Suresh", r: "Chief AI Officer", bio: "Wrote the EU AI Act compliance playbook adopted by 4 major banks. Frequent regulator advisor.", tags: ["Governance", "Policy"] },
+  { init: "JR", n: "Jordan Reyes", r: "Co-founder and CEO", bio: "Ex-McKinsey QuantumBlack. Led AI transformation programs at three Fortune 100s before starting alien.fi.", tags: ["Strategy", "Operating"] },
+  { init: "AK", n: "Anya Kowalski", r: "Co-founder and CTO", bio: "Former staff ML engineer at Meta. Architected the recommendation stack for 14M MAU. PhD, Stanford.", tags: ["ML Infra", "Research"] },
+  { init: "MO", n: "Marcus Okafor", r: "Chief Operating Officer", bio: "Built the delivery organization from 12 to 96. Previously COO of a Series D fintech.", tags: ["Delivery", "Ops"] },
+  { init: "PS", n: "Priya Suresh", r: "Chief AI Officer", bio: "Wrote the EU AI Act compliance playbook adopted by four major banks. Frequent regulator advisor.", tags: ["Governance", "Policy"] },
 ];
 const PRACTICE = [
-  { init: "DK", n: "Dr. Daniel Kim", r: "Head of Healthcare Practice", bio: "Boarded internist + ML PhD. Led NorthBay Health rollout to 1,800 clinicians.", tags: ["Healthcare", "Clinical AI"] },
+  { init: "DK", n: "Dr. Daniel Kim", r: "Head of Healthcare", bio: "Boarded internist + ML PhD. Led NorthBay Health rollout to 1,800 clinicians.", tags: ["Healthcare", "Clinical AI"] },
   { init: "EH", n: "Elena Hadid", r: "Head of Financial Services", bio: "Former head of model risk at a top-10 bank. SR 11-7 in her sleep.", tags: ["Finance", "Risk"] },
-  { init: "TN", n: "Theresa Nakamura", r: "Head of Legal & Compliance", bio: "Former AmLaw 100 GC. Now leads the legal-AI vertical.", tags: ["Legal", "Privilege"] },
-  { init: "RC", n: "Ramon Castillo", r: "Head of Industrial AI", bio: "20-year manufacturing veteran. Walked plants for the first decade, wrote optimizers for the second.", tags: ["Manufacturing", "Logistics"] },
+  { init: "TN", n: "Theresa Nakamura", r: "Head of Legal and Compliance", bio: "Former AmLaw 100 GC. Now leads the legal AI vertical.", tags: ["Legal", "Privilege"] },
+  { init: "RC", n: "Ramon Castillo", r: "Head of Industrial AI", bio: "20-year manufacturing veteran. Walked plants for the first, wrote optimizers for the second.", tags: ["Manufacturing", "Logistics"] },
   { init: "AM", n: "Aisha Mensah", r: "Head of Public Sector", bio: "Former White House OSTP fellow. Led the Civica State Agency benefits-fraud rollout.", tags: ["Government", "Civic AI"] },
-  { init: "JT", n: "Janet Tobin", r: "Head of Retail & Consumer", bio: "Built personalization at two Top-50 retailers before joining. Trusted by merchandisers.", tags: ["Retail", "Personalization"] },
+  { init: "JT", n: "Janet Tobin", r: "Head of Retail and Consumer", bio: "Built personalization at two Top-50 retailers before joining. Trusted by merchandisers.", tags: ["Retail", "Personalization"] },
 ];
 const CRAFT = [
   { init: "SP", n: "Sebastian Palacios", r: "Principal ML Engineer", tags: ["LLMs", "RAG"] },
@@ -45,7 +45,15 @@ const CRAFT = [
   { init: "CB", n: "Claire Brennan", r: "Head of Talent", tags: ["People", "Culture"] },
 ];
 
-function PersonCard({ p, big = false, dark = false }: { p: any; big?: boolean; dark?: boolean }) {
+type TeamPerson = {
+  init: string;
+  n: string;
+  r: string;
+  bio?: string;
+  tags: string[];
+};
+
+function PersonCard({ p, big = false, dark = false }: { p: TeamPerson; big?: boolean; dark?: boolean }) {
   return (
     <div style={{ background: dark ? "rgba(255,255,255,0.04)" : `linear-gradient(160deg,${BG},${BG2})`, border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`, borderRadius: 14, padding: big ? "30px 28px" : "22px", display: "flex", flexDirection: "column", gap: big ? 14 : 10, height: "100%" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -84,14 +92,18 @@ function TeamHero() {
                 <span style={{ color: L2 }}>Team</span>
               </div>
               <Lbl ch="The people behind the work" lt />
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, color: "#fff", lineHeight: 1.5, marginBottom: 14 }}>96 across 11 cities.</div>
-              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>You will see most of these faces every week. We staff small senior teams - no pyramid, no offshore handoff.</div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>
+                We staff small, senior-only teams with no pyramid and no offshore handoffs. You will see these same faces every week, from discovery to production. 96 team members across 11 cities. Average tenure 5.4 years. 22 PhDs.
+              </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {[["Headcount", "96"], ["Avg tenure", "5.4 yrs"], ["PhDs", "22"], ["Cities", "11"], ["Founded", "2018"]].map(([k, v]) => (
-                <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>{k}</span>
-                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>{v}</span>
+              {[["96", "Team members", "Across 11 global cities"], ["5.4 yrs", "Average tenure", "Senior-heavy expertise"], ["22", "PhDs on staff", "Deep research background"], ["2018", "Founded", "Proven track record"]].map(([value, label, sub]) => (
+                <div key={label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                    <span style={{ fontFamily: MN, fontSize: 12, fontWeight: 700, color: "#fff" }}>{value}</span>
+                    <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>{label}</span>
+                    <span style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{sub}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -119,28 +131,28 @@ export default function OurTeamPageClient() {
       <Nav current="Services" />
       <TeamHero />
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ marginBottom: 36 }}><Lbl ch="Founders & C-suite" lt /><Ttl ch="LEADERSHIP." lt /></div>
+        <div style={{ marginBottom: 36 }}><Lbl ch="Founders and C-Suite" lt /><Ttl ch="LEADERSHIP." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 16 }}>
           {LEADERSHIP.map((p) => <PersonCard key={p.init} p={p} big dark />)}
         </div>
       </section>
       <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 36, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
-          <div><Lbl ch="Vertical practice leads" /><Ttl ch="PRACTICE LEADS" /></div>
-          <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 280, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>Each vertical has a senior practice lead with 8+ years in-industry.</div>
+          <div><Lbl ch="Vertical experts" /><Ttl ch="PRACTICE LEADS." /></div>
+          <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 330, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>Each vertical has a senior practice lead with 8+ years in industry.</div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 16 }}>
           {PRACTICE.map((p) => <PersonCard key={p.init} p={p} />)}
         </div>
       </section>
       <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-        <div style={{ marginBottom: 36 }}><Lbl ch="Senior craft" /><Ttl ch="CRAFT LEADS" /></div>
+        <div style={{ marginBottom: 36 }}><Lbl ch="Senior technical craft" /><Ttl ch="CRAFT LEADS." /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>
           {CRAFT.map((p) => <PersonCard key={p.init} p={p} />)}
         </div>
         <div style={{ display: "flex", alignItems: layout === "mobile" ? "flex-start" : "center", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 14 : 0, borderTop: `1px solid ${PL}`, marginTop: 48, paddingTop: 32 }}>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 8 }}>+ 80 more across delivery, research, design, ops</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 8 }}>Plus 80 more across delivery, research, design, and ops</div>
             <div style={{ fontFamily: MN, fontSize: 14, color: "#000", fontWeight: 500 }}>We are hiring 14 roles this quarter.</div>
           </div>
           <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#000", color: L, borderRadius: 24, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
@@ -148,7 +160,7 @@ export default function OurTeamPageClient() {
           </Link>
         </div>
       </section>
-      <CTAStrip title="MEET THE PEOPLE WHO'D OWN YOUR ENGAGEMENT." sub="A 30-min intro call with the partner and practice lead who'd staff your project. Always free." />
+      <CTAStrip title="MEET THE PEOPLE|WHO'D OWN YOUR|ENGAGEMENT." sub="A 30-min intro call with the partner and practice lead who would staff your project. Always free." cta="Start a project" />
       <Footer />
     </ConsultancyLoadedShell>
   );

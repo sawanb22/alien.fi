@@ -15,7 +15,10 @@ export type CaseStudyTemplateData = {
     stats: [string, string][];
   };
   phases: { p: string; w: string; n: string; d: string; deliv: string[] }[];
+  approachIntro?: string;
   quote: { text: string; initials: string; name: string; role: string };
   /** Linked case studies by client name (resolved via `CASE_STUDY_SLUG_BY_CLIENT`). */
   related: { n: string; i: string; v: string; l: string; h: string }[];
+  relatedCtaLabel?: string;
+  cta?: { title?: string; sub?: string; button?: string };
 };

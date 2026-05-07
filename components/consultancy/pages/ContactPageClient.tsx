@@ -74,19 +74,31 @@ export default function ContactPageClient() {
       <Nav current="Contact" />
       <PageHero
         eyebrow="Contact"
-        title="OPEN A|CHANNEL.|WE LISTEN."
-        sub="Tell us what's broken. Within one business day, a solution lead will reply with sharp questions and a proposed call time."
-        meta={[["Reply SLA", "< 1 day"], ["Offices", "SF · NY · LON"], ["Time zones", "PT · ET · GMT"], ["NDA", "On request"]]}
-        accent="Booking 3 strategy calls per week"
+        title="CONTACT|ALIEN.FI.|WE LISTEN."
+        sub="Tell us what's broken, or what you want to build. When you contact alien.fi, a solution lead replies within one business day with sharp questions, a proposed call time, and options for a free AI consultation if it makes sense."
+        meta={[
+          ["Reply SLA", "< 1 day"],
+          ["Headquarters", "Austin, TX"],
+          ["Operating", "North America · Europe · APAC"],
+          ["NDA", "On request"],
+        ]}
+        accent="Book a free AI consultation →"
+        accentHref="mailto:hello@alien.fi?subject=Free%20AI%20consultation"
       />
-      <Ticker words={["Send a brief", "Schedule a fit call", "Get a quote", "Sign an NDA", "Request references", "Tour the team"]} />
+      <Ticker words={["Get a quote", "Sign an NDA", "Request references", "Tour the team", "Send a brief", "Schedule a fit call"]} />
       <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "1.6fr 1fr" : "1fr", gap: layout === "mobile" ? 28 : 32 }}>
           <Form />
           <SidePanel />
         </div>
       </section>
-      <CTAStrip title="WE'RE FIVE MINUTES AWAY" sub="Skip the form: hello@alien.fi reaches a real human within an hour during PT business hours." />
+      <CTAStrip
+        title="WE'RE FIVE|MINUTES AWAY"
+        sub="Prefer to skip the form? Contact alien.fi directly at hello@alien.fi and a senior AI expert will respond within an hour during PT business hours to schedule a free AI consultation or a quick fit check."
+        cta="Start a Project ↗"
+        href="mailto:hello@alien.fi"
+        ctaUppercase={false}
+      />
       <Footer />
     </ConsultancyLoadedShell>
   );
@@ -169,11 +181,24 @@ function Form() {
           </div>
         ))}
       </div>
+      <div
+        style={{
+          fontFamily: MN,
+          fontSize: 10,
+          letterSpacing: "0.1em",
+          color: "rgba(0,0,0,0.4)",
+          marginBottom: 20,
+        }}
+      >
+        Step {step} of 3
+      </div>
       {step === 1 ? (
         <div id="about-you" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>About you</div>
-            <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>So we route to the right solution lead.</div>
+            <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
+              So we route you to the right AI expert and keep your free AI consultation focused on the problems that matter.
+            </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr", gap: 18 }}>
             <Field lbl="Name">
@@ -195,9 +220,11 @@ function Form() {
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>
-              The engagement
+              About your team
             </div>
-            <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>Helps us scope the first call.</div>
+            <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
+              Share context so the right partner joins the call.
+            </div>
           </div>
           <Field lbl="What kind of engagement?">
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -293,9 +320,11 @@ function Form() {
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>
-              The problem
+              About the work
             </div>
-            <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>One paragraph is fine. We'll ask the rest live.</div>
+            <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
+              Outline the AI project, timeline, and what success looks like.
+            </div>
           </div>
           <Field lbl="What are you trying to solve?" note="Optional but encouraged">
             <textarea
@@ -361,7 +390,6 @@ function Form() {
         >
           ← Back
         </button>
-        <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.1em", color: "rgba(0,0,0,0.4)" }}>STEP {step} OF 3</div>
         <button
           type="button"
           className="hv"
@@ -376,14 +404,18 @@ function Form() {
             fontSize: 11,
             fontWeight: 700,
             letterSpacing: "0.12em",
-            textTransform: "uppercase",
+            textTransform: "none",
             cursor: "none",
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
           }}
         >
-          {step < 3 ? "Continue" : "Transmit"} <Arr sz={11} cl={L} sw={2.2} />
+          {step < 3 ? "Continue ↗" : (
+            <>
+              Transmit <Arr sz={11} cl={L} sw={2.2} />
+            </>
+          )}
         </button>
       </div>
     </div>
@@ -391,11 +423,6 @@ function Form() {
 }
 
 function SidePanel() {
-  const offices = [
-    { c: "San Francisco", a: "88 Folsom Street, Floor 6", z: "CA 94105", tz: "PT · UTC-8" },
-    { c: "New York", a: "347 Madison Avenue, Floor 14", z: "NY 10017", tz: "ET · UTC-5" },
-    { c: "London", a: "2 Eastbourne Terrace", z: "W2 6LG", tz: "GMT · UTC+0" },
-  ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
       <div className="rv d1" style={{ background: DK, padding: "30px 28px" }}>
@@ -415,30 +442,31 @@ function SidePanel() {
         </div>
       </div>
       <div className="rv d2" style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px" }}>
-        <Lbl ch="Offices" />
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          {offices.map((o) => (
-            <div key={o.c} style={{ paddingBottom: 14, borderBottom: `1px solid ${PL}` }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-                <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "0.04em" }}>{o.c}</span>
-                <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.08em", color: L2, fontWeight: 600 }}>{o.tz}</span>
-              </div>
-              <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.5 }}>
-                {o.a}
-                <br />
-                {o.z}
-              </div>
-            </div>
-          ))}
+        <Lbl ch="Headquarters" />
+        <div style={{ paddingTop: 4 }}>
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "0.04em", marginBottom: 8 }}>Austin, TX</div>
+          <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.55 }}>
+            350 Innovation Drive, Suite 1200, Austin, TX 78701, United States
+          </div>
+        </div>
+      </div>
+      <div
+        className="rv d2b"
+        style={{
+          background: `linear-gradient(160deg,${BG2},${BG})`,
+          padding: "30px 28px",
+          borderTop: `1px solid ${PL}`,
+        }}
+      >
+        <Lbl ch="Operating globally" />
+        <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.6, paddingTop: 4 }}>
+          North America · Europe · APAC
         </div>
       </div>
       <div className="rv d3" style={{ background: `linear-gradient(160deg,${BG2},${BG})`, padding: "30px 28px" }}>
         <Lbl ch="Response promise" />
-        <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "0.02em", lineHeight: 1.5, marginBottom: 12 }}>
-          Replies within 1 business day. Always from a human.
-        </div>
-        <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.5)", lineHeight: 1.6 }}>
-          If your problem is urgent, mention it in the form and we'll surface it to a partner.
+        <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.52)", lineHeight: 1.65, paddingTop: 4 }}>
+          Replies within 1 business day. Always from a human. If your request is urgent, mention it in the form or email and we&apos;ll surface it to a senior AI expert immediately.
         </div>
       </div>
     </div>

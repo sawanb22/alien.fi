@@ -242,9 +242,11 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
 
 function Approach({
   phases,
+  intro,
   heading = "FOUR PHASES.",
 }: {
   phases: CaseStudyTemplateData["phases"];
+  intro?: string;
   heading?: string;
 }) {
   const layout = useLandingLayout();
@@ -268,8 +270,8 @@ function Approach({
           <Lbl ch="The approach" />
           <Ttl ch={heading} />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(0,0,0,0.55)", maxWidth: 480, lineHeight: 1.7 }}>
-          Sequenced for cash-flow positive value at every milestone. Each phase paid for the next.
+        <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(0,0,0,0.55)", maxWidth: 560, lineHeight: 1.7 }}>
+          {intro ?? "Sequenced for cash-flow positive value at every milestone. Each phase paid for the next."}
         </div>
       </div>
       <div
@@ -394,7 +396,13 @@ function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
   );
 }
 
-function Related({ rel }: { rel: CaseStudyTemplateData["related"] }) {
+function Related({
+  rel,
+  ctaLabel,
+}: {
+  rel: CaseStudyTemplateData["related"];
+  ctaLabel?: string;
+}) {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
@@ -439,7 +447,7 @@ function Related({ rel }: { rel: CaseStudyTemplateData["related"] }) {
             textDecoration: "none",
           }}
         >
-          See all 8 →
+          {ctaLabel ?? "See all 8 →"}
         </Link>
       </div>
       <div
@@ -501,10 +509,14 @@ export function CaseStudyTemplatePage({
       <StudyHero d={study} />
       <MetricsBar m={study.metrics} />
       <Challenge c={study.challenge} />
-      <Approach phases={study.phases} />
+      <Approach phases={study.phases} intro={study.approachIntro} />
       <Quote q={study.quote} />
-      <Related rel={study.related} />
-      <CTAStrip title="WRITE YOUR STORY" sub="Tell us your boldest goal. We'll show you how 3+ peers got there." />
+      <Related rel={study.related} ctaLabel={study.relatedCtaLabel} />
+      <CTAStrip
+        title={study.cta?.title ?? "WRITE YOUR STORY"}
+        sub={study.cta?.sub ?? "Tell us your boldest goal. We'll show you how 3+ peers got there."}
+        cta={study.cta?.button ?? "Start a project"}
+      />
       <Footer />
     </ConsultancyLoadedShell>
   );
