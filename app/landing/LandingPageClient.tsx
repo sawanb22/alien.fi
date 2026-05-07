@@ -311,7 +311,7 @@ function HeroDesktop({tweaks}){
               <Arr sz={9} cl="#fff" sw={1.8}/>
             </div>
           </div>
-          {['AI Strategy & Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'].map((s,i)=>(
+          {['AI Strategy Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'].map((s,i)=>(
             <div key={s} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)} style={{padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:hovSvc===i?'#000':'rgba(0,0,0,0.45)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'color .15s,padding-left .2s',paddingLeft:hovSvc===i?8:0}}>
               {s}<span style={{opacity:.25,fontSize:9}}>0{i+1}</span>
             </div>
@@ -323,11 +323,11 @@ function HeroDesktop({tweaks}){
           <div>
             <Lbl ch="About"/>
             <div style={{fontFamily:SN,fontWeight:400,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:28}}>
-              alien.fi is a full-service AI consultancy. We help organizations at every stage of AI maturity integrate, deploy, and maintain AI that delivers measurable results.
+              alien.fi is a full-service partner for organizations looking beyond generic ai consulting firms and searching for a team that can plan, build, deploy, and improve AI systems with measurable business value. We support companies at every stage of AI maturity through ai strategy consulting, custom ai development, implementation, and managed ai services.
             </div>
             <div className="ld" style={{height:1,background:PL,marginBottom:28}}/>
             <Lbl ch="Engagement models"/>
-            {['Project-based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
+            {['Project-Based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
               <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
               </div>
@@ -372,7 +372,8 @@ function HeroDesktop({tweaks}){
             <div style={{position:'relative',zIndex:3,padding:'32px 52px 0 20px',pointerEvents:'none'}}>
               <div className="rv d1" style={{display:'inline-block',pointerEvents:'all'}}>
                 <div style={{fontFamily:SN,fontSize:13.5,lineHeight:1.8,color:'rgba(0,0,0,0.55)',marginBottom:28,maxWidth:320,background:'rgba(243,243,255,0.75)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:12,padding:'14px 18px',boxShadow:'0 4px 24px rgba(0,0,0,0.06)'}}>
-                  From strategy and consulting to deployment and managed services — we guide your organization through every phase of AI adoption.
+                  <p style={{margin:0}}>alien.fi is one of the ai consulting firms helping businesses turn strategy into production-ready systems through custom ai development, implementation, and managed ai services.</p>
+                  <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
                 </div>
               </div>
               <div className="rv d2" style={{display:'flex',gap:12,flexWrap:'wrap',pointerEvents:'all'}}>
@@ -436,7 +437,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
   /** Keeps typography off the framed vertical rules without a heavy gutter */
   const frameInset=layout==='mobile'?10:12;
   const headlineFs=layout==='mobile'?'clamp(28px,8vw,44px)':'clamp(34px,5vw,52px)';
-  const svc=['AI Strategy & Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'];
+  const svc=['AI Strategy Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'];
   const socialPaths=['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
     'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
     'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'];
@@ -461,7 +462,8 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
 
         <div className="rv d1" style={{padding:'26px 0 28px'}}>
           <div style={{fontFamily:SN,fontSize:13.5,lineHeight:1.8,color:'rgba(0,0,0,0.55)',marginBottom:22,background:'rgba(243,243,255,0.85)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:14,padding:'16px 18px',boxShadow:'0 4px 24px rgba(0,0,0,0.06)',border:`1px solid ${PL}`}}>
-            From strategy and consulting to deployment and managed services — we guide your organization through every phase of AI adoption.
+            <p style={{margin:0}}>alien.fi is one of the ai consulting firms helping businesses turn strategy into production-ready systems through custom ai development, implementation, and managed ai services.</p>
+            <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
           </div>
           <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
             <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none'}}>
@@ -500,11 +502,11 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
           <div>
             <Lbl ch="About"/>
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.75,color:'rgba(0,0,0,0.5)',marginBottom:22}}>
-              alien.fi is a full-service AI consultancy. We help organizations at every stage of AI maturity integrate, deploy, and maintain AI that delivers measurable results.
+              alien.fi is a full-service partner for organizations looking beyond generic ai consulting firms and searching for a team that can plan, build, deploy, and improve AI systems with measurable business value. We support companies at every stage of AI maturity through ai strategy consulting, custom ai development, implementation, and managed ai services.
             </div>
             <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
             <Lbl ch="Engagement models"/>
-            {['Project-based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
+            {['Project-Based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
               <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
               </div>
@@ -568,17 +570,17 @@ function Services(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const svcs=[
-    {n:'01',href:'/services#strategy-consulting',t:'AI Strategy\n& Consulting',d:'AI readiness assessments, roadmap development, use case prioritization, and ROI modeling aligned with your business objectives.',tags:['Readiness Assessment','AI Roadmap','Use Case Discovery','ROI Modeling']},
-    {n:'02',href:'/services#custom-ai-development',t:'Custom AI\nDevelopment',d:'ML models, NLP applications, computer vision, predictive analytics, and conversational AI built for your exact requirements.',tags:['Machine Learning','NLP & LLMs','Computer Vision','Predictive Analytics']},
-    {n:'03',href:'/services#implementation-integration',t:'Implementation\n& Integration',d:'System architecture, API development, cloud infrastructure (AWS/Azure/GCP), data pipelines, and legacy system integration.',tags:['Cloud Setup','API Development','Data Pipelines','Legacy Integration']},
-    {n:'04',href:'/services#managed-ai-services',t:'Managed AI\nServices',d:'24/7 monitoring, model retraining, security patches, compliance management, and continuous performance optimization.',tags:['24/7 Monitoring','Model Retraining','Compliance','Scaling']},
-    {n:'05',href:'/services#training-enablement',t:'Training &\nEnablement',d:'Executive workshops, technical training, change management, and documentation to build lasting internal AI capabilities.',tags:['Executive Workshops','Technical Training','Documentation','Change Mgmt']},
+    {n:'01',href:'/services#strategy-consulting',t:'AI Strategy\nConsulting',d:'Identify high-value use cases, assess readiness, define priorities, and create a roadmap tied to ROI and business goals.',tags:['High-value use cases','Readiness assessment','Priorities & roadmap','ROI & goals']},
+    {n:'02',href:'/services#custom-ai-development',t:'Custom AI\nDevelopment',d:'Build tailored machine learning, NLP, LLM, computer vision, predictive analytics, and workflow automation systems for real operational use.',tags:['Machine learning & NLP','LLM & computer vision','Predictive analytics','Workflow automation']},
+    {n:'03',href:'/services#implementation-integration',t:'Implementation\n& Integration',d:'Deploy AI into production with APIs, cloud infrastructure, data pipelines, and legacy system integration.',tags:['APIs & cloud','Data pipelines','Legacy integration','Production deploy']},
+    {n:'04',href:'/services#managed-ai-services',t:'Managed AI\nServices',d:'Monitor, optimize, retrain, secure, and support production AI systems as data, business needs, and environments change.',tags:['Monitor & optimize','Retrain & secure','Production support','Evolving needs']},
+    {n:'05',href:'/services#training-enablement',t:'Training &\nEnablement',d:'Help internal teams adopt AI through workshops, documentation, operational playbooks, and change management support.',tags:['Workshops','Documentation','Operational playbooks','Change management']},
   ];
   return(
     <section id="services" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:2}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Link href="/services" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="What we do"/></Link><Ttl ch="SERVICES"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From first assessment to long-term partnership.</div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Our services cover the full lifecycle of AI adoption, from ai strategy consulting to custom ai development and long-term managed ai services.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {svcs.map((s,i)=>(
@@ -617,17 +619,17 @@ function Process(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const steps=[
-    {n:'01',t:'Assess',sub:'AI Readiness',d:'We audit your data, systems, and workflows to baseline AI maturity and identify high-value opportunities.',time:'2–4 wk'},
-    {n:'02',t:'Strategize',sub:'Roadmap & ROI',d:'A prioritized AI roadmap with clear business cases, success metrics, and phased implementation plans.',time:'2–3 wk'},
-    {n:'03',t:'Build',sub:'Dev & Deploy',d:'Our engineers design, develop, and deploy production-grade AI integrated into your existing stack.',time:'6–24 wk'},
-    {n:'04',t:'Operate',sub:'Monitor & Improve',d:'Continuous model monitoring, retraining on new data, and expanding AI capabilities as you grow.',time:'Ongoing'},
+    {n:'01',t:'Discover',sub:'',d:'We map goals, workflows, constraints, systems, and data so the right opportunities are clear from the start.',time:''},
+    {n:'02',t:'Design',sub:'',d:'We shape the roadmap, solution architecture, delivery plan, and success metrics before major build work begins.',time:''},
+    {n:'03',t:'Deploy',sub:'',d:'We deliver custom ai development, testing, integration, and launch with usability, reliability, and governance in mind.',time:''},
+    {n:'04',t:'Improve',sub:'',d:'We continue with managed ai services, monitoring, retraining, reporting, and ongoing optimization after go-live.',time:''},
   ];
   return(
     <section id="process" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:3,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0'}}>
         <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
           <div className="rv"><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
-          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement from discovery to continuous improvement.</div>
+          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
         </div>
         <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.06)',borderRadius:layout==='mobile'?16:20,overflow:'hidden'}}>
           {steps.map((s,i)=>(
@@ -635,11 +637,11 @@ function Process(){
               <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 20px':'36px 28px',display:'flex',flexDirection:'column',gap:16,height:'100%'}}>
                 <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                   <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.12em',color:L2}}>{s.n}</span>
-                  <Chip ch={s.time} bg='rgba(150,238,82,0.12)' cl={L} sx={{fontSize:9}}/>
+                  {s.time?<Chip ch={s.time} bg='rgba(150,238,82,0.12)' cl={L} sx={{fontSize:9}}/>:<span/>}
                 </div>
                 <div>
                   <div style={{fontFamily:MN,fontWeight:700,fontSize:22,letterSpacing:'0.04em',color:'#fff',lineHeight:1}}>{s.t}</div>
-                  <div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:L2,marginTop:4}}>{s.sub}</div>
+                  {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:L2,marginTop:4}}>{s.sub}</div>:null}
                 </div>
                 <div style={{height:1,background:'rgba(255,255,255,0.06)'}}/>
                 <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(255,255,255,0.42)',flexGrow:1}}>{s.d}</div>
@@ -660,17 +662,16 @@ function Differentiators(){
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const items=[
-    {n:'01',t:'Deep Cross-Industry Expertise',d:'Our team spans healthcare, finance, legal, insurance, manufacturing, and 15+ more industries. AI is our sole focus — not an add-on.'},
-    {n:'02',t:'End-to-End Ownership',d:'We guide clients from readiness assessment through strategy, development, deployment, and continuous improvement. We don\'t disappear.'},
-    {n:'03',t:'Ethical AI by Design',d:'Bias audits, explainable models, HIPAA/GDPR compliance, and human-in-the-loop safeguards built into every engagement.'},
-    {n:'04',t:'Transparent Pricing & ROI',d:'Clear scoping, milestone-based delivery, and success metrics tied to business outcomes. We track and report ROI throughout.'},
-    {n:'05',t:'Flexible Engagements',d:'From a 2-week strategy sprint to a multi-year partnership — we meet you where you are, with the support you actually need.'},
-    {n:'06',t:'Local + Global Reach',d:'Headquartered in Austin, TX with international delivery. Nordic transparency and reliability, world-class technical execution.'},
+    {n:'01',t:'Strategy through execution',d:'We combine ai strategy consulting, custom ai development, deployment, and managed ai services in one delivery model.'},
+    {n:'02',t:'ROI-first delivery',d:'Every engagement is tied to operational value, measurable outcomes, and clear decision criteria.'},
+    {n:'03',t:'Built for complex environments',d:'We support organizations working with legacy systems, fragmented data, compliance requirements, and high-stakes workflows.'},
+    {n:'04',t:'Long-term ownership',d:'We stay involved after launch to monitor performance, improve models, and help teams scale AI responsibly.'},
   ];
   return(
     <section id="why-us" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:4,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Many ai consulting firms can talk about transformation. Fewer can deliver AI that performs reliably inside real business operations.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,3,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {items.map((item,i)=>(
@@ -695,23 +696,24 @@ function Industries(){
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const list=[
-    {name:'Healthcare',detail:'Diagnostic AI, EHR integration, patient management, prior auth automation'},
-    {name:'Financial Services',detail:'Fraud detection, credit risk, AML, algorithmic trading AI'},
-    {name:'Insurance',detail:'Claims automation, fraud detection, underwriting optimization'},
-    {name:'Legal',detail:'Contract analysis, research automation, e-discovery, billing AI'},
-    {name:'Retail & E-commerce',detail:'Demand forecasting, personalization, inventory AI'},
-    {name:'Manufacturing',detail:'Predictive maintenance, quality control, scheduling AI'},
-    {name:'Logistics',detail:'Route optimization, fleet AI, warehouse automation'},
-    {name:'Education',detail:'Student success prediction, personalized learning paths'},
-    {name:'Real Estate',detail:'Property valuation, lead AI, market trend analysis'},
-    {name:'Government',detail:'Citizen service AI, infrastructure, benefits fraud detection'},
-    {name:'Marketing Agencies',detail:'Campaign AI, content generation, lead scoring & attribution'},
-    {name:'Tech Startups',detail:'Product AI, churn prediction, growth analytics'},
+    {name:'Healthcare',detail:'Diagnostic AI, EHR integration, patient operations, prior auth automation.'},
+    {name:'Financial Services',detail:'Fraud detection, credit risk, AML, underwriting intelligence.'},
+    {name:'Insurance',detail:'Claims automation, fraud scoring, policy servicing, document extraction.'},
+    {name:'Legal',detail:'Contract analysis, legal research, e-discovery, document workflows.'},
+    {name:'Retail & E-commerce',detail:'Personalization, demand forecasting, pricing, inventory optimization.'},
+    {name:'Manufacturing',detail:'Predictive maintenance, quality control, scheduling, production visibility.'},
+    {name:'Logistics',detail:'Route optimization, fleet intelligence, warehouse automation, ETA prediction.'},
+    {name:'Education',detail:'Student success prediction, personalized learning, admissions and admin workflows.'},
+    {name:'Real Estate',detail:'Property valuation, lead qualification, market intelligence, client automation.'},
+    {name:'Government',detail:'Citizen service automation, infrastructure planning, benefits fraud detection.'},
+    {name:'Marketing Agencies',detail:'Campaign analytics, content workflows, lead scoring, attribution support.'},
+    {name:'Tech Startups',detail:'Product copilots, churn prediction, growth analytics, internal AI tools.'},
   ];
   return(
     <section id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48}}>
+      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Link href="/industries" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Who we help"/></Link><Ttl ch="INDUSTRIES"/></div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>We support organizations across sectors where speed, accuracy, compliance, and operational efficiency matter most.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {list.map((ind,i)=>(
@@ -747,7 +749,7 @@ function CaseStudy(){
       <div style={{padding:'0'}}>
         <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
           <div className="rv"><Link href="/case-studies" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Case study" lt/></Link><Ttl ch="REAL RESULTS." lt/></div>
-          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees.<br/>9-month AI transformation.</div>
+          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees, 9-month transformation delivered through ai strategy consulting, custom ai development, and managed ai services.</div>
         </div>
         <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
           {metrics.map(m=>(
@@ -761,7 +763,7 @@ function CaseStudy(){
           ))}
         </div>
         <div className="rv d2" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.04)',borderRadius:16,overflow:'hidden',marginBottom:20}}>
-          {[{p:'Phase 1',n:'Claims Automation',d:'NLP-powered extraction automated 70% of routine claims intake and routing.'},{p:'Phase 2',n:'Fraud Detection AI',d:'Real-time ML model flags suspicious patterns before payouts.'},{p:'Phase 3',n:'Customer Experience AI',d:'Conversational assistant handling policy inquiries 24/7.'},{p:'Phase 4',n:'Unified Data Platform',d:'Integrated siloed systems into a centralized pipeline.'}].map((p,i)=>(
+          {[{p:'Phase 1',n:'Claims Automation',d:'NLP-powered extraction automated 70% of routine claims intake and routing.'},{p:'Phase 2',n:'Fraud Detection AI',d:'Real-time machine learning flagged suspicious patterns before payouts.'},{p:'Phase 3',n:'Customer Experience AI',d:'A conversational assistant handled policy inquiries and status updates 24/7.'},{p:'Phase 4',n:'Unified Data Platform',d:'Siloed systems were integrated into a centralized data pipeline for real-time visibility.'}].map((p,i)=>(
             <div key={p.p} style={{background:'rgba(255,255,255,0.02)',padding:layout==='mobile'?'20px 18px':'24px 24px'}}>
               <Chip ch={p.p} bg='rgba(150,238,82,0.1)' cl={L} sx={{marginBottom:12}}/>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:'rgba(255,255,255,0.75)',marginBottom:8,letterSpacing:'0.03em',lineHeight:1.35}}>{p.n}</div>
@@ -772,8 +774,7 @@ function CaseStudy(){
         <div className="rv d3" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
           <div style={{fontSize:layout==='mobile'?42:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>"</div>
           <div>
-            <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing:'0.03em',color:'rgba(255,255,255,0.65)',marginBottom:20,maxWidth:700}}>alien.fi didn't just deliver technology — they delivered a transformation. Their team took the time to understand our business deeply, proposed solutions that were realistic and well-scoped, and stood by us through every phase.</div>
-            <div style={{fontFamily:MN,fontWeight:600,fontSize:10,letterSpacing:'0.12em',color:L2,textTransform:'uppercase'}}>Chief Operations Officer — Regional Insurance Company</div>
+            <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing:'0.03em',color:'rgba(255,255,255,0.65)',maxWidth:700}}>The best ai consulting firms do more than launch systems — they create solutions that perform in production, earn trust internally, and improve the numbers that matter.</div>
           </div>
         </div>
       </div>
@@ -788,20 +789,18 @@ function Solutions(){
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const items=[
-    {tag:'2–4 wk deploy',t:'AI Customer Service Chatbot',d:'Handles FAQs, scheduling, order tracking. Integrates with Salesforce, Zendesk, HubSpot.'},
-    {tag:'95%+ accuracy',t:'Intelligent Document Processing',d:'Automated extraction from invoices, contracts, forms, and medical records using OCR + NLP.'},
-    {tag:'Plug-and-play',t:'Predictive Analytics Dashboard',d:'Sales forecasting, demand spikes, churn prediction. Connects to Snowflake, BigQuery, Redshift.'},
-    {tag:'Real-time',t:'AI Fraud Detection Engine',d:'Anomaly detection across financial, insurance, and e-commerce platforms with XAI reporting.'},
-    {tag:'Bias-reduced',t:'HR & Talent Intelligence',d:'Resume screening, candidate ranking, retention risk predictor, and workforce sentiment.'},
-    {tag:'ML-driven',t:'Inventory & Supply Chain AI',d:'Demand forecasting, automated reorders, supplier risk scoring in one dashboard.'},
-    {tag:'HIPAA-compliant',t:'Clinical Decision Support',d:'Treatment recommendations, drug interaction flags, and ICD-10 accuracy for EHRs.'},
-    {tag:'Real-time',t:'Marketing Personalization Engine',d:'Next-best-action, email optimization, content recommendations from behavioral data.'},
+    {tag:'Customer communication',t:'AI Customer Service Assistant',d:'Handle FAQs, support requests, routing, and customer communication at scale.'},
+    {tag:'Forms & contracts',t:'Intelligent Document Processing',d:'Extract, classify, and validate data from forms, contracts, invoices, and records.'},
+    {tag:'Forecast outcomes',t:'Predictive Analytics Dashboards',d:'Forecast demand, churn, revenue, and operational outcomes using historical business data.'},
+    {tag:'Explainable alerts',t:'Fraud Detection Systems',d:'Detect anomalies and suspicious behavior in real time with explainable alerts.'},
+    {tag:'Answer-ready docs',t:'Knowledge Bases & RAG Systems',d:'Turn internal documentation into searchable, answer-ready AI systems.'},
+    {tag:'Domain-specific agents',t:'AI Agents & Copilots',d:'Automate multi-step workflows with domain-specific agents embedded into business operations.'},
   ];
   return(
     <section id="solutions" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:7,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div className="rv"><Link href="/solutions" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Ready-to-deploy"/></Link><Ttl ch="SOLUTIONS"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:260,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value.</div>
+        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value, plus custom ai development when the use case requires a tailored solution.</div>
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {items.map((item,i)=>(
@@ -828,10 +827,10 @@ function EngagementModels(){
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
   const models=[
-    {t:'Project-Based',r:'$25K – $500K',d:'Clearly scoped, fixed-deliverable projects with defined milestones, timelines, and success metrics.',f:['Fixed scope & budget','Milestone delivery','2–24 weeks','Clear deliverables']},
-    {t:'Retainer & Managed',r:'Monthly retainer',d:'Your dedicated AI team without the overhead of building one in-house. Continuous monitoring and optimization.',f:['24/7 monitoring','Monthly reporting','Model retraining','Priority support']},
-    {t:'Staff Augmentation',r:'Per specialist',d:'Embed our AI specialists directly within your team for collaborative, knowledge-transfer-focused engagements.',f:['Embedded specialists','Knowledge transfer','Flexible duration','Your tools & process']},
-    {t:'Strategic Advisory',r:'$10K – $50K/mo',d:'Senior-level AI consulting for leadership teams defining long-term AI roadmaps and governance frameworks.',f:['CAIO-level access','Board-ready output','Risk & ethics review','Quarterly sessions']},
+    {t:'Project-Based',r:'$25K – $500K',d:'Clearly scoped projects for businesses that need ai strategy consulting or custom ai development with fixed deliverables and defined success metrics.',f:['Fixed scope & budget','Milestone delivery','2–24 weeks','Clear deliverables']},
+    {t:'Retainer & Managed',r:'Monthly retainer',d:'Your dedicated AI team without the cost of building one in-house, ideal for continuous monitoring, reporting, retraining, and managed ai services.',f:['24/7 monitoring','Monthly reporting','Model retraining','Priority support']},
+    {t:'Staff Augmentation',r:'Per specialist',d:'Embed AI specialists inside your team for faster execution, smoother collaboration, and hands-on knowledge transfer.',f:['Embedded specialists','Knowledge transfer','Flexible duration','Your tools & process']},
+    {t:'Strategic Advisory',r:'$10K – $50K/mo',d:'Senior-level ai strategy consulting for leadership teams shaping AI roadmaps, governance, investment priorities, and risk strategy.',f:['CAIO-level access','Board-ready output','Risk & ethics review','Quarterly sessions']},
   ];
   return(
     <section id="engagements" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:8,borderRadius:'24px 24px 0 0',marginTop:-24}}>
@@ -913,7 +912,7 @@ function CTA(){
         <div>
           <Lbl ch="Let's build together" lt/>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing:'0.04em',lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
-          <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>From a 2-week strategy sprint to a multi-year AI partnership — tell us your goals and we'll respond within 24 hours.</div>
+          <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we'll recommend the right next step.</div>
           <div style={{display:'flex',flexDirection:'column',gap:16}}>
             {[['Austin, TX 78701'],['info@alien.fi'],['+1 (800) 555-2946']].map(([l])=>(
               <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.35)'}}>
@@ -939,6 +938,7 @@ function CTA(){
               onFocus={e=>e.target.style.borderColor=showErr('project')?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
               onBlur={()=>setTouched(v=>({...v,project:true}))}/>
             {showErr('project')?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors.project}</div>:null}
+            <div style={{marginTop:8,fontFamily:SN,fontSize:11,lineHeight:1.55,color:'rgba(255,255,255,0.28)',maxWidth:520}}>Share your company, goals, timeline, and budget, and we'll recommend the best engagement model for your project.</div>
           </div>
           {status?<div style={{fontFamily:SN,fontSize:12,color:hasErrors?'rgba(255,130,130,0.95)':'rgba(177,238,82,0.95)'}}>{status}</div>:null}
           <button type="submit" className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
