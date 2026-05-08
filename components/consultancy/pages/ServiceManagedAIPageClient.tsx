@@ -55,7 +55,13 @@ export default function ServiceManagedAIPageClient() {
         <div style={{ padding: `0 ${gv}px` }}>
           <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr" }}>
             <div style={{ padding: 28, borderRight: layout === "desktop" ? "1px solid rgba(255,255,255,0.08)" : "none", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: MN, fontSize: 9, color: "rgba(255,255,255,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Home / Services / Managed AI</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, color: "rgba(255,255,255,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>
+                <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <Link href="/services" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Services</Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <span style={{ color: L2 }}>Managed AI</span>
+              </div>
               <Lbl ch="Service · Ongoing Operations" lt />
               <div style={{ fontFamily: MN, color: "#fff", fontSize: 18, marginBottom: 10 }}>Managed ai services that keep your models performing after go-live.</div>
               <div style={{ fontFamily: SN, color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.65, marginBottom: 16 }}>For teams that have AI in production and need a dedicated partner to monitor it, maintain it, and continuously improve it without building an internal MLOps team.</div>

@@ -24,70 +24,52 @@ import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 const MODULES = [
   {
     ic: "⌬",
-    t: "Legal Research Copilot",
-    d: "Search case law, statutes, briefs, memos, and internal work product with grounded retrieval and source-linked outputs. Built for legal AI teams that need speed with traceability.",
-    m: "Outcome: +58% research speed",
+    t: "Fraud Detection Engine",
+    d: "Real-time anomaly detection across transactions, users, and devices for faster fraud response and lower losses.",
+    m: "Outcome: Lower fraud exposure",
   },
   {
     ic: "✚",
-    t: "Contract Review AI",
-    d: "Review redlines, compare clauses, flag risk language, and surface deviations from firm-approved standards. A core ai for legal workflow for high-volume review teams.",
-    m: "Outcome: 2.1x contract throughput",
+    t: "Credit Risk Copilot",
+    d: "Summarize borrower profiles, analyze underwriting signals, and support credit decisions with structured evidence.",
+    m: "Outcome: Faster underwriting",
   },
   {
     ic: "◭",
-    t: "Drafting Copilot",
-    d: "Generate first drafts for memos, client responses, clauses, and internal summaries using approved templates and prior work product. Keeps legal AI outputs closer to firm style.",
-    m: "Outcome: +43% drafting speed",
+    t: "Compliance Monitor",
+    d: "Track policy breaches, regulatory flags, and audit trails across financial workflows with defensible logging.",
+    m: "Outcome: Cleaner audit readiness",
   },
   {
     ic: "◯",
-    t: "Matter Intake Copilot",
-    d: "Turn emails, intake forms, and uploaded documents into structured records, then route them to the right team or practice area. Especially useful for AI for law firms focused on reducing admin drag.",
-    m: "Outcome: +36% intake efficiency",
+    t: "Collections Assistant",
+    d: "Prioritize accounts, recommend next actions, and automate outreach workflows with tone and timing controls.",
+    m: "Outcome: Better recovery rates",
   },
   {
     ic: "⊞",
-    t: "Knowledge Search",
-    d: "Ask questions across internal precedents, clause libraries, research notes, and prior matters with matter-aware permissions. Reduces duplicate work and makes institutional knowledge reusable.",
-    m: "Outcome: +31% knowledge reuse",
+    t: "Treasury Forecasting",
+    d: "Predict cash flow, liquidity shifts, and near-term exposure using historical and live finance data.",
+    m: "Outcome: Improved planning accuracy",
   },
   {
     ic: "◐",
-    t: "Compliance Review Layer",
-    d: "Check outputs for privilege, confidentiality, policy, and release risks before documents leave the workflow. Gives ai for legal deployments stronger control at the final step.",
-    m: "Outcome: +29% review consistency",
+    t: "Customer Ops Copilot",
+    d: "Support finance operations, service teams, and escalations with secure retrieval and workflow automation.",
+    m: "Outcome: Faster internal resolution",
   },
 ];
 
 const COMPLIANCE = [
-  {
-    n: "Privilege Controls",
-    d: "Matter-aware access, routing boundaries, and controlled retrieval for sensitive work.",
-  },
-  {
-    n: "SOC 2 Type II",
-    d: "Annual third-party audit alignment and operational control maturity.",
-  },
-  {
-    n: "Tenant Isolation",
-    d: "Separate environments and matter-level boundaries for client confidentiality.",
-  },
-  {
-    n: "Audit Logs",
-    d: "Tracked actions, retrieval history, and review visibility for regulated workflows.",
-  },
-  {
-    n: "Private Deployment",
-    d: "Private cloud or controlled deployment options for firms with stricter security needs.",
-  },
-  {
-    n: "Policy Mapping",
-    d: "Aligned for internal legal policy, confidentiality, and review governance requirements.",
-  },
+  { n: "HIPAA", d: "For healthcare-linked finance workflows and sensitive data handling." },
+  { n: "SOC 2 Type II", d: "Annual third-party audit readiness and continuous control alignment." },
+  { n: "PCI DSS", d: "Payment and card-data handling safeguards for finance operations." },
+  { n: "SOX", d: "Audit trail support for reporting, approvals, and controls." },
+  { n: "NIST AI RMF", d: "Risk management mapping for every model and workflow." },
+  { n: "FFIEC aligned", d: "Built to support banking AI governance expectations." },
 ];
 
-function CounselHero() {
+function VaultHero() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
@@ -157,9 +139,9 @@ function CounselHero() {
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "rgba(0,0,0,0.5)" }}>Platforms</span>
                 <span style={{ opacity: 0.4 }}>/</span>
-                <span style={{ color: "#000" }}>AlienCounsel</span>
+                <span style={{ color: "#000" }}>AlienVault</span>
               </div>
-              <Lbl ch="Platform · Legal · Privilege-aware" />
+              <Lbl ch="Platform · Finance · Regulated" />
               <div
                 style={{
                   fontFamily: MN,
@@ -171,7 +153,7 @@ function CounselHero() {
                   letterSpacing: "0.02em",
                 }}
               >
-                AlienCounsel™
+                AlienVault™
               </div>
               <div
                 style={{
@@ -181,56 +163,20 @@ function CounselHero() {
                   color: "rgba(0,0,0,0.55)",
                 }}
               >
-                A vertical AI platform for law firms and in-house legal teams.
-                Six legal AI modules. One secure tenant. Live in weeks for
-                research, drafting, review, and intake workflows.
+                A vertical AI platform for banks and financial services teams. Six finance AI modules. One secure tenant. Live in weeks, not quarters.
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                ["Modules", "6 · 4 in beta"],
+                ["Modules", "6 to 4 in beta"],
                 ["Avg deploy", "3 weeks"],
-                ["Legal teams live", "1,500+"],
-                ["Tenant model", "Single + multi matter"],
+                ["Clients live", "12,400+"],
+                ["Tenant model", "Single or multi"],
                 ["Pricing", "From $180K/yr"],
               ].map(([k, v]) => (
-                <div
-                  key={k}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "minmax(112px, auto) minmax(0, 1fr)",
-                    alignItems: "start",
-                    gap: 12,
-                    padding: "8px 0",
-                    borderBottom: `1px solid ${PL}`,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: MN,
-                      fontSize: 10,
-                      fontWeight: 600,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "rgba(0,0,0,0.35)",
-                      whiteSpace: "normal",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {k}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: MN,
-                      fontSize: 11,
-                      fontWeight: 600,
-                      color: "#000",
-                      textAlign: "right",
-                      lineHeight: 1.25,
-                    }}
-                  >
-                    {v}
-                  </span>
+                <div key={k} style={{ display: "grid", gridTemplateColumns: "max-content 1fr", alignItems: "center", gap: 12, padding: "8px 0", borderBottom: `1px solid ${PL}` }}>
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", whiteSpace: "nowrap" }}>{k}</span>
+                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "#000", textAlign: "right" }}>{v}</span>
                 </div>
               ))}
             </div>
@@ -255,8 +201,8 @@ function CounselHero() {
               }}
             >
               <Chip ch="Platform" />
-              <Chip ch="Legal" bg={DK} cl={L} />
-              <Chip ch="SOC 2 + Privilege Controls" />
+              <Chip ch="Banking" bg={DK} cl={L} />
+              <Chip ch="SOC 2 and PCI ready" />
             </div>
             <div
               className="rv"
@@ -270,9 +216,9 @@ function CounselHero() {
                 marginBottom: 28,
               }}
             >
-              <div style={{ fontWeight: 300 }}>LEGAL AI</div>
-              <div style={{ fontWeight: 500 }}>BUILT FOR</div>
-              <div style={{ fontWeight: 700, color: DK }}>REAL MATTERS.</div>
+              <div style={{ fontWeight: 300 }}>BANKING AI</div>
+              <div style={{ fontWeight: 500 }}>BUILT FOR THE</div>
+              <div style={{ fontWeight: 700, color: DK }}>LEDGER.</div>
             </div>
             <div
               className="rv d3"
@@ -285,10 +231,7 @@ function CounselHero() {
                 marginBottom: 32,
               }}
             >
-              AlienCounsel is a vertical AI platform for law firms. Six modules
-              deployed in one secure tenant so legal teams can move faster on
-              research, drafting, review, and knowledge workflows without
-              exposing confidential material to generic tools.
+              AlienVault is a vertical AI platform for finance teams. Six modules deployed in a secure tenant for banks, lending, payments, and operations teams, without a multi-year transformation program.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link
@@ -299,7 +242,7 @@ function CounselHero() {
                   alignItems: "center",
                   gap: 8,
                   background: DK,
-                  color: "#fff",
+                  color: L,
                   borderRadius: 24,
                   padding: "14px 22px",
                   fontFamily: MN,
@@ -311,12 +254,12 @@ function CounselHero() {
                   transition: "background .2s,color .2s,transform .15s",
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = DK; e.currentTarget.style.color = "#fff"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = DK; e.currentTarget.style.color = L; }}
               >
-                Book a legal demo <Arr sz={10} cl="currentColor" sw={2.4} />
+                Book a finance demo <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
               <Link
-                href="/case-studies/lumen-legal"
+                href="/case-studies/kestrel-bank"
                 className="hv"
                 style={{
                   display: "inline-flex",
@@ -338,7 +281,7 @@ function CounselHero() {
                 onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = PL; }}
               >
-                Lumen case study <Arr sz={10} cl="currentColor" sw={2.4} />
+                Kestrel case study <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
             </div>
           </div>
@@ -353,7 +296,13 @@ function ModulesSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative" }}>
+    <section
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: `linear-gradient(180deg,${BG2},${BG})`,
+        position: "relative",
+      }}
+    >
       <div
         style={{
           marginBottom: 36,
@@ -386,7 +335,6 @@ function ModulesSection() {
             int={4}
             ch={
               <div
-                id={`${m.t.toLowerCase().replace(/\s/g, '-')}`}
                 style={{
                   background: `linear-gradient(160deg,${BG},${BG2})`,
                   padding: "30px 28px",
@@ -442,7 +390,7 @@ function ModulesSection() {
                     lineHeight: 1.3,
                   }}
                 >
-                  <a href={`#${m.t.toLowerCase().replace(/\s/g, '-')}`}>{m.t}</a>
+                  {m.t}
                 </div>
                 <div
                   style={{
@@ -512,9 +460,7 @@ function ComplianceSection() {
             lineHeight: 1.7,
           }}
         >
-          AlienCounsel ships with the controls legal teams need from day one. The
-          platform is designed for confidential legal workflows where access,
-          traceability, and defensibility matter as much as productivity.
+          AlienVault ships with the controls finance and banking teams need from day one. It is designed for regulated environments where security, traceability, and policy alignment matter as much as model performance.
         </div>
       </div>
       <div
@@ -558,18 +504,16 @@ function ComplianceSection() {
   );
 }
 
-export default function PlatformAlienCounselPageClient() {
-  const gv = sectionGutter(useLandingLayout());
-  const pv = sectionVPad(useLandingLayout());
+export default function PlatformAlienvaultPageClient() {
   return (
-    <ConsultancyLoadedShell label="ALIENCOUNSEL">
+    <ConsultancyLoadedShell label="ALIENVAULT">
       <Nav current="Platform" />
-      <CounselHero />
+      <VaultHero />
       <ModulesSection />
       <ComplianceSection />
       <CTAStrip
-        title="BRING IT TO YOUR ATTORNEYS."
-        sub="A 30-min discovery call. We will send sample control packs, three peer references, and a fixed-fee deployment quote for your legal AI rollout."
+        title="BRING IT TO YOUR FINANCE TEAM."
+        sub="A 30-minute discovery call. We will send sample audit packs, three peer references, and a fixed-fee deployment quote."
       />
       <Footer />
     </ConsultancyLoadedShell>

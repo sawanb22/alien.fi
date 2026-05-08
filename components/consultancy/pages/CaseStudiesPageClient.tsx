@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Arr,
@@ -33,7 +35,7 @@ type StudyHub = {
   featured?: boolean;
 };
 
-const STUDIES: StudyHub[] = [
+const STUDIES_DATA: Omit<StudyHub, 'cardHref'>[] = [
   {
     id: "southeast-regional-hospital",
     industry: "Healthcare",
@@ -46,7 +48,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Fewer readmissions",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "6 months",
-    cardHref: "/contact",
     featured: true,
   },
   {
@@ -61,7 +62,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Faster contract review",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "2.1x ROI",
-    cardHref: "/contact",
   },
   {
     id: "midwest-community-bank",
@@ -75,7 +75,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Lower fraud losses",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "$2.8M annual value",
-    cardHref: "/contact",
   },
   {
     id: "regional-last-mile-carrier",
@@ -89,7 +88,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Fuel cost reduction",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "$1.1M annual savings",
-    cardHref: "/contact",
   },
   {
     id: "ohio-auto-parts-manufacturer",
@@ -103,7 +101,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Less downtime",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "9-month payback",
-    cardHref: "/contact",
   },
   {
     id: "southwest-retail-chain",
@@ -117,7 +114,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Lower inventory cost",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "$2.6M net savings",
-    cardHref: "/contact",
   },
   {
     id: "mid-atlantic-private-university",
@@ -131,7 +127,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Retention lift",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "4 months to impact",
-    cardHref: "/contact",
   },
   {
     id: "florida-residential-brokerage",
@@ -145,7 +140,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Higher lead conversion",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "$890K added revenue",
-    cardHref: "/contact",
   },
   {
     id: "fast-casual-restaurant-group",
@@ -159,7 +153,6 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Less food waste",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "$620K cost reduction",
-    cardHref: "/contact",
   },
   {
     id: "b2b-saas-startup",
@@ -173,9 +166,10 @@ const STUDIES: StudyHub[] = [
     heroLbl: "Fewer support tickets",
     services: ["AI Strategy", "Implementation", "Managed"],
     footerMetric: "$480K avoided hiring cost",
-    cardHref: "/contact",
   },
 ];
+
+const STUDIES = STUDIES_DATA.map((s) => ({ ...s, cardHref: caseStudyPathByClient(s.client) }));
 
 const FILTER_ORDER = [
   "All",
@@ -190,6 +184,31 @@ const FILTER_ORDER = [
   "Restaurant",
   "SaaS",
 ];
+
+const SERVICE_QUERY_ALIASES: Record<string, string[]> = {
+  "strategy-consulting": ["strategy", "roadmap"],
+  "custom-ai-development": ["custom", "development", "build", "model"],
+  "implementation-integration": ["implementation", "integration", "deploy"],
+  "managed-ai-services": ["managed", "operations", "monitoring"],
+  "training-enablement": ["training", "enablement", "workshop"],
+  "responsible-ai-governance": ["governance", "compliance", "risk", "audit"],
+};
+
+function normalizeQueryValue(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function normalizeIndustryQuery(value: string) {
+  const normalized = normalizeQueryValue(value);
+  return FILTER_ORDER.find((item) => item.toLowerCase() === normalized);
+}
+
+function matchesServiceQuery(study: StudyHub, serviceQuery: string) {
+  const normalized = normalizeQueryValue(serviceQuery);
+  const aliasTerms = SERVICE_QUERY_ALIASES[normalized] ?? [normalized.replace(/-/g, " ")];
+  const corpus = [study.client, study.blurb, study.headline, ...study.services].join(" ").toLowerCase();
+  return aliasTerms.some((term) => corpus.includes(term));
+}
 
 function Filters({
   active,
@@ -400,12 +419,26 @@ function Grid() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
-  const [active, setActive] = useState("All");
+  const searchParams = useSearchParams();
+  const industryQuery = searchParams.get("industry") ?? "";
+  const serviceQuery = searchParams.get("service") ?? "";
+  const [active, setActive] = useState(() => normalizeIndustryQuery(industryQuery) ?? "All");
+
   const counts: Record<string, number> = { All: STUDIES.length };
   STUDIES.forEach((s) => {
     counts[s.industry] = (counts[s.industry] ?? 0) + 1;
   });
-  const filtered = STUDIES.filter((s) => active === "All" || s.industry === active);
+
+  const normalizedServiceQuery = normalizeQueryValue(serviceQuery);
+  const serviceMatchedStudies = normalizedServiceQuery
+    ? STUDIES.filter((s) => matchesServiceQuery(s, normalizedServiceQuery))
+    : STUDIES;
+
+  const baseStudies = normalizedServiceQuery && serviceMatchedStudies.length > 0
+    ? serviceMatchedStudies
+    : STUDIES;
+
+  const filtered = baseStudies.filter((s) => active === "All" || s.industry === active);
   const featured = filtered.find((s) => s.featured);
   const rest = filtered.filter((s) => !s.featured);
   return (
@@ -583,6 +616,7 @@ function CaseStudiesPageHero() {
         </>
       ) : null}
 
+      <div style={{ paddingLeft: gv, paddingRight: gv, boxSizing: "border-box" }}>
       <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : `${sideWidth}px 1fr ${sideWidth}px`, minHeight: layout === "mobile" ? "auto" : 300 }}>
         <div
           className="rvl"
@@ -666,6 +700,7 @@ function CaseStudiesPageHero() {
             View audited outcomes <Arr sz={11} cl="rgba(0,0,0,0.6)" sw={2} />
           </Link>
         </div>
+      </div>
       </div>
     </section>
   );

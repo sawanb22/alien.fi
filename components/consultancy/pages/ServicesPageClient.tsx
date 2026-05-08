@@ -339,12 +339,21 @@ function ServiceRow({
                   textTransform: "uppercase",
                   cursor: "none",
                   textDecoration: "none",
+                  transition: "background .2s,color .2s,transform .15s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = L;
+                  e.currentTarget.style.color = "#000";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#000";
+                  e.currentTarget.style.color = "#fff";
                 }}
               >
-                Discuss this engagement <Arr sz={10} cl={L} sw={2.2} />
+                Discuss this engagement <Arr sz={10} cl="currentColor" sw={2.2} />
               </Link>
               <Link
-                href="/case-studies"
+                href={`/case-studies?service=${s.anchor}`}
                 className="hv"
                 style={{
                   display: "inline-flex",
@@ -362,9 +371,20 @@ function ServiceRow({
                   textTransform: "uppercase",
                   cursor: "none",
                   textDecoration: "none",
+                  transition: "background .2s,color .2s,border-color .2s,transform .15s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#000";
+                  e.currentTarget.style.color = "#fff";
+                  e.currentTarget.style.borderColor = "#000";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#000";
+                  e.currentTarget.style.borderColor = PL;
                 }}
               >
-                Related case studies →
+                Related case studies <Arr sz={10} cl="currentColor" sw={2.2} />
               </Link>
             </div>
           </div>
@@ -578,14 +598,14 @@ function Principles() {
       <div
         style={{
           marginBottom: layout === "mobile" ? 28 : 36,
-          display: "grid",
-          gridTemplateColumns: layout === "mobile" ? "1fr" : "auto minmax(0, 1fr)",
-          columnGap: 28,
-          rowGap: 16,
-          alignItems: "start",
+          display: "flex",
+          flexDirection: layout === "mobile" ? "column" : "row",
+          justifyContent: "space-between",
+          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+          gap: layout === "mobile" ? 12 : 0,
         }}
       >
-        <div style={{ justifySelf: "start", maxWidth: "100%" }}>
+        <div style={{ maxWidth: layout === "mobile" ? "100%" : 520, flex: layout === "mobile" ? "none" : "0 1 auto" }}>
           <Lbl ch="What you can count on" />
           <Ttl ch="PRINCIPLES." sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap" }} />
         </div>
@@ -597,7 +617,7 @@ function Principles() {
             lineHeight: 1.7,
             color: "rgba(0,0,0,0.55)",
             maxWidth: 540,
-            paddingLeft: 0,
+            textAlign: layout === "mobile" ? "left" : "right",
           }}
         >
           {

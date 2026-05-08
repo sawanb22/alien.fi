@@ -225,14 +225,20 @@ function Hero() {
               <div style={{ fontWeight: 700, color: L }}>NOT THEIRS.</div>
             </div>
             <div style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,0.6)", maxWidth: 700, marginBottom: 32 }}>
-              Off-the-shelf AI tools are built for someone else's problem. We are a custom ai development company that builds machine learning models, NLP systems, and intelligent automation for your specific data, your workflows, and your compliance constraints.
+              Off-the-shelf AI tools are built for someone else&#39;s problem. We are a custom ai development company that builds machine learning models, NLP systems, and intelligent automation for your specific data, your workflows, and your compliance constraints.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", borderRadius: 24, padding: "14px 22px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                Start a project ↗ <Arr sz={10} cl="#000" sw={2.4} />
+              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", borderRadius: 24, padding: "14px 22px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", transition: "background .2s,color .2s,transform .15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = L; e.currentTarget.style.color = "#000"; }}
+              >
+                Start a project <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <Link href="/case-studies" style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1.5px solid rgba(255,255,255,0.25)", color: "#fff", borderRadius: 24, padding: "14px 22px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                See case studies →
+              <Link href="/case-studies" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1.5px solid rgba(255,255,255,0.25)", color: "#fff", borderRadius: 24, padding: "14px 22px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", transition: "background .2s,color .2s,border-color .2s,transform .15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; }}
+              >
+                See case studies <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
             </div>
           </div>
@@ -341,7 +347,7 @@ function QuotesSection() {
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
         {QUOTES.map((q) => (
           <div key={q.by} style={{ background: DK, padding: "28px 24px" }}>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>"{q.q}"</div>
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>&ldquo;{q.q}&rdquo;</div>
             <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>{q.by}</div>
           </div>
         ))}
@@ -383,7 +389,7 @@ export default function ServiceCustomAIDevelopmentPageClient() {
       <CTAStrip
         title="YOUR DATA.|YOUR MODEL.|YOUR IP."
         sub="Tell us the use case. We will send a scoping brief, a fixed-fee estimate, and three references from comparable custom ai development engagements in your industry."
-        cta="Start a project ↗"
+        cta="Start a project"
         ctaUppercase={false}
       />
       <Footer />

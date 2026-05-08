@@ -69,9 +69,9 @@ function CareHero() {
                 ["Clinicians live", "12,400+ · Across active tenants"],
                 ["Pricing", "From $180K/yr · For platform access"],
               ].map(([k, v]) => (
-                <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${PL}` }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)" }}>{k}</span>
-                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "#000" }}>{v}</span>
+                <div key={k} style={{ display: "grid", gridTemplateColumns: "minmax(112px, auto) minmax(0, 1fr)", alignItems: "start", gap: 12, padding: "8px 0", borderBottom: `1px solid ${PL}` }}>
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", whiteSpace: "normal", lineHeight: 1.2 }}>{k}</span>
+                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "#000", textAlign: "right", lineHeight: 1.25 }}>{v}</span>
                 </div>
               ))}
             </div>
@@ -91,11 +91,17 @@ function CareHero() {
               AlienCare is a vertical AI platform for health systems. Six clinical AI modules. One HIPAA-compliant tenant. Live in 3 weeks on Epic, Cerner, or athenahealth, without a multi-year transformation program.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: L, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                Book a clinical demo <Arr sz={10} cl={L} sw={2.4} />
+              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: "#fff", borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background .2s,color .2s,transform .15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = DK; e.currentTarget.style.color = "#fff"; }}
+              >
+                Book a clinical demo <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <Link href="/case-studies/northbay-health" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#000", border: `1.5px solid ${PL}`, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                NorthBay case study →
+              <Link href="/case-studies/northbay-health" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#000", border: `1.5px solid ${PL}`, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background .2s,color .2s,border-color .2s,transform .15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = PL; }}
+              >
+                NorthBay case study <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
             </div>
           </div>
@@ -110,7 +116,7 @@ function ModulesSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", paddingTop: 60 }}>
       <div style={{ marginBottom: 36, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
         <div><Lbl ch="Six modules · All interoperable" /><Ttl ch="WHAT'S INSIDE." /></div>
         <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 280, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>Deploy one or all six. Each module activates inside the same tenant.</div>
@@ -124,7 +130,7 @@ function ModulesSection() {
           "Pharmacy and Formulary AI",
           "Patient Engagement Copilot",
         ].map((t) => (
-          <Chip key={t} ch={t} />
+          <Chip key={t} ch={<a href={`#${t.toLowerCase().replace(/\s/g, '-')}`}>{t}</a>} />
         ))}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
@@ -133,7 +139,7 @@ function ModulesSection() {
             key={m.t}
             int={4}
             ch={
-              <div style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
+              <div id={`${m.t.toLowerCase().replace(/\s/g, '-')}`} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
                   <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: L2 }}>{`0${i + 1}`}</div>
@@ -155,7 +161,7 @@ function ComplianceSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative" }}>
       <div style={{ marginBottom: 40, display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr", gap: layout === "mobile" ? 20 : 60, alignItems: "flex-end" }}>
         <div><Lbl ch="Trust isn't optional" lt /><Ttl ch="COMPLIANCE." lt /></div>
         <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(255,255,255,0.5)", maxWidth: 640, lineHeight: 1.7 }}>
@@ -179,7 +185,7 @@ function HowItWorksSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative" }}>
       <div style={{ marginBottom: layout === "mobile" ? 28 : 40, display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr", gap: layout === "mobile" ? 20 : 60, alignItems: "flex-end" }}>
         <div><Lbl ch="Built to fit your stack" /><Ttl ch="HOW IT WORKS." /></div>
         <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(0,0,0,0.55)", maxWidth: 560, lineHeight: 1.7 }}>
@@ -206,7 +212,7 @@ function HowItWorksSection() {
 export default function PlatformAlienCarePageClient() {
   return (
     <ConsultancyLoadedShell label="ALIENCARE">
-      <Nav current="Solutions" />
+      <Nav current="Platform" />
       <CareHero />
       <ModulesSection />
       <ComplianceSection />
@@ -216,4 +222,3 @@ export default function PlatformAlienCarePageClient() {
     </ConsultancyLoadedShell>
   );
 }
-

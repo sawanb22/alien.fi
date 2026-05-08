@@ -94,7 +94,13 @@ export default function ServiceAIAgentsPageClient() {
         <div style={{ padding: `0 ${gv}px` }}>
           <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 500 }}>
             <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)", borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
-              <div style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 24 }}>Home / Services / AI Agents</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 24 }}>
+                <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <Link href="/services" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Services</Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <span style={{ color: L2 }}>AI Agents</span>
+              </div>
               <Lbl ch="Service · Build or Deploy" lt />
               <div style={{ fontFamily: MN, fontSize: 18, color: "#fff", lineHeight: 1.5, marginBottom: 10 }}>AI agent development services that execute work, not just answer questions.</div>
               <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, marginBottom: 14 }}>For enterprise teams ready to move beyond chatbots. We build and deploy ai agents for business that reason, plan, and take multi-step actions autonomously inside your existing workflows and tools.</div>
@@ -182,7 +188,7 @@ export default function ServiceAIAgentsPageClient() {
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {QUOTES.map(([q, by]) => <div key={by} style={{ background: DK, padding: 20 }}><div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10 }}>"{q}"</div><div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {by}</div></div>)}
+          {QUOTES.map(([q, by]) => <div key={by} style={{ background: DK, padding: 20 }}><div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10 }}>&ldquo;{q}&rdquo;</div><div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {by}</div></div>)}
         </div>
       </section>
 

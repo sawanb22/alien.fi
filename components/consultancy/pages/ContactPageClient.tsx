@@ -82,7 +82,7 @@ export default function ContactPageClient() {
           ["Operating", "North America · Europe · APAC"],
           ["NDA", "On request"],
         ]}
-        accent="Book a free AI consultation →"
+        accent="Book a free AI consultation"
         accentHref="mailto:hello@alien.fi?subject=Free%20AI%20consultation"
       />
       <Ticker words={["Get a quote", "Sign an NDA", "Request references", "Tour the team", "Send a brief", "Schedule a fit call"]} />
@@ -95,7 +95,7 @@ export default function ContactPageClient() {
       <CTAStrip
         title="WE'RE FIVE|MINUTES AWAY"
         sub="Prefer to skip the form? Contact alien.fi directly at hello@alien.fi and a senior AI expert will respond within an hour during PT business hours to schedule a free AI consultation or a quick fit check."
-        cta="Start a Project ↗"
+        cta="Start a Project"
         href="mailto:hello@alien.fi"
         ctaUppercase={false}
       />
@@ -106,24 +106,30 @@ export default function ContactPageClient() {
 
 function Form() {
   const [step, setStep] = useState(1);
-  type FormRow = {
-    name?: string;
-    email?: string;
-    co?: string;
-    role?: string;
-    service: string;
-    budget: string;
-    timeline: string;
-    problem?: string;
-  };
-  const [data, setData] = useState<FormRow>({
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    co: "",
+    role: "",
     service: "Strategy & Roadmap",
     budget: "$150–500K",
     timeline: "1–3 months",
+    problem: "",
   });
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [sent, setSent] = useState(false);
 
-  const upd = <K extends keyof FormRow>(k: K, v: FormRow[K]) => setData((d) => ({ ...d, [k]: v }));
+  const errors = {
+    name: !form.name || form.name.length < 2,
+    email: !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(form.email),
+  };
+
+  const step1Valid = form.name.length > 1 && !errors.email && form.role.length > 1;
+
+  const upd = (k: keyof typeof form, v: any) => {
+    setForm((f) => ({ ...f, [k]: v }));
+    setTouched((t) => ({ ...t, [k]: true }));
+  };
 
   const onFocus: React.FocusEventHandler<HTMLElement> = (e) => {
     (e.target as HTMLInputElement | HTMLTextAreaElement).style.borderColor = L2;
@@ -202,16 +208,19 @@ function Form() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr", gap: 18 }}>
             <Field lbl="Name">
-              <input style={inputStyle} placeholder="Sarah Reyes" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("name", e.target.value)} />
+              <input style={{...inputStyle, borderColor: touched.name && errors.name ? 'red' : PL}} placeholder="Sarah Reyes" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("name", e.target.value)} />
+              {touched.name && errors.name && <span style={{color: 'red', fontSize: 12}}>Please enter a name.</span>}
             </Field>
             <Field lbl="Work email">
-              <input style={inputStyle} placeholder="sarah@company.com" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("email", e.target.value)} />
+              <input style={{...inputStyle, borderColor: touched.email && errors.email ? 'red' : PL}} placeholder="sarah@company.com" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("email", e.target.value)} />
+              {touched.email && errors.email && <span style={{color: 'red', fontSize: 12}}>Please enter a valid email.</span>}
             </Field>
             <Field lbl="Company">
               <input style={inputStyle} placeholder="Acme Corp" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("co", e.target.value)} />
             </Field>
             <Field lbl="Role">
-              <input style={inputStyle} placeholder="VP, Operations" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("role", e.target.value)} />
+              <input style={{...inputStyle, borderColor: touched.role && !form.role ? 'red' : PL}} placeholder="VP, Operations" onFocus={onFocus} onBlur={onBlur} onChange={(e) => upd("role", e.target.value)} />
+              {touched.role && !form.role && <span style={{color: 'red', fontSize: 12}}>Please enter a role.</span>}
             </Field>
           </div>
         </div>
@@ -229,7 +238,7 @@ function Form() {
           <Field lbl="What kind of engagement?">
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {SERVICES.map((s) => {
-                const a = data.service === s;
+                const a = form.service === s;
                 return (
                   <button
                     key={s}
@@ -260,7 +269,7 @@ function Form() {
             <Field lbl="Budget range">
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {BUDGETS.map((b) => {
-                  const a = data.budget === b;
+                  const a = form.budget === b;
                   return (
                     <button
                       type="button"
@@ -288,7 +297,7 @@ function Form() {
             <Field lbl="Timeline">
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {TIMELINES.map((t) => {
-                  const a = data.timeline === t;
+                  const a = form.timeline === t;
                   return (
                     <button
                       key={t}
@@ -394,9 +403,10 @@ function Form() {
           type="button"
           className="hv"
           onClick={() => (step < 3 ? setStep((s) => s + 1) : setSent(true))}
+          disabled={step === 1 && !step1Valid}
           style={{
             background: "#000",
-            color: L,
+            color: "#fff",
             border: "none",
             borderRadius: 24,
             padding: "12px 22px",
@@ -409,11 +419,20 @@ function Form() {
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
+            transition: "background .2s,color .2s,transform .15s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = L;
+            e.currentTarget.style.color = "#000";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#000";
+            e.currentTarget.style.color = "#fff";
           }}
         >
-          {step < 3 ? "Continue ↗" : (
+          {step < 3 ? <>Continue <Arr sz={11} cl="currentColor" sw={2.2} /></> : (
             <>
-              Transmit <Arr sz={11} cl={L} sw={2.2} />
+              Transmit <Arr sz={11} cl="currentColor" sw={2.2} />
             </>
           )}
         </button>

@@ -130,7 +130,7 @@ export default function PartnersPageClient() {
   const pv = sectionVPad(layout);
   return (
     <ConsultancyLoadedShell label="PARTNERS">
-      <Nav current="Services" />
+      <Nav current="About" />
       <Hero />
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>

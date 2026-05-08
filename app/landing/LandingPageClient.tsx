@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { CW, OT } from "@/lib/consultancy/tokens";
+import { Footer as ConsultancyFooter, Nav as ConsultancyNav } from "@/components/consultancy/consultancy-ui";
 import {
   LandingLayoutProvider,
   gridCols,
@@ -29,6 +30,14 @@ const MN="var(--font-azeret), 'Azeret Mono', monospace",
   SN="var(--font-poppins), 'Poppins', sans-serif";
 /** Hero side rails (.rvl / .rvr); inner verticals at OT+CWS from each edge */
 const CWS=CW-20;
+
+const heroServices = [
+  { name: 'AI Strategy Consulting', href: '/services/ai-strategy' },
+  { name: 'Custom AI Development', href: '/services/custom-ai-development' },
+  { name: 'Implementation & Integration', href: '/services/ai-implementation' },
+  { name: 'Managed AI Services', href: '/services/managed-ai' },
+  { name: 'Training & Enablement', href: '/services' },
+];
 
 const TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"showStats":true}/*EDITMODE-END*/;
 
@@ -221,10 +230,11 @@ function Nav(){
           ))}
         </div>
         <button className="hv" onClick={()=>document.getElementById('contact')?.scrollIntoView({block:'start'})}
-          style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.08em',padding:'10px 18px',cursor:'none',transition:'background .2s,transform .15s'}}
+          style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.08em',padding:'10px 18px',cursor:'none',transition:'background .2s,color .2s,transform .15s'}}
           onMouseMove={e=>window.magnet?.(e.currentTarget,e)}
-          onMouseLeave={e=>window.magnetReset?.(e.currentTarget)}
-        >Start a project <Arr sz={9} cl={L} sw={2.2}/></button>
+          onMouseEnter={e=>{e.currentTarget.style.background='rgb(243,243,255)';e.currentTarget.style.color='#000';}}
+          onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';window.magnetReset?.(e.currentTarget);}}
+        >Start a project <Arr sz={9} cl="currentColor" sw={2.2}/></button>
       </nav>
     );
   }
@@ -282,8 +292,8 @@ function HeroDesktop({tweaks}){
       <div style={{display:'grid',gridTemplateColumns:`${CWS}px 1fr ${CWS}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
 
         {/* Row 1 — shared auto height so headline can grow on large screens */}
-        <div className="rvl" style={{minHeight:220,padding:'40px 18px 40px 28px',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',boxSizing:'border-box'}}>
-          <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1}}/>
+        <div className="rvl" style={{minHeight:220,padding:'40px 0',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center',boxSizing:'border-box'}}>
+          <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1,display:'block'}}/>
         </div>
         <div style={{minHeight:220,padding:'36px 52px 36px 20px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
           <div className="rv">
@@ -304,17 +314,59 @@ function HeroDesktop({tweaks}){
           </Tilt>
         </div>
         <div className="rvr" style={{minHeight:220,padding:'40px 28px 40px 18px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14}}>
-            <Lbl ch="Services"/>
-            <div className="hv" style={{width:20,height:20,borderRadius:5,background:'#000',display:'flex',alignItems:'center',justifyContent:'center',marginTop:-8,transition:'background .2s'}}
-              onMouseEnter={e=>e.currentTarget.style.background=L2} onMouseLeave={e=>e.currentTarget.style.background='#000'}>
-              <Arr sz={9} cl="#fff" sw={1.8}/>
-            </div>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 14,
+          }}>
+            <Lbl ch="Services" />
+            <Link href="/services">
+              <div
+                className="hv"
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: 5,
+                  background: "#000",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: -8,
+                  transition: "background .2s",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = L2)}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "#000")}
+              >
+                <Arr sz={9} cl="#fff" sw={1.8} />
+              </div>
+            </Link>
           </div>
-          {['AI Strategy Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'].map((s,i)=>(
-            <div key={s} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)} style={{padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:hovSvc===i?'#000':'rgba(0,0,0,0.45)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'color .15s,padding-left .2s',paddingLeft:hovSvc===i?8:0}}>
-              {s}<span style={{opacity:.25,fontSize:9}}>0{i+1}</span>
-            </div>
+          {heroServices.map((s, i) => (
+            <Link
+              key={s.name}
+              href={s.href}
+              onMouseEnter={() => setHovSvc(i)}
+              onMouseLeave={() => setHovSvc(null)}
+              style={{
+                padding: "8px 0",
+                borderBottom: `1px solid ${PL}`,
+                fontFamily: MN,
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.04em",
+                color: hovSvc === i ? "#000" : "rgba(0,0,0,0.45)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                transition: "color .15s,padding-left .2s",
+                paddingLeft: hovSvc === i ? 8 : 0,
+                textDecoration: "none",
+              }}
+            >
+              {s.name}
+              <span style={{ opacity: 0.25, fontSize: 9 }}>0{i + 1}</span>
+            </Link>
           ))}
         </div>
 
@@ -345,14 +397,15 @@ function HeroDesktop({tweaks}){
             {/* 3D logo — middle-right void between copy card & stats (clears frosted panel, sits above stats) */}
             <div style={{
               position:'absolute',
-              left:'max(296px, 34%)',
-              right:12,
-              top:'5%',
-              bottom:tweaks.showStats?96:28,
+              left: '0',
+              right: '0',
+              top: '0',
+              bottom: '0',
               zIndex:1,
               display:'flex',
               alignItems:'center',
               justifyContent:'center',
+              transform:'translateX(18%)',
               pointerEvents:'none',
               /* visible: Spline height is vh-based and may extend past inset box; UI stays above (z:3) */
               overflow:'visible',
@@ -377,16 +430,13 @@ function HeroDesktop({tweaks}){
                 </div>
               </div>
               <div className="rv d2" style={{display:'flex',gap:12,flexWrap:'wrap',pointerEvents:'all'}}>
-                <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 22px',borderRadius:9,textDecoration:'none',transition:'background .2s,transform .15s'}}
+                <Link href="/contact#about-you" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 22px',borderRadius:9,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
                   onMouseMove={e=>window.magnet(e.currentTarget,e,.25)}
-                  onMouseLeave={e=>{e.currentTarget.style.background='#000';window.magnetReset(e.currentTarget);}}
-                  onMouseEnter={e=>e.currentTarget.style.background=DK}
-                >Start a project <Arr sz={9} cl={L} sw={2}/></Link>
-                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 4px',transition:'color .2s'}}
-                  onMouseEnter={e=>e.currentTarget.style.color='#000'} onMouseLeave={e=>e.currentTarget.style.color='rgba(0,0,0,0.4)'}>See services →</Link>
-              </div>
-              <div className="rv d3" style={{marginTop:20,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(0,0,0,0.25)',pointerEvents:'all'}}>
-                <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
+                onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';window.magnetReset(e.currentTarget);}}
+                >Start a project <Arr sz={9} cl="currentColor" sw={2}/></Link>
+                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'color .2s,box-shadow .2s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9}} 
+                  onMouseEnter={e=>e.currentTarget.style.color='#000'} onMouseLeave={e=>e.currentTarget.style.color='rgba(0,0,0,0.4)'}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
               </div>
             </div>
 
@@ -466,10 +516,13 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
           </div>
           <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
-            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none'}}>
-              Start a project <Arr sz={9} cl={L} sw={2}/>
+            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,transform .15s'}}
+              onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';}}
+            >
+              Start a project <Arr sz={9} cl="currentColor" sw={2}/>
             </Link>
-            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 2px'}}>See services →</Link>
+            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 2px'}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
           </div>
           <div style={{marginTop:18,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(0,0,0,0.25)'}}>
             <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
@@ -486,13 +539,35 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
 
         <div style={{padding:'28px 0',borderTop:`1px solid ${PL}`}} className="rv d2">
           <Lbl ch="Services"/>
-          <div style={{marginTop:4,borderRadius:14,border:`1px solid ${PL}`,overflow:'hidden'}}>
-            {svc.map((s,i)=>(
-              <Link key={s} href="/services" style={{padding:'12px 14px',borderBottom:i<svc.length-1?`1px solid ${PL}`:'none',fontFamily:MN,fontSize:layout==='mobile'?10:11,fontWeight:500,letterSpacing:'0.03em',
-                color:hovSvc===i?'#000':'rgba(0,0,0,0.52)',transition:'background .15s,padding-left .15s',
-                paddingLeft:hovSvc===i?18:14,background:hovSvc===i?`rgba(150,238,82,0.12)`:'transparent',display:'flex',justifyContent:'space-between',gap:12,textDecoration:'none'}}
-                onTouchStart={()=>setHovSvc(i)} onMouseEnter={()=>setHovSvc(i)} onMouseLeave={()=>setHovSvc(null)}>
-                <span>{s}</span><span style={{opacity:.22,fontSize:9,flexShrink:0}}>{String(i+1).padStart(2,'0')}</span>
+          <div style={{ marginTop: 4, borderRadius: 14, border: `1px solid ${PL}`, overflow: "hidden" }}>
+            {heroServices.map((s, i) => (
+              <Link
+                key={s.name}
+                href={s.href}
+                style={{
+                  padding: "12px 14px",
+                  borderBottom: i < heroServices.length - 1 ? `1px solid ${PL}` : "none",
+                  fontFamily: MN,
+                  fontSize: layout === "mobile" ? 10 : 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.03em",
+                  color: hovSvc === i ? "#000" : "rgba(0,0,0,0.52)",
+                  transition: "background .15s,padding-left .15s",
+                  paddingLeft: hovSvc === i ? 18 : 14,
+                  background: hovSvc === i ? `rgba(150,238,82,0.12)` : "transparent",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  textDecoration: "none",
+                }}
+                onTouchStart={() => setHovSvc(i)}
+                onMouseEnter={() => setHovSvc(i)}
+                onMouseLeave={() => setHovSvc(null)}
+              >
+                <span>{s.name}</span>
+                <span style={{ opacity: 0.22, fontSize: 9, flexShrink: 0 }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
               </Link>
             ))}
           </div>
@@ -570,11 +645,11 @@ function Services(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const svcs=[
-    {n:'01',href:'/services#strategy-consulting',t:'AI Strategy\nConsulting',d:'Identify high-value use cases, assess readiness, define priorities, and create a roadmap tied to ROI and business goals.',tags:['High-value use cases','Readiness assessment','Priorities & roadmap','ROI & goals']},
-    {n:'02',href:'/services#custom-ai-development',t:'Custom AI\nDevelopment',d:'Build tailored machine learning, NLP, LLM, computer vision, predictive analytics, and workflow automation systems for real operational use.',tags:['Machine learning & NLP','LLM & computer vision','Predictive analytics','Workflow automation']},
-    {n:'03',href:'/services#implementation-integration',t:'Implementation\n& Integration',d:'Deploy AI into production with APIs, cloud infrastructure, data pipelines, and legacy system integration.',tags:['APIs & cloud','Data pipelines','Legacy integration','Production deploy']},
-    {n:'04',href:'/services#managed-ai-services',t:'Managed AI\nServices',d:'Monitor, optimize, retrain, secure, and support production AI systems as data, business needs, and environments change.',tags:['Monitor & optimize','Retrain & secure','Production support','Evolving needs']},
-    {n:'05',href:'/services#training-enablement',t:'Training &\nEnablement',d:'Help internal teams adopt AI through workshops, documentation, operational playbooks, and change management support.',tags:['Workshops','Documentation','Operational playbooks','Change management']},
+    {n:'01',href:'/services/ai-strategy',t:'AI Strategy\nConsulting',d:'Identify high-value use cases, assess readiness, define priorities, and create a roadmap tied to ROI and business goals.',tags:['High-value use cases','Readiness assessment','Priorities & roadmap','ROI & goals']},
+    {n:'02',href:'/services/custom-ai-development',t:'Custom AI\nDevelopment',d:'Build tailored machine learning, NLP, LLM, computer vision, predictive analytics, and workflow automation systems for real operational use.',tags:['Machine learning & NLP','LLM & computer vision','Predictive analytics','Workflow automation']},
+    {n:'03',href:'/services/ai-implementation',t:'Implementation\n& Integration',d:'Deploy AI into production with APIs, cloud infrastructure, data pipelines, and legacy system integration.',tags:['APIs & cloud','Data pipelines','Legacy integration','Production deploy']},
+    {n:'04',href:'/services/managed-ai',t:'Managed AI\nServices',d:'Monitor, optimize, retrain, secure, and support production AI systems as data, business needs, and environments change.',tags:['Monitor & optimize','Retrain & secure','Production support','Evolving needs']},
+    {n:'05',href:'/services',t:'Training &\nEnablement',d:'Help internal teams adopt AI through workshops, documentation, operational playbooks, and change management support.',tags:['Workshops','Documentation','Operational playbooks','Change management']},
   ];
   return(
     <section id="services" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:2}}>
@@ -772,7 +847,7 @@ function CaseStudy(){
           ))}
         </div>
         <div className="rv d3" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
-          <div style={{fontSize:layout==='mobile'?42:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>"</div>
+          <div style={{fontSize:layout==='mobile'?42:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>&ldquo;</div>
           <div>
             <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing:'0.03em',color:'rgba(255,255,255,0.65)',maxWidth:700}}>The best ai consulting firms do more than launch systems — they create solutions that perform in production, earn trust internally, and improve the numbers that matter.</div>
           </div>
@@ -912,7 +987,7 @@ function CTA(){
         <div>
           <Lbl ch="Let's build together" lt/>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing:'0.04em',lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
-          <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we'll recommend the right next step.</div>
+          <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we will recommend the right next step.</div>
           <div style={{display:'flex',flexDirection:'column',gap:16}}>
             {[['Austin, TX 78701'],['info@alien.fi'],['+1 (800) 555-2946']].map(([l])=>(
               <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.35)'}}>
@@ -938,13 +1013,13 @@ function CTA(){
               onFocus={e=>e.target.style.borderColor=showErr('project')?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
               onBlur={()=>setTouched(v=>({...v,project:true}))}/>
             {showErr('project')?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors.project}</div>:null}
-            <div style={{marginTop:8,fontFamily:SN,fontSize:11,lineHeight:1.55,color:'rgba(255,255,255,0.28)',maxWidth:520}}>Share your company, goals, timeline, and budget, and we'll recommend the best engagement model for your project.</div>
+            <div style={{marginTop:8,fontFamily:SN,fontSize:11,lineHeight:1.55,color:'rgba(255,255,255,0.28)',maxWidth:520}}>Share your company, goals, timeline, and budget, and we will recommend the best engagement model for your project.</div>
           </div>
           {status?<div style={{fontFamily:SN,fontSize:12,color:hasErrors?'rgba(255,130,130,0.95)':'rgba(177,238,82,0.95)'}}>{status}</div>:null}
           <button type="submit" className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
             onMouseMove={e=>window.magnet(e.currentTarget,e,.2)} onMouseOut={e=>window.magnetReset(e.currentTarget)}
-            style={{background:hovBtn?L2:L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',cursor:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none'}}>
-            Send message <Arr sz={11} cl="#000" sw={2.5}/>
+            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',cursor:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none'}}>
+            Send message <Arr sz={11} cl="currentColor" sw={2.5}/>
           </button>
         </form>
       </div>
@@ -972,13 +1047,19 @@ function Footer(){
             ))}
           </div>
         </div>
-        {[{h:'Company',links:['About','Team','Careers','Writing','Case Studies']},{h:'Services',links:['AI Strategy','Custom AI Dev','Implementation','Managed Services','Training']},{h:'Contact',links:['info@alien.fi','sales@alien.fi','support@alien.fi','+1 (800) 555-2946']}].map(({h,links})=>(
+        {[{h:'Company',links:[['About','/about/partners'],['Team','/about/team'],['Careers','/contact'],['Writing','/blog'],['Case Studies','/case-studies']]},{h:'Services',links:[['AI Strategy','/services/ai-strategy'],['Custom AI Dev','/services/custom-ai-development'],['Implementation','/services/ai-implementation'],['Managed Services','/services/managed-ai'],['Training','/services']]},{h:'Contact',links:[['info@alien.fi','mailto:info@alien.fi'],['sales@alien.fi','mailto:sales@alien.fi'],['support@alien.fi','mailto:support@alien.fi'],['+1 (800) 555-2946','tel:+18005552946']]}].map(({h,links})=>(
           <div key={h}>
             <div style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.14em',textTransform:'uppercase',color:'rgba(255,255,255,0.2)',marginBottom:18}}>{h}</div>
-            {links.map(l=>(
-              <div key={l} className="hv" style={{fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s'}}
-                onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
-                onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{l}</div>
+            {links.map(([label,href])=>(
+              href.startsWith('mailto:') || href.startsWith('tel:') ? (
+                <a key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
+                  onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
+                  onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{label}</a>
+              ) : (
+                <Link key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
+                  onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
+                  onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{label}</Link>
+              )
             ))}
           </div>
         ))}
@@ -1003,9 +1084,9 @@ export default function LandingPageClient(){
       {!loaded&&<Loader onDone={()=>setLoaded(true)}/>}
       <LandingLayoutProvider>
         <div style={{opacity:loaded?1:0,transition:'opacity .5s',pointerEvents:loaded?'all':'none'}}>
-          <Nav/><Hero tweaks={TWEAK_DEFAULTS}/><Ticker/>
+          <ConsultancyNav/><Hero tweaks={TWEAK_DEFAULTS}/><Ticker/>
           <Services/><Process/><Differentiators/><Industries/>
-          <CaseStudy/><Solutions/><EngagementModels/><CTA/><Footer/>
+          <CaseStudy/><Solutions/><EngagementModels/><CTA/><ConsultancyFooter/>
         </div>
       </LandingLayoutProvider>
     </>

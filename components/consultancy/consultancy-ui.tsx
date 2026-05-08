@@ -29,7 +29,10 @@ export type NavPage =
   | "Industries"
   | "Solutions"
   | "Case Studies"
-  | "Contact";
+  | "Contact"
+  | "About"
+  | "Platform"
+  | "Blog";
 
 export function Arr({ sz = 10, cl = "#fff", sw = 1.8 }) {
   return (
@@ -304,15 +307,304 @@ export function MiniLoader({
   );
 }
 
-const navLinks: { l: NavPage; href: string }[] = [
-  { l: "Services", href: "/services" },
-  { l: "Industries", href: "/industries" },
+const navLinks: {
+  l: NavPage;
+  href: string;
+  sub?: { l: string; href: string }[];
+}[] = [
+  {
+    l: "Services",
+    href: "/services",
+    sub: [
+      { l: "AI Agents", href: "/services/ai-agents" },
+      { l: "AI Copilots", href: "/services/ai-copilot-development" },
+      { l: "Implementation", href: "/services/ai-implementation" },
+      { l: "AI Strategy", href: "/services/ai-strategy" },
+      { l: "Custom Models", href: "/services/custom-ai-development" },
+      { l: "Managed AI", href: "/services/managed-ai" },
+      { l: "RAG Accelerator", href: "/services/rag-accelerator" },
+      { l: "AI Training", href: "/services/ai-training" },
+      { l: "AI Governance", href: "/services/ai-governance" },
+    ],
+  },
+  {
+    l: "Platform",
+    href: "#",
+    sub: [
+      { l: "AlienCare", href: "/platform/aliencare" },
+      { l: "AlienCounsel", href: "/platform/aliencounsel" },
+      { l: "AlienServe", href: "/platform/alienserve" },
+      { l: "AlienSupply", href: "/platform/aliensupply" },
+      { l: "AlienVault", href: "/platform/alienvault" },
+    ],
+  },
+  {
+    l: "Industries",
+    href: "/industries",
+  },
   { l: "Solutions", href: "/solutions" },
-  { l: "Case Studies", href: "/case-studies" },
+  {
+    l: "Case Studies",
+    href: "/case-studies",
+    sub: [
+      { l: "Northbay Health", href: "/case-studies/northbay-health" },
+      { l: "Kestrel Bank", href: "/case-studies/kestrel-bank" },
+      { l: "Redline Logistics", href: "/case-studies/redline-logistics" },
+      { l: "Oakridge Industrial", href: "/case-studies/oakridge-industrial" },
+      { l: "Aurora Retail", href: "/case-studies/aurora-retail" },
+      { l: "Nimbus Commerce", href: "/case-studies/nimbus-commerce" },
+      { l: "SignalNorth Collective", href: "/case-studies/signalnorth-collective" },
+      { l: "Lumen Legal", href: "/case-studies/lumen-legal" },
+      { l: "Civica State", href: "/case-studies/civica-state" },
+    ],
+  },
+  {
+    l: "About",
+    href: "/about/team",
+    sub: [
+      { l: "Team", href: "/about/team" },
+      { l: "Partners", href: "/about/partners" },
+    ],
+  },
+  { l: "Blog", href: "/blog" },
   { l: "Contact", href: "/contact" },
 ];
 
-export function Nav({ current = "Services" }: { current?: NavPage }) {
+function DesktopNavItem({ item, current }: { item: typeof navLinks[0]; current?: NavPage }) {
+  const [hover, setHover] = useState(false);
+  const active = current === item.l;
+
+  if (!item.sub) {
+    return (
+      <Link
+        href={item.href}
+        className="hv"
+        style={{
+          fontFamily: MN,
+          fontWeight: active ? 700 : 500,
+          fontSize: 12,
+          letterSpacing: "0.06em",
+          color: active ? "#000" : "rgba(0,0,0,0.6)",
+          textDecoration: "none",
+          transition: "color .2s",
+          position: "relative",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = "#000";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = active ? "#000" : "rgba(0,0,0,0.6)";
+        }}
+      >
+        {item.l}
+      </Link>
+    );
+  }
+
+  return (
+    <div
+      style={{ position: "relative" }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <Link
+        href={item.href}
+        className="hv"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          fontFamily: MN,
+          fontWeight: active ? 700 : 500,
+          fontSize: 12,
+          letterSpacing: "0.06em",
+          color: hover || active ? "#000" : "rgba(0,0,0,0.6)",
+          textDecoration: "none",
+          transition: "color .2s",
+        }}
+      >
+        {item.l}
+        <svg
+          width="8"
+          height="8"
+          viewBox="0 0 10 10"
+          fill="none"
+          style={{
+            transform: hover ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s",
+          }}
+        >
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </Link>
+      {hover && (
+        <div
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            paddingTop: 16,
+            zIndex: 400,
+          }}
+        >
+          <div
+            style={{
+              background: BG,
+              border: `1px solid ${PL}`,
+              borderRadius: 12,
+              padding: "8px 0",
+              boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
+              display: "flex",
+              flexDirection: "column",
+              minWidth: 180,
+            }}
+          >
+            {item.sub.map((s) => (
+              <Link
+                key={s.l}
+                href={s.href}
+                className="hv"
+                style={{
+                  padding: "10px 16px",
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: "rgba(0,0,0,0.7)",
+                  textDecoration: "none",
+                  transition: "background 0.2s, color 0.2s",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0,0,0,0.04)";
+                  e.currentTarget.style.color = "#000";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "rgba(0,0,0,0.7)";
+                }}
+              >
+                {s.l}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MobileNavItem({ item, current, close }: { item: typeof navLinks[0]; current?: NavPage; close: () => void }) {
+  const active = current === item.l;
+  const [open, setOpen] = useState(false);
+
+  if (!item.sub) {
+    return (
+      <Link
+        href={item.href}
+        onClick={close}
+        style={{
+          display: "block",
+          padding: "14px 4px",
+          fontFamily: MN,
+          fontWeight: active ? 700 : 600,
+          fontSize: 12,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "#000",
+          textDecoration: "none",
+          borderBottom: `1px solid ${PL}`,
+          cursor: "pointer",        }}
+      >
+        {item.l}
+      </Link>
+    );
+  }
+
+  return (
+    <div style={{ borderBottom: `1px solid ${PL}` }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "14px 4px",
+          cursor: "pointer",
+        }}
+        onClick={(e) => {
+          if ((e.target as HTMLElement).tagName !== "A") {
+            setOpen(!open);
+          }
+        }}
+      >
+        <Link
+          href={item.href}
+          onClick={close}
+          style={{
+            fontFamily: MN,
+            fontWeight: active ? 700 : 600,
+            fontSize: 12,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "#000",
+            textDecoration: "none",
+          }}
+        >
+          {item.l}
+        </Link>
+        <button
+          onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
+          style={{
+            background: "transparent",
+            border: "none",
+            padding: 4,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 10 10"
+            fill="none"
+            style={{
+              transform: open ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s",
+            }}
+          >
+            <path d="M2 3.5L5 6.5L8 3.5" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+      {open && (
+        <div style={{ padding: "0 4px 12px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
+          {item.sub.map((s) => (
+            <Link
+              key={s.l}
+              href={s.href}
+              onClick={close}
+              style={{
+                fontFamily: MN,
+                fontWeight: 600,
+                fontSize: 11,
+                color: "rgba(0,0,0,0.6)",
+                textDecoration: "none",
+                display: "block",
+                padding: "4px 0",
+                cursor: "pointer",
+              }}
+            >
+              {s.l}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function Nav({ current }: { current?: NavPage }) {
   const layout = useLandingLayout();
   const [sc, setSc] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -334,36 +626,9 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
 
   const g = layout === "desktop" ? OT + 9 : sectionGutter(layout) + 10;
 
-  const navInner = navLinks.map(({ l, href }) => {
-    const active = current === l;
-    return (
-      <Link
-        key={l}
-        href={href}
-        className="hv"
-        style={{
-          fontFamily: MN,
-          fontWeight: active ? 700 : 500,
-          fontSize: 12,
-          letterSpacing: "0.06em",
-          color: active ? "#000" : "rgba(0,0,0,0.6)",
-          textDecoration: "none",
-          transition: "color .2s",
-          position: "relative",
-          paddingBottom: 4,
-          borderBottom: active ? "1.5px solid #000" : "1.5px solid transparent",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.color = "#000";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.color = active ? "#000" : "rgba(0,0,0,0.6)";
-        }}
-      >
-        {l}
-      </Link>
-    );
-  });
+  const navInner = navLinks.map((item) => (
+    <DesktopNavItem key={item.l} item={item} current={current} />
+  ));
 
   if (layout === "desktop") {
     return (
@@ -400,7 +665,7 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
         </Link>
         <div style={{ display: "flex", gap: 22, alignItems: "center", flexShrink: 0 }}>{navInner}</div>
         <Link
-          href="/contact"
+          href="/contact#about-you"
           className="hv"
           style={{
             display: "flex",
@@ -419,10 +684,18 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
             transition: "background .2s,transform .15s",
             textDecoration: "none",
           }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgb(230,230,234)";
+            e.currentTarget.style.color = "#000";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#000";
+            e.currentTarget.style.color = "#fff";
+            window.magnetReset?.(e.currentTarget);
+          }}
           onMouseMove={(e) => window.magnet?.(e.currentTarget, e)}
-          onMouseLeave={(e) => window.magnetReset?.(e.currentTarget)}
         >
-          Start a project <Arr sz={9} cl={L} sw={2.2} />
+          Start a project <Arr sz={9} cl="currentColor" sw={2.2} />
         </Link>
       </nav>
     );
@@ -494,8 +767,16 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
               padding: layout === "mobile" ? "9px 12px" : "10px 16px",
               textDecoration: "none",
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgb(230,230,234)";
+              e.currentTarget.style.color = "#000";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#000";
+              e.currentTarget.style.color = "#fff";
+            }}
           >
-            Start <Arr sz={9} cl={L} sw={2.2} />
+            Start <Arr sz={9} cl="currentColor" sw={2.2} />
           </Link>
         </div>
       </nav>
@@ -523,7 +804,7 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
               right: sectionGutter(layout),
               maxHeight: "min(520px,calc(100vh - 80px))",
               zIndex: 310,
-              overflow: "hidden",
+              overflowY: "auto",
               borderRadius: 16,
               border: `1px solid ${PL}`,
               boxShadow: "0 24px 60px rgba(0,0,0,0.18)",
@@ -531,30 +812,9 @@ export function Nav({ current = "Services" }: { current?: NavPage }) {
             }}
           >
             <div style={{ overflowY: "auto", padding: "22px 20px 26px" }}>
-              {navLinks.map(({ l, href }) => {
-                const active = current === l;
-                return (
-                  <Link
-                    key={l}
-                    href={href}
-                    onClick={() => setMenu(false)}
-                    style={{
-                      display: "block",
-                      padding: "14px 4px",
-                      fontFamily: MN,
-                      fontWeight: active ? 700 : 600,
-                      fontSize: 12,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "#000",
-                      textDecoration: "none",
-                      borderBottom: `1px solid ${PL}`,
-                    }}
-                  >
-                    {l}
-                  </Link>
-                );
-              })}
+              {navLinks.map((item) => (
+                <MobileNavItem key={item.l} item={item} current={current} close={() => setMenu(false)} />
+              ))}
             </div>
           </div>
         </>
@@ -636,7 +896,7 @@ export function CTAStrip({
   title = "READY TO BUILD?",
   sub = "Tell us about your project. We respond within 24 hours.",
   cta = "Start a project",
-  href = "/contact",
+  href = "/contact#about-you",
   ctaUppercase = true,
 }: {
   title?: string;
@@ -762,7 +1022,7 @@ export function CTAStrip({
               }}
               onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
               style={{
-                background: hov ? L2 : L,
+                background: hov ? "rgb(230,230,234)" : L,
                 color: "#000",
                 border: "none",
                 borderRadius: 14,
@@ -798,7 +1058,7 @@ export function CTAStrip({
               }}
               onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
               style={{
-                background: hov ? L2 : L,
+                background: hov ? "rgb(230,230,234)" : L,
                 color: "#000",
                 border: "none",
                 borderRadius: 14,
@@ -846,29 +1106,42 @@ export function Footer() {
     {
       h: "Company",
       links: [
-        ["About", "/"],
+        ["About", "/about/partners"],
+        ["Team", "/about/team"],
+        ["Partners", "/about/partners"],
         ["Case Studies", "/case-studies"],
+        ["Writing", "/blog"],
         ["Careers", "/contact"],
-        ["Contact", "/contact"],
       ],
     },
     {
       h: "Services",
       links: [
-        ["AI Strategy", "/services"],
-        ["Custom AI Dev", "/services"],
-        ["Implementation", "/services"],
-        ["Managed Services", "/services"],
-        ["Training", "/services"],
+        ["AI Strategy", "/services/ai-strategy"],
+        ["Custom AI Dev", "/services/custom-ai-development"],
+        ["Implementation", "/services/ai-implementation"],
+        ["Managed Services", "/services/managed-ai"],
+        ["RAG Accelerator", "/services/rag-accelerator"],
+        ["AI Training", "/services/ai-training"],
+        ["AI Governance", "/services/ai-governance"],
+      ],
+    },
+    {
+      h: "Platforms",
+      links: [
+        ["AlienCare", "/platform/aliencare"],
+        ["AlienCounsel", "/platform/aliencounsel"],
+        ["AlienSupply", "/platform/aliensupply"],
+        ["AlienVault", "/platform/alienvault"],
       ],
     },
     {
       h: "Contact",
       links: [
-        ["info@alien.fi", "/contact"],
-        ["sales@alien.fi", "/contact"],
-        ["support@alien.fi", "/contact"],
-        ["+1 (800) 555-2946", "/contact"],
+        ["info@alien.fi", "mailto:info@alien.fi"],
+        ["sales@alien.fi", "mailto:sales@alien.fi"],
+        ["support@alien.fi", "mailto:support@alien.fi"],
+        ["+1 (800) 555-2946", "tel:+18005552946"],
       ],
     },
   ];
@@ -896,7 +1169,7 @@ export function Footer() {
           padding: layout === "mobile" ? "40px 4px 28px" : layout === "tablet" ? "44px 12px 36px" : "48px 9px 32px",
           display: "grid",
           gridTemplateColumns:
-            layout === "desktop" ? "1.4fr 1fr 1fr 1fr" : layout === "tablet" ? "1fr 1fr" : "1fr",
+            layout === "desktop" ? "1.4fr 1.2fr 1fr 1fr 1fr" : layout === "tablet" ? "1fr 1fr" : "1fr",
           gap: layout === "mobile" ? 32 : 40,
         }}
       >
@@ -967,28 +1240,48 @@ export function Footer() {
             >
               {h}
             </div>
-            {links.map(([label, href]) => (
-              <Link
-                key={label}
-                href={href}
-                className="hv"
-                style={{
-                  display: "block",
-                  fontFamily: MN,
-                  fontSize: 12,
-                  fontWeight: 500,
-                  letterSpacing: "0.04em",
-                  color: "rgba(255,255,255,0.38)",
-                  marginBottom: 10,
-                  transition: "color .2s,padding-left .18s",
-                  textDecoration: "none",
-                }}
-                onMouseEnter={linkEnter}
-                onMouseLeave={linkLeave}
-              >
-                {label}
-              </Link>
-            ))}
+            {links.map(([label, href]) => {
+              const isProtocolLink = href.startsWith("mailto:") || href.startsWith("tel:");
+              const baseStyles = {
+                display: "block",
+                fontFamily: MN,
+                fontSize: 12,
+                fontWeight: 500,
+                letterSpacing: "0.04em",
+                color: "rgba(255,255,255,0.38)",
+                marginBottom: 10,
+                transition: "color .2s,padding-left .18s",
+                textDecoration: "none",
+              } as const;
+
+              if (isProtocolLink) {
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    className="hv"
+                    style={baseStyles}
+                    onMouseEnter={linkEnter}
+                    onMouseLeave={linkLeave}
+                  >
+                    {label}
+                  </a>
+                );
+              }
+
+              return (
+                <Link
+                  key={label}
+                  href={href}
+                  className="hv"
+                  style={baseStyles}
+                  onMouseEnter={linkEnter}
+                  onMouseLeave={linkLeave}
+                >
+                  {label}
+                </Link>
+              );
+            })}
           </div>
         ))}
       </div>

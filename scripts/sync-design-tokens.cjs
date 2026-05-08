@@ -3,6 +3,7 @@
  * Prefer monorepo root (parent of next-app) when present locally; otherwise
  * use design/colors_and_type.css so CI / GitHub-only clones still build.
  */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require("fs");
 const path = require("path");
 

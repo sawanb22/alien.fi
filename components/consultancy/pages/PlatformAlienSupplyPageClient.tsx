@@ -197,9 +197,10 @@ function SupplyHero() {
                 <div
                   key={k}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    display: "grid",
+                    gridTemplateColumns: "minmax(112px, auto) minmax(0, 1fr)",
+                    alignItems: "start",
+                    gap: 12,
                     padding: "8px 0",
                     borderBottom: `1px solid ${PL}`,
                   }}
@@ -212,6 +213,8 @@ function SupplyHero() {
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
                       color: "rgba(0,0,0,0.35)",
+                      whiteSpace: "normal",
+                      lineHeight: 1.2,
                     }}
                   >
                     {k}
@@ -222,6 +225,8 @@ function SupplyHero() {
                       fontSize: 11,
                       fontWeight: 600,
                       color: "#000",
+                      textAlign: "right",
+                      lineHeight: 1.25,
                     }}
                   >
                     {v}
@@ -303,12 +308,15 @@ function SupplyHero() {
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   textDecoration: "none",
+                  transition: "background .2s,color .2s,transform .15s",
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = DK; e.currentTarget.style.color = "#fff"; }}
               >
-                Book a manufacturing demo <Arr sz={10} cl={L} sw={2.4} />
+                Book a manufacturing demo <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
               <Link
-                href="/case-studies"
+                href="/case-studies/redline-logistics"
                 className="hv"
                 style={{
                   display: "inline-flex",
@@ -325,9 +333,12 @@ function SupplyHero() {
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   textDecoration: "none",
+                  transition: "background .2s,color .2s,border-color .2s,transform .15s",
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = PL; }}
               >
-                Redline case study →
+                Redline case study <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
             </div>
           </div>
@@ -347,7 +358,6 @@ function ModulesSection() {
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG2},${BG})`,
         position: "relative",
-        zIndex: 2,
       }}
     >
       <div
@@ -483,9 +493,6 @@ function ComplianceSection() {
         padding: `${pv}px ${gv}px`,
         background: DK,
         position: "relative",
-        zIndex: 3,
-        borderRadius: "24px 24px 0 0",
-        marginTop: -24,
       }}
     >
       <div
@@ -560,7 +567,7 @@ function ComplianceSection() {
 export default function PlatformAlienSupplyPageClient() {
   return (
     <ConsultancyLoadedShell label="ALIENSUPPLY">
-      <Nav current="Solutions" />
+      <Nav current="Platform" />
       <SupplyHero />
       <ModulesSection />
       <ComplianceSection />
@@ -572,4 +579,3 @@ export default function PlatformAlienSupplyPageClient() {
     </ConsultancyLoadedShell>
   );
 }
-

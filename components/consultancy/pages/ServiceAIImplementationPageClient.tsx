@@ -59,7 +59,13 @@ export default function ServiceAIImplementationPageClient() {
         <div style={{ padding: `0 ${gv}px` }}>
           <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr" }}>
             <div style={{ padding: 28, borderRight: layout === "desktop" ? "1px solid rgba(255,255,255,0.08)" : "none", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: MN, fontSize: 9, color: "rgba(255,255,255,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Home / Services / AI Implementation</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, color: "rgba(255,255,255,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>
+                <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <Link href="/services" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Services</Link>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <span style={{ color: L2 }}>AI Implementation</span>
+              </div>
               <Lbl ch="Service · Deploy to Production" lt />
               <div style={{ fontFamily: MN, color: "#fff", fontSize: 18, marginBottom: 10 }}>AI implementation services that go live, not live in a deck.</div>
               <div style={{ fontFamily: SN, color: "rgba(255,255,255,0.6)", fontSize: 13, lineHeight: 1.65, marginBottom: 18 }}>For teams that have an AI strategy or model and need a technical partner to deploy it, integrate it, and make it stick in production.</div>

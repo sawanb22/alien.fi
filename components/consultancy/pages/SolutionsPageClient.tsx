@@ -280,10 +280,16 @@ function SolutionsGrid() {
                       textTransform: "uppercase",
                       color: active ? L2 : "rgba(0,0,0,0.4)",
                       textDecoration: "none",
-                      transition: "color .2s",
+                      transition: "color .2s,transform .15s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "#000";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = active ? L2 : "rgba(0,0,0,0.4)";
                     }}
                   >
-                    Configure <Arr sz={9} cl={active ? L2 : "rgba(0,0,0,0.4)"} sw={1.8} />
+                    Configure <Arr sz={9} cl="currentColor" sw={1.8} />
                   </Link>
                 </div>
               </div>

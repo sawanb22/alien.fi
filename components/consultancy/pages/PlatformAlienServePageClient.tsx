@@ -101,9 +101,9 @@ function ServeHero() {
                 ["Tenant model", "Single + multi location"],
                 ["Pricing", "From $180K/yr"],
               ].map(([k, v]) => (
-                <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${PL}` }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)" }}>{k}</span>
-                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "#000" }}>{v}</span>
+                <div key={k} style={{ display: "grid", gridTemplateColumns: "minmax(112px, auto) minmax(0, 1fr)", alignItems: "start", gap: 12, padding: "8px 0", borderBottom: `1px solid ${PL}` }}>
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", whiteSpace: "normal", lineHeight: 1.2 }}>{k}</span>
+                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "#000", textAlign: "right", lineHeight: 1.25 }}>{v}</span>
                 </div>
               ))}
             </div>
@@ -123,11 +123,11 @@ function ServeHero() {
               AlienServe is a retail AI platform for operators who need sharper personalization, stronger forecasting, and faster service execution across stores, hotels, and restaurant environments. Six modules deploy in one secure tenant without a long transformation program.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: L, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                Book a retail demo <Arr sz={10} cl={L} sw={2.4} />
+<Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: "#fff", borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background .2s,color .2s,transform .15s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }} onMouseLeave={(e) => { e.currentTarget.style.background = DK; e.currentTarget.style.color = "#fff"; }}>
+                Book a retail demo <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <Link href="/case-studies/aurora-retail" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#000", border: `1.5px solid ${PL}`, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                Aurora case study →
+              <Link href="/case-studies/aurora-retail" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#000", border: `1.5px solid ${PL}`, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background .2s,color .2s,border-color .2s,transform .15s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = PL; }}>
+                Aurora case study <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
             </div>
           </div>
@@ -149,7 +149,7 @@ function ModulesSection() {
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 22 }}>
         {MODULES.map((m) => (
-          <Chip key={m.t} ch={m.t} />
+          <Chip key={m.t} ch={<a href={`#${m.t.toLowerCase().replace(/\s/g, '-')}`}>{m.t}</a>} />
         ))}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
@@ -158,7 +158,7 @@ function ModulesSection() {
             key={m.t}
             int={4}
             ch={
-              <div style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
+              <div id={`${m.t.toLowerCase().replace(/\s/g, '-')}`} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
                   <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: L2 }}>{`0${i + 1}`}</div>
@@ -202,7 +202,7 @@ function ComplianceSection() {
 export default function PlatformAlienServePageClient() {
   return (
     <ConsultancyLoadedShell label="ALIENSERVE">
-      <Nav current="Solutions" />
+      <Nav current="Platform" />
       <ServeHero />
       <ModulesSection />
       <ComplianceSection />

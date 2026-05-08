@@ -364,7 +364,7 @@ function SocialProof() {
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
         {QUOTES.map((q) => (
           <div key={q.by} style={{ background: DK, padding: "24px 20px" }}>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.63)", marginBottom: 10 }}>"{q.q}"</div>
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.63)", marginBottom: 10 }}>&ldquo;{q.q}&rdquo;</div>
             <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {q.by}</div>
           </div>
         ))}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import { Arr, Chip, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
@@ -46,7 +47,7 @@ function Hero() {
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: stacked ? "none" : `1px solid ${PL}`, borderBottom: stacked ? `1px solid ${PL}` : "none", background: "rgb(250,251,255)" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
-                <span style={{ color: "rgba(0,0,0,0.5)" }}>Home</span>
+                <Link href="/" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "#000" }}>Blog</span>
               </div>
@@ -77,7 +78,7 @@ export default function BlogPageClient() {
   const filtered = useMemo(() => (cat === "ALL" ? POSTS : POSTS.filter((p) => p.cat === cat)), [cat]);
   return (
     <ConsultancyLoadedShell label="FIELD NOTES">
-      <Nav current="Services" />
+      <Nav current="Blog" />
       <Hero />
       <section style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px 0`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
         <div style={{ marginBottom: 32 }}><Lbl ch="Featured this week" /></div>
@@ -144,8 +145,11 @@ export default function BlogPageClient() {
           <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "30px", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>Subscribe</div>
             <input placeholder="you@company.com" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "14px 16px", borderRadius: 10, fontFamily: MN, fontSize: 13, outline: "none" }} />
-            <button className="hv" style={{ background: L, color: "#000", border: "none", borderRadius: 10, padding: "14px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              Subscribe <Arr sz={10} cl="#000" sw={2.4} />
+            <button className="hv" style={{ background: L, color: "#000", border: "none", borderRadius: 10, padding: "14px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, transition: "background .2s,color .2s,transform .15s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = L; }}
+            >
+              Subscribe <Arr sz={10} cl="currentColor" sw={2.4} />
             </button>
           </div>
         </div>
@@ -155,4 +159,3 @@ export default function BlogPageClient() {
     </ConsultancyLoadedShell>
   );
 }
-

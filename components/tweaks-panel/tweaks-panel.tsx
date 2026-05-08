@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
   useCallback,
@@ -137,6 +136,9 @@ function TweaksPanel({ title = 'Tweaks', children, defaultOpen = false }: { titl
   const offsetRef = useRef({ x: 16, y: 16 });
   const PAD = 16;
 
+  // keep a render-safe position value derived from offsetRef
+  const [pos, setPos] = useState(() => ({ x: offsetRef.current.x, y: offsetRef.current.y }));
+
   const clampToViewport = useCallback(() => {
     const panel = dragRef.current;
     if (!panel) return;
@@ -147,9 +149,11 @@ function TweaksPanel({ title = 'Tweaks', children, defaultOpen = false }: { titl
       x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
       y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
     };
+    // update DOM immediately and also update state for render-safe reads
     panel.style.right = offsetRef.current.x + 'px';
     panel.style.bottom = offsetRef.current.y + 'px';
-  }, []);
+    setPos({ x: offsetRef.current.x, y: offsetRef.current.y });
+  }, [setPos]);
 
   useEffect(() => {
     if (!open) return;
@@ -162,6 +166,9 @@ function TweaksPanel({ title = 'Tweaks', children, defaultOpen = false }: { titl
     ro.observe(document.documentElement);
     return () => ro.disconnect();
   }, [open, clampToViewport]);
+
+  // keep a render-safe position value derived from offsetRef
+  const [pos, setPos] = useState(() => ({ x: offsetRef.current.x, y: offsetRef.current.y }));
 
   useEffect(() => {
     const onMsg = (e) => {
@@ -206,7 +213,7 @@ function TweaksPanel({ title = 'Tweaks', children, defaultOpen = false }: { titl
     <>
       <style>{__TWEAKS_STYLE}</style>
       <div ref={dragRef} className="twk-panel"
-           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+           style={{ right: pos.x, bottom: pos.y }}>
         <div className="twk-hd" onMouseDown={onDragStart}>
           <b>{title}</b>
           <button className="twk-x" aria-label="Close tweaks"

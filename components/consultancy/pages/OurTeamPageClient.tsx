@@ -128,7 +128,7 @@ export default function OurTeamPageClient() {
   const pv = sectionVPad(layout);
   return (
     <ConsultancyLoadedShell label="TEAM">
-      <Nav current="Services" />
+      <Nav current="About" />
       <TeamHero />
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ marginBottom: 36 }}><Lbl ch="Founders and C-Suite" lt /><Ttl ch="LEADERSHIP." lt /></div>
@@ -155,7 +155,10 @@ export default function OurTeamPageClient() {
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 8 }}>Plus 80 more across delivery, research, design, and ops</div>
             <div style={{ fontFamily: MN, fontSize: 14, color: "#000", fontWeight: 500 }}>We are hiring 14 roles this quarter.</div>
           </div>
-          <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#000", color: L, borderRadius: 24, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
+          <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#000", color: L, borderRadius: 24, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background .2s,color .2s,transform .15s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = L; }}
+          >
             See open roles <Arr sz={10} cl={L} sw={2.4} />
           </Link>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Arr,
@@ -317,6 +318,10 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
 }
 
 function DetailPanel({ ind }: { ind: Ind }) {
+  const directCaseStudyHref = ind.clients
+    .map((client) => caseStudyPathByClient(client))
+    .find((href) => href !== "/case-studies");
+
   return (
     <div
       style={{
@@ -424,23 +429,51 @@ function DetailPanel({ ind }: { ind: Ind }) {
             SELECTED CLIENTS
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {ind.clients.map((c) => (
-              <div
-                key={c}
-                style={{
-                  padding: "6px 12px",
-                  background: "rgba(255,255,255,0.06)",
-                  borderRadius: 8,
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: "#fff",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                {c}
-              </div>
-            ))}
+            {ind.clients.map((c) => {
+              const href = caseStudyPathByClient(c);
+              const hasCaseStudy = href !== "/case-studies";
+
+              if (!hasCaseStudy) {
+                return (
+                  <div
+                    key={c}
+                    style={{
+                      padding: "6px 12px",
+                      background: "rgba(255,255,255,0.06)",
+                      borderRadius: 8,
+                      fontFamily: MN,
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: "#fff",
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    {c}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={c}
+                  href={href}
+                  className="hv"
+                  style={{
+                    padding: "6px 12px",
+                    background: "rgba(255,255,255,0.08)",
+                    borderRadius: 8,
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "#fff",
+                    letterSpacing: "0.04em",
+                    textDecoration: "none",
+                  }}
+                >
+                  {c}
+                </Link>
+              );
+            })}
           </div>
         </div>
         {ind.highlight ? (
@@ -479,12 +512,21 @@ function DetailPanel({ ind }: { ind: Ind }) {
               textTransform: "uppercase",
               cursor: "none",
               textDecoration: "none",
+              transition: "background .2s,color .2s,transform .15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#000";
+              e.currentTarget.style.color = L;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = L;
+              e.currentTarget.style.color = "#000";
             }}
           >
-            {ind.cta1 ?? `Talk to a ${ind.n.split(" ")[0]} lead`} <Arr sz={11} cl="#000" sw={2.4} />
+            {ind.cta1 ?? `Talk to a ${ind.n.split(" ")[0]} lead`} <Arr sz={11} cl="currentColor" sw={2.4} />
           </Link>
           <Link
-            href="/case-studies"
+            href={directCaseStudyHref ?? "/case-studies"}
             className="hv"
             style={{
               flex: "0 1 auto",
@@ -505,9 +547,20 @@ function DetailPanel({ ind }: { ind: Ind }) {
               cursor: "none",
               textDecoration: "none",
               whiteSpace: "nowrap",
+              transition: "background .2s,color .2s,border-color .2s,transform .15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#fff";
+              e.currentTarget.style.color = "#000";
+              e.currentTarget.style.borderColor = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
             }}
           >
-            Case studies →
+            {directCaseStudyHref ? "Featured case study" : "Case studies"} <Arr sz={10} cl="currentColor" sw={2.2} />
           </Link>
         </div>
       </div>
@@ -759,7 +812,7 @@ export default function IndustriesPageClient() {
         title="AI IN INDUSTRY.|TWELVE VERTICALS.|DEEP BENCH."
         sub="alien.fi delivers specialized AI in industry engagements across twelve regulated, operationally complex verticals. Every project is led by sector specialists with 8+ years of vertical experience, not generalists, so your AI investment reaches production with the right domain context from day one."
         meta={[["Verticals served", "12"], ["Engagements", "270+"], ["Repeat clients", "94%"], ["Avg vertical tenure", "11 yrs"]]}
-        accent="Discuss your vertical →"
+        accent="Discuss your vertical"
       />
       <Ticker
         words={[

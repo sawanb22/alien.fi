@@ -75,9 +75,10 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
               <div
                 key={k}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  display: "grid",
+                  gridTemplateColumns: "minmax(96px, auto) minmax(0, 1fr)",
+                  alignItems: "start",
+                  gap: 12,
                   padding: "8px 0",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
@@ -85,7 +86,7 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
                 <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
                   {k}
                 </span>
-                <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>{v}</span>
+                <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", textAlign: "right", lineHeight: 1.25 }}>{v}</span>
               </div>
             ))}
           </div>
