@@ -3,6 +3,7 @@
 /* Generated from repo-root `Landing Page.html` via `scripts/generate-landing-client.mjs` (then link/tag fixes). Regenerate after editing the HTML source. */
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   useCallback,
   useEffect,
@@ -20,6 +21,8 @@ import {
 } from "@/lib/landing-layout-context";
 import { LandingChrome } from "./LandingChrome";
 import { SplineHeroLogo } from "./SplineHeroLogo";
+
+const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), { ssr: false });
 
 /* ── TOKENS ── */
 const L='rgb(150,238,82)',L2='rgb(177,238,82)';
@@ -435,8 +438,10 @@ function HeroDesktop({tweaks}){
                 onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
                   onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';window.magnetReset(e.currentTarget);}}
                 >Start a project <Arr sz={9} cl="currentColor" sw={2}/></Link>
-                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'color .2s,box-shadow .2s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9}} 
-                  onMouseEnter={e=>e.currentTarget.style.color='#000'} onMouseLeave={e=>e.currentTarget.style.color='rgba(0,0,0,0.4)'}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
+                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9,background:'transparent'}} 
+                  onMouseMove={e=>window.magnet?.(e.currentTarget,e,.22)}
+                  onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.4)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';window.magnetReset?.(e.currentTarget);}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
               </div>
             </div>
 
@@ -516,13 +521,15 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
           </div>
           <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
-            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,transform .15s'}}
-              onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';}}
-              onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';}}
+            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
+              onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';}}
             >
               Start a project <Arr sz={9} cl="currentColor" sw={2}/>
             </Link>
-            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 2px'}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
+            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 14px',minWidth:148,justifyContent:'center',borderRadius:10,transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',background:'transparent'}}
+              onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.45)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
           </div>
           <div style={{marginTop:18,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(0,0,0,0.25)'}}>
             <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
@@ -826,6 +833,41 @@ function CaseStudy(){
           <div className="rv"><Link href="/case-studies" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Case study" lt/></Link><Ttl ch="REAL RESULTS." lt/></div>
           <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees, 9-month transformation delivered through ai strategy consulting, custom ai development, and managed ai services.</div>
         </div>
+        <div className="rv d1" style={{ marginBottom: layout === "mobile" ? 24 : 28 }}>
+          <Link
+            href="/case-studies"
+            className="hv"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: MN,
+              fontWeight: 600,
+              fontSize: 11,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: L,
+              textDecoration: "none",
+              padding: "12px 20px",
+              borderRadius: 10,
+              border: "1px solid rgba(150,238,82,0.45)",
+              background: "rgba(150,238,82,0.08)",
+              transition: "background .2s,color .2s,border-color .2s,transform .15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(150,238,82,0.2)";
+              e.currentTarget.style.borderColor = L2;
+              e.currentTarget.style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(150,238,82,0.08)";
+              e.currentTarget.style.borderColor = "rgba(150,238,82,0.45)";
+              e.currentTarget.style.color = L;
+            }}
+          >
+            View all case studies <Arr sz={9} cl="currentColor" sw={2} />
+          </Link>
+        </div>
         <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
           {metrics.map(m=>(
             <Tilt key={m.val} int={8} sx={{height:'100%'}}>
@@ -940,6 +982,8 @@ function EngagementModels(){
 }
 
 /* ── CTA ── */
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+
 function CTA(){
   const layout=useLandingLayout();
   const gv=sectionGutter(layout);
@@ -949,6 +993,9 @@ function CTA(){
   const [touched,setTouched]=useState({name:false,company:false,email:false,budget:false,project:false});
   const [submitted,setSubmitted]=useState(false);
   const [status,setStatus]=useState('');
+  const [statusIsError,setStatusIsError]=useState(false);
+  const [submitting,setSubmitting]=useState(false);
+  const recaptchaRef=useRef<{ getValue: () => string | null; reset: () => void } | null>(null);
 
   const errors={
     name:!form.name.trim()?'Full name is required.':!/^[A-Za-z][A-Za-z\s'.-]{1,59}$/.test(form.name.trim())?'Use letters only for name (no numbers).':'',
@@ -971,15 +1018,60 @@ function CTA(){
     />
   );
 
-  const submit=(e)=>{
+  const submit=async (e)=>{
     e.preventDefault();
     setSubmitted(true);
     setTouched({name:true,company:true,email:true,budget:true,project:true});
     if(hasErrors){
       setStatus('Please fix highlighted fields before sending.');
+      setStatusIsError(true);
       return;
     }
-    setStatus('Looks good. Message is ready to send.');
+    if(!RECAPTCHA_SITE_KEY){
+      setStatus('Form is temporarily unavailable. Please email info@alien.fi directly.');
+      setStatusIsError(true);
+      return;
+    }
+    const token=recaptchaRef.current?.getValue();
+    if(!token){
+      setStatus('Please complete the captcha before sending.');
+      setStatusIsError(true);
+      return;
+    }
+    setSubmitting(true);
+    setStatus('');
+    setStatusIsError(false);
+    try{
+      const res=await fetch('/api/contact',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          source:'home',
+          token,
+          name:form.name.trim(),
+          company:form.company.trim(),
+          email:form.email.trim(),
+          budget:form.budget.trim(),
+          project:form.project.trim(),
+        }),
+      });
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok){
+        setStatus(typeof data.error==='string'?data.error:'Something went wrong. Please try again.');
+        setStatusIsError(true);
+        recaptchaRef.current?.reset();
+        return;
+      }
+      setStatus('Message sent successfully. We will get back to you shortly.');
+      setStatusIsError(false);
+      recaptchaRef.current?.reset();
+    }catch{
+      setStatus('Something went wrong. Please try again.');
+      setStatusIsError(true);
+      recaptchaRef.current?.reset();
+    }finally{
+      setSubmitting(false);
+    }
   };
   return(
     <section id="contact" style={{padding:`0 ${gv}px`,position:'relative',zIndex:9}}>
@@ -1015,11 +1107,26 @@ function CTA(){
             {showErr('project')?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors.project}</div>:null}
             <div style={{marginTop:8,fontFamily:SN,fontSize:11,lineHeight:1.55,color:'rgba(255,255,255,0.28)',maxWidth:520}}>Share your company, goals, timeline, and budget, and we will recommend the best engagement model for your project.</div>
           </div>
-          {status?<div style={{fontFamily:SN,fontSize:12,color:hasErrors?'rgba(255,130,130,0.95)':'rgba(177,238,82,0.95)'}}>{status}</div>:null}
-          <button type="submit" className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
+          {status?<div style={{fontFamily:SN,fontSize:12,color:statusIsError?'rgba(255,130,130,0.95)':'rgba(177,238,82,0.95)'}}>{status}</div>:null}
+          {RECAPTCHA_SITE_KEY ? (
+            <div
+              style={{
+                display: "inline-block",
+                verticalAlign: "top",
+                background: DK,
+                borderRadius: 6,
+                overflow: "hidden",
+                lineHeight: 0,
+                boxShadow: `inset 0 0 0 2px ${DK}`,
+              }}
+            >
+              <ReCAPTCHA ref={recaptchaRef} sitekey={RECAPTCHA_SITE_KEY} theme="dark" />
+            </div>
+          ) : null}
+          <button type="submit" disabled={submitting} className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
             onMouseMove={e=>window.magnet(e.currentTarget,e,.2)} onMouseOut={e=>window.magnetReset(e.currentTarget)}
-            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',cursor:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none'}}>
-            Send message <Arr sz={11} cl="currentColor" sw={2.5}/>
+            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',cursor:submitting?'wait':'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none',opacity:submitting?0.65:1}}>
+            {submitting?'Sending…':'Send message'} <Arr sz={11} cl="currentColor" sw={2.5}/>
           </button>
         </form>
       </div>
@@ -1047,7 +1154,7 @@ function Footer(){
             ))}
           </div>
         </div>
-        {[{h:'Company',links:[['About','/about/partners'],['Team','/about/team'],['Careers','/contact'],['Writing','/blog'],['Case Studies','/case-studies']]},{h:'Services',links:[['AI Strategy','/services/ai-strategy'],['Custom AI Dev','/services/custom-ai-development'],['Implementation','/services/ai-implementation'],['Managed Services','/services/managed-ai'],['Training','/services']]},{h:'Contact',links:[['info@alien.fi','mailto:info@alien.fi'],['sales@alien.fi','mailto:sales@alien.fi'],['support@alien.fi','mailto:support@alien.fi'],['+1 (800) 555-2946','tel:+18005552946']]}].map(({h,links})=>(
+        {[{h:'Company',links:[['About','/about/partners'],['Team','/about/team'],['Case Studies','/case-studies'],['Blog','/blog']]},{h:'Services',links:[['AI Strategy','/services/ai-strategy'],['Custom AI Dev','/services/custom-ai-development'],['Implementation','/services/ai-implementation'],['Managed Services','/services/managed-ai'],['Training','/services']]},{h:'Contact',links:[['info@alien.fi','mailto:info@alien.fi'],['sales@alien.fi','mailto:sales@alien.fi'],['support@alien.fi','mailto:support@alien.fi'],['+1 (800) 555-2946','tel:+18005552946']]}].map(({h,links})=>(
           <div key={h}>
             <div style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.14em',textTransform:'uppercase',color:'rgba(255,255,255,0.2)',marginBottom:18}}>{h}</div>
             {links.map(([label,href])=>(

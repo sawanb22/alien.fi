@@ -5,12 +5,17 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
   Lbl,
   Nav,
   Tilt,
   Ttl,
+  consultancyGhostOnDarkEnter,
+  consultancyGhostOnDarkLeave,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
 } from "@/components/consultancy/consultancy-ui";
 import {
   gridCols,
@@ -221,11 +226,54 @@ function StrategyHero() {
               Eight focused weeks. We sit with your leadership, audit your data, score your opportunities, and hand you an 18-month roadmap your CFO will sign.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                Book a strategy call <Arr sz={10} cl="#000" sw={2.4} />
+              <Link
+                href="/contact"
+                className="hv"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: L,
+                  color: "#000",
+                  borderRadius: 999,
+                  padding: "12px 18px",
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  transition: "background .2s,color .2s,box-shadow .2s",
+                }}
+                onMouseEnter={consultancyLimeCtaEnter}
+                onMouseLeave={consultancyLimeCtaLeave}
+              >
+                Book a strategy call <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <Link href="/case-studies" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,0.2)", borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                See past roadmaps -
+              <Link
+                href="/case-studies"
+                className="hv"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "transparent",
+                  color: "#fff",
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  borderRadius: 999,
+                  padding: "12px 18px",
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  transition: "background .2s,box-shadow .2s",
+                }}
+                onMouseEnter={consultancyGhostOnDarkEnter}
+                onMouseLeave={consultancyGhostOnDarkLeave}
+              >
+                See past roadmaps
               </Link>
             </div>
           </div>
@@ -242,11 +290,11 @@ function OutcomesSection() {
     <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, OUTCOMES.length, 2), gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
         {OUTCOMES.map((x) => (
-          <div key={x.l} style={{ background: DK, padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
+          <ConsultancyInteractiveSurface key={x.l} variant="dk" style={{ padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: layout === "mobile" ? "clamp(28px,7vw,40px)" : 48, color: L, lineHeight: 1, marginBottom: 14 }}>{x.v}</div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
             <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -270,7 +318,7 @@ function PhasesSection() {
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}` }}>
         {PHASES.map((p) => (
-          <div key={p.n} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
+          <ConsultancyInteractiveSurface key={p.n} variant="gradient" style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, letterSpacing: "0.16em", color: L2 }}>{p.n}</div>
               <Chip ch={p.w} />
@@ -286,7 +334,7 @@ function PhasesSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -309,14 +357,14 @@ function DeliverablesGrid() {
             key={d.h}
             int={5}
             ch={
-              <div style={{ background: DK, padding: "34px 32px", height: "100%" }}>
+              <ConsultancyInteractiveSurface variant="dk" style={{ padding: "34px 32px", height: "100%" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
                   <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, letterSpacing: "0.16em", color: L2 }}>{String(i + 1).padStart(2, "0")}</div>
                   <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
                 </div>
                 <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#fff", letterSpacing: "0.03em", marginBottom: 14 }}>{d.h}</div>
                 <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{d.d}</div>
-              </div>
+              </ConsultancyInteractiveSurface>
             }
           />
         ))}

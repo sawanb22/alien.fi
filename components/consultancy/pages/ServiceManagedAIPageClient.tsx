@@ -2,7 +2,20 @@
 
 import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
-import { Arr, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
+import {
+  Arr,
+  ConsultancyFaqAccordion,
+  ConsultancyInteractiveSurface,
+  CTAStrip,
+  Footer,
+  Lbl,
+  Nav,
+  Ttl,
+  consultancyGhostOnDarkEnter,
+  consultancyGhostOnDarkLeave,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
+} from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
@@ -78,8 +91,50 @@ export default function ServiceManagedAIPageClient() {
                 AI models degrade silently. Data shifts, edge cases multiply, and accuracy drops before anyone notices. Our managed ai services keep your models monitored, maintained, and continuously optimized so your AI investment performs in month 18 the same way it performed in month one.
               </div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Link href="/contact" style={{ background: L, color: "#000", textDecoration: "none", padding: "12px 18px", borderRadius: 999, fontFamily: MN, fontSize: 11, fontWeight: 700 }}>Talk to our team <Arr sz={10} cl="#000" /></Link>
-                <Link href="/case-studies" style={{ color: "#fff", textDecoration: "none", padding: "12px 18px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.28)", fontFamily: MN, fontSize: 11, fontWeight: 700 }}>See case studies</Link>
+                <Link
+                  href="/contact"
+                  className="hv"
+                  style={{
+                    background: L,
+                    color: "#000",
+                    textDecoration: "none",
+                    padding: "12px 18px",
+                    borderRadius: 999,
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    transition: "background .2s,color .2s,box-shadow .2s",
+                  }}
+                  onMouseEnter={consultancyLimeCtaEnter}
+                  onMouseLeave={consultancyLimeCtaLeave}
+                >
+                  Talk to our team <Arr sz={10} cl="currentColor" />
+                </Link>
+                <Link
+                  href="/case-studies"
+                  className="hv"
+                  style={{
+                    color: "#fff",
+                    textDecoration: "none",
+                    padding: "12px 18px",
+                    borderRadius: 999,
+                    border: "1px solid rgba(255,255,255,0.28)",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    transition: "background .2s,box-shadow .2s",
+                  }}
+                  onMouseEnter={consultancyGhostOnDarkEnter}
+                  onMouseLeave={consultancyGhostOnDarkLeave}
+                >
+                  See case studies
+                </Link>
               </div>
             </div>
           </div>
@@ -88,7 +143,13 @@ export default function ServiceManagedAIPageClient() {
 
       <section style={{ padding: `42px ${gv}px`, background: DK }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {METRICS.map(([v, l, s]) => <div key={l} style={{ background: DK, padding: 22 }}><div style={{ fontFamily: MN, fontSize: 42, color: L, fontWeight: 700 }}>{v}</div><div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{l}</div><div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{s}</div></div>)}
+          {METRICS.map(([v, l, s]) => (
+            <ConsultancyInteractiveSurface key={l} variant="dk" style={{ padding: 22 }}>
+              <div style={{ fontFamily: MN, fontSize: 42, color: L, fontWeight: 700 }}>{v}</div>
+              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{l}</div>
+              <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{s}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
@@ -96,29 +157,51 @@ export default function ServiceManagedAIPageClient() {
         <Lbl ch="Ongoing operations · Four pillars" /><Ttl ch="THE METHOD." />
         <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.58)", maxWidth: 760 }}>Our managed ai services operate across four continuous pillars. Each one runs in parallel from the first day of your retainer.</p>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {PILLARS.map(([p, t, d, b]) => <div key={p} style={{ background: BG2, padding: 20 }}><div style={{ fontFamily: MN, fontSize: 10, color: L2 }}>{p}</div><div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0" }}>{t}</div><div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.56)", marginBottom: 8 }}>{d}</div>{b.map((x) => <div key={x} style={{ fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.55)" }}>• {x}</div>)}</div>)}
+          {PILLARS.map(([p, t, d, b]) => (
+            <ConsultancyInteractiveSurface key={p} variant="muted" style={{ padding: 20 }}>
+              <div style={{ fontFamily: MN, fontSize: 10, color: L2 }}>{p}</div>
+              <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0" }}>{t}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.56)", marginBottom: 8 }}>{d}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {b.map((x) => (
+                  <div key={x} style={{ display: "flex", gap: 8, alignItems: "flex-start", fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.72)" }}>
+                    <span aria-hidden style={{ width: 4, height: 4, borderRadius: "50%", background: L2, flexShrink: 0, marginTop: 5 }} />
+                    <span>{x}</span>
+                  </div>
+                ))}
+              </div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Six deliverables" /><Ttl ch="WHAT YOU GET EVERY MONTH." />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {DELIVERABLES.map(([t, d], i) => <div key={t} style={{ background: BG, padding: 22 }}><div style={{ fontFamily: MN, fontSize: 10, color: L2 }}>{String(i + 1).padStart(2, "0")} -</div><div style={{ fontFamily: MN, fontSize: 15, margin: "6px 0" }}>{t}</div><div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{d}</div></div>)}
+          {DELIVERABLES.map(([t, d], i) => (
+            <ConsultancyInteractiveSurface key={t} variant="light" style={{ padding: 22 }}>
+              <div style={{ fontFamily: MN, fontSize: 10, color: L2 }}>{String(i + 1).padStart(2, "0")} -</div>
+              <div style={{ fontFamily: MN, fontSize: 15, margin: "6px 0" }}>{t}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{d}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {QUOTES.map((q) => <div key={q} style={{ background: DK, padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>{q}</div>)}
+          {QUOTES.map((q) => (
+            <ConsultancyInteractiveSurface key={q} variant="dk" style={{ padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
+              {q}
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." />
-        <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {FAQS.map(([q, a]) => <div key={q} style={{ background: BG2, padding: 18 }}><div style={{ fontFamily: MN, fontSize: 14, marginBottom: 6 }}>{q}</div><div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.58)" }}>{a}</div></div>)}
-        </div>
+        <ConsultancyFaqAccordion items={FAQS} tone="paper" />
       </section>
 
       <CTAStrip
@@ -130,4 +213,3 @@ export default function ServiceManagedAIPageClient() {
     </ConsultancyLoadedShell>
   );
 }
-

@@ -119,7 +119,9 @@ function SolutionsGrid() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const [cat, setCat] = useState<(typeof CATS)[number]>("ALL");
-  const [hov, setHov] = useState<number | null>(null);
+  /** Hover by stable solution title so filtered views do not mis-apply styles. */
+  const [hov, setHov] = useState<string | null>(null);
+  const [filterHov, setFilterHov] = useState<(typeof CATS)[number] | null>(null);
   const filtered = cat === "ALL" ? SOLUTIONS : SOLUTIONS.filter((s) => s.cat === cat);
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
@@ -144,14 +146,19 @@ function SolutionsGrid() {
       <div className="rv d1" style={{ marginBottom: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
         {CATS.map((c) => {
           const isActive = cat === c;
+          const pillHover = !isActive && filterHov === c;
           return (
             <button
               type="button"
               key={c}
               className="hv"
               onClick={() => setCat(c)}
+              onMouseEnter={() => {
+                if (!isActive) setFilterHov(c);
+              }}
+              onMouseLeave={() => setFilterHov(null)}
               style={{
-                background: isActive ? "#000" : CD,
+                background: isActive ? "#000" : pillHover ? "rgba(21,24,43,0.12)" : CD,
                 color: isActive ? L : "rgba(0,0,0,0.6)",
                 border: "none",
                 borderRadius: 20,
@@ -160,9 +167,11 @@ function SolutionsGrid() {
                 fontSize: 10,
                 fontWeight: 700,
                 letterSpacing: "0.1em",
-                cursor: "none",
-                transition: "background .2s,color .2s",
+                cursor: "pointer",
+                transition: "background .2s,color .2s,transform .15s,box-shadow .2s",
                 textTransform: "uppercase",
+                boxShadow: pillHover ? `0 0 0 1px ${PL}` : "none",
+                transform: pillHover ? "translateY(-1px)" : "translateY(0)",
               }}
             >
               {c === "ALL" ? "All" : c === "HR AND PEOPLE" ? "HR and People" : c.charAt(0) + c.slice(1).toLowerCase()}
@@ -180,28 +189,55 @@ function SolutionsGrid() {
           borderRadius: layout === "mobile" ? 16 : 20,
           overflow: "hidden",
           border: `1px solid ${PL}`,
+          alignItems: "stretch",
         }}
       >
-        {filtered.map((s, i) => {
-          const active = hov === i;
+        {filtered.map((s) => {
+          const active = hov === s.t;
+          const isWide = layout !== "mobile";
+          const spanFull = isWide && filtered.length === 1;
           return (
             <div
               key={s.t}
               role="presentation"
-              onMouseEnter={() => setHov(i)}
+              onMouseEnter={() => setHov(s.t)}
               onMouseLeave={() => setHov(null)}
               className="hv"
               style={{
                 background: active ? `linear-gradient(150deg,rgb(220,244,200),${BG2})` : `linear-gradient(150deg,${BG},${BG2})`,
-                padding: layout === "mobile" ? "24px 20px" : "32px 32px",
+                padding: layout === "mobile" ? "24px 20px" : "28px 28px 32px",
                 display: "flex",
                 flexDirection: layout === "mobile" ? "column" : "row",
-                gap: layout === "mobile" ? 18 : 24,
-                transition: "background .25s",
-                boxShadow: active ? `inset 0 0 0 1.5px ${L}66` : "none",
+                alignItems: "stretch",
+                gap: layout === "mobile" ? 18 : 0,
+                columnGap: layout === "mobile" ? 0 : 24,
+                minHeight: isWide ? 300 : undefined,
+                height: "100%",
+                boxSizing: "border-box",
+                gridColumn: spanFull ? "1 / -1" : undefined,
+                cursor: "pointer",
+                transition: "background .25s ease, box-shadow .22s ease, transform .22s ease",
+                boxShadow: active
+                  ? `inset 0 0 0 1.5px ${L}88, 0 16px 36px rgba(21,24,43,0.1)`
+                  : "0 2px 12px rgba(21,24,43,0.04)",
+                transform: active ? "translateY(-3px)" : "translateY(0)",
               }}
             >
-              <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+              {/* Narrow rail: icon only (chip lives in main column full-width so the rail does not steal horizontal space). */}
+              <div
+                style={{
+                  flex: "0 0 auto",
+                  width: layout === "mobile" ? "100%" : "auto",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: layout === "mobile" ? "row" : "column",
+                  alignItems: layout === "mobile" ? "center" : "flex-start",
+                  justifyContent: layout === "mobile" ? "flex-start" : "flex-start",
+                  gap: layout === "mobile" ? 16 : 0,
+                  paddingRight: layout === "mobile" ? 0 : 22,
+                  borderRight: layout === "mobile" ? "none" : `1px solid rgba(21,24,43,0.1)`,
+                }}
+              >
                 <div
                   style={{
                     width: 56,
@@ -215,82 +251,141 @@ function SolutionsGrid() {
                     fontSize: 30,
                     fontWeight: 700,
                     color: active ? L : "rgba(0,0,0,0.5)",
-                    transition: "all .25s",
+                    transition: "background .25s ease,color .25s ease,transform .22s ease,box-shadow .22s ease",
+                    flexShrink: 0,
+                    boxShadow: active ? `0 6px 18px rgba(0,0,0,0.18)` : "none",
+                    transform: active ? "scale(1.03)" : "scale(1)",
                   }}
                 >
                   {s.ic}
                 </div>
-                <Chip ch={s.tag} />
+                {layout === "mobile" ? <Chip ch={s.tag} sx={{ flex: 1, minWidth: 0 }} /> : null}
               </div>
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", color: L2, fontWeight: 700 }}>{s.cat}</span>
-                  <Arr sz={10} cl={active ? "#000" : PL} sw={2} />
-                </div>
-                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 16, letterSpacing: "0.03em", color: "#000", lineHeight: 1.3 }}>{s.t}</div>
-                <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.5)" }}>{s.d}</div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
-                  {s.stack.map((t) => (
-                    <div
-                      key={t}
-                      style={{
-                        padding: "3px 9px",
-                        background: "rgba(21,24,43,0.06)",
-                        borderRadius: 5,
-                        fontFamily: MN,
-                        fontSize: 9.5,
-                        fontWeight: 500,
-                        letterSpacing: "0.04em",
-                        color: "rgba(0,0,0,0.55)",
-                      }}
-                    >
-                      {t}
+              <div
+                style={{
+                  flex: "1 1 0%",
+                  minWidth: 0,
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: 14,
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 0 }}>
+                  {isWide ? (
+                    <div style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                      <Chip
+                        ch={s.tag}
+                        sx={{
+                          width: "auto",
+                          maxWidth: "min(100%, 280px)",
+                          display: "inline-flex",
+                          justifyContent: "center",
+                          textAlign: "center",
+                          whiteSpace: "normal",
+                          lineHeight: 1.4,
+                          boxSizing: "border-box",
+                          padding: "6px 12px",
+                        }}
+                      />
                     </div>
-                  ))}
+                  ) : null}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, minWidth: 0 }}>
+                    <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", color: L2, fontWeight: 700 }}>{s.cat}</span>
+                    <span style={{ flexShrink: 0, display: "inline-flex" }}>
+                      <Arr sz={10} cl={active ? "#000" : PL} sw={2} />
+                    </span>
+                  </div>
+                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 16, letterSpacing: "0.03em", color: "#000", lineHeight: 1.3 }}>{s.t}</div>
+                  <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.55)" }}>{s.d}</div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {s.stack.map((t) => (
+                      <div
+                        key={t}
+                        style={{
+                          padding: "4px 10px",
+                          background: active ? "rgba(21,24,43,0.1)" : "rgba(21,24,43,0.06)",
+                          borderRadius: 6,
+                          fontFamily: MN,
+                          fontSize: 9.5,
+                          fontWeight: 500,
+                          letterSpacing: "0.04em",
+                          color: "rgba(0,0,0,0.55)",
+                          transition: "background .2s ease",
+                        }}
+                      >
+                        {t}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: layout === "mobile" ? "1fr" : "repeat(3,1fr)",
-                    gap: 8,
-                    marginTop: 8,
-                    paddingTop: 14,
-                    borderTop: `1px solid ${PL}`,
-                  }}
-                >
-                  {s.kpi.map((k) => (
-                    <div key={k} style={{ fontFamily: MN, fontWeight: 600, fontSize: 10.5, color: "#000", letterSpacing: "0.02em", lineHeight: 1.4 }}>
-                      {k}
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 6 }}>
-                  <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000" }}>{s.price}</div>
-                  <Link
-                    href="/contact"
-                    className="hv"
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: "auto", minWidth: 0, width: "100%" }}>
+                  <div
+                    aria-hidden
                     style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 5,
-                      fontFamily: MN,
-                      fontSize: 10,
-                      fontWeight: 600,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: active ? L2 : "rgba(0,0,0,0.4)",
-                      textDecoration: "none",
-                      transition: "color .2s,transform .15s",
+                      height: 1,
+                      background: PL,
+                      marginLeft: isWide ? 20 : 14,
+                      width: isWide ? "calc(100% - 20px)" : "calc(100% - 14px)",
+                      flexShrink: 0,
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "#000";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = active ? L2 : "rgba(0,0,0,0.4)";
+                  />
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: layout === "mobile" ? "1fr" : "repeat(3, minmax(0, 1fr))",
+                      gap: layout === "mobile" ? 10 : 12,
+                      paddingTop: 12,
+                      width: "100%",
                     }}
                   >
-                    Configure <Arr sz={9} cl="currentColor" sw={1.8} />
-                  </Link>
+                    {s.kpi.map((k) => (
+                      <div
+                        key={k}
+                        style={{
+                          fontFamily: MN,
+                          fontWeight: 600,
+                          fontSize: 10.5,
+                          color: "#000",
+                          letterSpacing: "0.02em",
+                          lineHeight: 1.45,
+                          minWidth: 0,
+                        }}
+                      >
+                        {k}
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                    <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000" }}>{s.price}</div>
+                    <Link
+                      href="/contact"
+                      className="hv"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 5,
+                        fontFamily: MN,
+                        fontSize: 10,
+                        fontWeight: 600,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: active ? L2 : "rgba(0,0,0,0.4)",
+                        textDecoration: "none",
+                        transition: "color .2s,transform .15s",
+                        marginLeft: "auto",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "#000";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = active ? L2 : "rgba(0,0,0,0.4)";
+                      }}
+                    >
+                      Configure <Arr sz={9} cl="currentColor" sw={1.8} />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -305,6 +400,7 @@ function HowItWorks() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [stepHov, setStepHov] = useState<string | null>(null);
   const steps = [
     {
       n: "01",
@@ -335,20 +431,39 @@ function HowItWorks() {
           <Ttl ch="HOW IT WORKS." lt />
         </div>
       </div>
-      <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden" }}>
-        {steps.map((s, i) => (
+      <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", alignItems: "stretch" }}>
+        {steps.map((s, i) => {
+          const h = stepHov === s.n;
+          return (
           <Tilt key={s.n} int={6} sx={{ height: "100%" }}>
-            <div style={{ background: DK, padding: "36px 28px", display: "flex", flexDirection: "column", gap: 14, height: "100%" }}>
+            <div
+              role="presentation"
+              onMouseEnter={() => setStepHov(s.n)}
+              onMouseLeave={() => setStepHov(null)}
+              style={{
+                background: h ? "rgba(255,255,255,0.07)" : DK,
+                padding: "36px 28px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+                height: "100%",
+                cursor: "pointer",
+                transition: "background .22s ease, box-shadow .22s ease, transform .22s ease",
+                boxShadow: h ? `inset 0 0 0 1px rgba(177,238,82,0.45)` : "none",
+                transform: h ? "translateY(-2px)" : "translateY(0)",
+              }}
+            >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "0.12em", color: L2 }}>{s.n}</span>
-                {i < 3 ? <Arr sz={10} cl="rgba(255,255,255,0.2)" sw={2} /> : null}
+                {i < 3 ? <Arr sz={10} cl={h ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.2)"} sw={2} /> : null}
               </div>
               <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, letterSpacing: "0.03em", color: "#fff" }}>{s.t}</div>
               <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
-              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{s.d}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.7, color: h ? "rgba(255,255,255,0.62)" : "rgba(255,255,255,0.5)", transition: "color .2s ease" }}>{s.d}</div>
             </div>
           </Tilt>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -358,6 +473,7 @@ function StackStrip() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [stackHov, setStackHov] = useState<string | null>(null);
   const stacks = [
     { h: "LLMs & Foundation Models", i: ["OpenAI", "Anthropic", "Mistral", "Llama", "Cohere", "Gemini"] },
     { h: "Data & ML Infra", i: ["Snowflake", "Databricks", "BigQuery", "MLflow", "Weights & Biases", "Airflow"] },
@@ -391,10 +507,28 @@ function StackStrip() {
           borderRadius: layout === "mobile" ? 16 : 20,
           overflow: "hidden",
           border: `1px solid ${PL}`,
+          alignItems: "stretch",
         }}
       >
-        {stacks.map((s) => (
-          <div key={s.h} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "28px 28px" }}>
+        {stacks.map((s) => {
+          const h = stackHov === s.h;
+          return (
+          <div
+            key={s.h}
+            role="presentation"
+            onMouseEnter={() => setStackHov(s.h)}
+            onMouseLeave={() => setStackHov(null)}
+            style={{
+              background: h ? `linear-gradient(165deg,${BG},rgb(232,234,248))` : `linear-gradient(160deg,${BG},${BG2})`,
+              padding: "28px 28px",
+              height: "100%",
+              boxSizing: "border-box",
+              cursor: "pointer",
+              transition: "background .22s ease, box-shadow .22s ease, transform .22s ease",
+              boxShadow: h ? `inset 0 0 0 1.5px ${L}55, 0 12px 28px rgba(21,24,43,0.08)` : "none",
+              transform: h ? "translateY(-3px)" : "translateY(0)",
+            }}
+          >
             <Lbl ch={s.h} />
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {s.i.map((x) => (
@@ -407,10 +541,11 @@ function StackStrip() {
                     fontFamily: MN,
                     fontSize: 12,
                     fontWeight: 500,
-                    color: "rgba(0,0,0,0.7)",
+                    color: h ? "rgba(0,0,0,0.78)" : "rgba(0,0,0,0.7)",
                     padding: "6px 0",
                     borderBottom: `1px solid ${PL}`,
                     letterSpacing: "0.03em",
+                    transition: "color .2s ease",
                   }}
                 >
                   <div style={{ width: 5, height: 5, borderRadius: "50%", background: L2, flexShrink: 0 }} />
@@ -419,7 +554,8 @@ function StackStrip() {
               ))}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

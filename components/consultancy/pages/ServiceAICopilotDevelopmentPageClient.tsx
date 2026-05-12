@@ -2,7 +2,20 @@
 
 import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
-import { Arr, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
+import {
+  Arr,
+  ConsultancyFaqAccordion,
+  ConsultancyInteractiveSurface,
+  CTAStrip,
+  Footer,
+  Lbl,
+  Nav,
+  Ttl,
+  consultancyGhostOnDarkEnter,
+  consultancyGhostOnDarkLeave,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
+} from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
@@ -163,7 +176,9 @@ const FAQS = [
     q: "What is the budget range for ai copilot development services at alien.fi?",
     a: "AI copilot development services engagements start at $50,000 for a single-platform, knowledge-retrieval copilot and scale to $500,000 for multi-platform, multi-agent enterprise ai copilot builds with deep workflow automation and custom LLM fine-tuning. All engagements are fixed-fee with a defined scope agreed before work begins.",
   },
-];
+] as const;
+
+const FAQ_ITEMS: ReadonlyArray<readonly [string, string]> = FAQS.map((f) => [f.q, f.a]);
 
 function Hero() {
   const layout = useLandingLayout();
@@ -206,10 +221,52 @@ function Hero() {
               Generic AI tools do not know your processes, your data, or your business. Our ai copilot development services build context-aware, enterprise ai copilot systems embedded directly into Teams, Slack, Notion, or your own platform. Every response grounded in your knowledge base. Every action tied to your workflows.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", textDecoration: "none", borderRadius: 999, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                Start your copilot project <Arr sz={10} cl="#000" />
+              <Link
+                href="/contact"
+                className="hv"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: L,
+                  color: "#000",
+                  textDecoration: "none",
+                  borderRadius: 999,
+                  padding: "12px 18px",
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  transition: "background .2s,color .2s,box-shadow .2s",
+                }}
+                onMouseEnter={consultancyLimeCtaEnter}
+                onMouseLeave={consultancyLimeCtaLeave}
+              >
+                Start your copilot project <Arr sz={10} cl="currentColor" />
               </Link>
-              <Link href="/case-studies" style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid rgba(255,255,255,0.28)", color: "#fff", textDecoration: "none", borderRadius: 999, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              <Link
+                href="/case-studies"
+                className="hv"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  color: "#fff",
+                  textDecoration: "none",
+                  borderRadius: 999,
+                  padding: "12px 18px",
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  transition: "background .2s,box-shadow .2s",
+                }}
+                onMouseEnter={consultancyGhostOnDarkEnter}
+                onMouseLeave={consultancyGhostOnDarkLeave}
+              >
                 See past builds
               </Link>
             </div>
@@ -227,11 +284,11 @@ function Metrics() {
     <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
         {METRICS.map((m) => (
-          <div key={m.l} style={{ background: DK, padding: "24px 20px" }}>
+          <ConsultancyInteractiveSurface key={m.l} variant="dk" style={{ padding: "24px 20px" }}>
             <div style={{ fontFamily: MN, fontSize: 42, fontWeight: 700, color: L, lineHeight: 1, marginBottom: 10 }}>{m.v}</div>
             <div style={{ fontFamily: MN, fontSize: 11.5, fontWeight: 600, color: "rgba(255,255,255,0.82)", marginBottom: 4 }}>{m.l}</div>
             <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{m.s}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -252,7 +309,7 @@ function Method() {
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
         {PHASES.map((p) => (
-          <div key={p.p} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "24px 20px" }}>
+          <ConsultancyInteractiveSurface key={p.p} variant="gradient" style={{ padding: "24px 20px" }}>
             <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.12em", fontWeight: 700, color: L2, marginBottom: 8 }}>{p.p}</div>
             <div style={{ fontFamily: MN, fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{p.t}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.58)", marginBottom: 10 }}>{p.d}</div>
@@ -264,7 +321,7 @@ function Method() {
                 </div>
               ))}
             </div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -280,13 +337,13 @@ function Deliverables() {
       <div style={{ marginBottom: 34 }}><Lbl ch="Six deliverables" lt /><Ttl ch="WHAT YOU TAKE HOME." lt /></div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
         {DELIVERABLES.map((d, i) => (
-          <div key={d.h} style={{ background: DK, padding: "24px 20px" }}>
+          <ConsultancyInteractiveSurface key={d.h} variant="dk" style={{ padding: "24px 20px" }}>
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, color: L2, letterSpacing: "0.14em", marginBottom: 8 }}>
               {String(i + 1).padStart(2, "0")} —
             </div>
             <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8 }}>{d.h}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(255,255,255,0.58)" }}>{d.d}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -302,10 +359,10 @@ function BuildTypes() {
       <div style={{ marginBottom: 32 }}><Lbl ch="Copilot types" /><Ttl ch="FOUR TYPES WE BUILD." /></div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
         {BUILD_TYPES.map((x) => (
-          <div key={x.h} style={{ background: BG, padding: "24px 20px" }}>
+          <ConsultancyInteractiveSurface key={x.h} variant="light" style={{ padding: "24px 20px" }}>
             <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, marginBottom: 8 }}>{x.h}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.68, color: "rgba(0,0,0,0.58)" }}>{x.d}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -321,11 +378,15 @@ function Platforms() {
       <div style={{ marginBottom: 28 }}><Lbl ch="Integration-ready" lt /><Ttl ch="WHERE YOUR COPILOT LIVES." lt /></div>
       <div style={{ display: "grid", gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 14, overflow: "hidden" }}>
         {PLATFORMS.map(([platform, integration, useCases]) => (
-          <div key={platform} style={{ background: DK, padding: "16px 18px", display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr 1.2fr", gap: 10 }}>
+          <ConsultancyInteractiveSurface
+            key={platform}
+            variant="dk"
+            style={{ padding: "16px 18px", display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr 1.2fr", gap: 10 }}
+          >
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, color: "#fff" }}>{platform}</div>
             <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.7)" }}>{integration}</div>
             <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{useCases}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -344,10 +405,12 @@ function TechnicalApproach() {
       </div>
       <div style={{ display: "grid", gap: 8 }}>
         {TECHNICAL_APPROACH.map((item) => (
-          <div key={item} style={{ display: "flex", gap: 10, fontFamily: SN, fontSize: 12.5, lineHeight: 1.66, color: "rgba(0,0,0,0.62)" }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: L2, marginTop: 7, flexShrink: 0 }} />
-            {item}
-          </div>
+          <ConsultancyInteractiveSurface key={item} variant="light" style={{ padding: "12px 14px", borderRadius: 12 }}>
+            <div style={{ display: "flex", gap: 10, fontFamily: SN, fontSize: 12.5, lineHeight: 1.66, color: "rgba(0,0,0,0.62)" }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: L2, marginTop: 7, flexShrink: 0 }} />
+              {item}
+            </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -363,10 +426,10 @@ function SocialProof() {
       <div style={{ marginBottom: 30 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
         {QUOTES.map((q) => (
-          <div key={q.by} style={{ background: DK, padding: "24px 20px" }}>
+          <ConsultancyInteractiveSurface key={q.by} variant="dk" style={{ padding: "24px 20px" }}>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.63)", marginBottom: 10 }}>&ldquo;{q.q}&rdquo;</div>
             <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {q.by}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -380,14 +443,7 @@ function FAQ() {
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 28 }}><Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." /></div>
-      <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
-        {FAQS.map((f) => (
-          <div key={f.q} style={{ background: BG, padding: "20px 18px" }}>
-            <div style={{ fontFamily: MN, fontSize: 14, fontWeight: 600, marginBottom: 8 }}>{f.q}</div>
-            <div style={{ fontFamily: SN, fontSize: 12.8, lineHeight: 1.65, color: "rgba(0,0,0,0.6)" }}>{f.a}</div>
-          </div>
-        ))}
-      </div>
+      <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="paper" />
     </section>
   );
 }

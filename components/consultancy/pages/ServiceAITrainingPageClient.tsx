@@ -4,11 +4,17 @@ import Link from 'next/link';
 import { ConsultancyLoadedShell } from '@/components/consultancy/ConsultancyLoadedShell';
 import {
   Arr,
+  ConsultancyFaqAccordion,
+  ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
   Lbl,
   Nav,
   Ttl,
+  consultancyGhostOnDarkEnter,
+  consultancyGhostOnDarkLeave,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
 } from '@/components/consultancy/consultancy-ui';
 import {
   gridCols,
@@ -178,6 +184,8 @@ const FAQS = [
     },
 ];
 
+const FAQ_ITEMS: ReadonlyArray<readonly [string, string]> = FAQS.map((f) => [f.q, f.a]);
+
 // Using a structure similar to ServiceCustomAIDevelopmentPageClient for consistency
 function Hero() {
   const layout = useLandingLayout();
@@ -228,15 +236,15 @@ function Hero() {
                 Most organizations buy AI tools before their teams understand how to use them. Our ai training programs change that. From a one-day enterprise executive ai workshop for your leadership team to a full 12-week ai upskilling program for your technical staff, we build the internal capability your organization needs to lead AI adoption from the inside.
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link href="/contact" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: L, color: '#000', borderRadius: 24, padding: '14px 22px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'background .2s,color .2s,transform .15s' }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = L; e.currentTarget.style.color = "#000"; }}
+              <Link href="/contact" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: L, color: '#000', borderRadius: 999, padding: '12px 18px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', transition: 'background .2s,color .2s,box-shadow .2s' }}
+                onMouseEnter={consultancyLimeCtaEnter}
+                onMouseLeave={consultancyLimeCtaLeave}
               >
                 Book a training call <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <Link href="#training-tracks" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1.5px solid rgba(255,255,255,0.25)', color: '#fff', borderRadius: 24, padding: '14px 22px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', transition: 'background .2s,color .2s,border-color .2s,transform .15s' }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)"; }}
+              <Link href="#training-tracks" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid rgba(255,255,255,0.28)', color: '#fff', borderRadius: 999, padding: '12px 18px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', transition: 'background .2s,box-shadow .2s' }}
+                onMouseEnter={consultancyGhostOnDarkEnter}
+                onMouseLeave={consultancyGhostOnDarkLeave}
               >
                 See training programs <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
@@ -255,11 +263,11 @@ function Metrics() {
     <section style={{ padding: `${layout === 'mobile' ? 40 : 60}px ${gv}px`, background: DK }}>
       <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 20, overflow: 'hidden' }}>
         {METRICS.map((x) => (
-          <div key={x.l} style={{ background: DK, padding: layout === 'mobile' ? '24px 20px' : '32px 28px' }}>
+          <ConsultancyInteractiveSurface key={x.l} variant="dk" style={{ padding: layout === 'mobile' ? '24px 20px' : '32px 28px' }}>
             <div style={{ fontFamily: MN, fontSize: 44, fontWeight: 700, color: L, lineHeight: 1, marginBottom: 10 }}>{x.v}</div>
             <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>{x.l}</div>
             <div style={{ fontFamily: SN, fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>{x.s}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -280,7 +288,7 @@ function Method() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}` }}>
         {PHASES.map((p) => (
-          <div key={p.p} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: '28px 24px' }}>
+          <ConsultancyInteractiveSurface key={p.p} variant="gradient" style={{ padding: '28px 24px' }}>
             <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: L2, marginBottom: 10 }}>{p.p}</div>
             <div style={{ fontFamily: MN, fontSize: 16, fontWeight: 600, marginBottom: 10 }}>{p.t}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: 'rgba(0,0,0,0.55)', marginBottom: 12 }}>{p.d}</div>
@@ -292,7 +300,7 @@ function Method() {
                 </div>
               ))}
             </div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -308,11 +316,11 @@ function Deliverables() {
             <Lbl ch="Six deliverables" /><Ttl ch="WHAT YOU TAKE HOME." />
             <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}`, marginTop: 36 }}>
                 {DELIVERABLES.map((item, i) => (
-                    <div key={item.t} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: '28px 24px' }}>
+                    <ConsultancyInteractiveSurface key={item.t} variant="gradient" style={{ padding: '28px 24px' }}>
                         <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, color: L2, letterSpacing: '0.12em', marginBottom: 8 }}>{String(i + 1).padStart(2, '0')} -</div>
                         <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, marginBottom: 10 }}>{item.t}</div>
                         <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: 'rgba(0,0,0,0.55)' }}>{item.d}</div>
-                    </div>
+                    </ConsultancyInteractiveSurface>
                 ))}
             </div>
         </section>
@@ -328,7 +336,7 @@ function TrainingTracks() {
             <Lbl ch="Three tracks, one outcome" /><Ttl ch="PICK YOUR TRACK." />
             <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 1), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}`, marginTop: 36 }}>
                 {TRACKS.map(track => (
-                    <div key={track.title} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: '28px 24px' }}>
+                    <ConsultancyInteractiveSurface key={track.title} variant="gradient" style={{ padding: '28px 24px' }}>
                         <Lbl ch={track.eyebrow} />
                         <div style={{ fontFamily: MN, fontSize: 18, fontWeight: 600, marginBottom: 10 }}>{track.title}</div>
                         <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: 'rgba(0,0,0,0.55)', marginBottom: 20 }}>{track.desc}</div>
@@ -338,7 +346,7 @@ function TrainingTracks() {
                                 <span style={{fontWeight: 600, textAlign: 'right'}}>{v}</span>
                             </div>
                         ))}
-                    </div>
+                    </ConsultancyInteractiveSurface>
                 ))}
             </div>
         </section>
@@ -354,10 +362,10 @@ function QuotesSection() {
       <div style={{ marginBottom: 36 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
       <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 1), gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 20, overflow: 'hidden' }}>
         {QUOTES.map((q) => (
-          <div key={q.by} style={{ background: DK, padding: '28px 24px' }}>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', marginBottom: 12 }}>"{q.q}"</div>
+          <ConsultancyInteractiveSurface key={q.by} variant="dk" style={{ padding: '28px 24px' }}>
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', marginBottom: 12 }}>&ldquo;{q.q}&rdquo;</div>
             <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: '0.06em', color: L2 }}>{q.by}</div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -371,14 +379,7 @@ function FAQSection() {
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: '24px 24px 0 0', marginTop: -24 }}>
       <div style={{ marginBottom: 32 }}><Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." /></div>
-      <div style={{ display: 'grid', gap: 1, background: PL, borderRadius: 16, overflow: 'hidden', border: `1px solid ${PL}` }}>
-        {FAQS.map((f) => (
-          <div key={f.q} style={{ background: BG, padding: '22px 20px' }}>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 14, marginBottom: 8 }}>{f.q}</div>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.65, color: 'rgba(0,0,0,0.6)' }}>{f.a}</div>
-          </div>
-        ))}
-      </div>
+      <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="light" />
     </section>
   );
 }

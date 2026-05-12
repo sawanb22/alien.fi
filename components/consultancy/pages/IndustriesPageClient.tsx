@@ -16,7 +16,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Ind = {
   id: string;
@@ -698,34 +698,118 @@ function Methodology() {
   );
 }
 
+function easeOutCubic(t: number) {
+  return 1 - (1 - t) ** 3;
+}
+
+type OutcomeStatRow =
+  | {
+      keyword: string;
+      l: string;
+      kind: "percent";
+      n: number;
+    }
+  | {
+      keyword: string;
+      l: string;
+      kind: "moneyM";
+      n: number;
+      suffixPlus: boolean;
+    };
+
+const OUTCOME_STATS: OutcomeStatRow[] = [
+  {
+    keyword: "AI solutions for finance",
+    kind: "moneyM",
+    n: 47,
+    suffixPlus: true,
+    l: "In fraud and loss prevented across AI solutions for finance engagements",
+  },
+  {
+    keyword: "AI in the healthcare industry",
+    kind: "percent",
+    n: 40,
+    l: "Average admin time reduction through AI in the healthcare industry deployments",
+  },
+  {
+    keyword: "AI solutions for manufacturing",
+    kind: "percent",
+    n: 34,
+    l: "Average unplanned downtime reduction via AI solutions for manufacturing clients",
+  },
+  {
+    keyword: "Vertical AI solutions",
+    kind: "percent",
+    n: 94,
+    l: "Client retention rate across all vertical AI solutions engagements",
+  },
+];
+
+function formatOutcomeValue(row: OutcomeStatRow, eased01: number) {
+  const x = row.n * eased01;
+  if (row.kind === "percent") {
+    return `${Math.round(x)}%`;
+  }
+  return `$${Math.round(x)}M${row.suffixPlus ? "+" : ""}`;
+}
+
 function Outcomes() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
-  const stats: { keyword: string; v: string; l: string }[] = [
-    {
-      keyword: "AI solutions for finance",
-      v: "$47M+",
-      l: "In fraud and loss prevented across AI solutions for finance engagements",
-    },
-    {
-      keyword: "AI in the healthcare industry",
-      v: "40%",
-      l: "Average admin time reduction through AI in the healthcare industry deployments",
-    },
-    {
-      keyword: "AI solutions for manufacturing",
-      v: "34%",
-      l: "Average unplanned downtime reduction via AI solutions for manufacturing clients",
-    },
-    {
-      keyword: "Vertical AI solutions",
-      v: "94%",
-      l: "Client retention rate across all vertical AI solutions engagements",
-    },
-  ];
+  const sectionRef = useRef<HTMLElement>(null);
+  /** Eased animation progress in [0, 1] — drives displayed metric values. */
+  const [metricProgress, setMetricProgress] = useState(0);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let raf = 0;
+    let done = false;
+
+    const runToOne = () => {
+      if (done) return;
+      done = true;
+      if (reduceMotion) {
+        setMetricProgress(1);
+        return;
+      }
+      const durationMs = 1650;
+      const t0 = performance.now();
+      const step = (now: number) => {
+        const u = Math.min(1, (now - t0) / durationMs);
+        setMetricProgress(easeOutCubic(u));
+        if (u < 1) {
+          raf = requestAnimationFrame(step);
+        }
+      };
+      raf = requestAnimationFrame(step);
+    };
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          runToOne();
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+    );
+    obs.observe(el);
+    return () => {
+      obs.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       style={{
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
@@ -750,7 +834,7 @@ function Outcomes() {
           border: `1px solid ${PL}`,
         }}
       >
-        {stats.map((s) => (
+        {OUTCOME_STATS.map((s) => (
           <div
             key={s.keyword}
             style={{
@@ -782,9 +866,10 @@ function Outcomes() {
                 letterSpacing: "0.02em",
                 color: "#000",
                 lineHeight: 1,
+                fontVariantNumeric: "tabular-nums",
               }}
             >
-              {s.v}
+              {formatOutcomeValue(s, metricProgress)}
             </div>
             <div
               style={{

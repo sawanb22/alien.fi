@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
   Lbl,
@@ -13,6 +14,9 @@ import {
   Ticker,
   Tilt,
   Ttl,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
+  consultancyPrimaryCtaHoverRing,
 } from "@/components/consultancy/consultancy-ui";
 import {
   gridCols,
@@ -22,7 +26,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SERVICES = [
   {
@@ -138,6 +142,18 @@ const PROCESS = [
   },
 ];
 
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return reduced;
+}
+
 function ServiceRow({
   s,
   open,
@@ -150,13 +166,18 @@ function ServiceRow({
   const layout = useLandingLayout();
   const narrow = layout !== "desktop";
   const isOpen = open;
+  const [rowHover, setRowHover] = useState(false);
+  const rowBg = isOpen ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : rowHover ? "rgba(21,24,43,0.055)" : "transparent";
   return (
     <div
       id={s.anchor}
+      onMouseEnter={() => setRowHover(true)}
+      onMouseLeave={() => setRowHover(false)}
       style={{
         borderBottom: `1px solid ${PL}`,
-        background: isOpen ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : "transparent",
-        transition: "background .25s",
+        background: rowBg,
+        transition: "background .22s ease, box-shadow .22s ease",
+        boxShadow: !isOpen && rowHover ? `inset 0 0 0 1px rgba(150,238,82,0.28)` : "none",
       }}
     >
       <button
@@ -173,7 +194,7 @@ function ServiceRow({
           gap: narrow ? 14 : 24,
           gridTemplateColumns: narrow ? undefined : "80px 1fr 200px 100px 40px",
           alignItems: narrow ? "stretch" : "center",
-          cursor: narrow ? "pointer" : "none",
+          cursor: "pointer",
           textAlign: "left",
         }}
       >
@@ -327,10 +348,10 @@ function ServiceRow({
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 8,
-                  background: "#000",
-                  color: L,
+                  background: L,
+                  color: "#000",
                   border: "none",
-                  borderRadius: 24,
+                  borderRadius: 999,
                   padding: "10px 18px",
                   fontFamily: MN,
                   fontSize: 11,
@@ -339,16 +360,10 @@ function ServiceRow({
                   textTransform: "uppercase",
                   cursor: "none",
                   textDecoration: "none",
-                  transition: "background .2s,color .2s,transform .15s",
+                  transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = L;
-                  e.currentTarget.style.color = "#000";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#000";
-                  e.currentTarget.style.color = "#fff";
-                }}
+                onMouseEnter={consultancyLimeCtaEnter}
+                onMouseLeave={consultancyLimeCtaLeave}
               >
                 Discuss this engagement <Arr sz={10} cl="currentColor" sw={2.2} />
               </Link>
@@ -361,8 +376,8 @@ function ServiceRow({
                   gap: 8,
                   background: "transparent",
                   color: "#000",
-                  border: `1.5px solid ${PL}`,
-                  borderRadius: 24,
+                  border: `1px solid ${PL}`,
+                  borderRadius: 999,
                   padding: "10px 18px",
                   fontFamily: MN,
                   fontSize: 11,
@@ -371,17 +386,18 @@ function ServiceRow({
                   textTransform: "uppercase",
                   cursor: "none",
                   textDecoration: "none",
-                  transition: "background .2s,color .2s,border-color .2s,transform .15s",
+                  transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#000";
-                  e.currentTarget.style.color = "#fff";
-                  e.currentTarget.style.borderColor = "#000";
+                  e.currentTarget.style.background = "rgba(0,0,0,0.06)";
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.35)";
+                  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
                   e.currentTarget.style.color = "#000";
                   e.currentTarget.style.borderColor = PL;
+                  e.currentTarget.style.boxShadow = "none";
                 }}
               >
                 Related case studies <Arr sz={10} cl="currentColor" sw={2.2} />
@@ -405,17 +421,27 @@ function ServiceRow({
               {s.deliverables.map((del) => (
                 <div
                   key={del}
+                  role="presentation"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(21,24,43,0.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                  }}
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: 10,
-                    padding: "8px 0",
+                    padding: "8px 10px",
+                    margin: "0 -10px",
+                    borderRadius: 8,
                     borderBottom: `1px solid ${PL}`,
                     fontFamily: MN,
                     fontSize: 12,
                     fontWeight: 500,
                     color: "#000",
                     letterSpacing: "0.02em",
+                    transition: "background .18s ease",
                   }}
                 >
                   <div style={{ width: 5, height: 5, borderRadius: "50%", background: L2, flexShrink: 0 }} />
@@ -480,6 +506,8 @@ function ProcessTimeline() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const showHr = layout === "desktop";
+  const reduceMotion = usePrefersReducedMotion();
+  const pulseAnimation = reduceMotion ? "none" : "consultancy-pulseRing 3.8s ease-out infinite";
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
@@ -502,54 +530,56 @@ function ProcessTimeline() {
         />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 5, 2), gap: layout === "mobile" ? 16 : 20, position: "relative", zIndex: 1 }}>
           {PROCESS.map((p) => (
-            <div key={p.p} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <div
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: "50%",
-                  background: L,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: MN,
-                  fontWeight: 700,
-                  fontSize: 11,
-                  color: "#000",
-                  marginBottom: 18,
-                  position: "relative",
-                  boxShadow: `0 0 0 6px ${DK}, 0 0 18px ${L}99`,
-                }}
-              >
-                <span
+            <ConsultancyInteractiveSurface key={p.p} variant="dk" style={{ borderRadius: 14, padding: "12px 14px 18px" }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                <div
                   style={{
-                    position: "absolute",
-                    top: -1,
-                    left: -1,
-                    right: -1,
-                    bottom: -1,
+                    width: 28,
+                    height: 28,
                     borderRadius: "50%",
-                    border: `1px solid ${L}`,
-                    animation: "consultancy-pulseRing 2.4s ease-out infinite",
+                    background: L,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: MN,
+                    fontWeight: 700,
+                    fontSize: 11,
+                    color: "#000",
+                    marginBottom: 18,
+                    position: "relative",
+                    boxShadow: `0 0 0 6px ${DK}, 0 0 18px ${L}99`,
                   }}
-                />
-                {p.p}
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: -1,
+                      left: -1,
+                      right: -1,
+                      bottom: -1,
+                      borderRadius: "50%",
+                      border: `1px solid ${L}`,
+                      animation: pulseAnimation,
+                    }}
+                  />
+                  {p.p}
+                </div>
+                <Chip ch={p.time} bg="rgba(255,255,255,0.08)" cl="rgba(255,255,255,0.7)" sx={{ marginBottom: 12 }} />
+                <div
+                  style={{
+                    fontFamily: MN,
+                    fontWeight: 600,
+                    fontSize: 18,
+                    color: "#fff",
+                    letterSpacing: "0.03em",
+                    marginBottom: 10,
+                  }}
+                >
+                  {p.t}
+                </div>
+                <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(255,255,255,0.45)" }}>{p.d}</div>
               </div>
-              <Chip ch={p.time} bg="rgba(255,255,255,0.08)" cl="rgba(255,255,255,0.7)" sx={{ marginBottom: 12 }} />
-              <div
-                style={{
-                  fontFamily: MN,
-                  fontWeight: 600,
-                  fontSize: 18,
-                  color: "#fff",
-                  letterSpacing: "0.03em",
-                  marginBottom: 10,
-                }}
-              >
-                {p.t}
-              </div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(255,255,255,0.45)" }}>{p.d}</div>
-            </div>
+            </ConsultancyInteractiveSurface>
           ))}
         </div>
       </div>
@@ -638,7 +668,7 @@ function Principles() {
       >
         {ps.map((p) => (
           <Tilt key={p.n} int={5}>
-            <div style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "34px 32px", height: "100%" }}>
+            <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "34px 32px", height: "100%" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
                 <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, letterSpacing: "0.16em", color: L2 }}>{p.n}</div>
                 <div style={{ flex: 1, height: 1, background: PL }} />
@@ -647,7 +677,7 @@ function Principles() {
                 {p.t}
               </div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>{p.d}</div>
-            </div>
+            </ConsultancyInteractiveSurface>
           </Tilt>
         ))}
       </div>
@@ -666,7 +696,10 @@ export default function ServicesPageClient() {
         meta={[["Service modes", "6"], ["Avg engagement", "14 weeks"], ["Smallest", "$15K · 2 wks"], ["Largest", "$2.4M · 3 yrs"]]}
         accent="Booking Q3 / Q4 engagements now"
       />
-      <Ticker words={["AI Strategy", "Custom AI Dev", "Implementation", "Managed Ops", "Training", "Governance", "Roadmaps", "Bias Audits", "24/7 SLA", "Bootcamps"]} />
+      <Ticker
+        durationSec={56}
+        words={["AI Strategy", "Custom AI Dev", "AI Implementation", "Managed Ops", "Training", "Governance", "Roadmaps", "Bias Audits", "24/7 SLA", "Bootcamps"]}
+      />
       <ServicesAccordion />
       <ProcessTimeline />
       <Principles />

@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type MouseEvent,
   type MouseEventHandler,
   type ReactNode,
 } from "react";
@@ -23,6 +24,46 @@ const BG = "rgb(243,243,255)";
 const BG2 = "rgb(224,226,241)";
 const PL = "rgb(199,200,211)";
 const DK = "rgb(21,24,43)";
+
+/** Lime ring on hover — shared by black primary CTAs site-wide. */
+export const consultancyPrimaryCtaHoverRing = "0 0 0 2px rgba(177,238,82,0.85)";
+
+export function consultancyPrimaryBlackCtaEnter(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "rgb(230,230,234)";
+  e.currentTarget.style.color = "#000";
+  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
+}
+
+export function consultancyPrimaryBlackCtaLeave(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "#000";
+  e.currentTarget.style.color = "#fff";
+  e.currentTarget.style.boxShadow = "none";
+  window.magnetReset?.(e.currentTarget);
+}
+
+/** Lime pill CTA (on dark hero) — matches black CTA hover vocabulary. */
+export function consultancyLimeCtaEnter(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "rgb(230,230,234)";
+  e.currentTarget.style.color = "#000";
+  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
+}
+
+export function consultancyLimeCtaLeave(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = L;
+  e.currentTarget.style.color = "#000";
+  e.currentTarget.style.boxShadow = "none";
+}
+
+/** Ghost / outline control on dark backgrounds — keeps border; adds fill + ring. */
+export function consultancyGhostOnDarkEnter(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
+}
+
+export function consultancyGhostOnDarkLeave(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "transparent";
+  e.currentTarget.style.boxShadow = "none";
+}
 
 export type NavPage =
   | "Services"
@@ -318,7 +359,7 @@ const navLinks: {
     sub: [
       { l: "AI Agents", href: "/services/ai-agents" },
       { l: "AI Copilots", href: "/services/ai-copilot-development" },
-      { l: "Implementation", href: "/services/ai-implementation" },
+      { l: "AI Implementation", href: "/services/ai-implementation" },
       { l: "AI Strategy", href: "/services/ai-strategy" },
       { l: "Custom Models", href: "/services/custom-ai-development" },
       { l: "Managed AI", href: "/services/managed-ai" },
@@ -681,18 +722,12 @@ export function Nav({ current }: { current?: NavPage }) {
             letterSpacing: "0.08em",
             padding: "10px 18px",
             cursor: "none",
-            transition: "background .2s,transform .15s",
+            transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
             textDecoration: "none",
+            boxShadow: "none",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgb(230,230,234)";
-            e.currentTarget.style.color = "#000";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "#000";
-            e.currentTarget.style.color = "#fff";
-            window.magnetReset?.(e.currentTarget);
-          }}
+          onMouseEnter={consultancyPrimaryBlackCtaEnter}
+          onMouseLeave={consultancyPrimaryBlackCtaLeave}
           onMouseMove={(e) => window.magnet?.(e.currentTarget, e)}
         >
           Start a project <Arr sz={9} cl="currentColor" sw={2.2} />
@@ -766,15 +801,11 @@ export function Nav({ current }: { current?: NavPage }) {
               letterSpacing: "0.06em",
               padding: layout === "mobile" ? "9px 12px" : "10px 16px",
               textDecoration: "none",
+              transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+              boxShadow: "none",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgb(230,230,234)";
-              e.currentTarget.style.color = "#000";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#000";
-              e.currentTarget.style.color = "#fff";
-            }}
+            onMouseEnter={consultancyPrimaryBlackCtaEnter}
+            onMouseLeave={consultancyPrimaryBlackCtaLeave}
           >
             Start <Arr sz={9} cl="currentColor" sw={2.2} />
           </Link>
@@ -823,9 +854,24 @@ export function Nav({ current }: { current?: NavPage }) {
   );
 }
 
-export function Ticker({ words }: { words?: string[] }) {
+export function Ticker({
+  words,
+  /** Full loop duration; longer = slower scroll. Default matches legacy 32s. */
+  durationSec = 32,
+}: {
+  words?: string[];
+  durationSec?: number;
+}) {
   const layout = useLandingLayout();
   const gx = sectionGutter(layout);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduceMotion(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
   const w = words ?? [
     "AI Strategy",
     "Custom ML Models",
@@ -854,7 +900,9 @@ export function Ticker({ words }: { words?: string[] }) {
         style={{
           display: "flex",
           gap: 64,
-          animation: "consultancy-ticker 32s linear infinite",
+          animation: reduceMotion
+            ? "none"
+            : `consultancy-ticker ${durationSec}s linear infinite`,
           whiteSpace: "nowrap",
         }}
       >
@@ -888,6 +936,168 @@ export function Ticker({ words }: { words?: string[] }) {
           </span>
         ))}
       </div>
+    </div>
+  );
+}
+
+const INTERACTIVE_CARD_PRESETS: Record<
+  "dk" | "light" | "muted" | "gradient",
+  { rest: CSSProperties; hover: CSSProperties }
+> = {
+  dk: {
+    rest: { background: DK, boxShadow: "none", transform: "translateY(0)" },
+    hover: {
+      background: "rgb(26,30,52)",
+      boxShadow: "inset 0 0 0 1px rgba(150,238,82,0.32), 0 10px 28px rgba(0,0,0,0.18)",
+      transform: "translateY(-2px)",
+    },
+  },
+  light: {
+    rest: { background: BG, boxShadow: "none", transform: "translateY(0)" },
+    hover: {
+      background: "rgb(232,246,214)",
+      boxShadow: "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)",
+      transform: "translateY(-2px)",
+    },
+  },
+  muted: {
+    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)" },
+    hover: {
+      background: "rgb(218,244,200)",
+      boxShadow: "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
+      transform: "translateY(-2px)",
+    },
+  },
+  gradient: {
+    rest: { background: `linear-gradient(160deg,${BG},${BG2})`, boxShadow: "none", transform: "translateY(0)" },
+    hover: {
+      background: `linear-gradient(160deg,rgb(228,244,210),${BG2})`,
+      boxShadow: "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
+      transform: "translateY(-2px)",
+    },
+  },
+};
+
+/** Hover lift for grid “cards” on service pages (metrics, deliverables, personas, etc.). */
+export function ConsultancyInteractiveSurface({
+  variant,
+  style,
+  children,
+}: {
+  variant: keyof typeof INTERACTIVE_CARD_PRESETS;
+  style?: CSSProperties;
+  children: ReactNode;
+}) {
+  const { rest, hover } = INTERACTIVE_CARD_PRESETS[variant];
+  return (
+    <div
+      className="hv"
+      style={{
+        transition: "background .22s ease, box-shadow .22s ease, transform .22s ease",
+        cursor: "default",
+        ...rest,
+        ...style,
+      }}
+      onMouseEnter={(e) => {
+        Object.assign(e.currentTarget.style, hover);
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = rest.background as string;
+        e.currentTarget.style.boxShadow = (rest.boxShadow as string) ?? "none";
+        e.currentTarget.style.transform = (rest.transform as string) ?? "translateY(0)";
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** FAQ list: tap question to expand/collapse each answer independently. */
+export function ConsultancyFaqAccordion({
+  items,
+  tone = "light",
+}: {
+  items: ReadonlyArray<readonly [string, string]>;
+  tone?: "light" | "paper" | "dark";
+}) {
+  const [open, setOpen] = useState<Record<number, boolean>>({});
+  const rowBg = tone === "dark" ? DK : tone === "paper" ? BG2 : BG;
+  const qColor = tone === "dark" ? "#fff" : "#0f1118";
+  const aColor = tone === "dark" ? "rgba(255,255,255,0.75)" : "rgba(15,17,24,0.82)";
+  return (
+    <div
+      style={{
+        display: "grid",
+        gap: 1,
+        background: PL,
+        borderRadius: 14,
+        overflow: "hidden",
+        border: `1px solid ${PL}`,
+      }}
+    >
+      {items.map(([q, a], i) => {
+        const expanded = !!open[i];
+        return (
+          <div key={`faq-${i}`} style={{ background: rowBg }}>
+            <button
+              type="button"
+              aria-expanded={expanded}
+              onClick={() => setOpen((prev) => ({ ...prev, [i]: !prev[i] }))}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                padding: "16px 18px",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                gap: 16,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: MN,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  lineHeight: 1.35,
+                  color: qColor,
+                  flex: 1,
+                }}
+              >
+                {q}
+              </span>
+              <span
+                aria-hidden
+                style={{
+                  fontFamily: MN,
+                  fontSize: 18,
+                  fontWeight: 300,
+                  color: L2,
+                  flexShrink: 0,
+                  lineHeight: 1,
+                }}
+              >
+                {expanded ? "−" : "+"}
+              </span>
+            </button>
+            {expanded ? (
+              <div
+                style={{
+                  padding: "0 18px 18px",
+                  fontFamily: SN,
+                  fontSize: 12.8,
+                  lineHeight: 1.66,
+                  color: aColor,
+                }}
+              >
+                {a}
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -1037,11 +1247,11 @@ export function CTAStrip({
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 14,
-                transition: "background .2s,transform .15s",
+                transition: "background .2s,transform .15s,box-shadow .2s",
                 textDecoration: "none",
                 width: layout === "desktop" ? "auto" : "100%",
                 boxShadow: hov
-                  ? `0 12px 40px ${L}66`
+                  ? `0 0 0 2px rgba(177,238,82,0.9), 0 12px 40px ${L}66`
                   : "0 4px 16px rgba(0,0,0,0.3)",
               }}
             >
@@ -1073,11 +1283,11 @@ export function CTAStrip({
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 14,
-                transition: "background .2s,transform .15s",
+                transition: "background .2s,transform .15s,box-shadow .2s",
                 textDecoration: "none",
                 width: layout === "desktop" ? "auto" : "100%",
                 boxShadow: hov
-                  ? `0 12px 40px ${L}66`
+                  ? `0 0 0 2px rgba(177,238,82,0.9), 0 12px 40px ${L}66`
                   : "0 4px 16px rgba(0,0,0,0.3)",
               }}
             >
@@ -1110,8 +1320,7 @@ export function Footer() {
         ["Team", "/about/team"],
         ["Partners", "/about/partners"],
         ["Case Studies", "/case-studies"],
-        ["Writing", "/blog"],
-        ["Careers", "/contact"],
+        ["Blog", "/blog"],
       ],
     },
     {
@@ -1119,7 +1328,7 @@ export function Footer() {
       links: [
         ["AI Strategy", "/services/ai-strategy"],
         ["Custom AI Dev", "/services/custom-ai-development"],
-        ["Implementation", "/services/ai-implementation"],
+        ["AI Implementation", "/services/ai-implementation"],
         ["Managed Services", "/services/managed-ai"],
         ["RAG Accelerator", "/services/rag-accelerator"],
         ["AI Training", "/services/ai-training"],
@@ -1131,6 +1340,7 @@ export function Footer() {
       links: [
         ["AlienCare", "/platform/aliencare"],
         ["AlienCounsel", "/platform/aliencounsel"],
+        ["AlienServe", "/platform/alienserve"],
         ["AlienSupply", "/platform/aliensupply"],
         ["AlienVault", "/platform/alienvault"],
       ],

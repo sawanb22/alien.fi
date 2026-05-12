@@ -3,30 +3,28 @@
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Arr,
-  Chip,
   CTAStrip,
   Footer,
   Lbl,
   Nav,
   PageHero,
   Ticker,
+  consultancyPrimaryBlackCtaEnter,
+  consultancyPrimaryBlackCtaLeave,
 } from "@/components/consultancy/consultancy-ui";
 import { sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
-import { type ReactNode, useState } from "react";
+import { CONTACT_BUDGETS, CONTACT_SERVICES, CONTACT_TIMELINES } from "@/lib/lead-form-allowlists";
+import dynamic from "next/dynamic";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
-const SERVICES = [
-  "Strategy & Roadmap",
-  "Custom AI Development",
-  "Pre-built Solution",
-  "Data Engineering",
-  "Managed Operations",
-  "Training & Enablement",
-  "Not sure yet",
-];
-const BUDGETS = ["<$50K", "$50–150K", "$150–500K", "$500K–1M", "$1M+"];
-const TIMELINES = ["ASAP", "1–3 months", "3–6 months", "6+ months", "Exploratory"];
+const SERVICES = [...CONTACT_SERVICES];
+const BUDGETS = [...CONTACT_BUDGETS];
+const TIMELINES = [...CONTACT_TIMELINES];
+
+const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), { ssr: false });
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 function Field({
   lbl,
@@ -118,6 +116,22 @@ function Form() {
   });
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [transmitError, setTransmitError] = useState<string | null>(null);
+  const recaptchaRef = useRef<{ getValue: () => string | null; reset: () => void } | null>(null);
+  const attachmentInputRef = useRef<HTMLInputElement>(null);
+  const [attachmentName, setAttachmentName] = useState<string | null>(null);
+  const [attachmentError, setAttachmentError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (step !== 3) {
+      recaptchaRef.current?.reset();
+      setTransmitError(null);
+      setAttachmentError(null);
+      setAttachmentName(null);
+      if (attachmentInputRef.current) attachmentInputRef.current.value = "";
+    }
+  }, [step]);
 
   const errors = {
     name: !form.name || form.name.length < 2,
@@ -126,7 +140,7 @@ function Form() {
 
   const step1Valid = form.name.length > 1 && !errors.email && form.role.length > 1;
 
-  const upd = (k: keyof typeof form, v: any) => {
+  const upd = (k: keyof typeof form, v: string) => {
     setForm((f) => ({ ...f, [k]: v }));
     setTouched((t) => ({ ...t, [k]: true }));
   };
@@ -136,6 +150,94 @@ function Form() {
   };
   const onBlur: React.FocusEventHandler<HTMLElement> = (e) => {
     (e.target as HTMLInputElement | HTMLTextAreaElement).style.borderColor = PL;
+  };
+
+  const MAX_ATTACHMENT = 25 * 1024 * 1024;
+  const ATTACHMENT_ACCEPT =
+    ".pdf,.doc,.docx,.ppt,.pptx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation";
+
+  const validateAttachmentFile = (f: File): string | null => {
+    if (f.size > MAX_ATTACHMENT) {
+      return "This file is over 25MB. Choose a smaller file or email it to hello@alien.fi.";
+    }
+    if (!/\.(pdf|doc|docx|ppt|pptx)$/i.test(f.name)) {
+      return "Please use PDF, Word (DOC/DOCX), or PowerPoint (PPT/PPTX).";
+    }
+    return null;
+  };
+
+  const applyPickedFile = (f: File | undefined | null) => {
+    setAttachmentError(null);
+    if (!f) {
+      setAttachmentName(null);
+      return;
+    }
+    const err = validateAttachmentFile(f);
+    if (err) {
+      setAttachmentError(err);
+      setAttachmentName(null);
+      if (attachmentInputRef.current) attachmentInputRef.current.value = "";
+      return;
+    }
+    setAttachmentName(f.name);
+  };
+
+  const onAttachmentChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    applyPickedFile(e.target.files?.[0]);
+  };
+
+  const openAttachmentPicker = () => {
+    setAttachmentError(null);
+    attachmentInputRef.current?.click();
+  };
+
+  const handlePrimaryClick = async () => {
+    if (step < 3) {
+      setTransmitError(null);
+      setStep((s) => s + 1);
+      return;
+    }
+    setTransmitError(null);
+    if (!RECAPTCHA_SITE_KEY) {
+      setTransmitError("Form is temporarily unavailable. Please email hello@alien.fi directly.");
+      return;
+    }
+    const token = recaptchaRef.current?.getValue();
+    if (!token) {
+      setTransmitError("Please complete the captcha before transmitting.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "contact",
+          token,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          co: form.co,
+          role: form.role.trim(),
+          service: form.service,
+          budget: form.budget,
+          timeline: form.timeline,
+          problem: form.problem,
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok) {
+        setTransmitError(typeof data.error === "string" ? data.error : "Something went wrong. Please try again.");
+        recaptchaRef.current?.reset();
+        return;
+      }
+      setSent(true);
+    } catch {
+      setTransmitError("Something went wrong. Please try again.");
+      recaptchaRef.current?.reset();
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const layout = useLandingLayout();
@@ -345,7 +447,43 @@ function Form() {
             />
           </Field>
           <Field lbl="Anything to share? (deck, RFP)" note="Optional">
-            <div style={{ ...inputStyle, display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", cursor: "none" }} className="hv">
+            <input
+              id="contact-attachment"
+              ref={attachmentInputRef}
+              type="file"
+              accept={ATTACHMENT_ACCEPT}
+              style={{ display: "none" }}
+              onChange={onAttachmentChange}
+            />
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={openAttachmentPicker}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                applyPickedFile(e.dataTransfer.files?.[0]);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  openAttachmentPicker();
+                }
+              }}
+              style={{
+                ...inputStyle,
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "12px 14px",
+                cursor: "pointer",
+                borderColor: attachmentError ? "#b00020" : PL,
+              }}
+            >
               <div
                 style={{
                   width: 32,
@@ -363,10 +501,32 @@ function Form() {
                 ↑
               </div>
               <span style={{ fontFamily: MN, fontSize: 12, color: "rgba(0,0,0,0.5)" }}>
-                Drop a file or click to upload (PDF, DOCX, PPTX · max 25MB)
+                {attachmentName
+                  ? `Selected: ${attachmentName}`
+                  : "Drop a file or click to upload (PDF, DOCX, PPTX · max 25MB)"}
               </span>
             </div>
+            {attachmentError ? (
+              <div style={{ fontFamily: SN, fontSize: 11, color: "#b00020", marginTop: 6 }}>{attachmentError}</div>
+            ) : null}
+            <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(0,0,0,0.45)", marginTop: 6, lineHeight: 1.5 }}>
+              File is not uploaded to our servers yet; you can still email decks to hello@alien.fi if needed.
+            </div>
           </Field>
+        </div>
+      ) : null}
+      {step === 3 ? (
+        <div style={{ marginTop: 8 }}>
+          {transmitError ? (
+            <div style={{ fontFamily: SN, fontSize: 12, color: "#b00020", marginBottom: 10 }}>{transmitError}</div>
+          ) : null}
+          {RECAPTCHA_SITE_KEY ? (
+            <ReCAPTCHA ref={recaptchaRef} sitekey={RECAPTCHA_SITE_KEY} />
+          ) : (
+            <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(0,0,0,0.55)" }}>
+              Form is temporarily unavailable. Please email hello@alien.fi directly.
+            </div>
+          )}
         </div>
       ) : null}
       <div
@@ -383,7 +543,7 @@ function Form() {
           type="button"
           className="hv"
           onClick={() => setStep((s) => Math.max(1, s - 1))}
-          disabled={step === 1}
+          disabled={step === 1 || submitting}
           style={{
             background: "transparent",
             border: "none",
@@ -402,8 +562,8 @@ function Form() {
         <button
           type="button"
           className="hv"
-          onClick={() => (step < 3 ? setStep((s) => s + 1) : setSent(true))}
-          disabled={step === 1 && !step1Valid}
+          onClick={() => void handlePrimaryClick()}
+          disabled={(step === 1 && !step1Valid) || submitting}
           style={{
             background: "#000",
             color: "#fff",
@@ -415,22 +575,27 @@ function Form() {
             fontWeight: 700,
             letterSpacing: "0.12em",
             textTransform: "none",
-            cursor: "none",
+            cursor: submitting ? "wait" : "none",
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            transition: "background .2s,color .2s,transform .15s",
+            transition: "background .2s,color .2s,transform .15s,box-shadow .2s",
+            boxShadow: "none",
+            opacity: submitting ? 0.65 : 1,
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = L;
-            e.currentTarget.style.color = "#000";
+            if (e.currentTarget.disabled) return;
+            consultancyPrimaryBlackCtaEnter(e);
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = "#000";
-            e.currentTarget.style.color = "#fff";
+            consultancyPrimaryBlackCtaLeave(e);
           }}
         >
-          {step < 3 ? <>Continue <Arr sz={11} cl="currentColor" sw={2.2} /></> : (
+          {step < 3 ? (
+            <>Continue <Arr sz={11} cl="currentColor" sw={2.2} /></>
+          ) : submitting ? (
+            <>Sending…</>
+          ) : (
             <>
               Transmit <Arr sz={11} cl="currentColor" sw={2.2} />
             </>

@@ -5,12 +5,16 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
   Lbl,
   Nav,
   Tilt,
   Ttl,
+  consultancyPrimaryBlackCtaEnter,
+  consultancyPrimaryBlackCtaLeave,
+  consultancyPrimaryCtaHoverRing,
 } from "@/components/consultancy/consultancy-ui";
 import {
   gridCols,
@@ -20,6 +24,11 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import {
+  platformSplitHeaderBlurbCol,
+  platformSplitHeaderRow,
+  platformSplitHeaderTitleCol,
+} from "@/lib/consultancy/platform-split-header";
 
 const MODULES = [
   {
@@ -242,19 +251,19 @@ function VaultHero() {
                   alignItems: "center",
                   gap: 8,
                   background: DK,
-                  color: L,
-                  borderRadius: 24,
-                  padding: "14px 22px",
+                  color: "#fff",
+                  borderRadius: 999,
+                  padding: "12px 18px",
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   textDecoration: "none",
-                  transition: "background .2s,color .2s,transform .15s",
+                  transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = DK; e.currentTarget.style.color = L; }}
+                onMouseEnter={consultancyPrimaryBlackCtaEnter}
+                onMouseLeave={consultancyPrimaryBlackCtaLeave}
               >
                 Book a finance demo <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
@@ -267,19 +276,28 @@ function VaultHero() {
                   gap: 8,
                   background: "transparent",
                   color: "#000",
-                  border: `1.5px solid ${PL}`,
-                  borderRadius: 24,
-                  padding: "14px 22px",
+                  border: `1px solid ${PL}`,
+                  borderRadius: 999,
+                  padding: "12px 18px",
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   textDecoration: "none",
-                  transition: "background .2s,color .2s,border-color .2s,transform .15s",
+                  transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = "rgb(230,230,234)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#000"; e.currentTarget.style.borderColor = PL; }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0,0,0,0.06)";
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.35)";
+                  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#000";
+                  e.currentTarget.style.borderColor = PL;
+                  e.currentTarget.style.boxShadow = "none";
+                }}
               >
                 Kestrel case study <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
@@ -334,89 +352,16 @@ function ModulesSection() {
             key={m.t}
             int={4}
             ch={
-              <div
-                style={{
-                  background: `linear-gradient(160deg,${BG},${BG2})`,
-                  padding: "30px 28px",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 14,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 12,
-                      background: "rgb(229,231,245)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontFamily: MN,
-                      fontSize: 24,
-                      fontWeight: 700,
-                      color: "rgba(0,0,0,0.55)",
-                    }}
-                  >
-                    {m.ic}
+              <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
+                <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
+                    <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: L2 }}>{`0${i + 1}`}</div>
                   </div>
-                  <div
-                    style={{
-                      fontFamily: MN,
-                      fontWeight: 700,
-                      fontSize: 9,
-                      letterSpacing: "0.14em",
-                      color: L2,
-                    }}
-                  >
-                    {`0${i + 1}`}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    fontFamily: MN,
-                    fontWeight: 600,
-                    fontSize: 15,
-                    color: "#000",
-                    letterSpacing: "0.02em",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {m.t}
-                </div>
-                <div
-                  style={{
-                    fontFamily: SN,
-                    fontSize: 12.5,
-                    lineHeight: 1.65,
-                    color: "rgba(0,0,0,0.5)",
-                    flex: 1,
-                  }}
-                >
-                  {m.d}
-                </div>
-                <div
-                  style={{
-                    padding: "10px 12px",
-                    background: "#000",
-                    borderRadius: 8,
-                    fontFamily: MN,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: L,
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  {m.m}
-                </div>
+                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "0.02em", lineHeight: 1.3 }}>{m.t}</div>
+                  <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1 }}>{m.d}</div>
+                  <div style={{ padding: "10px 12px", background: "#000", borderRadius: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, color: L, letterSpacing: "0.04em" }}>{m.m}</div>
+                </ConsultancyInteractiveSurface>
               </div>
             }
           />
@@ -438,28 +383,12 @@ function ComplianceSection() {
         position: "relative",
       }}
     >
-      <div
-        style={{
-          marginBottom: 40,
-          display: "grid",
-          gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr",
-          gap: layout === "mobile" ? 20 : 60,
-          alignItems: "flex-end",
-        }}
-      >
-        <div>
+      <div style={platformSplitHeaderRow(layout, 40)}>
+        <div style={platformSplitHeaderTitleCol(layout)}>
           <Lbl ch="Trust isn't optional" lt />
           <Ttl ch="COMPLIANCE." lt />
         </div>
-        <div
-          style={{
-            fontFamily: SN,
-            fontSize: 14,
-            color: "rgba(255,255,255,0.5)",
-            maxWidth: 640,
-            lineHeight: 1.7,
-          }}
-        >
+        <div style={platformSplitHeaderBlurbCol(layout, "onDark", { maxWidthPx: 440 })}>
           AlienVault ships with the controls finance and banking teams need from day one. It is designed for regulated environments where security, traceability, and policy alignment matter as much as model performance.
         </div>
       </div>
@@ -474,30 +403,10 @@ function ComplianceSection() {
         }}
       >
         {COMPLIANCE.map((c) => (
-          <div key={c.n} style={{ background: DK, padding: "30px 28px" }}>
-            <div
-              style={{
-                fontFamily: MN,
-                fontWeight: 700,
-                fontSize: 18,
-                color: L,
-                letterSpacing: "0.04em",
-                marginBottom: 12,
-              }}
-            >
-              {c.n}
-            </div>
-            <div
-              style={{
-                fontFamily: SN,
-                fontSize: 13,
-                lineHeight: 1.7,
-                color: "rgba(255,255,255,0.55)",
-              }}
-            >
-              {c.d}
-            </div>
-          </div>
+          <ConsultancyInteractiveSurface key={c.n} variant="dk" style={{ padding: "30px 28px" }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 18, color: L, letterSpacing: "0.04em", marginBottom: 12 }}>{c.n}</div>
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.55)" }}>{c.d}</div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>

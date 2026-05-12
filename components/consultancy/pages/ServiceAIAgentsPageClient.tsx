@@ -2,7 +2,20 @@
 
 import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
-import { Arr, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
+import {
+  Arr,
+  ConsultancyFaqAccordion,
+  ConsultancyInteractiveSurface,
+  CTAStrip,
+  Footer,
+  Lbl,
+  Nav,
+  Ttl,
+  consultancyGhostOnDarkEnter,
+  consultancyGhostOnDarkLeave,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
+} from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
@@ -92,7 +105,7 @@ export default function ServiceAIAgentsPageClient() {
       <Nav current="Services" />
       <section style={{ paddingTop: 60, background: DK, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ padding: `0 ${gv}px` }}>
-          <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 500 }}>
+          <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "minmax(340px, 380px) 1fr", minHeight: stacked ? undefined : 500 }}>
             <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)", borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 24 }}>
                 <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
@@ -103,12 +116,25 @@ export default function ServiceAIAgentsPageClient() {
               </div>
               <Lbl ch="Service · Build or Deploy" lt />
               <div style={{ fontFamily: MN, fontSize: 18, color: "#fff", lineHeight: 1.5, marginBottom: 10 }}>AI agent development services that execute work, not just answer questions.</div>
-              <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, marginBottom: 14 }}>For enterprise teams ready to move beyond chatbots. We build and deploy ai agents for business that reason, plan, and take multi-step actions autonomously inside your existing workflows and tools.</div>
-              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.82)", lineHeight: 1.9 }}>
+              <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.7, marginBottom: 14 }}>For enterprise teams ready to move beyond chatbots. We build and deploy ai agents for business that reason, plan, and take multi-step actions autonomously inside your existing workflows and tools.</div>
+              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.9)", lineHeight: 1.9, marginBottom: 20 }}>
                 <div>Engagement: $30K to $500K</div>
                 <div>Duration: 3 to 16 weeks</div>
                 <div>Team: 1 AI architect + 2 agent engineers + 1 integrations lead</div>
                 <div>Output: Production-grade ai agents for business processes</div>
+              </div>
+              <div
+                style={{
+                  marginTop: 4,
+                  paddingTop: 20,
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                  fontFamily: SN,
+                  fontSize: 12,
+                  lineHeight: 1.65,
+                  color: "rgba(255,255,255,0.62)",
+                }}
+              >
+                Most teams start with a two-week discovery to lock scope, integrations, and success metrics before engineering hours ramp. You leave that phase with a written agent design, tool map, and fixed-fee proposal—so the left column is not just pricing notes, but the shape of the delivery.
               </div>
             </div>
             <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px" }}>
@@ -122,10 +148,52 @@ export default function ServiceAIAgentsPageClient() {
                 Chatbots answer questions. AI agents get work done. Our ai agent development services build autonomous systems that reason across tools, execute multi-step business processes, and complete entire workflows without human initiation. From pre-built ai agents you can deploy in days to fully custom ai agent development for your most complex operations.
               </div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", textDecoration: "none", borderRadius: 999, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  Start your agent project <Arr sz={10} cl="#000" />
+                <Link
+                  href="/contact"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: L,
+                    color: "#000",
+                    textDecoration: "none",
+                    borderRadius: 999,
+                    padding: "12px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    transition: "background .2s,color .2s,box-shadow .2s",
+                  }}
+                  onMouseEnter={consultancyLimeCtaEnter}
+                  onMouseLeave={consultancyLimeCtaLeave}
+                >
+                  Start your agent project <Arr sz={10} cl="currentColor" />
                 </Link>
-                <a href="#prebuilt-agents" style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid rgba(255,255,255,0.26)", color: "#fff", textDecoration: "none", borderRadius: 999, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                <a
+                  href="#prebuilt-agents"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    border: "1px solid rgba(255,255,255,0.26)",
+                    color: "#fff",
+                    textDecoration: "none",
+                    borderRadius: 999,
+                    padding: "12px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    transition: "background .2s,box-shadow .2s",
+                  }}
+                  onMouseEnter={consultancyGhostOnDarkEnter}
+                  onMouseLeave={consultancyGhostOnDarkLeave}
+                >
                   See pre-built agents
                 </a>
               </div>
@@ -136,30 +204,89 @@ export default function ServiceAIAgentsPageClient() {
 
       <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {METRICS.map((m) => <div key={m.l} style={{ background: DK, padding: "22px 18px" }}><div style={{ fontFamily: MN, fontSize: 40, fontWeight: 700, color: L }}>{m.v}</div><div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{m.l}</div><div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{m.s}</div></div>)}
+          {METRICS.map((m) => (
+            <ConsultancyInteractiveSurface key={m.l} variant="dk" style={{ padding: "22px 18px" }}>
+              <div style={{ fontFamily: MN, fontSize: 40, fontWeight: 700, color: L }}>{m.v}</div>
+              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{m.l}</div>
+              <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{m.s}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 32 }}><Lbl ch="Three to sixteen weeks · Four phases" /><Ttl ch="THE METHOD." /></div>
-        <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.58)", maxWidth: 840, lineHeight: 1.7 }}>Our ai agent development services follow four sequential phases whether you are deploying pre-built ai agents or commissioning a fully custom build. Each phase produces a tangible output. Each output earns the next.</p>
+        <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.78)", maxWidth: 840, lineHeight: 1.7, marginBottom: 12 }}>
+          Our ai agent development services follow four sequential phases whether you are deploying pre-built ai agents or commissioning a fully custom build. Each phase produces a tangible output. Each output earns the next.
+        </p>
+        <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.72)", maxWidth: 840, lineHeight: 1.7, marginBottom: 24, fontSize: 13 }}>
+          You always get written artifacts between phases—architecture decisions, integration contracts, test results, and pilot readouts—so procurement and engineering leads can review progress without sitting in every working session.
+        </p>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {PHASES.map((p) => <div key={p.p} style={{ background: BG2, padding: 20 }}><div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.12em", color: L2, fontWeight: 700 }}>{p.p}</div><div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0", fontWeight: 600 }}>{p.t}</div><div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.58)", lineHeight: 1.65, marginBottom: 8 }}>{p.d}</div>{p.b.map((x) => <div key={x} style={{ fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.56)" }}>• {x}</div>)}</div>)}
+          {PHASES.map((p) => (
+            <ConsultancyInteractiveSurface key={p.p} variant="muted" style={{ padding: 20 }}>
+              <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.12em", color: L2, fontWeight: 700 }}>{p.p}</div>
+              <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0", fontWeight: 600, color: "#0f1118" }}>{p.t}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(15,17,24,0.82)", lineHeight: 1.65, marginBottom: 12 }}>{p.d}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {p.b.map((x) => (
+                  <div
+                    key={x}
+                    style={{
+                      display: "flex",
+                      gap: 10,
+                      alignItems: "flex-start",
+                      fontFamily: MN,
+                      fontSize: 10.5,
+                      color: "rgba(15,17,24,0.88)",
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    <span
+                      aria-hidden
+                      style={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: "50%",
+                        background: L2,
+                        flexShrink: 0,
+                        marginTop: 4,
+                        opacity: 0.95,
+                      }}
+                    />
+                    <span>{x}</span>
+                  </div>
+                ))}
+              </div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Six deliverables" lt /><Ttl ch="WHAT YOU TAKE HOME." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {DELIVERABLES.map(([h, d], i) => <div key={h} style={{ background: DK, padding: 20 }}><div style={{ fontFamily: MN, fontSize: 10, color: L2, letterSpacing: "0.14em", marginBottom: 8 }}>{String(i + 1).padStart(2, "0")} —</div><div style={{ fontFamily: MN, fontSize: 15, color: "#fff", marginBottom: 8 }}>{h}</div><div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.66 }}>{d}</div></div>)}
+          {DELIVERABLES.map(([h, d], i) => (
+            <ConsultancyInteractiveSurface key={h} variant="dk" style={{ padding: 20 }}>
+              <div style={{ fontFamily: MN, fontSize: 10, color: L2, letterSpacing: "0.14em", marginBottom: 8 }}>{String(i + 1).padStart(2, "0")} —</div>
+              <div style={{ fontFamily: MN, fontSize: 15, color: "#fff", marginBottom: 8 }}>{h}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.66 }}>{d}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section id="prebuilt-agents" style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Deploy in days" /><Ttl ch="PRE-BUILT AGENTS READY TO GO." /></div>
-        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.6)", maxWidth: 920, marginBottom: 16 }}>Our pre-built ai agents are production-ready, domain-tuned agents that integrate into your existing tools within days rather than months. All pre-built ai agents include human-in-the-loop override, full audit trails, and optional managed retainer support.</div>
+        <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(15,17,24,0.78)", maxWidth: 920, marginBottom: 16, lineHeight: 1.65 }}>Our pre-built ai agents are production-ready, domain-tuned agents that integrate into your existing tools within days rather than months. All pre-built ai agents include human-in-the-loop override, full audit trails, and optional managed retainer support.</div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {PREBUILT.map(([name, desc, budget]) => <div key={name} style={{ background: BG, padding: 20 }}><div style={{ fontFamily: MN, fontSize: 15, marginBottom: 8, fontWeight: 600 }}>{name}</div><div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.58)", marginBottom: 10 }}>{desc}</div><div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.65)" }}>Budget: {budget}</div></div>)}
+          {PREBUILT.map(([name, desc, budget]) => (
+            <ConsultancyInteractiveSurface key={name} variant="light" style={{ padding: 20 }}>
+              <div style={{ fontFamily: MN, fontSize: 15, marginBottom: 8, fontWeight: 600, color: "#0f1118" }}>{name}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(15,17,24,0.78)", marginBottom: 10 }}>{desc}</div>
+              <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(15,17,24,0.82)" }}>Budget: {budget}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
@@ -173,7 +300,12 @@ export default function ServiceAIAgentsPageClient() {
             "Multi-agent orchestration for complex tasks requiring multiple specialized agents working in coordination",
             "Deep integrations with legacy systems, proprietary databases, and custom-built internal platforms",
             "Domain-specific reasoning capabilities for legal, medical, financial, and technical workflows",
-          ].map((x) => <div key={x} style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.6)" }}>• {x}</div>)}
+          ].map((x) => (
+            <div key={x} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.55 }}>
+              <span aria-hidden style={{ width: 5, height: 5, borderRadius: "50%", background: L2, flexShrink: 0, marginTop: 6, opacity: 0.9 }} />
+              <span>{x}</span>
+            </div>
+          ))}
         </div>
         <div style={{ fontFamily: MN, fontSize: 11, color: L2, letterSpacing: "0.08em", textTransform: "uppercase" }}>Budget range: $80K to $500K depending on complexity, number of integrated systems, and whether multi-agent orchestration is required.</div>
       </section>
@@ -181,22 +313,35 @@ export default function ServiceAIAgentsPageClient() {
       <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 24 }}><Lbl ch="Built across every department" /><Ttl ch="WHERE AI AGENTS WORK." /></div>
         <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {FUNCTION_MATRIX.map(([fn, type, key]) => <div key={fn} style={{ background: BG2, padding: "14px 16px", display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr 1.2fr", gap: 8 }}><div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600 }}>{fn}</div><div style={{ fontFamily: MN, fontSize: 11, color: "rgba(0,0,0,0.72)" }}>{type}</div><div style={{ fontFamily: SN, fontSize: 12, color: "rgba(0,0,0,0.58)" }}>{key}</div></div>)}
+          {FUNCTION_MATRIX.map(([fn, type, key]) => (
+            <ConsultancyInteractiveSurface
+              key={fn}
+              variant="muted"
+              style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr 1.2fr", gap: 8 }}
+            >
+              <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: "#0f1118" }}>{fn}</div>
+              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(15,17,24,0.82)" }}>{type}</div>
+              <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(15,17,24,0.78)", lineHeight: 1.45 }}>{key}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {QUOTES.map(([q, by]) => <div key={by} style={{ background: DK, padding: 20 }}><div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10 }}>&ldquo;{q}&rdquo;</div><div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {by}</div></div>)}
+          {QUOTES.map(([q, by]) => (
+            <ConsultancyInteractiveSurface key={by} variant="dk" style={{ padding: 20 }}>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10 }}>&ldquo;{q}&rdquo;</div>
+              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {by}</div>
+            </ConsultancyInteractiveSurface>
+          ))}
         </div>
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 24 }}><Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." /></div>
-        <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {FAQS.map(([q, a]) => <div key={q} style={{ background: BG, padding: 18 }}><div style={{ fontFamily: MN, fontSize: 14, marginBottom: 8, fontWeight: 600 }}>{q}</div><div style={{ fontFamily: SN, fontSize: 12.8, lineHeight: 1.66, color: "rgba(0,0,0,0.6)" }}>{a}</div></div>)}
-        </div>
+        <ConsultancyFaqAccordion items={FAQS} tone="light" />
       </section>
 
       <CTAStrip title="YOUR PROCESS.|ONE AGENT.|FIXED FEE." sub="Tell us which business process consumes the most manual effort in your team. We will identify the right ai agents for business approach, whether a pre-built deployment or custom ai agent development, send three peer references from your industry, and deliver a fixed-fee statement of work within 48 hours." cta="Start a project" />
