@@ -1106,28 +1106,30 @@ function CTA(){
           project:form.project.trim(),
         }),
       });
-      const data=await res.json().catch(()=>({}));
+      const data = (await res.json().catch(() => ({}))) as { error?: string; code?: string };
       if(!res.ok){
         // #region agent log
         const errStr = typeof data.error === "string" ? data.error : "";
+        const brevoCode = typeof data.code === "string" ? data.code : "";
         fetch("http://127.0.0.1:7733/ingest/c964afbc-36e9-44dd-bfac-873e1d1264e2", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "561722" },
           body: JSON.stringify({
             sessionId: "561722",
-            runId: "pre-fix",
+            runId: "post-brevo-diagnostics",
             hypothesisId: "H3",
             location: "LandingPageClient.tsx:CTA:submit",
             message: "/api/contact non-OK",
             data: {
               httpStatus: res.status,
+              brevoCode,
               errorSnippet: errStr.slice(0, 120),
             },
             timestamp: Date.now(),
           }),
         }).catch(() => {});
         // #endregion
-        setStatus(typeof data.error==='string'?data.error:'Something went wrong. Please try again.');
+        setStatus(typeof data.error === "string" ? data.error : "Something went wrong. Please try again.");
         setStatusIsError(true);
         recaptchaRef.current?.reset();
         return;

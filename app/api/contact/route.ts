@@ -52,6 +52,17 @@ function json(data: unknown, status: number) {
   return Response.json(data, { status });
 }
 
+/** Safe machine-readable category for clients and logs (no secrets). */
+function categorizeBrevoFailure(result: { status: number; brevoMessage: string }): string {
+  const m = result.brevoMessage;
+  if (m === "network") return "BREVO_NETWORK";
+  if (/unrecognised ip|unrecognized ip|authorised_ips|authorized_ips/i.test(m)) return "BREVO_IP_NOT_ALLOWED";
+  if (result.status === 401) return "BREVO_UNAUTHORIZED";
+  if (result.status === 400) return "BREVO_BAD_REQUEST";
+  if (result.status === 403) return "BREVO_FORBIDDEN";
+  return "BREVO_UPSTREAM";
+}
+
 /** Dev-only hints for common Brevo failures (never echo raw Brevo bodies to clients in production). */
 function brevoFailureUserMessage(
   isDev: boolean,
@@ -72,6 +83,45 @@ function brevoFailureUserMessage(
     );
   }
   return generic;
+}
+
+function brevoFailurePayload(
+  isDev: boolean,
+  source: "home" | "contact",
+  result: { status: number; brevoMessage: string },
+): { error: string; code: string } {
+  const code = categorizeBrevoFailure(result);
+  const fallbackHome = "Could not save your message. Please try again or email info@alien.fi.";
+  const fallbackContact = "Could not save your message. Please try again or email hello@alien.fi.";
+  const fallback = source === "home" ? fallbackHome : fallbackContact;
+
+  if (isDev) {
+    return { error: brevoFailureUserMessage(isDev, result, fallback), code };
+  }
+
+  if (code === "BREVO_IP_NOT_ALLOWED") {
+    const mail = source === "home" ? "info@alien.fi" : "hello@alien.fi";
+    return {
+      error:
+        "Could not save your message: Brevo blocked the server IP (API IP restriction). In Brevo open Security → Authorised IPs and turn off API IP restriction, or use a setup compatible with serverless hosting. You can email " +
+        mail +
+        " directly.",
+      code,
+    };
+  }
+  if (code === "BREVO_UNAUTHORIZED") {
+    const mail = source === "home" ? "info@alien.fi" : "hello@alien.fi";
+    return {
+      error: `Could not save your message (CRM API rejected the key). Check BREVO_API_KEY on the host, or email ${mail}.`,
+      code,
+    };
+  }
+  if (code === "BREVO_NETWORK") {
+    const mail = source === "home" ? "info@alien.fi" : "hello@alien.fi";
+    return { error: `Network error while saving. Try again or email ${mail}.`, code };
+  }
+
+  return { error: fallback, code };
 }
 
 /** Strip BOM / wrapping quotes from .env paste mistakes (never log this value). */
@@ -158,20 +208,13 @@ export async function POST(req: Request) {
       },
     });
     if (!result.ok) {
-      if (process.env.NODE_ENV === "development") {
-        console.error("[contact-api] brevo home", result.status, result.brevoMessage);
-      }
-      return json(
-        {
-          ok: false,
-          error: brevoFailureUserMessage(
-            isDev,
-            result,
-            "Could not save your message. Please try again or email info@alien.fi.",
-          ),
-        },
-        502,
-      );
+      console.error("[contact-api] brevo home", {
+        upstreamStatus: result.status,
+        code: categorizeBrevoFailure(result),
+        brevoMessage: result.brevoMessage.slice(0, 280),
+      });
+      const payload = brevoFailurePayload(isDev, "home", result);
+      return json({ ok: false, error: payload.error, code: payload.code }, 502);
     }
     return json({ ok: true }, 200);
   }
@@ -197,20 +240,13 @@ export async function POST(req: Request) {
   });
 
   if (!result.ok) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("[contact-api] brevo contact", result.status, result.brevoMessage);
-    }
-    return json(
-      {
-        ok: false,
-        error: brevoFailureUserMessage(
-          isDev,
-          result,
-          "Could not save your message. Please try again or email hello@alien.fi.",
-        ),
-      },
-      502,
-    );
+    console.error("[contact-api] brevo contact", {
+      upstreamStatus: result.status,
+      code: categorizeBrevoFailure(result),
+      brevoMessage: result.brevoMessage.slice(0, 280),
+    });
+    const payload = brevoFailurePayload(isDev, "contact", result);
+    return json({ ok: false, error: payload.error, code: payload.code }, 502);
   }
 
   return json({ ok: true }, 200);
