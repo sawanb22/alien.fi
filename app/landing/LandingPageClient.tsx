@@ -997,6 +997,27 @@ function CTA(){
   const [submitting,setSubmitting]=useState(false);
   const recaptchaRef=useRef<{ getValue: () => string | null; reset: () => void } | null>(null);
 
+  useEffect(() => {
+    // #region agent log
+    fetch("http://127.0.0.1:7733/ingest/c964afbc-36e9-44dd-bfac-873e1d1264e2", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "561722" },
+      body: JSON.stringify({
+        sessionId: "561722",
+        runId: "pre-fix",
+        hypothesisId: "H1",
+        location: "LandingPageClient.tsx:CTA:mount",
+        message: "CTA mount: public reCAPTCHA key presence",
+        data: {
+          hasPublicRecaptchaKey: RECAPTCHA_SITE_KEY.length > 0,
+          host: typeof window !== "undefined" ? window.location.host : "",
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  }, []);
+
   const errors={
     name:!form.name.trim()?'Full name is required.':!/^[A-Za-z][A-Za-z\s'.-]{1,59}$/.test(form.name.trim())?'Use letters only for name (no numbers).':'',
     company:form.company.trim().length<2?'Company name is required.':'',
@@ -1028,12 +1049,42 @@ function CTA(){
       return;
     }
     if(!RECAPTCHA_SITE_KEY){
+      // #region agent log
+      fetch("http://127.0.0.1:7733/ingest/c964afbc-36e9-44dd-bfac-873e1d1264e2", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "561722" },
+        body: JSON.stringify({
+          sessionId: "561722",
+          runId: "pre-fix",
+          hypothesisId: "H1",
+          location: "LandingPageClient.tsx:CTA:submit",
+          message: "submit blocked: empty NEXT_PUBLIC_RECAPTCHA_SITE_KEY in bundle",
+          data: {},
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
       setStatus('Form is temporarily unavailable. Please email info@alien.fi directly.');
       setStatusIsError(true);
       return;
     }
     const token=recaptchaRef.current?.getValue();
     if(!token){
+      // #region agent log
+      fetch("http://127.0.0.1:7733/ingest/c964afbc-36e9-44dd-bfac-873e1d1264e2", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "561722" },
+        body: JSON.stringify({
+          sessionId: "561722",
+          runId: "pre-fix",
+          hypothesisId: "H5",
+          location: "LandingPageClient.tsx:CTA:submit",
+          message: "submit blocked: no captcha token",
+          data: {},
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
       setStatus('Please complete the captcha before sending.');
       setStatusIsError(true);
       return;
@@ -1057,6 +1108,25 @@ function CTA(){
       });
       const data=await res.json().catch(()=>({}));
       if(!res.ok){
+        // #region agent log
+        const errStr = typeof data.error === "string" ? data.error : "";
+        fetch("http://127.0.0.1:7733/ingest/c964afbc-36e9-44dd-bfac-873e1d1264e2", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "561722" },
+          body: JSON.stringify({
+            sessionId: "561722",
+            runId: "pre-fix",
+            hypothesisId: "H3",
+            location: "LandingPageClient.tsx:CTA:submit",
+            message: "/api/contact non-OK",
+            data: {
+              httpStatus: res.status,
+              errorSnippet: errStr.slice(0, 120),
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
         setStatus(typeof data.error==='string'?data.error:'Something went wrong. Please try again.');
         setStatusIsError(true);
         recaptchaRef.current?.reset();
