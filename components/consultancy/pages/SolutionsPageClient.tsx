@@ -292,7 +292,18 @@ function SolutionsGrid() {
                     </div>
                   ) : null}
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, minWidth: 0 }}>
-                    <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", color: L2, fontWeight: 700 }}>{s.cat}</span>
+                    <span
+                      style={{
+                        fontFamily: MN,
+                        fontSize: 9,
+                        letterSpacing: "0.14em",
+                        color: active ? "rgba(21,24,43,0.78)" : L2,
+                        fontWeight: 700,
+                        transition: "color .22s ease",
+                      }}
+                    >
+                      {s.cat}
+                    </span>
                     <span style={{ flexShrink: 0, display: "inline-flex" }}>
                       <Arr sz={10} cl={active ? "#000" : PL} sw={2} />
                     </span>

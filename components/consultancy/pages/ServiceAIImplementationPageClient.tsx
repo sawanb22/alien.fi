@@ -61,6 +61,14 @@ const FAQS = [
   ["Who owns the code, configurations, and documentation after the engagement?", "You do. Full IP transfer is standard in every AI implementation services SOW."],
 ] as const;
 
+function splitClientQuote(raw: string): { body: string; attribution: string } {
+  const parts = raw.split(" -- ");
+  if (parts.length < 2) return { body: raw, attribution: "" };
+  const attribution = parts.pop()!.trim();
+  const body = parts.join(" -- ").trim();
+  return { body, attribution };
+}
+
 export default function ServiceAIImplementationPageClient() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
@@ -207,11 +215,28 @@ export default function ServiceAIImplementationPageClient() {
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {QUOTES.map((q) => (
-            <ConsultancyInteractiveSurface key={q} variant="dk" style={{ padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-              {q}
-            </ConsultancyInteractiveSurface>
-          ))}
+          {QUOTES.map((q) => {
+            const { body, attribution } = splitClientQuote(q);
+            return (
+              <ConsultancyInteractiveSurface key={q} variant="dk" style={{ padding: 22 }}>
+                <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>{body}</div>
+                {attribution ? (
+                  <div
+                    style={{
+                      fontFamily: MN,
+                      fontSize: 10.5,
+                      letterSpacing: "0.06em",
+                      color: L,
+                      lineHeight: 1.5,
+                      marginTop: 12,
+                    }}
+                  >
+                    {attribution}
+                  </div>
+                ) : null}
+              </ConsultancyInteractiveSurface>
+            );
+          })}
         </div>
       </section>
 

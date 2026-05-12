@@ -234,7 +234,17 @@ function ServiceRow({
               </div>
             </div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 6 }}>
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 700,
+                  fontSize: 9,
+                  letterSpacing: "0.16em",
+                  color: isOpen ? "rgba(21,24,43,0.78)" : L2,
+                  marginBottom: 6,
+                  transition: "color .22s ease",
+                }}
+              >
                 {s.cat}
               </div>
               <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#000", letterSpacing: "0.03em" }}>{s.t}</div>
@@ -280,7 +290,19 @@ function ServiceRow({
               {s.n}
             </div>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 6 }}>{s.cat}</div>
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 700,
+                  fontSize: 9,
+                  letterSpacing: "0.16em",
+                  color: isOpen ? "rgba(21,24,43,0.78)" : L2,
+                  marginBottom: 6,
+                  transition: "color .22s ease",
+                }}
+              >
+                {s.cat}
+              </div>
               <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#000", letterSpacing: "0.03em" }}>{s.t}</div>
             </div>
             <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.06em", color: "rgba(0,0,0,0.55)" }}>

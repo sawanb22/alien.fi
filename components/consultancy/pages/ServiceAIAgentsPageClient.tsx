@@ -280,13 +280,46 @@ export default function ServiceAIAgentsPageClient() {
         <div style={{ marginBottom: 28 }}><Lbl ch="Deploy in days" /><Ttl ch="PRE-BUILT AGENTS READY TO GO." /></div>
         <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(15,17,24,0.78)", maxWidth: 920, marginBottom: 16, lineHeight: 1.65 }}>Our pre-built ai agents are production-ready, domain-tuned agents that integrate into your existing tools within days rather than months. All pre-built ai agents include human-in-the-loop override, full audit trails, and optional managed retainer support.</div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {PREBUILT.map(([name, desc, budget]) => (
-            <ConsultancyInteractiveSurface key={name} variant="light" style={{ padding: 20 }}>
+          {PREBUILT.map(([name, desc, budget], i) => {
+            const twoCol = layout === "desktop";
+            const orphanLast = twoCol && PREBUILT.length % 2 === 1 && i === PREBUILT.length - 1;
+            return (
+            <ConsultancyInteractiveSurface
+              key={name}
+              variant="light"
+              style={{
+                padding: 0,
+                ...(orphanLast
+                  ? {
+                      gridColumn: "1 / -1",
+                      width: "100%",
+                      maxWidth: "100%",
+                      justifySelf: "stretch",
+                    }
+                  : {}),
+              }}
+            >
+              <div
+                style={{
+                  padding: 20,
+                  boxSizing: "border-box",
+                  width: "100%",
+                  ...(orphanLast
+                    ? {
+                        maxWidth: "calc((100% - 1px) / 2)",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }
+                    : {}),
+                }}
+              >
               <div style={{ fontFamily: MN, fontSize: 15, marginBottom: 8, fontWeight: 600, color: "#0f1118" }}>{name}</div>
               <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(15,17,24,0.78)", marginBottom: 10 }}>{desc}</div>
               <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(15,17,24,0.82)" }}>Budget: {budget}</div>
+              </div>
             </ConsultancyInteractiveSurface>
-          ))}
+            );
+          })}
         </div>
       </section>
 
