@@ -121,7 +121,7 @@ function StudyHero() {
                 marginBottom: 32,
               }}
             >
-              BY 62%.
+              BY 62%
             </div>
             <div className="rv d3" style={{ fontFamily: SN, fontSize: stacked ? 15 : 16, lineHeight: 1.7, color: "rgba(255,255,255,0.55)", maxWidth: 620 }}>
               This insurance AI solutions engagement transformed Meridian’s claims operation in nine months. We automated routine claims handling, deployed real-time AI fraud detection insurance models, and unified siloed data, cutting claim cycle time by 62%, reducing fraud losses by $3.2M a year, and lifting CSAT by 38 points.

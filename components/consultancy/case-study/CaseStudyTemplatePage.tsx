@@ -11,6 +11,7 @@ import {
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
+import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import type { CaseStudyTemplateData } from "@/lib/consultancy/studies/types";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
@@ -20,7 +21,10 @@ import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 function StudyHero({ d }: { d: CaseStudyTemplateData }) {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
-  const titleParts = d.title.split("|").filter(Boolean);
+  const titleParts = d.title
+    .split("|")
+    .map((p) => stripTrailingHeadingPeriod(p.trim()))
+    .filter(Boolean);
   const stacked = layout !== "desktop";
   return (
     <section style={{ paddingTop: 60, background: DK, position: "relative", borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>

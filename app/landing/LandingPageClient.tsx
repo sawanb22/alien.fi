@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { CW, OT } from "@/lib/consultancy/tokens";
 import { Footer as ConsultancyFooter, Nav as ConsultancyNav } from "@/components/consultancy/consultancy-ui";
 import {
@@ -104,7 +105,7 @@ const Ttl = ({ ch, lt = false, sx = {} }) => (
       ...sx,
     }}
   >
-    {ch}
+    {typeof ch === "string" ? stripTrailingHeadingPeriod(ch) : ch}
   </div>
 );
 
@@ -305,7 +306,7 @@ function HeroDesktop({tweaks}){
             <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,whiteSpace:'nowrap',
               background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
               backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
-              animation:'shimmer 4s linear infinite'}}>WORKS.</div>
+              animation:'shimmer 4s linear infinite'}}>WORKS</div>
           </div>
           <Tilt int={20} sx={{flexShrink:0}}>
             <div className="hv rv d2" style={{width:96,height:96,borderRadius:26,background:CD,border:`1.5px solid ${L2}`,display:'flex',alignItems:'center',justifyContent:'center',cursor:'none',transition:'background .2s'}}
@@ -506,7 +507,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
           <div style={{fontFamily:MN,fontWeight:500,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,color:'#000'}}>AI THAT</div>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,
             background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
-            animation:'shimmer 4s linear infinite'}}>WORKS.</div>
+            animation:'shimmer 4s linear infinite'}}>WORKS</div>
         </div>
 
         <div style={{padding:'22px 0 8px',borderBottom:`1px solid ${PL}`}}>

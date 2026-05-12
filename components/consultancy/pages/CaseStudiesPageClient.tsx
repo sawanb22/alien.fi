@@ -257,13 +257,21 @@ function Filters({
   );
 }
 
-function FeaturedCard({ s }: { s: StudyHub }) {
+function OutcomeSplitCard({
+  s,
+  showFeaturedBadge,
+  delayClass,
+}: {
+  s: StudyHub;
+  showFeaturedBadge: boolean;
+  delayClass: string;
+}) {
   const layout = useLandingLayout();
   const [hov, setHov] = useState(false);
   return (
     <Link
       href={s.cardHref}
-      className="rv d1 hv"
+      className={`rv ${delayClass} hv`}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -272,7 +280,6 @@ function FeaturedCard({ s }: { s: StudyHub }) {
         background: DK,
         borderRadius: 20,
         overflow: "hidden",
-        gridColumn: "1 / -1",
         textDecoration: "none",
         position: "relative",
         marginBottom: 1,
@@ -293,13 +300,13 @@ function FeaturedCard({ s }: { s: StudyHub }) {
       >
         <div style={{ position: "absolute", right: -100, top: -100, width: 280, height: 280, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
         <div style={{ position: "relative" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-            <Chip ch="Featured" bg={L} cl="#000" />
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18, flexWrap: "wrap" }}>
+            {showFeaturedBadge ? <Chip ch="Featured" bg={L} cl="#000" /> : null}
             <Chip ch={s.industry} bg="rgba(255,255,255,0.08)" cl="rgba(255,255,255,0.7)" />
           </div>
           <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#fff", letterSpacing: "0.03em", marginBottom: 6 }}>{s.client}</div>
           <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>{s.blurb}</div>
-          <div style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(22px,2vw,30px)", lineHeight: 1.3, color: "#fff", letterSpacing: "0.02em", maxWidth: 480 }}>
+          <div style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(22px,2vw,30px)", lineHeight: 1.3, color: "#fff", letterSpacing: "0.02em", maxWidth: 560 }}>
             {s.headline}
           </div>
         </div>
@@ -359,62 +366,6 @@ function FeaturedCard({ s }: { s: StudyHub }) {
   );
 }
 
-function StudyCard({ s, delayClass }: { s: StudyHub; delayClass: string }) {
-  const layout = useLandingLayout();
-  const [hov, setHov] = useState(false);
-  return (
-    <Link
-      href={s.cardHref}
-      className={`rv ${delayClass} hv`}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        background: hov ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : `linear-gradient(160deg,${BG},${BG2})`,
-        padding: layout === "mobile" ? "22px 18px" : "30px 30px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 14,
-        textDecoration: "none",
-        transition: "background .25s,transform .25s",
-        transform: hov ? "translateY(-3px)" : "none",
-        boxShadow: hov ? `inset 0 0 0 1.5px ${L}66` : "none",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-        <Chip ch={s.industry} />
-        <Arr sz={10} cl={hov ? "#000" : PL} sw={2} />
-      </div>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
-        <div
-          style={{
-            fontFamily: MN,
-            fontWeight: 700,
-            fontSize: layout === "mobile" ? "clamp(28px,8vw,36px)" : 42,
-            color: "#000",
-            letterSpacing: "0.02em",
-            lineHeight: 1,
-          }}
-        >
-          {s.hero}
-        </div>
-        <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 10.5, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{s.heroLbl}</div>
-      </div>
-      <div style={{ height: 1, background: hov ? L2 : PL, transition: "background .25s" }} />
-      <div>
-        <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000", letterSpacing: "0.03em" }}>{s.client}</div>
-        <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(0,0,0,0.45)", marginTop: 2 }}>{s.blurb}</div>
-      </div>
-      <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.55)", flex: 1 }}>{s.headline}</div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 6, paddingTop: 12, borderTop: `1px solid ${PL}` }}>
-        <div style={{ fontFamily: MN, fontSize: 10, color: "rgba(0,0,0,0.4)", letterSpacing: "0.06em" }}>{s.footerMetric}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: hov ? L2 : "rgba(0,0,0,0.4)", transition: "color .2s" }}>
-          Read study <Arr sz={9} cl={hov ? L2 : "rgba(0,0,0,0.4)"} sw={1.8} />
-        </div>
-      </div>
-    </Link>
-  );
-}
-
 function Grid() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
@@ -439,8 +390,6 @@ function Grid() {
     : STUDIES;
 
   const filtered = baseStudies.filter((s) => active === "All" || s.industry === active);
-  const featured = filtered.find((s) => s.featured);
-  const rest = filtered.filter((s) => !s.featured);
   return (
     <section id="real-outcomes" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
@@ -465,7 +414,7 @@ function Grid() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: gridCols(layout, 3, 2),
+          gridTemplateColumns: "1fr",
           gap: 1,
           background: PL,
           borderRadius: layout === "mobile" ? 16 : 20,
@@ -473,9 +422,13 @@ function Grid() {
           border: `1px solid ${PL}`,
         }}
       >
-        {featured ? <FeaturedCard s={featured} /> : null}
-        {rest.map((s, i) => (
-          <StudyCard key={s.id} s={s} delayClass={`d${(i % 5) + 1}`} />
+        {filtered.map((s, i) => (
+          <OutcomeSplitCard
+            key={s.id}
+            s={s}
+            showFeaturedBadge={!!s.featured}
+            delayClass={`d${(i % 5) + 1}`}
+          />
         ))}
       </div>
     </section>

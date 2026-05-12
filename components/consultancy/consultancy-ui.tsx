@@ -16,6 +16,7 @@ import {
   sectionVPad,
   useLandingLayout,
 } from "@/lib/landing-layout-context";
+import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { MN, OT, SN } from "@/lib/consultancy/tokens";
 
 const L = "rgb(150,238,82)";
@@ -171,7 +172,7 @@ export function Ttl({
         ...sx,
       }}
     >
-      {ch}
+      {typeof ch === "string" ? stripTrailingHeadingPeriod(ch) : ch}
     </div>
   );
 }
@@ -1012,7 +1013,7 @@ export function ConsultancyInteractiveSurface({
   );
 }
 
-/** FAQ list: tap question to expand/collapse each answer independently. */
+/** FAQ list: only one answer expanded at a time; tap again to collapse. */
 export function ConsultancyFaqAccordion({
   items,
   tone = "light",
@@ -1020,7 +1021,7 @@ export function ConsultancyFaqAccordion({
   items: ReadonlyArray<readonly [string, string]>;
   tone?: "light" | "paper" | "dark";
 }) {
-  const [open, setOpen] = useState<Record<number, boolean>>({});
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const rowBg = tone === "dark" ? DK : tone === "paper" ? BG2 : BG;
   const qColor = tone === "dark" ? "#fff" : "#0f1118";
   const aColor = tone === "dark" ? "rgba(255,255,255,0.75)" : "rgba(15,17,24,0.82)";
@@ -1036,13 +1037,13 @@ export function ConsultancyFaqAccordion({
       }}
     >
       {items.map(([q, a], i) => {
-        const expanded = !!open[i];
+        const expanded = openIndex === i;
         return (
           <div key={`faq-${i}`} style={{ background: rowBg }}>
             <button
               type="button"
               aria-expanded={expanded}
-              onClick={() => setOpen((prev) => ({ ...prev, [i]: !prev[i] }))}
+              onClick={() => setOpenIndex((prev) => (prev === i ? null : i))}
               style={{
                 width: "100%",
                 textAlign: "left",
@@ -1124,10 +1125,11 @@ export function CTAStrip({
   const pipeSegs = titlePipe
     ? title
         .split("|")
-        .map((s) => s.trim())
+        .map((s) => stripTrailingHeadingPeriod(s.trim()))
         .filter(Boolean)
     : [];
-  const parts = title.trim().split(/\s+/).filter(Boolean);
+  const titleForWords = stripTrailingHeadingPeriod(title.trim());
+  const parts = titleForWords.split(/\s+/).filter(Boolean);
   const rest = parts.slice(0, -1).join(" ");
   const last =
     parts.length > 0 ? (parts[parts.length - 1] ?? "") : title;
@@ -1552,7 +1554,10 @@ export function PageHero({
 }) {
   const layout = useLandingLayout();
   const g = sectionGutter(layout);
-  const titleParts = title.split("|").filter(Boolean);
+  const titleParts = title
+    .split("|")
+    .map((p) => stripTrailingHeadingPeriod(p.trim()))
+    .filter(Boolean);
 
   const titleBlock = (
     <div
