@@ -172,7 +172,7 @@ const FAQS = [
   },
     {
         q: 'Can ai workforce training be delivered in-person?',
-        a: 'Yes. All three ai training tracks are available in-person, virtually, or in a hybrid format. In-person delivery is available at your location or at alien.fi\'s Austin, TX facility. Virtual delivery uses the same live facilitated format with hands-on exercises adapted for remote participation.',
+        a: 'Yes. All three ai training tracks are available in-person, virtually, or in a hybrid format. In-person delivery is available at your location or at alien.fi\'s New Jersey (NJ) facility. Virtual delivery uses the same live facilitated format with hands-on exercises adapted for remote participation.',
     },
     {
         q: 'How many people can join an ai upskilling program cohort?',

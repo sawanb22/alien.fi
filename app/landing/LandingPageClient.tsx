@@ -382,7 +382,7 @@ function HeroDesktop({tweaks}){
           </div>
           <div style={{marginTop:32}}>
             <Lbl ch="Location"/>
-            <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>Austin, TX 78701<br/>Operating globally</div>
+            <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY<br/>Operating globally</div>
           </div>
         </div>
 
@@ -587,7 +587,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             ))}
             <div style={{marginTop:22}}>
               <Lbl ch="Location"/>
-              <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.42)',lineHeight:1.8}}>Austin, TX 78701<br/>Operating globally</div>
+              <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.42)',lineHeight:1.8}}>NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY<br/>Operating globally</div>
             </div>
           </div>
           <div style={{borderTop:layout==='tablet'?'none':`1px solid ${PL}`,paddingTop:layout==='tablet'?0:26}}>
@@ -641,47 +641,111 @@ function Ticker(){
 function Services(){
   const layout=useLandingLayout();
   const [hov,setHov]=useState(null);
+  const [servicesOpen,setServicesOpen]=useState(false);
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const svcs=[
-    {n:'01',href:'/services/ai-strategy',t:'AI Strategy\nConsulting',d:'Identify high-value use cases, assess readiness, define priorities, and create a roadmap tied to ROI and business goals.',tags:['High-value use cases','Readiness assessment','Priorities & roadmap','ROI & goals']},
-    {n:'02',href:'/services/custom-ai-development',t:'Custom AI\nDevelopment',d:'Build tailored machine learning, NLP, LLM, computer vision, predictive analytics, and workflow automation systems for real operational use.',tags:['Machine learning & NLP','LLM & computer vision','Predictive analytics','Workflow automation']},
-    {n:'03',href:'/services/ai-implementation',t:'Implementation\n& Integration',d:'Deploy AI into production with APIs, cloud infrastructure, data pipelines, and legacy system integration.',tags:['APIs & cloud','Data pipelines','Legacy integration','Production deploy']},
-    {n:'04',href:'/services/managed-ai',t:'Managed AI\nServices',d:'Monitor, optimize, retrain, secure, and support production AI systems as data, business needs, and environments change.',tags:['Monitor & optimize','Retrain & secure','Production support','Evolving needs']},
-    {n:'05',href:'/services',t:'Training &\nEnablement',d:'Help internal teams adopt AI through workshops, documentation, operational playbooks, and change management support.',tags:['Workshops','Documentation','Operational playbooks','Change management']},
+    {n:'01',href:'/services/ai-strategy',t:'AI Strategy Consulting',d:'Identify high-value use cases, assess readiness, define priorities, and create a roadmap tied to ROI and business goals.',tags:['High-value use cases','Readiness assessment','Priorities & roadmap','ROI & goals']},
+    {n:'02',href:'/services/custom-ai-development',t:'Custom AI Development',d:'Build tailored machine learning, NLP, LLM, computer vision, predictive analytics, and workflow automation systems for real operational use.',tags:['Machine learning & NLP','LLM & computer vision','Predictive analytics','Workflow automation']},
+    {n:'03',href:'/services/ai-implementation',t:'Implementation & Integration',d:'Deploy AI into production with APIs, cloud infrastructure, data pipelines, and legacy system integration.',tags:['APIs & cloud','Data pipelines','Legacy integration','Production deploy']},
+    {n:'04',href:'/services/managed-ai',t:'Managed AI Services',d:'Monitor, optimize, retrain, secure, and support production AI systems as data, business needs, and environments change.',tags:['Monitor & optimize','Retrain & secure','Production support','Evolving needs']},
+    {n:'05',href:'/services',t:'Training & Enablement',d:'Help internal teams adopt AI through workshops, documentation, operational playbooks, and change management support.',tags:['Workshops','Documentation','Operational playbooks','Change management']},
   ];
   return(
-    <section id="services" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:2}}>
-      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Link href="/services" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="What we do"/></Link><Ttl ch="SERVICES"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Our services cover the full lifecycle of AI adoption, from ai strategy consulting to custom ai development and long-term managed ai services.</div>
-      </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
-        {svcs.map((s,i)=>(
-          <Tilt key={s.n} int={8} sx={{height:'100%'}}>
-            <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(160deg,rgb(228,244,210),${BG2})`:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .3s',height:'100%',boxShadow:hov===i?'inset 0 0 0 1.5px rgba(150,238,82,0.35)':'none'}}>
-              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
-                <Link
-                  href={s.href}
-                  className="hv"
-                  style={{width:20,height:20,borderRadius:5,background:hov===i?'#000':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)',textDecoration:'none'}}
-                >
-                  <Arr sz={8} cl={hov===i?'#fff':'rgba(0,0,0,0.4)'} sw={1.8}/>
-                </Link>
-              </div>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing: "normal",lineHeight:1.45,whiteSpace:'pre-line'}}>{s.t}</div>
-              <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(0,0,0,0.48)',flexGrow:1}}>{s.d}</div>
-              <div style={{display:'flex',flexDirection:'column',gap:6}}>
-                {s.tags.map(t=>(
-                  <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:'rgba(0,0,0,0.38)',textDecoration:'none'}}>
-                    <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .2s'}}/>{t}
-                  </Link>
-                ))}
-              </div>
+    <section
+      id="services"
+      data-expanded={servicesOpen ? "true" : "false"}
+      style={{
+        background:`linear-gradient(180deg,${BG2},${BG})`,
+        padding:`${pv}px ${gv}px`,
+        position:'relative',
+        /* When open, paint above #process (z 3–6) so the grid is not hidden under the dark band’s overlap. */
+        zIndex:servicesOpen?8:2,
+      }}
+    >
+      <div style={{padding:'0'}}>
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={servicesOpen}
+          aria-controls={servicesOpen?"services-list":undefined}
+          aria-label={servicesOpen?"Collapse services list":"Expand services list"}
+          onClick={()=>setServicesOpen((v)=>!v)}
+          style={{
+            display:'block',
+            width:'100%',
+            background:'transparent',
+            border:'none',
+            padding:0,
+            cursor:'pointer',
+            font:'inherit',
+            color:'inherit',
+            textAlign:'inherit',
+            boxSizing:'border-box',
+          }}
+        >
+          <div
+            style={{
+              display:'flex',
+              flexDirection:layout==='mobile'?'column':'row',
+              alignItems:layout==='mobile'?'flex-start':'flex-end',
+              justifyContent:'space-between',
+              marginBottom:layout==='mobile'?36:48,
+              gap:layout==='mobile'?12:0,
+            }}
+          >
+            <div className="rv"><Lbl ch="What we do"/><Ttl ch="SERVICES"/></div>
+            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Our services cover the full lifecycle of AI adoption, from ai strategy consulting to custom ai development and long-term managed ai services.</div>
+          </div>
+        </button>
+        {!servicesOpen ? (
+          <div
+            aria-hidden
+            className="rv d1 in"
+            style={{
+              display: "grid",
+              gridTemplateColumns: gridCols(layout, 3, 2),
+              gap: 1,
+              height: 3,
+              boxSizing: "border-box",
+              background: PL,
+              borderRadius: layout === "mobile" ? 16 : 20,
+              overflow: "hidden",
+              border: `1px solid ${PL}`,
+            }}
+          />
+        ) : null}
+        {servicesOpen ? (
+          <div id="services-list" role="region" aria-label="Service offerings" style={{ position: "relative", zIndex: 1 }}>
+            <div style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+              {svcs.map((s,i)=>(
+                <div key={s.n} style={{ height: "100%", minHeight: 0 }}>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(160deg,rgb(228,244,210),${BG2})`:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .3s',minHeight:'100%',boxSizing:'border-box',boxShadow:hov===i?'inset 0 0 0 1.5px rgba(150,238,82,0.35)':'none'}}>
+                    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                      <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
+                      <Link
+                        href={s.href}
+                        className="hv"
+                        style={{width:20,height:20,borderRadius:5,background:hov===i?'#000':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)',textDecoration:'none'}}
+                      >
+                        <Arr sz={8} cl={hov===i?'#fff':'rgba(0,0,0,0.4)'} sw={1.8}/>
+                      </Link>
+                    </div>
+                    <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing: "normal",lineHeight:1.45}}>{s.t}</div>
+                    <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(0,0,0,0.48)',flexGrow:1}}>{s.d}</div>
+                    <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                      {s.tags.map(t=>(
+                        <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:'rgba(0,0,0,0.38)',textDecoration:'none'}}>
+                          <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .2s'}}/>{t}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </Tilt>
-        ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
@@ -692,6 +756,8 @@ function Process(){
   const layout=useLandingLayout();
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
+  const [processOpen,setProcessOpen]=useState(false);
+  const [processHov,setProcessHov]=useState<number|null>(null);
   const steps=[
     {n:'01',t:'Discover',sub:'',d:'We map goals, workflows, constraints, systems, and data so the right opportunities are clear from the start.',time:''},
     {n:'02',t:'Design',sub:'',d:'We shape the roadmap, solution architecture, delivery plan, and success metrics before major build work begins.',time:''},
@@ -699,31 +765,106 @@ function Process(){
     {n:'04',t:'Improve',sub:'',d:'We continue with managed ai services, monitoring, retraining, reporting, and ongoing optimization after go-live.',time:''},
   ];
   return(
-    <section id="process" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:3,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+    <section
+      id="process"
+      data-expanded={processOpen ? "true" : "false"}
+      style={{
+        background:DK,
+        padding:`${pv}px ${gv}px`,
+        position:'relative',
+        zIndex:processOpen?6:3,
+        borderRadius:'24px 24px 0 0',
+        marginTop:-24,
+      }}
+    >
       <div style={{padding:'0'}}>
-        <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
-          <div className="rv"><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
-          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
-        </div>
-        <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.06)',borderRadius:layout==='mobile'?16:20,overflow:'hidden'}}>
-          {steps.map((s,i)=>(
-            <Tilt key={s.n} int={6} sx={{height:'100%'}}>
-              <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 20px':'36px 28px',display:'flex',flexDirection:'column',gap:16,height:'100%'}}>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                  <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
-                  {s.time?<Chip ch={s.time} bg='rgba(150,238,82,0.12)' cl={L} sx={{fontSize:9}}/>:<span/>}
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={processOpen}
+          aria-controls={processOpen?"process-phases":undefined}
+          aria-label={processOpen?"Collapse the four process phases":"Expand the four process phases"}
+          onClick={()=>setProcessOpen((v)=>!v)}
+          style={{
+            display:'block',
+            width:'100%',
+            background:'transparent',
+            border:'none',
+            padding:0,
+            cursor:'pointer',
+            font:'inherit',
+            color:'inherit',
+            textAlign:'inherit',
+            boxSizing:'border-box',
+          }}
+        >
+          <div
+            style={{
+              display:'flex',
+              flexDirection:layout==='mobile'?'column':'row',
+              alignItems:layout==='mobile'?'flex-start':'flex-end',
+              justifyContent:'space-between',
+              marginBottom:layout==='mobile'?36:52,
+              gap:layout==='mobile'?12:0,
+            }}
+          >
+            <div className="rv"><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
+            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
+          </div>
+        </button>
+        {processOpen ? (
+          <div
+            id="process-phases"
+            role="region"
+            aria-label="Four process phases"
+            style={{ position: "relative", zIndex: 1 }}
+          >
+            <div
+              style={{
+                display:'grid',
+                gridTemplateColumns:gridCols(layout,4,2),
+                gap:1,
+                background:'rgba(255,255,255,0.06)',
+                borderRadius:layout==='mobile'?16:20,
+                overflow:'hidden',
+              }}
+            >
+              {steps.map((s,i)=>(
+                <div
+                  key={s.n}
+                  style={{ height: "100%", minHeight: 0 }}
+                  onMouseEnter={()=>setProcessHov(i)}
+                  onMouseLeave={()=>setProcessHov(null)}
+                >
+                  <div
+                    style={{
+                      background:processHov===i?"rgb(28,32,56)":"rgb(21,24,43)",
+                      padding:layout==='mobile'?'28px 20px':'36px 28px',
+                      display:'flex',
+                      flexDirection:'column',
+                      gap:16,
+                      minHeight:'100%',
+                      boxSizing:'border-box',
+                      transition:'background .28s ease, color .28s ease',
+                      cursor:'default',
+                    }}
+                  >
+                    <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                      <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
+                      {s.time?<Chip ch={s.time} bg='rgba(150,238,82,0.12)' cl={L} sx={{fontSize:9}}/>:<span/>}
+                    </div>
+                    <div>
+                      <div style={{fontFamily:MN,fontWeight:700,fontSize:22,letterSpacing: "normal",color:'#fff',lineHeight:1}}>{s.t}</div>
+                      {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:L2,marginTop:4}}>{s.sub}</div>:null}
+                    </div>
+                    <div style={{height:1,background:processHov===i?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.06)',transition:'background .28s ease'}}/>
+                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:processHov===i?'rgba(255,255,255,0.52)':'rgba(255,255,255,0.42)',flexGrow:1,transition:'color .28s ease'}}>{s.d}</div>
+                  </div>
                 </div>
-                <div>
-                  <div style={{fontFamily:MN,fontWeight:700,fontSize:22,letterSpacing: "normal",color:'#fff',lineHeight:1}}>{s.t}</div>
-                  {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:L2,marginTop:4}}>{s.sub}</div>:null}
-                </div>
-                <div style={{height:1,background:'rgba(255,255,255,0.06)'}}/>
-                <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(255,255,255,0.42)',flexGrow:1}}>{s.d}</div>
-                {i<3&&<div style={{display:'flex',justifyContent:'flex-end',paddingTop:8}}><Arr sz={12} cl='rgba(255,255,255,0.15)' sw={2}/></div>}
-              </div>
-            </Tilt>
-          ))}
-        </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );
@@ -735,6 +876,7 @@ function Differentiators(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
+  const [whyUsOpen,setWhyUsOpen]=useState(false);
   const items=[
     {n:'01',t:'Strategy through execution',d:'We combine ai strategy consulting, custom ai development, deployment, and managed ai services in one delivery model.'},
     {n:'02',t:'ROI-first delivery',d:'Every engagement is tied to operational value, measurable outcomes, and clear decision criteria.'},
@@ -742,22 +884,85 @@ function Differentiators(){
     {n:'04',t:'Long-term ownership',d:'We stay involved after launch to monitor performance, improve models, and help teams scale AI responsibly.'},
   ];
   return(
-    <section id="why-us" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:4,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Many ai consulting firms can talk about transformation. Fewer can deliver AI that performs reliably inside real business operations.</div>
-      </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,3,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
-        {items.map((item,i)=>(
-          <Tilt key={item.n} int={5} sx={{height:'100%'}}>
-            <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(140deg,rgb(220,244,200),${BG2})`:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .28s',display:'flex',flexDirection:'column',gap:14,height:'100%',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}33`:'none'}}>
-              <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{item.n}</span>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .2s',color:hov===i?'#000':'rgba(0,0,0,0.85)'}}>{item.t}</div>
-              <div style={{height:1,background:hov===i?L2:PL,transition:'background .3s'}}/>
-              <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(0,0,0,0.48)'}}>{item.d}</div>
+    <section
+      id="why-us"
+      data-expanded={whyUsOpen ? "true" : "false"}
+      style={{
+        background:BG,
+        padding:`${pv}px ${gv}px`,
+        position:'relative',
+        zIndex:whyUsOpen?9:4,
+        borderRadius:'24px 24px 0 0',
+      }}
+    >
+      <div style={{padding:'0'}}>
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={whyUsOpen}
+          aria-controls={whyUsOpen?"why-us-blocks":undefined}
+          aria-label={whyUsOpen?"Collapse differentiators":"Expand differentiators"}
+          onClick={()=>setWhyUsOpen((v)=>!v)}
+          style={{
+            display:'block',
+            width:'100%',
+            background:'transparent',
+            border:'none',
+            padding:0,
+            cursor:'pointer',
+            font:'inherit',
+            color:'inherit',
+            textAlign:'inherit',
+            boxSizing:'border-box',
+          }}
+        >
+          <div
+            style={{
+              display:'flex',
+              flexDirection:layout==='mobile'?'column':'row',
+              alignItems:layout==='mobile'?'flex-start':'flex-end',
+              justifyContent:'space-between',
+              marginBottom:layout==='mobile'?36:48,
+              gap:layout==='mobile'?12:0,
+            }}
+          >
+            <div className="rv"><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
+            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Many ai consulting firms can talk about transformation. Fewer can deliver AI that performs reliably inside real business operations.</div>
+          </div>
+        </button>
+        {!whyUsOpen ? (
+          <div
+            aria-hidden
+            className="rv d1 in"
+            style={{
+              display:'grid',
+              gridTemplateColumns:gridCols(layout,4,2),
+              gap:1,
+              height:3,
+              boxSizing:'border-box',
+              background:PL,
+              borderRadius:layout==='mobile'?16:20,
+              overflow:'hidden',
+              border:`1px solid ${PL}`,
+            }}
+          />
+        ) : null}
+        {whyUsOpen ? (
+          <div id="why-us-blocks" role="region" aria-label="What sets us apart" style={{position:'relative',zIndex:1}}>
+            <div className="rv d1 in" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+              {items.map((item,i)=>(
+                <div key={item.n} style={{height:'100%',minHeight:0}}>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(140deg,rgb(220,244,200),${BG2})`:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .28s',display:'flex',flexDirection:'column',gap:14,minHeight:'100%',boxSizing:'border-box',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}33`:'none'}}>
+                    <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{item.n}</span>
+                    <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .2s',color:hov===i?'#000':'rgba(0,0,0,0.85)'}}>{item.t}</div>
+                    <div style={{height:1,background:hov===i?L2:PL,transition:'background .3s'}}/>
+                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(0,0,0,0.48)'}}>{item.d}</div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </Tilt>
-        ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
@@ -917,6 +1122,7 @@ function Solutions(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
+  const [solutionsOpen,setSolutionsOpen]=useState(false);
   const items=[
     {tag:'Customer communication',t:'AI Customer Service Assistant',d:'Handle FAQs, support requests, routing, and customer communication at scale.'},
     {tag:'Forms & contracts',t:'Intelligent Document Processing',d:'Extract, classify, and validate data from forms, contracts, invoices, and records.'},
@@ -926,24 +1132,88 @@ function Solutions(){
     {tag:'Domain-specific agents',t:'AI Agents & Copilots',d:'Automate multi-step workflows with domain-specific agents embedded into business operations.'},
   ];
   return(
-    <section id="solutions" style={{background:`linear-gradient(180deg,${BG2},${BG})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:7,borderRadius:'24px 24px 0 0',marginTop:-24}}>
-      <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Link href="/solutions" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Ready-to-deploy"/></Link><Ttl ch="SOLUTIONS"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value, plus custom ai development when the use case requires a tailored solution.</div>
-      </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
-        {items.map((item,i)=>(
-          <Tilt key={item.t} int={7} sx={{height:'100%'}}>
-            <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(150deg,rgb(220,244,200),${BG2})`:`linear-gradient(150deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .22s',height:'100%',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}44`:'none'}}>
-              <Chip ch={item.tag}/>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing: "normal",lineHeight:1.35}}>{item.t}</div>
-              <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:'rgba(0,0,0,0.44)',flexGrow:1}}>{item.d}</div>
-              <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4,textDecoration:'none'}}>
-                Learn more <Arr sz={8} cl={hov===i?L2:'rgba(0,0,0,0.3)'} sw={1.8}/>
-              </Link>
+    <section
+      id="solutions"
+      data-expanded={solutionsOpen ? "true" : "false"}
+      style={{
+        background:`linear-gradient(180deg,${BG2},${BG})`,
+        padding:`${pv}px ${gv}px`,
+        position:'relative',
+        zIndex:solutionsOpen?10:7,
+        borderRadius:'24px 24px 0 0',
+        marginTop:-24,
+      }}
+    >
+      <div style={{padding:'0'}}>
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={solutionsOpen}
+          aria-controls={solutionsOpen?"solutions-tiles":undefined}
+          aria-label={solutionsOpen?"Collapse solutions tiles":"Expand solutions tiles"}
+          onClick={()=>setSolutionsOpen((v)=>!v)}
+          style={{
+            display:'block',
+            width:'100%',
+            background:'transparent',
+            border:'none',
+            padding:0,
+            cursor:'pointer',
+            font:'inherit',
+            color:'inherit',
+            textAlign:'inherit',
+            boxSizing:'border-box',
+          }}
+        >
+          <div
+            style={{
+              display:'flex',
+              flexDirection:layout==='mobile'?'column':'row',
+              alignItems:layout==='mobile'?'flex-start':'flex-end',
+              justifyContent:'space-between',
+              marginBottom:layout==='mobile'?36:48,
+              gap:layout==='mobile'?12:0,
+            }}
+          >
+            <div className="rv"><Lbl ch="Ready-to-deploy"/><Ttl ch="SOLUTIONS"/></div>
+            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value, plus custom ai development when the use case requires a tailored solution.</div>
+          </div>
+        </button>
+        {!solutionsOpen ? (
+          <div
+            aria-hidden
+            className="rv d1 in"
+            style={{
+              display:'grid',
+              gridTemplateColumns:gridCols(layout,3,3),
+              gap:1,
+              height:3,
+              boxSizing:'border-box',
+              background:PL,
+              borderRadius:layout==='mobile'?16:20,
+              overflow:'hidden',
+              border:`1px solid ${PL}`,
+            }}
+          />
+        ) : null}
+        {solutionsOpen ? (
+          <div id="solutions-tiles" role="region" aria-label="Solutions" style={{position:'relative',zIndex:1}}>
+            <div className="rv d1 in" style={{display:'grid',gridTemplateColumns:gridCols(layout,3,3),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+              {items.map((item,i)=>(
+                <div key={item.t} style={{height:'100%',minHeight:0}}>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(150deg,rgb(220,244,200),${BG2})`:`linear-gradient(150deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .22s',minHeight:'100%',boxSizing:'border-box',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}44`:'none'}}>
+                    <Chip ch={item.tag}/>
+                    <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing: "normal",lineHeight:1.35}}>{item.t}</div>
+                    <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:'rgba(0,0,0,0.44)',flexGrow:1}}>{item.d}</div>
+                    <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4,textDecoration:'none'}}>
+                      Learn more <Arr sz={8} cl={hov===i?L2:'rgba(0,0,0,0.3)'} sw={1.8}/>
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
-          </Tilt>
-        ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
@@ -1093,7 +1363,7 @@ function CTA(){
           <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing: "normal",lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
           <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we will recommend the right next step.</div>
           <div style={{display:'flex',flexDirection:'column',gap:16}}>
-            {[['Austin, TX 78701'],['info@alien.fi'],['+1 (800) 555-2946']].map(([l])=>(
+            {[['NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY'],['info@alien.fi'],['+1 (800) 555-2946']].map(([l])=>(
               <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.35)'}}>
                 <div style={{width:6,height:6,borderRadius:'50%',background:L2,flexShrink:0}}/>{l}
               </div>
@@ -1155,7 +1425,7 @@ function Footer(){
       <div style={{padding:layout==='mobile'?'40px 4px 28px':layout==='tablet'?'44px 12px 36px':'48px 9px 32px',display:'grid',gridTemplateColumns:layout==='desktop'?'1.4fr 1fr 1fr 1fr':layout==='tablet'?'1fr 1fr':'1fr',gap:layout==='mobile'?32:40}}>
         <div>
           <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:18,filter:'invert(1)',marginBottom:16}}/>
-          <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:'rgba(255,255,255,0.28)',marginBottom:20}}>A full-service AI consultancy.<br/>Austin, TX — Operating globally.</div>
+          <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:'rgba(255,255,255,0.28)',marginBottom:20}}>A full-service AI consultancy.<br/>New Jersey (NJ) — Operating globally.</div>
           <div style={{display:'flex',gap:10}}>
             {['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613z','M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z'].map((d,i)=>(
               <div key={i} className="hv" style={{width:32,height:32,borderRadius:7,background:'rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s'}}

@@ -223,3 +223,11 @@ body.cc #c-ring {
     transform: translateY(-10px);
   }
 }
+
+/* Home landing: “What sets us apart” overlaps Process by default; when Process accordion is open, flush the stack so new content reflows and paints above. */
+[data-landing="1"] #why-us {
+  margin-top: -24px;
+}
+[data-landing="1"] #process[data-expanded="true"] ~ #why-us {
+  margin-top: 0 !important;
+}

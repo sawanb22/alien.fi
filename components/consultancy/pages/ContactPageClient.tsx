@@ -76,7 +76,7 @@ export default function ContactPageClient() {
         sub="Tell us what's broken, or what you want to build. When you contact alien.fi, a solution lead replies within one business day with sharp questions, a proposed call time, and options for a free AI consultation if it makes sense."
         meta={[
           ["Reply SLA", "< 1 day"],
-          ["Headquarters", "Austin, TX"],
+          ["Headquarters", "New Jersey (NJ)"],
           ["Operating", "North America · Europe · APAC"],
           ["NDA", "On request"],
         ]}
@@ -628,9 +628,9 @@ function SidePanel() {
       <div className="rv d2" style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px" }}>
         <Lbl ch="Headquarters" />
         <div style={{ paddingTop: 4 }}>
-          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "normal", marginBottom: 8 }}>Austin, TX</div>
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "normal", marginBottom: 8 }}>New Jersey (NJ)</div>
           <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.55 }}>
-            350 Innovation Drive, Suite 1200, Austin, TX 78701, United States
+            NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY, United States
           </div>
         </div>
       </div>
