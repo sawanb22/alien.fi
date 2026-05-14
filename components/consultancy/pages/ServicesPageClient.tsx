@@ -12,7 +12,6 @@ import {
   Nav,
   PageHero,
   Ticker,
-  Tilt,
   Ttl,
   consultancyLimeCtaEnter,
   consultancyLimeCtaLeave,
@@ -26,7 +25,7 @@ import {
   useLandingLayout,
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
-import { BG, BG2, CD, DK, L, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { BG, BG2, CD, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
 import { useEffect, useState } from "react";
 
 const SERVICES = [
@@ -607,95 +606,177 @@ function Principles() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [principlesOpen, setPrinciplesOpen] = useState(false);
+  const [hov, setHov] = useState<number | null>(null);
   const ps = [
     {
       n: "01",
-      t: "Outcome before architecture",
+      t: "Start with business value",
       d:
-        "Every engagement starts with the metric we're moving. The model serves the metric — never the reverse.",
+        "We scope around measurable business outcomes, because the strongest AI development services start with clear value, defined priorities, and realistic ROI targets.",
     },
     {
       n: "02",
-      t: "Boring tech, sharp judgment",
-      d: "We pick the simplest stack that solves the problem. We pick fights about everything else.",
+      t: "Build for production",
+      d:
+        "We prioritize integration, security, monitoring, and adoption from the start so AI systems can operate in live environments instead of staying trapped in prototype mode.",
     },
     {
       n: "03",
-      t: "Audited numbers only",
-      d: "Every claim we publish has been signed off by client finance. No marketing math.",
+      t: "Keep governance visible",
+      d:
+        "Governance, explainability, risk controls, and compliance planning are built into delivery so responsible AI remains part of the system, not an afterthought.",
     },
     {
       n: "04",
-      t: "Handover, not lock-in",
-      d: "We document, train, and leave when asked. The best partnerships outlast our presence.",
+      t: "Stay accountable",
+      d:
+        "We believe strong AI services providers should offer clear scope, transparent pricing, milestone-based delivery, and reporting tied to business outcomes.",
     },
   ];
   return (
     <section
+      id="principles"
+      data-expanded={principlesOpen ? "true" : "false"}
       style={{
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
         position: "relative",
-        zIndex: 4,
+        zIndex: principlesOpen ? 6 : 4,
         borderRadius: "24px 24px 0 0",
         marginTop: -24,
       }}
     >
-      <div
-        style={{
-          marginBottom: layout === "mobile" ? 28 : 36,
-          display: "flex",
-          flexDirection: layout === "mobile" ? "column" : "row",
-          justifyContent: "space-between",
-          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
-          gap: layout === "mobile" ? 12 : 0,
-        }}
-      >
-        <div style={{ maxWidth: layout === "mobile" ? "100%" : 520, flex: layout === "mobile" ? "none" : "0 1 auto" }}>
-          <Lbl ch="What you can count on" sx={{ letterSpacing: "normal" }} />
-          <Ttl ch="PRINCIPLES." sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap", letterSpacing: "normal" }} />
-        </div>
-        <div
+      <div style={{ padding: "0" }}>
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={principlesOpen}
+          aria-controls={principlesOpen ? "principles-blocks" : undefined}
+          aria-label={principlesOpen ? "Collapse principles" : "Expand principles"}
+          onClick={() => setPrinciplesOpen((v) => !v)}
           style={{
-            minWidth: 0,
-            fontFamily: SN,
-            fontSize: 14,
-            lineHeight: 1.7,
-            color: "rgba(0,0,0,0.58)",
-            maxWidth: 540,
-            textAlign: layout === "mobile" ? "left" : "right",
+            display: "block",
+            width: "100%",
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
+            font: "inherit",
+            color: "inherit",
+            textAlign: "inherit",
+            boxSizing: "border-box",
           }}
         >
-          {
-            "The shortlist. We've watched a lot of consulting go sideways for predictable reasons. These four are how we don't."
-          }
-        </div>
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 2, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
-        {ps.map((p) => (
-          <Tilt key={p.n} int={5}>
-            <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "34px 32px", height: "100%" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{p.n}</div>
-                <div style={{ flex: 1, height: 1, background: PL }} />
-              </div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 21, color: "#000", letterSpacing: "normal", lineHeight: 1.3, marginBottom: 14 }}>
-                {p.t}
-              </div>
-              <div style={{ fontFamily: SN, fontSize: 14, lineHeight: 1.7, color: "rgba(0,0,0,0.62)" }}>{p.d}</div>
-            </ConsultancyInteractiveSurface>
-          </Tilt>
-        ))}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: layout === "mobile" ? "column" : "row",
+              alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+              justifyContent: "space-between",
+              marginBottom: layout === "mobile" ? 36 : 48,
+              gap: layout === "mobile" ? 12 : 0,
+            }}
+          >
+            <div className="rv" style={{ maxWidth: layout === "mobile" ? "100%" : 520, flex: layout === "mobile" ? "none" : "0 1 auto" }}>
+              <Lbl ch="What you can count on" sx={{ letterSpacing: "normal" }} />
+              <Ttl ch="PRINCIPLES." sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap", letterSpacing: "normal" }} />
+            </div>
+            <div
+              className="rv d2"
+              style={{
+                minWidth: 0,
+                fontFamily: SN,
+                fontSize: 13,
+                lineHeight: 1.6,
+                color: "rgba(0,0,0,0.38)",
+                maxWidth: layout === "mobile" ? 360 : 280,
+                textAlign: layout === "mobile" ? "left" : "right",
+              }}
+            >
+              These principles shape every engagement, from early AI consulting service work to large-scale AI development services and long-term support.
+            </div>
+          </div>
+        </button>
+        {!principlesOpen ? (
+          <div
+            aria-hidden
+            className="rv d1 in"
+            style={{
+              display: "grid",
+              gridTemplateColumns: gridCols(layout, 4, 2),
+              gap: 1,
+              height: 3,
+              boxSizing: "border-box",
+              background: PL,
+              borderRadius: layout === "mobile" ? 16 : 20,
+              overflow: "hidden",
+              border: `1px solid ${PL}`,
+            }}
+          />
+        ) : null}
+        {principlesOpen ? (
+          <div id="principles-blocks" role="region" aria-label="Principles" style={{ position: "relative", zIndex: 1 }}>
+            <div
+              className="rv d1 in"
+              style={{
+                display: "grid",
+                gridTemplateColumns: gridCols(layout, 4, 2),
+                gap: 1,
+                background: PL,
+                borderRadius: layout === "mobile" ? 16 : 20,
+                overflow: "hidden",
+                border: `1px solid ${PL}`,
+              }}
+            >
+              {ps.map((p, i) => (
+                <div key={p.n} style={{ height: "100%", minHeight: 0 }}>
+                  <div
+                    onMouseEnter={() => setHov(i)}
+                    onMouseLeave={() => setHov(null)}
+                    style={{
+                      background: hov === i ? DK : `linear-gradient(140deg,${BG},${BG2})`,
+                      padding: "36px 36px",
+                      transition: "background .35s",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 14,
+                      minHeight: "100%",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: L2, transition: "color .3s" }}>{p.n}</span>
+                    <div
+                      style={{
+                        fontFamily: MN,
+                        fontWeight: 600,
+                        fontSize: 14,
+                        letterSpacing: "normal",
+                        lineHeight: 1.35,
+                        transition: "color .3s",
+                        color: hov === i ? "#fff" : "rgba(0,0,0,0.85)",
+                      }}
+                    >
+                      {p.t}
+                    </div>
+                    <div style={{ height: 1, background: hov === i ? "rgba(255,255,255,0.08)" : PL, transition: "background .3s" }} />
+                    <div
+                      style={{
+                        fontFamily: SN,
+                        fontSize: 12.5,
+                        lineHeight: 1.7,
+                        color: hov === i ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.48)",
+                        transition: "color .3s",
+                      }}
+                    >
+                      {p.d}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );

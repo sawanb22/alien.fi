@@ -12,7 +12,6 @@ import {
   Lbl,
   Nav,
   Ticker,
-  Tilt,
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
@@ -438,6 +437,8 @@ function RoiSnapshot() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [roiOpen, setRoiOpen] = useState(false);
+  const [hov, setHov] = useState<number | null>(null);
   const stats = [
     { label: "Annual value delivered", value: "$14.89M+" },
     { label: "Average payback period", value: "7.3 months" },
@@ -445,46 +446,161 @@ function RoiSnapshot() {
     { label: "Case studies with production deployment", value: "10/10" },
   ];
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 2 }}>
-      <div
-        style={{
-          marginBottom: 34,
-          display: "flex",
-          flexDirection: layout === "mobile" ? "column" : "row",
-          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
-          justifyContent: "space-between",
-          gap: layout === "mobile" ? 12 : 0,
-        }}
-      >
-        <div className="rv">
-          <Lbl ch="AI ROI Snapshot" />
-          <Ttl ch="AI ROI ACROSS CASE STUDIES" />
-        </div>
-      </div>
-      <div
-        className="rv d1"
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 4, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
-        {stats.map((stat) => (
-          <Tilt key={stat.label} int={5}>
-            <div style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: layout === "mobile" ? "28px 22px" : "34px 28px" }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: layout === "mobile" ? "clamp(28px,8vw,42px)" : 44, color: "#000", letterSpacing: "normal", lineHeight: 1 }}>
-                {stat.value}
-              </div>
-              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginTop: 12 }}>
-                {stat.label}
+    <section
+      id="ai-roi-snapshot"
+      data-expanded={roiOpen ? "true" : "false"}
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: BG,
+        position: "relative",
+        zIndex: roiOpen ? 5 : 2,
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
+      }}
+    >
+      <div style={{ padding: "0" }}>
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={roiOpen}
+          aria-controls={roiOpen ? "ai-roi-stats" : undefined}
+          aria-label={roiOpen ? "Collapse AI ROI stats" : "Expand AI ROI stats"}
+          onClick={() => setRoiOpen((v) => !v)}
+          style={{
+            display: "block",
+            width: "100%",
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
+            font: "inherit",
+            color: "inherit",
+            textAlign: "inherit",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            style={{
+              marginBottom: layout === "mobile" ? 36 : 48,
+            }}
+          >
+            <div className="rv">
+              <Lbl ch="AI ROI Snapshot" sx={{ letterSpacing: "normal" }} />
+              <Ttl ch="AI ROI ACROSS CASE STUDIES" sx={{ letterSpacing: "normal" }} />
+            </div>
+            <div
+              style={{
+                width: "100%",
+                height: 1,
+                background: PL,
+                marginTop: layout === "mobile" ? 14 : 18,
+                marginBottom: layout === "mobile" ? 18 : 22,
+              }}
+            />
+            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+              <div
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: "50%",
+                  border: `2px solid ${L}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxSizing: "border-box",
+                  flexShrink: 0,
+                }}
+                aria-hidden
+              >
+                <div
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: "rgb(96, 76, 168)",
+                  }}
+                />
               </div>
             </div>
-          </Tilt>
-        ))}
+          </div>
+        </button>
+        {!roiOpen ? (
+          <div
+            aria-hidden
+            className="rv d1 in"
+            style={{
+              display: "grid",
+              gridTemplateColumns: gridCols(layout, 4, 2),
+              gap: 1,
+              height: 3,
+              boxSizing: "border-box",
+              background: PL,
+              borderRadius: layout === "mobile" ? 16 : 20,
+              overflow: "hidden",
+              border: `1px solid ${PL}`,
+            }}
+          />
+        ) : null}
+        {roiOpen ? (
+          <div id="ai-roi-stats" role="region" aria-label="AI ROI across case studies" style={{ position: "relative", zIndex: 1 }}>
+            <div
+              className="rv d1 in"
+              style={{
+                display: "grid",
+                gridTemplateColumns: gridCols(layout, 4, 2),
+                gap: 1,
+                background: PL,
+                borderRadius: layout === "mobile" ? 16 : 20,
+                overflow: "hidden",
+                border: `1px solid ${PL}`,
+              }}
+            >
+              {stats.map((stat, i) => (
+                <div key={stat.label} style={{ height: "100%", minHeight: 0 }}>
+                  <div
+                    onMouseEnter={() => setHov(i)}
+                    onMouseLeave={() => setHov(null)}
+                    style={{
+                      background: hov === i ? DK : `linear-gradient(160deg,${BG},${BG2})`,
+                      padding: layout === "mobile" ? "28px 22px" : "34px 28px",
+                      transition: "background .35s",
+                      minHeight: "100%",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: MN,
+                        fontWeight: 700,
+                        fontSize: layout === "mobile" ? "clamp(28px,8vw,42px)" : 44,
+                        color: hov === i ? "#fff" : "#000",
+                        letterSpacing: "normal",
+                        lineHeight: 1,
+                        transition: "color .3s",
+                      }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: MN,
+                        fontWeight: 500,
+                        fontSize: 11,
+                        letterSpacing: "normal",
+                        textTransform: "uppercase",
+                        color: hov === i ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+                        marginTop: 12,
+                        transition: "color .3s",
+                      }}
+                    >
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );
@@ -494,52 +610,197 @@ function StatsBar() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [shippedOpen, setShippedOpen] = useState(false);
+  const [hov, setHov] = useState<number | null>(null);
   const stats = [
     { v: "10", l: "Audited case studies" },
     { v: "10", l: "Operating environments" },
     { v: "94%", l: "Client retention" },
     { v: "7.3", l: "Average payback (months)" },
   ];
+  const hair = "rgba(255,255,255,0.12)";
+  const railBg = "rgba(255,255,255,0.07)";
+  const railBorder = "rgba(255,255,255,0.14)";
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div
-        style={{
-          marginBottom: 40,
-          display: "flex",
-          flexDirection: layout === "mobile" ? "column" : "row",
-          alignItems: layout === "mobile" ? "flex-start" : "flex-end",
-          justifyContent: "space-between",
-          gap: layout === "mobile" ? 12 : 0,
-        }}
-      >
-        <div className="rv">
-          <Lbl ch="By the numbers" lt />
-          <Ttl ch="WHAT WE'VE SHIPPED" lt />
-        </div>
-        <div className="rv d2" style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.4)", maxWidth: 280, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>
-          Ten AI case studies. Ten different operating environments. These enterprise AI implementation success stories show how alien.fi turns AI transformation examples into audited AI ROI across healthcare, legal, banking, manufacturing, logistics, retail, education, real estate, restaurants, and SaaS.
-        </div>
-      </div>
-      <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden" }}>
-        {stats.map((stat) => (
-          <Tilt key={stat.l} int={6}>
-            <div style={{ background: DK, padding: layout === "mobile" ? "28px 22px" : "40px 32px" }}>
+    <section
+      id="what-weve-shipped"
+      data-expanded={shippedOpen ? "true" : "false"}
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: DK,
+        position: "relative",
+        zIndex: shippedOpen ? 6 : 3,
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
+      }}
+    >
+      <div style={{ padding: "0" }}>
+        <button
+          type="button"
+          className="hv"
+          aria-expanded={shippedOpen}
+          aria-controls={shippedOpen ? "shipped-stats" : undefined}
+          aria-label={shippedOpen ? "Collapse shipped stats" : "Expand shipped stats"}
+          onClick={() => setShippedOpen((v) => !v)}
+          style={{
+            display: "block",
+            width: "100%",
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
+            font: "inherit",
+            color: "inherit",
+            textAlign: "inherit",
+            boxSizing: "border-box",
+          }}
+        >
+          <div
+            style={{
+              marginBottom: layout === "mobile" ? 36 : 48,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: layout === "mobile" ? "column" : "row",
+                alignItems: layout === "mobile" ? "flex-start" : "flex-end",
+                justifyContent: "space-between",
+                gap: layout === "mobile" ? 12 : 0,
+              }}
+            >
+              <div className="rv">
+                <Lbl ch="By the Numbers" lt sx={{ letterSpacing: "normal" }} />
+                <Ttl ch="WHAT WE'VE SHIPPED" lt sx={{ letterSpacing: "normal" }} />
+              </div>
               <div
+                className="rv d2"
                 style={{
-                  fontFamily: MN,
-                  fontWeight: 700,
-                  fontSize: layout === "mobile" ? "clamp(32px,8vw,44px)" : 54,
-                  color: L,
-                  letterSpacing: "normal",
-                  lineHeight: 1,
+                  fontFamily: SN,
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.4)",
+                  maxWidth: layout === "mobile" ? 420 : 280,
+                  textAlign: layout === "mobile" ? "left" : "right",
+                  lineHeight: 1.6,
                 }}
               >
-                {stat.v}
+                Ten AI case studies. Ten different operating environments. These enterprise AI implementation success stories show how alien.fi turns AI transformation examples into audited AI ROI across healthcare, legal, banking, manufacturing, logistics, retail, education, real estate, restaurants, and SaaS.
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginTop: 14 }}>{stat.l}</div>
             </div>
-          </Tilt>
-        ))}
+            <div
+              style={{
+                width: "100%",
+                height: 1,
+                background: hair,
+                marginTop: layout === "mobile" ? 14 : 18,
+                marginBottom: layout === "mobile" ? 18 : 22,
+              }}
+            />
+            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+              <div
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: "50%",
+                  border: `2px solid ${L}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxSizing: "border-box",
+                  flexShrink: 0,
+                }}
+                aria-hidden
+              >
+                <div
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: L,
+                    boxShadow: `0 0 14px ${L}`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </button>
+        {!shippedOpen ? (
+          <div
+            aria-hidden
+            className="rv d1 in"
+            style={{
+              display: "grid",
+              gridTemplateColumns: gridCols(layout, 4, 2),
+              gap: 1,
+              height: 3,
+              boxSizing: "border-box",
+              background: railBg,
+              borderRadius: layout === "mobile" ? 16 : 20,
+              overflow: "hidden",
+              border: `1px solid ${railBorder}`,
+            }}
+          />
+        ) : null}
+        {shippedOpen ? (
+          <div id="shipped-stats" role="region" aria-label="What we've shipped" style={{ position: "relative", zIndex: 1 }}>
+            <div
+              className="rv d1 in"
+              style={{
+                display: "grid",
+                gridTemplateColumns: gridCols(layout, 4, 2),
+                gap: 1,
+                background: "rgba(255,255,255,0.05)",
+                borderRadius: layout === "mobile" ? 16 : 20,
+                overflow: "hidden",
+              }}
+            >
+              {stats.map((stat, i) => (
+                <div key={stat.l} style={{ height: "100%", minHeight: 0 }}>
+                  <div
+                    onMouseEnter={() => setHov(i)}
+                    onMouseLeave={() => setHov(null)}
+                    style={{
+                      background: hov === i ? "rgb(28,32,56)" : DK,
+                      padding: layout === "mobile" ? "28px 22px" : "40px 32px",
+                      transition: "background .3s",
+                      minHeight: "100%",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: MN,
+                        fontWeight: 700,
+                        fontSize: layout === "mobile" ? "clamp(32px,8vw,44px)" : 54,
+                        color: L,
+                        letterSpacing: "normal",
+                        lineHeight: 1,
+                        transition: "color .25s, filter .25s",
+                        filter: hov === i ? "brightness(1.08)" : "none",
+                      }}
+                    >
+                      {stat.v}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: MN,
+                        fontWeight: 500,
+                        fontSize: 11,
+                        letterSpacing: "normal",
+                        textTransform: "uppercase",
+                        color: hov === i ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.45)",
+                        marginTop: 14,
+                        transition: "color .25s",
+                      }}
+                    >
+                      {stat.l}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );
