@@ -720,23 +720,23 @@ function Services(){
             <div style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
               {svcs.map((s,i)=>(
                 <div key={s.n} style={{ height: "100%", minHeight: 0 }}>
-                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(160deg,rgb(228,244,210),${BG2})`:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .3s',minHeight:'100%',boxSizing:'border-box',boxShadow:hov===i?'inset 0 0 0 1.5px rgba(150,238,82,0.35)':'none'}}>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .35s',minHeight:'100%',boxSizing:'border-box'}}>
                     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                      <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
+                      <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2,transition:'color .3s'}}>{s.n}</span>
                       <Link
                         href={s.href}
                         className="hv"
-                        style={{width:20,height:20,borderRadius:5,background:hov===i?'#000':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)',textDecoration:'none'}}
+                        style={{width:20,height:20,borderRadius:5,background:hov===i?'rgba(255,255,255,0.12)':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .25s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)',textDecoration:'none'}}
                       >
                         <Arr sz={8} cl={hov===i?'#fff':'rgba(0,0,0,0.4)'} sw={1.8}/>
                       </Link>
                     </div>
-                    <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing: "normal",lineHeight:1.45}}>{s.t}</div>
-                    <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(0,0,0,0.48)',flexGrow:1}}>{s.d}</div>
+                    <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing: "normal",lineHeight:1.45,color:hov===i?'#fff':'#000',transition:'color .3s'}}>{s.t}</div>
+                    <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.48)',flexGrow:1,transition:'color .3s'}}>{s.d}</div>
                     <div style={{display:'flex',flexDirection:'column',gap:6}}>
                       {s.tags.map(t=>(
-                        <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:'rgba(0,0,0,0.38)',textDecoration:'none'}}>
-                          <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .2s'}}/>{t}
+                        <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:hov===i?'rgba(255,255,255,0.42)':'rgba(0,0,0,0.38)',textDecoration:'none',transition:'color .3s'}}>
+                          <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .3s'}}/>{t}
                         </Link>
                       ))}
                     </div>
@@ -952,11 +952,11 @@ function Differentiators(){
             <div className="rv d1 in" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
               {items.map((item,i)=>(
                 <div key={item.n} style={{height:'100%',minHeight:0}}>
-                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(140deg,rgb(220,244,200),${BG2})`:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .28s',display:'flex',flexDirection:'column',gap:14,minHeight:'100%',boxSizing:'border-box',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}33`:'none'}}>
-                    <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{item.n}</span>
-                    <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .2s',color:hov===i?'#000':'rgba(0,0,0,0.85)'}}>{item.t}</div>
-                    <div style={{height:1,background:hov===i?L2:PL,transition:'background .3s'}}/>
-                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(0,0,0,0.48)'}}>{item.d}</div>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .35s',display:'flex',flexDirection:'column',gap:14,minHeight:'100%',boxSizing:'border-box'}}>
+                    <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2,transition:'color .3s'}}>{item.n}</span>
+                    <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .3s',color:hov===i?'#fff':'rgba(0,0,0,0.85)'}}>{item.t}</div>
+                    <div style={{height:1,background:hov===i?'rgba(255,255,255,0.08)':PL,transition:'background .3s'}}/>
+                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.48)',transition:'color .3s'}}>{item.d}</div>
                   </div>
                 </div>
               ))}
@@ -1201,12 +1201,18 @@ function Solutions(){
             <div className="rv d1 in" style={{display:'grid',gridTemplateColumns:gridCols(layout,3,3),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
               {items.map((item,i)=>(
                 <div key={item.t} style={{height:'100%',minHeight:0}}>
-                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(150deg,rgb(220,244,200),${BG2})`:`linear-gradient(150deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .22s',minHeight:'100%',boxSizing:'border-box',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}44`:'none'}}>
-                    <Chip ch={item.tag}/>
-                    <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing: "normal",lineHeight:1.35}}>{item.t}</div>
-                    <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:'rgba(0,0,0,0.44)',flexGrow:1}}>{item.d}</div>
-                    <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4,textDecoration:'none'}}>
-                      Learn more <Arr sz={8} cl={hov===i?L2:'rgba(0,0,0,0.3)'} sw={1.8}/>
+                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .35s',minHeight:'100%',boxSizing:'border-box'}}>
+                    <Chip
+                      ch={item.tag}
+                      bg={hov===i?"rgba(255,255,255,0.1)":L2}
+                      cl={hov===i?L2:"#000"}
+                      sx={{ transition: "background .3s, color .3s" }}
+                    />
+                    <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing: "normal",lineHeight:1.35,color:hov===i?"#fff":"#000",transition:'color .3s'}}>{item.t}</div>
+                    <div style={{height:1,background:hov===i?"rgba(255,255,255,0.08)":PL,transition:'background .3s'}}/>
+                    <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:hov===i?"rgba(255,255,255,0.45)":"rgba(0,0,0,0.44)",flexGrow:1,transition:'color .3s'}}>{item.d}</div>
+                    <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',marginTop:4,textDecoration:'none'}}>
+                      Learn more <Arr sz={8} cl={hov===i?L:'rgba(0,0,0,0.3)'} sw={1.8}/>
                     </Link>
                   </div>
                 </div>
@@ -1462,8 +1468,121 @@ function Footer(){
 }
 
 /* ── APP ── */
+function LandingRuntimeProbe({ loaded }: { loaded: boolean }) {
+  const layout = useLandingLayout();
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const iw = window.innerWidth;
+    const derived: "desktop" | "tablet" | "mobile" =
+      iw >= 1120 ? "desktop" : iw >= 768 ? "tablet" : "mobile";
+    // #region agent log
+    fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "78b70a",
+      },
+      body: JSON.stringify({
+        sessionId: "78b70a",
+        hypothesisId: "H1-H4",
+        location: "LandingPageClient.tsx:LandingRuntimeProbe",
+        message: "layout_and_globals",
+        data: {
+          layout,
+          derivedFromInnerWidth: derived,
+          layoutMismatch: layout !== derived,
+          innerWidth: iw,
+          loaded,
+          magnet: typeof (window as { magnet?: unknown }).magnet,
+          initRv: typeof (window as { initRv?: unknown }).initRv,
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  }, [layout, loaded]);
+
+  useEffect(() => {
+    if (!loaded || typeof window === "undefined") return;
+    const t = window.setTimeout(() => {
+      const inEls = document.querySelectorAll(".rv.in,.rvl.in,.rvr.in,.ld.in").length;
+      const allRv = document.querySelectorAll(".rv,.rvl,.rvr,.ld").length;
+      // #region agent log
+      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "78b70a",
+        },
+        body: JSON.stringify({
+          sessionId: "78b70a",
+          hypothesisId: "H3",
+          location: "LandingPageClient.tsx:LandingRuntimeProbe",
+          message: "post_loader_reveal_counts",
+          data: { inClassCount: inEls, revealTrackedEls: allRv },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+    }, 220);
+    return () => window.clearTimeout(t);
+  }, [loaded]);
+
+  return null;
+}
+
 export default function LandingPageClient(){
   const [loaded,setLoaded]=useState(false);
+  useEffect(()=>{
+    const onErr = (e: ErrorEvent) => {
+      // #region agent log
+      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "78b70a",
+        },
+        body: JSON.stringify({
+          sessionId: "78b70a",
+          hypothesisId: "H5",
+          location: "LandingPageClient.tsx:window.error",
+          message: "window_error",
+          data: {
+            msg: String(e.message ?? ""),
+            file: e.filename ?? "",
+            lineno: e.lineno ?? 0,
+          },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+    };
+    const onRej = (e: PromiseRejectionEvent) => {
+      // #region agent log
+      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Debug-Session-Id": "78b70a",
+        },
+        body: JSON.stringify({
+          sessionId: "78b70a",
+          hypothesisId: "H5",
+          location: "LandingPageClient.tsx:unhandledrejection",
+          message: "unhandled_rejection",
+          data: { reason: String(e.reason ?? "") },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
+    };
+    window.addEventListener("error", onErr);
+    window.addEventListener("unhandledrejection", onRej);
+    return () => {
+      window.removeEventListener("error", onErr);
+      window.removeEventListener("unhandledrejection", onRej);
+    };
+  }, []);
   useEffect(()=>{
     if(loaded)setTimeout(()=>{window.initRv&&window.initRv();document.querySelectorAll('.rv,.rvl,.rvr,.ld').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight*.95)el.classList.add('in');});},120);
   },[loaded]);
@@ -1472,6 +1591,7 @@ export default function LandingPageClient(){
       <LandingChrome />
       {!loaded&&<Loader onDone={()=>setLoaded(true)}/>}
       <LandingLayoutProvider>
+        <LandingRuntimeProbe loaded={loaded} />
         <div style={{opacity:loaded?1:0,transition:'opacity .5s',pointerEvents:loaded?'all':'none'}}>
           <ConsultancyNav/><Hero tweaks={TWEAK_DEFAULTS}/><Ticker/>
           <Services/><Process/><Differentiators/><Industries/>
