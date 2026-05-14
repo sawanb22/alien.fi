@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
@@ -14,7 +15,8 @@ import {
   Ttl,
   consultancyPrimaryBlackCtaEnter,
   consultancyPrimaryBlackCtaLeave,
-  consultancyPrimaryCtaHoverRing,
+  consultancyOutlineLightPillEnter,
+  consultancyOutlineLightPillLeave,
 } from "@/components/consultancy/consultancy-ui";
 import {
   gridCols,
@@ -58,7 +60,7 @@ function CareHero() {
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 480 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: stacked ? "none" : `1px solid ${PL}`, borderBottom: stacked ? `1px solid ${PL}` : "none", background: "rgb(250,251,255)" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
                 <Link href="/" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "rgba(0,0,0,0.5)" }}>Platforms</span>
@@ -66,7 +68,7 @@ function CareHero() {
                 <span style={{ color: "#000" }}>AlienCare</span>
               </div>
               <Lbl ch="Platform · Healthcare · HIPAA and SOC 2 ready" />
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 24, color: "#000", lineHeight: 1.2, marginBottom: 14, letterSpacing: "0.02em" }}>AlienCare™</div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 24, color: "#000", lineHeight: 1.2, marginBottom: 14, letterSpacing: "normal" }}>AlienCare™</div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>
                 AlienCare is a vertical AI platform for health systems. Six clinical AI modules. One HIPAA-compliant tenant. Live in 3 weeks on Epic, Cerner, or athenahealth, without a multi-year transformation program.
               </div>
@@ -79,7 +81,7 @@ function CareHero() {
                 ["Pricing", "From $180K/yr · For platform access"],
               ].map(([k, v]) => (
                 <div key={k} style={{ display: "grid", gridTemplateColumns: "minmax(112px, auto) minmax(0, 1fr)", alignItems: "start", gap: 12, padding: "8px 0", borderBottom: `1px solid ${PL}` }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", whiteSpace: "normal", lineHeight: 1.2 }}>{k}</span>
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", whiteSpace: "normal", lineHeight: 1.2 }}>{k}</span>
                   <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "#000", textAlign: "right", lineHeight: 1.25 }}>{v}</span>
                 </div>
               ))}
@@ -91,7 +93,7 @@ function CareHero() {
               <Chip ch="Healthcare" bg={DK} cl={L} />
               <Chip ch="HIPAA and SOC 2 ready" />
             </div>
-            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(38px,5vw,80px)", lineHeight: 0.98, color: "#000", letterSpacing: "0.03em", marginBottom: 28 }}>
+            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(38px,5vw,80px)", lineHeight: 0.98, color: "#000", letterSpacing: "normal", marginBottom: 28 }}>
               <div style={{ fontWeight: 300 }}>CLINICAL AI</div>
               <div style={{ fontWeight: 500 }}>BUILT FOR THE</div>
               <div style={{ fontWeight: 700, color: DK }}>BEDSIDE.</div>
@@ -114,7 +116,7 @@ function CareHero() {
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   textDecoration: "none",
                   transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
@@ -139,22 +141,13 @@ function CareHero() {
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   textDecoration: "none",
                   transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0,0,0,0.06)";
-                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.35)";
-                  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#000";
-                  e.currentTarget.style.borderColor = PL;
-                  e.currentTarget.style.boxShadow = "none";
-                }}
+                onMouseEnter={consultancyOutlineLightPillEnter}
+                onMouseLeave={consultancyOutlineLightPillLeave}
               >
                 NorthBay case study <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
@@ -170,6 +163,7 @@ function ModulesSection() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [moduleHover, setModuleHover] = useState<number | null>(null);
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", paddingTop: 60 }}>
       <div style={platformSplitHeaderRow(layout, 36)}>
@@ -193,25 +187,48 @@ function ModulesSection() {
           <Chip key={t} ch={<a href={`#${t.toLowerCase().replace(/\s/g, '-')}`}>{t}</a>} />
         ))}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 3, 2),
+          gap: 1,
+          background: PL,
+          borderRadius: 20,
+          overflow: "hidden",
+          border: `1px solid ${PL}`,
+          isolation: "isolate",
+        }}
+      >
         {MODULES.map((m, i) => (
-          <Tilt
+          <div
             key={m.t}
-            int={4}
-            ch={
-              <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
-                <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
-                    <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: L2 }}>{`0${i + 1}`}</div>
-                  </div>
-                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "0.02em", lineHeight: 1.3 }}>{m.t}</div>
-                  <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1 }}>{m.d}</div>
-                  <div style={{ padding: "10px 12px", background: "#000", borderRadius: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, color: L, letterSpacing: "0.04em" }}>{m.m}</div>
-                </ConsultancyInteractiveSurface>
-              </div>
-            }
-          />
+            onMouseEnter={() => setModuleHover(i)}
+            onMouseLeave={() => setModuleHover(null)}
+            style={{
+              position: "relative",
+              zIndex: moduleHover === i ? 4 : 1,
+              height: "100%",
+              minHeight: 0,
+            }}
+          >
+            <Tilt
+              int={4}
+              sx={{ height: "100%" }}
+              ch={
+                <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
+                  <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
+                      <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: L2 }}>{`0${i + 1}`}</div>
+                    </div>
+                    <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "normal", lineHeight: 1.3 }}>{m.t}</div>
+                    <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1 }}>{m.d}</div>
+                    <div style={{ padding: "10px 12px", background: "#000", borderRadius: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, color: L, letterSpacing: "normal" }}>{m.m}</div>
+                  </ConsultancyInteractiveSurface>
+                </div>
+              }
+            />
+          </div>
         ))}
       </div>
     </section>
@@ -236,7 +253,7 @@ function ComplianceSection() {
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
         {COMPLIANCE.map((c) => (
           <ConsultancyInteractiveSurface key={c.n} variant="dk" style={{ padding: "30px 28px" }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 18, color: L, letterSpacing: "0.04em", marginBottom: 12 }}>{c.n}</div>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 18, color: L, letterSpacing: "normal", marginBottom: 12 }}>{c.n}</div>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.55)" }}>{c.d}</div>
           </ConsultancyInteractiveSurface>
         ))}
@@ -268,7 +285,7 @@ function HowItWorksSection() {
           "Go live in 3 weeks with audit-ready controls.",
         ].map((t, i) => (
           <ConsultancyInteractiveSurface key={t} variant="gradient" style={{ padding: "26px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: L2 }}>{`0${i + 1}`}</div>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: L2 }}>{`0${i + 1}`}</div>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.65, color: "rgba(0,0,0,0.6)" }}>{t}</div>
           </ConsultancyInteractiveSurface>
         ))}

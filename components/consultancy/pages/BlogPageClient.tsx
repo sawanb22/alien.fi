@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
-import { Arr, Chip, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
+import { Arr, Chip, ConsultancyInteractiveSurface, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
@@ -46,7 +46,7 @@ function Hero() {
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 380 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: stacked ? "none" : `1px solid ${PL}`, borderBottom: stacked ? `1px solid ${PL}` : "none", background: "rgb(250,251,255)" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
                 <Link href="/" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "#000" }}>Blog</span>
@@ -58,7 +58,7 @@ function Hero() {
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <Chip ch="Field Notes" sx={{ marginBottom: 24 }} />
-            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(42px,5.4vw,80px)", lineHeight: 0.98, color: "#000", letterSpacing: "0.03em" }}>
+            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(42px,5.4vw,80px)", lineHeight: 0.98, color: "#000", letterSpacing: "normal" }}>
               <div style={{ fontWeight: 300 }}>WHAT WE</div>
               <div style={{ fontWeight: 500 }}>LEARNED ON</div>
               <div style={{ fontWeight: 700, color: DK }}>THE WAY HERE.</div>
@@ -82,22 +82,30 @@ export default function BlogPageClient() {
       <Hero />
       <section style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px 0`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
         <div style={{ marginBottom: 32 }}><Lbl ch="Featured this week" /></div>
-        <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "1.4fr 1fr" : "1fr", background: DK, borderRadius: 20, overflow: "hidden" }}>
+        <ConsultancyInteractiveSurface
+          variant="dk"
+          style={{
+            display: "grid",
+            gridTemplateColumns: layout === "desktop" ? "1.4fr 1fr" : "1fr",
+            borderRadius: 20,
+            overflow: "hidden",
+          }}
+        >
           <div style={{ padding: layout === "mobile" ? "32px 24px" : "48px 52px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24 }}>
             <div>
               <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
                 <Chip ch={FEATURED.cat} bg={L} cl="#000" />
-                <span style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.06em", color: "rgba(255,255,255,0.5)" }}>{FEATURED.date} · {FEATURED.read}</span>
+                <span style={{ fontFamily: MN, fontSize: 11, letterSpacing: "normal", color: "rgba(255,255,255,0.5)" }}>{FEATURED.date} · {FEATURED.read}</span>
               </div>
               <div style={{ fontFamily: MN, fontWeight: 500, fontSize: layout === "mobile" ? 28 : 34, lineHeight: 1.15, color: "#fff", marginBottom: 20 }}>{FEATURED.t}</div>
               <div style={{ fontFamily: SN, fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", maxWidth: 560 }}>{FEATURED.d}</div>
             </div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: L }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", color: L }}>
               Read article <Arr sz={10} cl={L} sw={2.4} />
             </div>
           </div>
           <div style={{ background: `linear-gradient(135deg,${L}66,${L2}33,${DK})`, minHeight: 260 }} />
-        </div>
+        </ConsultancyInteractiveSurface>
       </section>
       <section style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px ${pv}px`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
         <div style={{ marginBottom: 32, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
@@ -106,17 +114,29 @@ export default function BlogPageClient() {
             {CATS.map((c) => {
               const active = cat === c.value;
               return (
-                <button key={c.value} onClick={() => setCat(c.value)} className="hv" style={{ background: active ? "#000" : "rgb(229,231,245)", color: active ? L : "rgba(0,0,0,0.6)", border: "none", borderRadius: 20, padding: "7px 14px", fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "none" }}>{c.label}</button>
+                <button key={c.value} onClick={() => setCat(c.value)} className="hv" style={{ background: active ? "#000" : "rgb(229,231,245)", color: active ? L : "rgba(0,0,0,0.6)", border: "none", borderRadius: 20, padding: "7px 14px", fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: "normal", textTransform: "none" }}>{c.label}</button>
               );
             })}
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 16 }}>
           {filtered.map((p) => (
-            <div key={p.t} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, border: `1px solid ${PL}`, borderRadius: 14, padding: "26px", display: "flex", flexDirection: "column", gap: 14 }}>
+            <ConsultancyInteractiveSurface
+              key={p.t}
+              variant="gradient"
+              style={{
+                border: `1px solid ${PL}`,
+                borderRadius: 14,
+                padding: "26px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+                height: "100%",
+              }}
+            >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <Chip ch={p.cat} />
-                <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.06em", color: "rgba(0,0,0,0.4)" }}>{p.read}</span>
+                <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", color: "rgba(0,0,0,0.4)" }}>{p.read}</span>
               </div>
               <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#000", lineHeight: 1.3 }}>{p.t}</div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.65, color: "rgba(0,0,0,0.55)", flex: 1 }}>{p.d}</div>
@@ -124,9 +144,9 @@ export default function BlogPageClient() {
                 <div style={{ width: 30, height: 30, borderRadius: "50%", background: `linear-gradient(135deg,${L},${L2})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontWeight: 700, fontSize: 11, color: "#000" }}>{p.author.init}</div>
                 <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, color: "rgba(0,0,0,0.6)" }}>{p.author.n}</div>
                 <div style={{ flex: 1 }} />
-                <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.06em", color: "rgba(0,0,0,0.4)" }}>{p.date}</span>
+                <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", color: "rgba(0,0,0,0.4)" }}>{p.date}</span>
               </div>
-            </div>
+            </ConsultancyInteractiveSurface>
           ))}
         </div>
       </section>
@@ -134,7 +154,7 @@ export default function BlogPageClient() {
         <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "1fr 1fr" : "1fr", gap: 60, alignItems: "center" }}>
           <div>
             <Lbl ch="Field Notes weekly" lt />
-            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(32px,3.5vw,52px)", lineHeight: 1.05, color: "#fff", letterSpacing: "0.04em", marginBottom: 24 }}>
+            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(32px,3.5vw,52px)", lineHeight: 1.05, color: "#fff", letterSpacing: "normal", marginBottom: 24 }}>
               <div style={{ fontWeight: 400 }}>ONE EMAIL.</div>
               <div style={{ fontWeight: 600, color: L }}>FRIDAY MORNINGS.</div>
             </div>
@@ -143,9 +163,9 @@ export default function BlogPageClient() {
             </div>
           </div>
           <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "30px", display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>Subscribe</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>Subscribe</div>
             <input placeholder="you@company.com" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "14px 16px", borderRadius: 10, fontFamily: MN, fontSize: 13, outline: "none" }} />
-            <button className="hv" style={{ background: L, color: "#000", border: "none", borderRadius: 10, padding: "14px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, transition: "background .2s,color .2s,transform .15s" }}
+            <button className="hv" style={{ background: L, color: "#000", border: "none", borderRadius: 10, padding: "14px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, transition: "background .2s,color .2s,transform .15s" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = L; }}
             >

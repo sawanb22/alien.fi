@@ -11,8 +11,12 @@ import {
   useState,
 } from "react";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
-import { CW, OT } from "@/lib/consultancy/tokens";
-import { Footer as ConsultancyFooter, Nav as ConsultancyNav } from "@/components/consultancy/consultancy-ui";
+import { CW, MN_WORD_SPACE, OT } from "@/lib/consultancy/tokens";
+import {
+  Footer as ConsultancyFooter,
+  Lbl,
+  Nav as ConsultancyNav,
+} from "@/components/consultancy/consultancy-ui";
 import {
   LandingLayoutProvider,
   gridCols,
@@ -67,27 +71,13 @@ const Chip = ({ ch, bg = L2, cl = "#000", sx = {} }) => (
       fontFamily: MN,
       fontWeight: 700,
       fontSize: 9,
-      letterSpacing: "0.12em",
+      letterSpacing: "normal",
+      wordSpacing: MN_WORD_SPACE,
       textTransform: "uppercase",
       padding: "4px 10px",
       borderRadius: 20,
       alignSelf: "flex-start",
       ...sx,
-    }}
-  >
-    {ch}
-  </div>
-);
-const Lbl = ({ ch, lt = false }) => (
-  <div
-    style={{
-      fontFamily: MN,
-      fontWeight: 600,
-      fontSize: 10,
-      letterSpacing: "0.14em",
-      textTransform: "uppercase",
-      color: lt ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
-      marginBottom: 12,
     }}
   >
     {ch}
@@ -99,7 +89,8 @@ const Ttl = ({ ch, lt = false, sx = {} }) => (
       fontFamily: MN,
       fontWeight: 300,
       fontSize: "clamp(38px,4vw,64px)",
-      letterSpacing: "0.06em",
+      letterSpacing: "normal",
+      wordSpacing: MN_WORD_SPACE,
       lineHeight: 1.05,
       color: lt ? "#fff" : "#000",
       ...sx,
@@ -146,7 +137,7 @@ function StatCell({val,raw,lbl}){
     <div ref={ref} className="hv" style={{background:`linear-gradient(135deg,${BG},${BG2})`,padding:'26px 24px',transition:'background .3s',cursor:'default'}}
       onMouseEnter={e=>e.currentTarget.style.background='rgb(218,242,200)'}
       onMouseLeave={e=>e.currentTarget.style.background=`linear-gradient(135deg,${BG},${BG2})`}>
-      <div style={{fontFamily:MN,fontWeight:700,fontSize:34,letterSpacing:'0.02em',color:L2,lineHeight:1,animation:triggered?'statPop .5s ease':'none'}}>{display}</div>
+      <div style={{fontFamily:MN,fontWeight:700,fontSize:34,letterSpacing: "normal",color:L2,lineHeight:1,animation:triggered?'statPop .5s ease':'none'}}>{display}</div>
       <div style={{fontFamily:SN,fontWeight:500,fontSize:10,color:'rgba(0,0,0,0.38)',marginTop:5}}>{lbl}</div>
     </div>
   );
@@ -192,10 +183,10 @@ function Loader({onDone}){
         <div style={{position:'absolute',left:0,right:0,height:3,background:`linear-gradient(transparent,${L},transparent)`,opacity:.18,animation:ph<2?'scan 2s linear infinite':'none'}}/>
       </div>
       <img src="/assets/logo-icon.svg" alt="" style={{height:72,objectFit:'contain',filter:'invert(1)',animation:'glow 2s ease-in-out infinite'}}/>
-      <div style={{fontFamily:MN,fontWeight:700,fontSize:26,letterSpacing:'0.32em',color:'#fff',minWidth:220,textAlign:'center'}}>
+      <div style={{fontFamily:MN,fontWeight:700,fontSize:26,letterSpacing: "normal",color:'#fff',minWidth:220,textAlign:'center'}}>
         {typed}<span style={{animation:'blink .75s step-end infinite',color:L}}>_</span>
       </div>
-      <div style={{fontFamily:MN,fontWeight:500,fontSize:10,letterSpacing:'0.2em',color:'rgba(255,255,255,0.22)',textTransform:'uppercase'}}>AI Consultancy & Solutions</div>
+      <div style={{fontFamily:MN,fontWeight:500,fontSize:10,letterSpacing: "normal",color:'rgba(255,255,255,0.22)',textTransform:'uppercase'}}>AI Consultancy & Solutions</div>
       <div style={{width:220,height:2,background:'rgba(255,255,255,0.08)',borderRadius:2,overflow:'hidden'}}>
         <div style={{height:'100%',background:L,borderRadius:2,width:`${bw}%`,transition:'width .04s linear',boxShadow:`0 0 14px ${L}`}}/>
       </div>
@@ -229,12 +220,12 @@ function Nav(){
         </Link>
         <div style={{display:'flex',gap:32,alignItems:'center'}}>
           {links.map(([l,h])=>(
-            <Link key={l} href={h} className="hv" style={{fontFamily:MN,fontWeight:500,fontSize:12,letterSpacing:'0.06em',color:'rgba(0,0,0,0.6)',textDecoration:'none',transition:'color .2s'}}
+            <Link key={l} href={h} className="hv" style={{fontFamily:MN,fontWeight:500,fontSize:12,letterSpacing: "normal",color:'rgba(0,0,0,0.6)',textDecoration:'none',transition:'color .2s'}}
               onMouseEnter={e=>{e.currentTarget.style.color='#000';}} onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0.6)';}}>{l}</Link>
           ))}
         </div>
         <button className="hv" onClick={()=>document.getElementById('contact')?.scrollIntoView({block:'start'})}
-          style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.08em',padding:'10px 18px',cursor:'none',transition:'background .2s,color .2s,transform .15s'}}
+          style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'10px 18px',cursor:'none',transition:'background .2s,color .2s,transform .15s'}}
           onMouseMove={e=>window.magnet?.(e.currentTarget,e)}
           onMouseEnter={e=>{e.currentTarget.style.background='rgb(243,243,255)';e.currentTarget.style.color='#000';}}
           onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';window.magnetReset?.(e.currentTarget);}}
@@ -257,7 +248,7 @@ function Nav(){
             <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
           </button>
           <button type="button" className="hv landing-nav-cta" onClick={()=>{setMenu(false);document.getElementById('contact')?.scrollIntoView({block:'start'});}}
-            style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:layout==='mobile'?10:11,letterSpacing:'0.06em',padding:layout==='mobile'?'9px 12px':'10px 16px'}}>
+            style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:layout==='mobile'?10:11,letterSpacing: "normal",padding:layout==='mobile'?'9px 12px':'10px 16px'}}>
             Start <Arr sz={9} cl={L} sw={2.2}/>
           </button>
         </div>
@@ -267,7 +258,7 @@ function Nav(){
         <div id="landing-nav-sheet" role="dialog" aria-modal style={{position:'fixed',top:58,left:sectionGutter(layout),right:sectionGutter(layout),maxHeight:'min(560px,calc(100vh - 80px))',zIndex:310,overflow:'hidden',borderRadius:16,border:`1px solid ${PL}`,boxShadow:'0 24px 60px rgba(0,0,0,0.18)',background:BG}}>
           <div style={{overflowY:'auto',padding:'22px 20px 26px'}}>
             {links.map(([l,h])=>(
-              <Link key={l} href={h} onClick={()=>setMenu(false)} style={{display:'block',padding:'14px 4px',fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',color:'#000',textDecoration:'none',borderBottom:`1px solid ${PL}`}}>{l}</Link>
+              <Link key={l} href={h} onClick={()=>setMenu(false)} style={{display:'block',padding:'14px 4px',fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing: "normal",textTransform:'uppercase',color:'#000',textDecoration:'none',borderBottom:`1px solid ${PL}`}}>{l}</Link>
             ))}
           </div>
         </div>
@@ -301,9 +292,9 @@ function HeroDesktop({tweaks}){
         </div>
         <div style={{minHeight:220,padding:'36px 52px 36px 20px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
           <div className="rv">
-            <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
-            <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
-            <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing:'0.07em',lineHeight:0.95,whiteSpace:'nowrap',
+            <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
+            <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
+            <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.95,whiteSpace:'nowrap',
               background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,
               backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
               animation:'shimmer 4s linear infinite'}}>WORKS</div>
@@ -358,7 +349,7 @@ function HeroDesktop({tweaks}){
                 fontFamily: MN,
                 fontSize: 11,
                 fontWeight: 500,
-                letterSpacing: "0.04em",
+                letterSpacing: "normal",
                 color: hovSvc === i ? "#000" : "rgba(0,0,0,0.45)",
                 display: "flex",
                 alignItems: "center",
@@ -384,7 +375,7 @@ function HeroDesktop({tweaks}){
             <div className="ld" style={{height:1,background:PL,marginBottom:28}}/>
             <Lbl ch="Engagement models"/>
             {['Project-Based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
-              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
+              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing: "normal"}}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
               </div>
             ))}
@@ -434,12 +425,12 @@ function HeroDesktop({tweaks}){
                 </div>
               </div>
               <div className="rv d2" style={{display:'flex',gap:12,flexWrap:'wrap',pointerEvents:'all'}}>
-                <Link href="/contact#about-you" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 22px',borderRadius:9,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
+                <Link href="/contact#about-you" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'13px 22px',borderRadius:9,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
                   onMouseMove={e=>window.magnet(e.currentTarget,e,.25)}
                 onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
                   onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';window.magnetReset(e.currentTarget);}}
                 >Start a project <Arr sz={9} cl="currentColor" sw={2}/></Link>
-                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9,background:'transparent'}} 
+                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9,background:'transparent'}} 
                   onMouseMove={e=>window.magnet?.(e.currentTarget,e,.22)}
                   onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
                   onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.4)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';window.magnetReset?.(e.currentTarget);}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
@@ -463,7 +454,7 @@ function HeroDesktop({tweaks}){
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:24}}>Partner with us to build next-generation AI infrastructure for your business.</div>
             <div className="ld" style={{height:1,background:PL,marginBottom:24}}/>
             <Lbl ch="Contact"/>
-            <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing:'0.04em'}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
+            <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing: "normal"}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
           </div>
           <div>
             <Lbl ch="Follow"/>
@@ -503,9 +494,9 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
       <div style={{borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,marginLeft:g,marginRight:g,paddingLeft:frameInset,paddingRight:frameInset,boxSizing:'border-box'}}>
 
         <div className="rv" style={{padding:'30px 0 22px',borderBottom:`1px solid ${PL}`}}>
-          <div style={{fontFamily:MN,fontWeight:300,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,color:'#000'}}>WE BUILD</div>
-          <div style={{fontFamily:MN,fontWeight:500,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,color:'#000'}}>AI THAT</div>
-          <div style={{fontFamily:MN,fontWeight:700,fontSize:headlineFs,letterSpacing:'0.07em',lineHeight:0.98,
+          <div style={{fontFamily:MN,fontWeight:300,fontSize:headlineFs,letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.98,color:'#000'}}>WE BUILD</div>
+          <div style={{fontFamily:MN,fontWeight:500,fontSize:headlineFs,letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.98,color:'#000'}}>AI THAT</div>
+          <div style={{fontFamily:MN,fontWeight:700,fontSize:headlineFs,letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.98,
             background:`linear-gradient(90deg,#000 40%,${L} 60%,#000 80%)`,backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
             animation:'shimmer 4s linear infinite'}}>WORKS</div>
         </div>
@@ -522,17 +513,17 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
           </div>
           <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
-            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing:'0.07em',padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
+            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
               onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
               onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';}}
             >
               Start a project <Arr sz={9} cl="currentColor" sw={2}/>
             </Link>
-            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 14px',minWidth:148,justifyContent:'center',borderRadius:10,transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',background:'transparent'}}
+            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 14px',minWidth:148,justifyContent:'center',borderRadius:10,transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',background:'transparent'}}
               onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
               onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.45)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
           </div>
-          <div style={{marginTop:18,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(0,0,0,0.25)'}}>
+          <div style={{marginTop:18,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(0,0,0,0.25)'}}>
             <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
           </div>
         </div>
@@ -558,7 +549,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
                   fontFamily: MN,
                   fontSize: layout === "mobile" ? 10 : 11,
                   fontWeight: 500,
-                  letterSpacing: "0.03em",
+                  letterSpacing: "normal",
                   color: hovSvc === i ? "#000" : "rgba(0,0,0,0.52)",
                   transition: "background .15s,padding-left .15s",
                   paddingLeft: hovSvc === i ? 18 : 14,
@@ -590,7 +581,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
             <Lbl ch="Engagement models"/>
             {['Project-Based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
-              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing:'0.04em'}}>
+              <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing: "normal"}}>
                 <div style={{width:5,height:5,borderRadius:'50%',background:L2,flexShrink:0}}/>{m}
               </div>
             ))}
@@ -606,7 +597,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             </div>
             <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
             <Lbl ch="Contact"/>
-            <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing:'0.04em',marginBottom:22}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
+            <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing: "normal",marginBottom:22}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
             <Lbl ch="Follow"/>
             <div style={{display:'flex',gap:10}}>
               {socialPaths.map((d,i)=>(
@@ -637,7 +628,7 @@ function Ticker(){
     <div style={{overflow:'hidden',borderTop:`1px solid ${PL}`,borderBottom:`1px solid ${PL}`,background:BG,padding:`13px ${g}px`}}>
       <div style={{display:'flex',gap:64,animation:'ticker 32s linear infinite',whiteSpace:'nowrap'}}>
         {[...words,...words].map((w,i)=>(
-          <span key={i} style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.1em',textTransform:'uppercase',opacity:.28,flexShrink:0,display:'flex',alignItems:'center',gap:10}}>
+          <span key={i} style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",textTransform:'uppercase',opacity:.28,flexShrink:0,display:'flex',alignItems:'center',gap:10}}>
             <span style={{width:5,height:5,borderRadius:'50%',background:L2,display:'inline-block',flexShrink:0}}/>{w}
           </span>
         ))}
@@ -670,7 +661,7 @@ function Services(){
           <Tilt key={s.n} int={8} sx={{height:'100%'}}>
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(160deg,rgb(228,244,210),${BG2})`:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .3s',height:'100%',boxShadow:hov===i?'inset 0 0 0 1.5px rgba(150,238,82,0.35)':'none'}}>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.12em',color:L2}}>{s.n}</span>
+                <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
                 <Link
                   href={s.href}
                   className="hv"
@@ -679,11 +670,11 @@ function Services(){
                   <Arr sz={8} cl={hov===i?'#fff':'rgba(0,0,0,0.4)'} sw={1.8}/>
                 </Link>
               </div>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing:'0.04em',lineHeight:1.45,whiteSpace:'pre-line'}}>{s.t}</div>
+              <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing: "normal",lineHeight:1.45,whiteSpace:'pre-line'}}>{s.t}</div>
               <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(0,0,0,0.48)',flexGrow:1}}>{s.d}</div>
               <div style={{display:'flex',flexDirection:'column',gap:6}}>
                 {s.tags.map(t=>(
-                  <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing:'0.05em',color:'rgba(0,0,0,0.38)',textDecoration:'none'}}>
+                  <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:'rgba(0,0,0,0.38)',textDecoration:'none'}}>
                     <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .2s'}}/>{t}
                   </Link>
                 ))}
@@ -719,12 +710,12 @@ function Process(){
             <Tilt key={s.n} int={6} sx={{height:'100%'}}>
               <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 20px':'36px 28px',display:'flex',flexDirection:'column',gap:16,height:'100%'}}>
                 <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                  <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.12em',color:L2}}>{s.n}</span>
+                  <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{s.n}</span>
                   {s.time?<Chip ch={s.time} bg='rgba(150,238,82,0.12)' cl={L} sx={{fontSize:9}}/>:<span/>}
                 </div>
                 <div>
-                  <div style={{fontFamily:MN,fontWeight:700,fontSize:22,letterSpacing:'0.04em',color:'#fff',lineHeight:1}}>{s.t}</div>
-                  {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing:'0.06em',color:L2,marginTop:4}}>{s.sub}</div>:null}
+                  <div style={{fontFamily:MN,fontWeight:700,fontSize:22,letterSpacing: "normal",color:'#fff',lineHeight:1}}>{s.t}</div>
+                  {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:L2,marginTop:4}}>{s.sub}</div>:null}
                 </div>
                 <div style={{height:1,background:'rgba(255,255,255,0.06)'}}/>
                 <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(255,255,255,0.42)',flexGrow:1}}>{s.d}</div>
@@ -760,8 +751,8 @@ function Differentiators(){
         {items.map((item,i)=>(
           <Tilt key={item.n} int={5} sx={{height:'100%'}}>
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(140deg,rgb(220,244,200),${BG2})`:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .28s',display:'flex',flexDirection:'column',gap:14,height:'100%',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}33`:'none'}}>
-              <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.12em',color:L2}}>{item.n}</span>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing:'0.04em',lineHeight:1.35,transition:'color .2s',color:hov===i?'#000':'rgba(0,0,0,0.85)'}}>{item.t}</div>
+              <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2}}>{item.n}</span>
+              <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .2s',color:hov===i?'#000':'rgba(0,0,0,0.85)'}}>{item.t}</div>
               <div style={{height:1,background:hov===i?L2:PL,transition:'background .3s'}}/>
               <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:'rgba(0,0,0,0.48)'}}>{item.d}</div>
             </div>
@@ -777,7 +768,8 @@ function Industries(){
   const layout=useLandingLayout();
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
-  const [hov,setHov]=useState(null);
+  const [hov,setHov]=useState<number|null>(null);
+  const [arrowHov,setArrowHov]=useState<number|null>(null);
   const list=[
     {name:'Healthcare',detail:'Diagnostic AI, EHR integration, patient operations, prior auth automation.'},
     {name:'Financial Services',detail:'Fraud detection, credit risk, AML, underwriting intelligence.'},
@@ -800,15 +792,34 @@ function Industries(){
       </div>
       <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {list.map((ind,i)=>(
-          <Link key={ind.name} href="/industries" className="hv" onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)}
+          <Link key={ind.name} href="/industries" className="hv" onMouseEnter={()=>setHov(i)} onMouseLeave={()=>{setHov(null);setArrowHov(null);}}
             style={{background:hov===i?`linear-gradient(135deg,rgb(218,244,200),${BG2})`:`linear-gradient(135deg,${BG},${BG2})`,padding:'24px 28px',transition:'background .22s',position:'relative',zIndex:hov===i?2:1}}>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:hov===i?10:0}}>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing:'0.04em',color:hov===i?'#000':'rgba(0,0,0,0.72)',transition:'color .2s'}}>{ind.name}</div>
-              <div style={{width:18,height:18,borderRadius:4,background:'#000',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,opacity:hov===i?1:0,transform:hov===i?'scale(1)':'scale(0.6)',transition:'opacity .2s,transform .2s'}}>
-                <Arr sz={8} cl="#fff" sw={1.8}/>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:hov===i?12:0}}>
+              <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(14px, 1.15vw, 16px)',letterSpacing: "normal",color:hov===i?'#000':'rgba(0,0,0,0.88)',transition:'color .2s'}}>{ind.name}</div>
+              <div
+                aria-hidden
+                onMouseEnter={()=>setArrowHov(i)}
+                onMouseLeave={()=>setArrowHov((v)=>(v===i?null:v))}
+                style={{
+                  width:20,
+                  height:20,
+                  borderRadius:5,
+                  background:arrowHov===i?'rgb(230,230,234)':'#000',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  flexShrink:0,
+                  opacity:hov===i?1:0,
+                  transform:hov===i?(arrowHov===i?'scale(1.12)':'scale(1)'):'scale(0.6)',
+                  transition:'opacity .2s,transform .2s,background .2s,box-shadow .2s',
+                  boxShadow:arrowHov===i?'0 0 0 2px rgba(177,238,82,0.85)':'none',
+                  pointerEvents:hov===i?'auto':'none',
+                }}
+              >
+                <Arr sz={9} cl={arrowHov===i?'#000':'#fff'} sw={1.8}/>
               </div>
             </div>
-            <div style={{fontFamily:SN,fontSize:11,lineHeight:1.6,color:'rgba(0,0,0,0.4)',maxHeight:hov===i?60:0,overflow:'hidden',transition:'max-height .32s ease,opacity .28s',opacity:hov===i?1:0}}>{ind.detail}</div>
+            <div style={{fontFamily:SN,fontSize:13,lineHeight:1.55,color:'rgba(0,0,0,0.74)',maxHeight:hov===i?88:0,overflow:'hidden',transition:'max-height .32s ease,opacity .28s',opacity:hov===i?1:0}}>{ind.detail}</div>
           </Link>
         ))}
       </div>
@@ -845,7 +856,7 @@ function CaseStudy(){
               fontFamily: MN,
               fontWeight: 600,
               fontSize: 11,
-              letterSpacing: "0.08em",
+              letterSpacing: "normal",
               textTransform: "uppercase",
               color: L,
               textDecoration: "none",
@@ -873,8 +884,8 @@ function CaseStudy(){
           {metrics.map(m=>(
             <Tilt key={m.val} int={8} sx={{height:'100%'}}>
               <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 22px':'36px 28px',height:'100%'}}>
-                <div style={{fontFamily:MN,fontWeight:700,fontSize:layout==='mobile'?'clamp(28px,8vw,40px)':52,letterSpacing:'0.02em',color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
-                <div style={{fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing:'0.06em',color:'rgba(255,255,255,0.65)',marginBottom:4}}>{m.lbl}</div>
+                <div style={{fontFamily:MN,fontWeight:700,fontSize:layout==='mobile'?'clamp(28px,8vw,40px)':52,letterSpacing: "normal",color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
+                <div style={{fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing: "normal",color:'rgba(255,255,255,0.65)',marginBottom:4}}>{m.lbl}</div>
                 <div style={{fontFamily:SN,fontSize:11,color:'rgba(255,255,255,0.28)'}}>{m.sub}</div>
               </div>
             </Tilt>
@@ -884,7 +895,7 @@ function CaseStudy(){
           {[{p:'Phase 1',n:'Claims Automation',d:'NLP-powered extraction automated 70% of routine claims intake and routing.'},{p:'Phase 2',n:'Fraud Detection AI',d:'Real-time machine learning flagged suspicious patterns before payouts.'},{p:'Phase 3',n:'Customer Experience AI',d:'A conversational assistant handled policy inquiries and status updates 24/7.'},{p:'Phase 4',n:'Unified Data Platform',d:'Siloed systems were integrated into a centralized data pipeline for real-time visibility.'}].map((p,i)=>(
             <div key={p.p} style={{background:'rgba(255,255,255,0.02)',padding:layout==='mobile'?'20px 18px':'24px 24px'}}>
               <Chip ch={p.p} bg='rgba(150,238,82,0.1)' cl={L} sx={{marginBottom:12}}/>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:'rgba(255,255,255,0.75)',marginBottom:8,letterSpacing:'0.03em',lineHeight:1.35}}>{p.n}</div>
+              <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:'rgba(255,255,255,0.75)',marginBottom:8,letterSpacing: "normal",lineHeight:1.35}}>{p.n}</div>
               <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(255,255,255,0.3)'}}>{p.d}</div>
             </div>
           ))}
@@ -892,7 +903,7 @@ function CaseStudy(){
         <div className="rv d3" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
           <div style={{fontSize:layout==='mobile'?42:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>&ldquo;</div>
           <div>
-            <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing:'0.03em',color:'rgba(255,255,255,0.65)',maxWidth:700}}>The best ai consulting firms do more than launch systems — they create solutions that perform in production, earn trust internally, and improve the numbers that matter.</div>
+            <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing: "normal",color:'rgba(255,255,255,0.65)',maxWidth:700}}>The best ai consulting firms do more than launch systems — they create solutions that perform in production, earn trust internally, and improve the numbers that matter.</div>
           </div>
         </div>
       </div>
@@ -925,9 +936,9 @@ function Solutions(){
           <Tilt key={item.t} int={7} sx={{height:'100%'}}>
             <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?`linear-gradient(150deg,rgb(220,244,200),${BG2})`:`linear-gradient(150deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .22s',height:'100%',boxShadow:hov===i?`inset 0 0 0 1.5px ${L}44`:'none'}}>
               <Chip ch={item.tag}/>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing:'0.04em',lineHeight:1.35}}>{item.t}</div>
+              <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing: "normal",lineHeight:1.35}}>{item.t}</div>
               <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:'rgba(0,0,0,0.44)',flexGrow:1}}>{item.d}</div>
-              <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.06em',color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4,textDecoration:'none'}}>
+              <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",color:hov===i?L2:'rgba(0,0,0,0.3)',transition:'color .2s',marginTop:4,textDecoration:'none'}}>
                 Learn more <Arr sz={8} cl={hov===i?L2:'rgba(0,0,0,0.3)'} sw={1.8}/>
               </Link>
             </div>
@@ -960,19 +971,19 @@ function EngagementModels(){
         {models.map((m,i)=>(
           <div key={m.t} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'36px 28px',display:'flex',flexDirection:'column',gap:16,transition:'background .4s'}}>
             <div>
-              <div style={{fontFamily:MN,fontWeight:700,fontSize:16,letterSpacing:'0.04em',color:hov===i?'#fff':'#000',transition:'color .3s'}}>{m.t}</div>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:11,color:hov===i?L2:'rgba(0,0,0,0.35)',letterSpacing:'0.06em',marginTop:4,transition:'color .3s'}}>{m.r}</div>
+              <div style={{fontFamily:MN,fontWeight:700,fontSize:16,letterSpacing: "normal",color:hov===i?'#fff':'#000',transition:'color .3s'}}>{m.t}</div>
+              <div style={{fontFamily:MN,fontWeight:600,fontSize:11,color:hov===i?L2:'rgba(0,0,0,0.35)',letterSpacing: "normal",marginTop:4,transition:'color .3s'}}>{m.r}</div>
             </div>
             <div style={{height:1,background:hov===i?'rgba(255,255,255,0.08)':PL,transition:'background .3s'}}/>
             <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.45)',transition:'color .3s',flexGrow:1}}>{m.d}</div>
             <div style={{display:'flex',flexDirection:'column',gap:7}}>
               {m.f.map(f=>(
-                <div key={f} style={{display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing:'0.05em',color:hov===i?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.38)',transition:'color .3s'}}>
+                <div key={f} style={{display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:hov===i?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.38)',transition:'color .3s'}}>
                   <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .3s'}}/>{f}
                 </div>
               ))}
             </div>
-            <Link href="/contact#about-you" className="hv" style={{display:'flex',alignItems:'center',gap:6,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.08em',textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',marginTop:4,textDecoration:'none'}}>
+            <Link href="/contact#about-you" className="hv" style={{display:'flex',alignItems:'center',gap:6,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',marginTop:4,textDecoration:'none'}}>
               Get started <Arr sz={9} cl={hov===i?L:'rgba(0,0,0,0.3)'} sw={1.8}/>
             </Link>
           </div>
@@ -1014,7 +1025,7 @@ function CTA(){
       onBlur={()=>setTouched(v=>({...v,[k]:true}))}
       placeholder={ph}
       className="hv"
-      style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr(k)?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing:'0.03em',transition:'border-color .2s'}}
+      style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr(k)?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing: "normal",transition:'border-color .2s'}}
       onFocus={e=>e.target.style.borderColor=showErr(k)?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
     />
   );
@@ -1079,11 +1090,11 @@ function CTA(){
       <div className="rv" style={{background:DK,borderRadius:'20px 20px 0 0',padding:layout==='mobile'?`${Math.max(48,pv-12)}px ${sectionGutter(layout)+4}px`:layout==='tablet'?`${pv}px 36px`:`${pv}px 60px`,display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:layout==='mobile'?40:layout==='tablet'?48:80,alignItems:'start'}}>
         <div>
           <Lbl ch="Let's build together" lt/>
-          <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing:'0.04em',lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
+          <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing: "normal",lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
           <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we will recommend the right next step.</div>
           <div style={{display:'flex',flexDirection:'column',gap:16}}>
             {[['Austin, TX 78701'],['info@alien.fi'],['+1 (800) 555-2946']].map(([l])=>(
-              <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.35)'}}>
+              <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.35)'}}>
                 <div style={{width:6,height:6,borderRadius:'50%',background:L2,flexShrink:0}}/>{l}
               </div>
             ))}
@@ -1093,15 +1104,15 @@ function CTA(){
           <div style={{display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:12}}>
             {[['name','Full name','Your name'],['company','Company','Company name'],['email','Email','you@company.com'],['budget','Budget','$25K – $500K+']].map(([k,lb,ph])=>(
               <div key={k}>
-                <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>{lb}</div>
+                <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>{lb}</div>
                 {inp(k,ph)}
                 {showErr(k)?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors[k]}</div>:null}
               </div>
             ))}
           </div>
           <div>
-            <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>Tell us about your project</div>
-            <textarea rows={4} value={form.project} placeholder="What are you looking to build or improve?" className="hv" style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr('project')?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',resize:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing:'0.03em',transition:'border-color .2s'}}
+            <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>Tell us about your project</div>
+            <textarea rows={4} value={form.project} placeholder="What are you looking to build or improve?" className="hv" style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr('project')?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',resize:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing: "normal",transition:'border-color .2s'}}
               onChange={e=>setForm(v=>({...v,project:e.target.value}))}
               onFocus={e=>e.target.style.borderColor=showErr('project')?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
               onBlur={()=>setTouched(v=>({...v,project:true}))}/>
@@ -1126,7 +1137,7 @@ function CTA(){
           ) : null}
           <button type="submit" disabled={submitting} className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
             onMouseMove={e=>window.magnet(e.currentTarget,e,.2)} onMouseOut={e=>window.magnetReset(e.currentTarget)}
-            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing:'0.08em',textTransform:'uppercase',cursor:submitting?'wait':'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none',opacity:submitting?0.65:1}}>
+            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing: "normal",textTransform:'uppercase',cursor:submitting?'wait':'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none',opacity:submitting?0.65:1}}>
             {submitting?'Sending…':'Send message'} <Arr sz={11} cl="currentColor" sw={2.5}/>
           </button>
         </form>
@@ -1157,14 +1168,14 @@ function Footer(){
         </div>
         {[{h:'Company',links:[['About','/about/partners'],['Team','/about/team'],['Case Studies','/case-studies'],['Blog','/blog']]},{h:'Services',links:[['AI Strategy','/services/ai-strategy'],['Custom AI Dev','/services/custom-ai-development'],['Implementation','/services/ai-implementation'],['Managed Services','/services/managed-ai'],['Training','/services']]},{h:'Contact',links:[['info@alien.fi','mailto:info@alien.fi'],['sales@alien.fi','mailto:sales@alien.fi'],['support@alien.fi','mailto:support@alien.fi'],['+1 (800) 555-2946','tel:+18005552946']]}].map(({h,links})=>(
           <div key={h}>
-            <div style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing:'0.14em',textTransform:'uppercase',color:'rgba(255,255,255,0.2)',marginBottom:18}}>{h}</div>
+            <div style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(255,255,255,0.2)',marginBottom:18}}>{h}</div>
             {links.map(([label,href])=>(
               href.startsWith('mailto:') || href.startsWith('tel:') ? (
-                <a key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
+                <a key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
                   onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
                   onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{label}</a>
               ) : (
-                <Link key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
+                <Link key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
                   onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
                   onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{label}</Link>
               )
@@ -1173,8 +1184,8 @@ function Footer(){
         ))}
       </div>
       <div style={{padding:layout==='mobile'?'18px 4px':layout==='tablet'?'18px 12px':'20px 9px',borderTop:'1px solid rgba(255,255,255,0.05)',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'center',justifyContent:'space-between',gap:layout==='mobile'?10:0}}>
-        <span style={{fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.04em',color:'rgba(255,255,255,0.18)'}}>© 2024 Alien.fi. All rights reserved.</span>
-        <span style={{fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing:'0.08em',color:'rgba(255,255,255,0.18)'}}>alien.fi</span>
+        <span style={{fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.18)'}}>© 2024 Alien.fi. All rights reserved.</span>
+        <span style={{fontFamily:MN,fontSize:11,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.18)'}}>alien.fi</span>
       </div>
     </footer>
   );

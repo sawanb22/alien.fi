@@ -18,7 +18,7 @@ import {
 } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
-import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
 
 const METRICS = [
   { v: "40%", l: "Avg productivity gain", s: "Post enterprise ai copilot deployment" },
@@ -190,7 +190,7 @@ function Hero() {
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 500 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)", borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24 }}>
             <div>
-              <div style={{ display: "flex", gap: 8, marginBottom: 32, fontFamily: MN, fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 32, fontFamily: MN, fontSize: 9, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
                 <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link><span>/</span>
                 <Link href="/services" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Services</Link><span>/</span>
                 <span style={{ color: L2 }}>AI Copilot Development</span>
@@ -212,7 +212,7 @@ function Hero() {
           </div>
           <div style={{ padding: stacked ? "34px 0 44px" : "72px 60px" }}>
             <Lbl ch="Enterprise AI Copilot and Custom AI Copilot Development" lt />
-            <div style={{ fontFamily: MN, fontSize: "clamp(34px,5vw,72px)", lineHeight: 1, letterSpacing: "0.04em", color: "#fff", marginBottom: 24 }}>
+            <div style={{ fontFamily: MN, fontSize: "clamp(34px,5vw,72px)", lineHeight: 1, letterSpacing: "normal", color: "#fff", marginBottom: 24 }}>
               <div style={{ fontWeight: 300 }}>YOUR TEAM.</div>
               <div style={{ fontWeight: 500 }}>YOUR TOOLS.</div>
               <div style={{ fontWeight: 700, color: L }}>YOUR COPILOT.</div>
@@ -236,7 +236,7 @@ function Hero() {
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
-                  letterSpacing: "0.08em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   transition: "background .2s,color .2s,box-shadow .2s",
                 }}
@@ -260,7 +260,7 @@ function Hero() {
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
-                  letterSpacing: "0.08em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   transition: "background .2s,box-shadow .2s",
                 }}
@@ -310,13 +310,13 @@ function Method() {
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
         {PHASES.map((p) => (
           <ConsultancyInteractiveSurface key={p.p} variant="gradient" style={{ padding: "24px 20px" }}>
-            <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.12em", fontWeight: 700, color: L2, marginBottom: 8 }}>{p.p}</div>
+            <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "normal", fontWeight: 700, color: L_TEXT_ON_LIGHT, marginBottom: 8 }}>{p.p}</div>
             <div style={{ fontFamily: MN, fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{p.t}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.58)", marginBottom: 10 }}>{p.d}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {p.b.map((x) => (
                 <div key={x} style={{ display: "flex", gap: 8, fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.56)" }}>
-                  <span style={{ width: 4, height: 4, borderRadius: "50%", background: L2, marginTop: 6, flexShrink: 0 }} />
+                  <span style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, marginTop: 6, flexShrink: 0 }} />
                   {x}
                 </div>
               ))}
@@ -338,7 +338,7 @@ function Deliverables() {
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
         {DELIVERABLES.map((d, i) => (
           <ConsultancyInteractiveSurface key={d.h} variant="dk" style={{ padding: "24px 20px" }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, color: L2, letterSpacing: "0.14em", marginBottom: 8 }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, color: L, letterSpacing: "normal", marginBottom: 8 }}>
               {String(i + 1).padStart(2, "0")} —
             </div>
             <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8 }}>{d.h}</div>
@@ -407,7 +407,7 @@ function TechnicalApproach() {
         {TECHNICAL_APPROACH.map((item) => (
           <ConsultancyInteractiveSurface key={item} variant="light" style={{ padding: "12px 14px", borderRadius: 12 }}>
             <div style={{ display: "flex", gap: 10, fontFamily: SN, fontSize: 12.5, lineHeight: 1.66, color: "rgba(0,0,0,0.62)" }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: L2, marginTop: 7, flexShrink: 0 }} />
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: L_TEXT_ON_LIGHT, marginTop: 7, flexShrink: 0 }} />
               {item}
             </div>
           </ConsultancyInteractiveSurface>
@@ -428,7 +428,7 @@ function SocialProof() {
         {QUOTES.map((q) => (
           <ConsultancyInteractiveSurface key={q.by} variant="dk" style={{ padding: "24px 20px" }}>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.63)", marginBottom: 10 }}>&ldquo;{q.q}&rdquo;</div>
-            <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.06em", color: L2 }}>-- {q.by}</div>
+            <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>-- {q.by}</div>
           </ConsultancyInteractiveSurface>
         ))}
       </div>
@@ -442,7 +442,7 @@ function FAQ() {
   const pv = sectionVPad(layout);
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ marginBottom: 28 }}><Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." /></div>
+      <div style={{ marginBottom: 28 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
       <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="paper" />
     </section>
   );

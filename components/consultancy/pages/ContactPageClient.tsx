@@ -38,11 +38,11 @@ function Field({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-        <label style={{ fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.55)" }}>
+        <label style={{ fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.55)" }}>
           {lbl}
         </label>
         {note ? (
-          <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.06em", color: "rgba(0,0,0,0.35)" }}>{note}</span>
+          <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "normal", color: "rgba(0,0,0,0.35)" }}>{note}</span>
         ) : null}
       </div>
       {children}
@@ -246,7 +246,7 @@ function Form() {
     return (
       <div className="rv" style={{ background: DK, borderRadius: 20, padding: layout === "mobile" ? "52px 24px" : "80px 60px", textAlign: "center", color: "#fff" }}>
         <div style={{ fontSize: 60, color: L, marginBottom: 20 }}>✓</div>
-        <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 32, letterSpacing: "0.04em", marginBottom: 14 }}>TRANSMISSION RECEIVED</div>
+        <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 32, letterSpacing: "normal", marginBottom: 14 }}>TRANSMISSION RECEIVED</div>
         <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(255,255,255,0.6)", maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>
           A solution lead will reply within 1 business day with next steps and a proposed call time.
         </div>
@@ -293,7 +293,7 @@ function Form() {
         style={{
           fontFamily: MN,
           fontSize: 10,
-          letterSpacing: "0.1em",
+          letterSpacing: "normal",
           color: "rgba(0,0,0,0.4)",
           marginBottom: 20,
         }}
@@ -303,7 +303,7 @@ function Form() {
       {step === 1 ? (
         <div id="about-you" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>About you</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "normal", color: "#000", marginBottom: 6 }}>About you</div>
             <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
               So we route you to the right AI expert and keep your free AI consultation focused on the problems that matter.
             </div>
@@ -330,7 +330,7 @@ function Form() {
       {step === 2 ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "normal", color: "#000", marginBottom: 6 }}>
               About your team
             </div>
             <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
@@ -356,7 +356,7 @@ function Form() {
                       fontFamily: MN,
                       fontSize: 11,
                       fontWeight: 600,
-                      letterSpacing: "0.04em",
+                      letterSpacing: "normal",
                       cursor: "none",
                       transition: "all .2s",
                     }}
@@ -430,7 +430,7 @@ function Form() {
       {step === 3 ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "0.04em", color: "#000", marginBottom: 6 }}>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, letterSpacing: "normal", color: "#000", marginBottom: 6 }}>
               About the work
             </div>
             <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.55)" }}>
@@ -550,7 +550,7 @@ function Form() {
             fontFamily: MN,
             fontSize: 11,
             fontWeight: 600,
-            letterSpacing: "0.1em",
+            letterSpacing: "normal",
             textTransform: "uppercase",
             color: step === 1 ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.6)",
             cursor: step === 1 ? "default" : "none",
@@ -573,7 +573,7 @@ function Form() {
             fontFamily: MN,
             fontSize: 11,
             fontWeight: 700,
-            letterSpacing: "0.12em",
+            letterSpacing: "normal",
             textTransform: "none",
             cursor: submitting ? "wait" : "none",
             display: "inline-flex",
@@ -619,8 +619,8 @@ function SidePanel() {
             ["press@alien.fi", "Press"],
           ].map(([e, lab]) => (
             <a key={e} href={`mailto:${e}`} className="hv" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}>
-              <span style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: "#fff", letterSpacing: "0.02em" }}>{e}</span>
-              <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.1em", color: L2, textTransform: "uppercase" }}>{lab}</span>
+              <span style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: "#fff", letterSpacing: "normal" }}>{e}</span>
+              <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "normal", color: L2, textTransform: "uppercase" }}>{lab}</span>
             </a>
           ))}
         </div>
@@ -628,7 +628,7 @@ function SidePanel() {
       <div className="rv d2" style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px" }}>
         <Lbl ch="Headquarters" />
         <div style={{ paddingTop: 4 }}>
-          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "0.04em", marginBottom: 8 }}>Austin, TX</div>
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "normal", marginBottom: 8 }}>Austin, TX</div>
           <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.55 }}>
             350 Innovation Drive, Suite 1200, Austin, TX 78701, United States
           </div>

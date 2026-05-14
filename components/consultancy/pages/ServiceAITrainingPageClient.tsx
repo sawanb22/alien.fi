@@ -23,12 +23,12 @@ import {
   useLandingLayout,
 } from '@/lib/landing-layout-context';
 import { MN, SN } from '@/lib/consultancy/tokens';
-import { BG, BG2, DK, L, L2, PL } from '@/lib/consultancy/theme';
+import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from '@/lib/consultancy/theme';
 
 const METRICS = [
   { v: '3 levels', l: 'Training tracks available', s: 'Executive, operational, technical' },
   { v: '1 day', l: 'Fastest engagement', s: 'Executive ai workshop format' },
-  { v: '12 wks', l: 'Longest track', s: 'Full ai upskilling program' },
+  { v: '12 weeks', l: 'Longest track', s: 'Full ai upskilling program' },
   { v: '94%', l: 'Participant satisfaction rate', s: 'Across delivered ai training programs' },
 ];
 
@@ -197,7 +197,7 @@ function Hero() {
         <div style={{ display: 'grid', gridTemplateColumns: stacked ? '1fr' : '320px 1fr', minHeight: stacked ? undefined : 480 }}>
           <div style={{ padding: stacked ? '36px 0 28px' : '60px 36px', borderRight: stacked ? 'none' : '1px solid rgba(255,255,255,0.06)', borderBottom: stacked ? '1px solid rgba(255,255,255,0.06)' : 'none', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
             <div>
-              <div style={{ display: 'flex', gap: 8, marginBottom: 32, fontFamily: MN, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 32, fontFamily: MN, fontSize: 9, letterSpacing: "normal", textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
                 <Link href="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Home</Link><span>/</span>
                 <Link href="/services" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Services</Link><span>/</span>
                 <span style={{ color: L2 }}>AI Training</span>
@@ -218,7 +218,7 @@ function Hero() {
                 ['Output', 'Trained team and documented playbooks'],
               ].map(([k, v]) => (
                 <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{k}</span>
+                  <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{k}</span>
                   <span style={{ fontFamily: MN, fontSize: 11, color: 'rgba(255,255,255,0.85)' }}>{v}</span>
                 </div>
               ))}
@@ -226,7 +226,7 @@ function Hero() {
           </div>
           <div style={{ padding: stacked ? '32px 0 44px' : '72px 60px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Lbl ch="AI Workforce Training and Executive AI Workshop Programs" lt />
-            <div style={{ fontFamily: MN, fontSize: 'clamp(36px,4.8vw,72px)', lineHeight: 1, color: '#fff', letterSpacing: '0.04em', marginBottom: 32 }}>
+            <div style={{ fontFamily: MN, fontSize: 'clamp(36px,4.8vw,72px)', lineHeight: 1, color: '#fff', letterSpacing: "normal", marginBottom: 32 }}>
               <div style={{ fontWeight: 500 }}>YOUR TEAM.</div>
               <div style={{ fontWeight: 700, color: L }}>AI READY.</div>
               <div style={{ fontWeight: 300 }}>NOT AI</div>
@@ -236,13 +236,13 @@ function Hero() {
                 Most organizations buy AI tools before their teams understand how to use them. Our ai training programs change that. From a one-day enterprise executive ai workshop for your leadership team to a full 12-week ai upskilling program for your technical staff, we build the internal capability your organization needs to lead AI adoption from the inside.
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link href="/contact" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: L, color: '#000', borderRadius: 999, padding: '12px 18px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', transition: 'background .2s,color .2s,box-shadow .2s' }}
+              <Link href="/contact" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: L, color: '#000', borderRadius: 999, padding: '12px 18px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: 'uppercase', transition: 'background .2s,color .2s,box-shadow .2s' }}
                 onMouseEnter={consultancyLimeCtaEnter}
                 onMouseLeave={consultancyLimeCtaLeave}
               >
                 Book a training call <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <Link href="#training-tracks" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid rgba(255,255,255,0.28)', color: '#fff', borderRadius: 999, padding: '12px 18px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', transition: 'background .2s,box-shadow .2s' }}
+              <Link href="#training-tracks" className="hv" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid rgba(255,255,255,0.28)', color: '#fff', borderRadius: 999, padding: '12px 18px', textDecoration: 'none', fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: 'uppercase', transition: 'background .2s,box-shadow .2s' }}
                 onMouseEnter={consultancyGhostOnDarkEnter}
                 onMouseLeave={consultancyGhostOnDarkLeave}
               >
@@ -289,13 +289,13 @@ function Method() {
       <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}` }}>
         {PHASES.map((p) => (
           <ConsultancyInteractiveSurface key={p.p} variant="gradient" style={{ padding: '28px 24px' }}>
-            <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: L2, marginBottom: 10 }}>{p.p}</div>
+            <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT, marginBottom: 10 }}>{p.p}</div>
             <div style={{ fontFamily: MN, fontSize: 16, fontWeight: 600, marginBottom: 10 }}>{p.t}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: 'rgba(0,0,0,0.55)', marginBottom: 12 }}>{p.d}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {p.deliv.map((d) => (
                 <div key={d} style={{ display: 'flex', gap: 8, fontFamily: MN, fontSize: 10.5, color: 'rgba(0,0,0,0.55)' }}>
-                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: L2, marginTop: 6 }} />
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: L_TEXT_ON_LIGHT, marginTop: 6 }} />
                   {d}
                 </div>
               ))}
@@ -317,7 +317,7 @@ function Deliverables() {
             <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}`, marginTop: 36 }}>
                 {DELIVERABLES.map((item, i) => (
                     <ConsultancyInteractiveSurface key={item.t} variant="gradient" style={{ padding: '28px 24px' }}>
-                        <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, color: L2, letterSpacing: '0.12em', marginBottom: 8 }}>{String(i + 1).padStart(2, '0')} -</div>
+                        <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, color: L_TEXT_ON_LIGHT, letterSpacing: "normal", marginBottom: 8 }}>{String(i + 1).padStart(2, '0')} -</div>
                         <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, marginBottom: 10 }}>{item.t}</div>
                         <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: 'rgba(0,0,0,0.55)' }}>{item.d}</div>
                     </ConsultancyInteractiveSurface>
@@ -364,7 +364,7 @@ function QuotesSection() {
         {QUOTES.map((q) => (
           <ConsultancyInteractiveSurface key={q.by} variant="dk" style={{ padding: '28px 24px' }}>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', marginBottom: 12 }}>&ldquo;{q.q}&rdquo;</div>
-            <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: '0.06em', color: L2 }}>{q.by}</div>
+            <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>{q.by}</div>
           </ConsultancyInteractiveSurface>
         ))}
       </div>
@@ -378,7 +378,7 @@ function FAQSection() {
   const pv = sectionVPad(layout);
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: '24px 24px 0 0', marginTop: -24 }}>
-      <div style={{ marginBottom: 32 }}><Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." /></div>
+      <div style={{ marginBottom: 32 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
       <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="light" />
     </section>
   );

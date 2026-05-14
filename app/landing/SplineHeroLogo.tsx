@@ -20,7 +20,7 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
         alignItems: "center",
         justifyContent: "center",
         fontSize: 10,
-        letterSpacing: "0.08em",
+        letterSpacing: "normal",
         textTransform: "uppercase",
         color: "rgba(0,0,0,0.32)",
       }}

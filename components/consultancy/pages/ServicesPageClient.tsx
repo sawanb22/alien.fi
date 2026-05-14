@@ -16,7 +16,8 @@ import {
   Ttl,
   consultancyLimeCtaEnter,
   consultancyLimeCtaLeave,
-  consultancyPrimaryCtaHoverRing,
+  consultancyOutlineLightPillEnter,
+  consultancyOutlineLightPillLeave,
 } from "@/components/consultancy/consultancy-ui";
 import {
   gridCols,
@@ -25,7 +26,7 @@ import {
   useLandingLayout,
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
-import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { BG, BG2, CD, DK, L, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
 import { useEffect, useState } from "react";
 
 const SERVICES = [
@@ -114,25 +115,25 @@ const PROCESS = [
     p: "01",
     t: "Discovery",
     d: "2-week paid sprint. We sit with your team, audit your data, and write a sharp problem brief.",
-    time: "2 wks",
+    time: "2 weeks",
   },
   {
     p: "02",
     t: "Design",
     d: "Solution architecture, success metrics, build-vs-buy decisions, fixed-quote SOW.",
-    time: "1–2 wks",
+    time: "1–2 weeks",
   },
   {
     p: "03",
     t: "Build",
     d: "Daily standups, weekly demos, fortnightly steering committee. No surprises.",
-    time: "8–24 wks",
+    time: "8–24 weeks",
   },
   {
     p: "04",
     t: "Ship",
     d: "Phased rollout with feature flags. Monitoring, alerting, and runbooks before any prod traffic.",
-    time: "2–4 wks",
+    time: "2–4 weeks",
   },
   {
     p: "05",
@@ -174,10 +175,12 @@ function ServiceRow({
       onMouseEnter={() => setRowHover(true)}
       onMouseLeave={() => setRowHover(false)}
       style={{
+        position: "relative",
+        zIndex: isOpen || rowHover ? 3 : 0,
         borderBottom: `1px solid ${PL}`,
         background: rowBg,
         transition: "background .22s ease, box-shadow .22s ease",
-        boxShadow: !isOpen && rowHover ? `inset 0 0 0 1px rgba(150,238,82,0.28)` : "none",
+        boxShadow: !isOpen && rowHover ? `inset 0 0 0 1.5px rgba(150,238,82,0.42)` : "none",
       }}
     >
       <button
@@ -207,7 +210,7 @@ function ServiceRow({
                   fontWeight: 700,
                   fontSize: 28,
                   color: isOpen ? "#000" : "rgba(0,0,0,0.25)",
-                  letterSpacing: "0.04em",
+                  letterSpacing: "normal",
                   lineHeight: 1,
                 }}
               >
@@ -238,16 +241,16 @@ function ServiceRow({
                 style={{
                   fontFamily: MN,
                   fontWeight: 700,
-                  fontSize: 9,
-                  letterSpacing: "0.16em",
-                  color: isOpen ? "rgba(21,24,43,0.78)" : L2,
+                  fontSize: 10,
+                  letterSpacing: "normal",
+                  color: isOpen ? "rgba(21,24,43,0.78)" : L_TEXT_ON_LIGHT,
                   marginBottom: 6,
                   transition: "color .22s ease",
                 }}
               >
                 {s.cat}
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#000", letterSpacing: "0.03em" }}>{s.t}</div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, color: "#000", letterSpacing: "normal" }}>{s.t}</div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
               <div
@@ -268,9 +271,9 @@ function ServiceRow({
               >
                 {s.ic}
               </div>
-              <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.06em", color: "rgba(0,0,0,0.55)" }}>
-                <div style={{ fontWeight: 700, color: "#000", fontSize: 13 }}>{s.price}</div>
-                <div style={{ marginTop: 4, fontSize: 10 }}>{s.duration}</div>
+              <div style={{ fontFamily: MN, fontSize: 12, letterSpacing: "normal", color: "rgba(0,0,0,0.58)" }}>
+                <div style={{ fontWeight: 700, color: "#000", fontSize: 14 }}>{s.price}</div>
+                <div style={{ marginTop: 4, fontSize: 11, color: "rgba(0,0,0,0.5)" }}>{s.duration}</div>
               </div>
             </div>
           </>
@@ -282,7 +285,7 @@ function ServiceRow({
                 fontWeight: 700,
                 fontSize: 36,
                 color: isOpen ? "#000" : "rgba(0,0,0,0.25)",
-                letterSpacing: "0.04em",
+                letterSpacing: "normal",
                 lineHeight: 1,
                 transition: "color .25s",
               }}
@@ -294,20 +297,20 @@ function ServiceRow({
                 style={{
                   fontFamily: MN,
                   fontWeight: 700,
-                  fontSize: 9,
-                  letterSpacing: "0.16em",
-                  color: isOpen ? "rgba(21,24,43,0.78)" : L2,
+                  fontSize: 10,
+                  letterSpacing: "normal",
+                  color: isOpen ? "rgba(21,24,43,0.78)" : L_TEXT_ON_LIGHT,
                   marginBottom: 6,
                   transition: "color .22s ease",
                 }}
               >
                 {s.cat}
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#000", letterSpacing: "0.03em" }}>{s.t}</div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 23, color: "#000", letterSpacing: "normal" }}>{s.t}</div>
             </div>
-            <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "0.06em", color: "rgba(0,0,0,0.55)" }}>
-              <div style={{ fontWeight: 700, color: "#000", fontSize: 13 }}>{s.price}</div>
-              <div style={{ marginTop: 4, fontSize: 10 }}>{s.duration}</div>
+            <div style={{ fontFamily: MN, fontSize: 12, letterSpacing: "normal", color: "rgba(0,0,0,0.58)" }}>
+              <div style={{ fontWeight: 700, color: "#000", fontSize: 14 }}>{s.price}</div>
+              <div style={{ marginTop: 4, fontSize: 11, color: "rgba(0,0,0,0.5)" }}>{s.duration}</div>
             </div>
             <div
               style={{
@@ -359,7 +362,7 @@ function ServiceRow({
           }}
         >
           <div>
-            <div style={{ fontFamily: SN, fontSize: 14.5, lineHeight: 1.7, color: "rgba(0,0,0,0.6)", marginBottom: 20 }}>
+            <div style={{ fontFamily: SN, fontSize: 15, lineHeight: 1.7, color: "rgba(0,0,0,0.68)", marginBottom: 20 }}>
               {s.d}
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -378,7 +381,7 @@ function ServiceRow({
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   cursor: "none",
                   textDecoration: "none",
@@ -404,23 +407,14 @@ function ServiceRow({
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 700,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   cursor: "none",
                   textDecoration: "none",
                   transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0,0,0,0.06)";
-                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.35)";
-                  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#000";
-                  e.currentTarget.style.borderColor = PL;
-                  e.currentTarget.style.boxShadow = "none";
-                }}
+                onMouseEnter={consultancyOutlineLightPillEnter}
+                onMouseLeave={consultancyOutlineLightPillLeave}
               >
                 Related case studies <Arr sz={10} cl="currentColor" sw={2.2} />
               </Link>
@@ -432,7 +426,7 @@ function ServiceRow({
                 fontFamily: MN,
                 fontWeight: 700,
                 fontSize: 9,
-                letterSpacing: "0.14em",
+                letterSpacing: "normal",
                 color: "rgba(0,0,0,0.4)",
                 marginBottom: 12,
               }}
@@ -459,14 +453,14 @@ function ServiceRow({
                     borderRadius: 8,
                     borderBottom: `1px solid ${PL}`,
                     fontFamily: MN,
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 500,
                     color: "#000",
-                    letterSpacing: "0.02em",
+                    letterSpacing: "normal",
                     transition: "background .18s ease",
                   }}
                 >
-                  <div style={{ width: 5, height: 5, borderRadius: "50%", background: L2, flexShrink: 0 }} />
+                  <div style={{ width: 5, height: 5, borderRadius: "50%", background: L_TEXT_ON_LIGHT, flexShrink: 0 }} />
                   {del}
                 </div>
               ))}
@@ -496,14 +490,14 @@ function ServicesAccordion() {
         }}
       >
         <div>
-          <Lbl ch="Six engagement modes" />
-          <Ttl ch="HOW WE WORK" />
+          <Lbl ch="Six engagement modes" sx={{ letterSpacing: "normal" }} />
+          <Ttl ch="HOW WE WORK" sx={{ letterSpacing: "normal" }} />
         </div>
         <div
           style={{
             fontFamily: SN,
-            fontSize: 13,
-            color: "rgba(0,0,0,0.4)",
+            fontSize: 14,
+            color: "rgba(0,0,0,0.48)",
             maxWidth: 340,
             textAlign: layout === "mobile" ? "left" : "right",
             lineHeight: 1.6,
@@ -513,7 +507,7 @@ function ServicesAccordion() {
         </div>
       </div>
       <div>
-        <div style={{ background: BG, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <div style={{ background: BG, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}`, isolation: "isolate" }}>
           {SERVICES.map((s, i) => (
             <ServiceRow key={s.n} s={s} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
           ))}
@@ -533,8 +527,8 @@ function ProcessTimeline() {
   return (
     <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
-        <Lbl ch="Boring is good" lt />
-        <Ttl ch="THE PROCESS" lt />
+        <Lbl ch="Boring is good" lt sx={{ letterSpacing: "normal" }} />
+        <Ttl ch="THE PROCESS" lt sx={{ letterSpacing: "normal" }} />
       </div>
       <div style={{ position: "relative" }}>
         <div
@@ -591,15 +585,15 @@ function ProcessTimeline() {
                   style={{
                     fontFamily: MN,
                     fontWeight: 600,
-                    fontSize: 18,
+                    fontSize: 19,
                     color: "#fff",
-                    letterSpacing: "0.03em",
+                    letterSpacing: "normal",
                     marginBottom: 10,
                   }}
                 >
                   {p.t}
                 </div>
-                <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(255,255,255,0.45)" }}>{p.d}</div>
+                <div style={{ fontFamily: SN, fontSize: 13.5, lineHeight: 1.65, color: "rgba(255,255,255,0.58)" }}>{p.d}</div>
               </div>
             </ConsultancyInteractiveSurface>
           ))}
@@ -658,8 +652,8 @@ function Principles() {
         }}
       >
         <div style={{ maxWidth: layout === "mobile" ? "100%" : 520, flex: layout === "mobile" ? "none" : "0 1 auto" }}>
-          <Lbl ch="What you can count on" />
-          <Ttl ch="PRINCIPLES." sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap" }} />
+          <Lbl ch="What you can count on" sx={{ letterSpacing: "normal" }} />
+          <Ttl ch="PRINCIPLES." sx={{ whiteSpace: layout === "mobile" ? "normal" : "nowrap", letterSpacing: "normal" }} />
         </div>
         <div
           style={{
@@ -667,7 +661,7 @@ function Principles() {
             fontFamily: SN,
             fontSize: 14,
             lineHeight: 1.7,
-            color: "rgba(0,0,0,0.55)",
+            color: "rgba(0,0,0,0.58)",
             maxWidth: 540,
             textAlign: layout === "mobile" ? "left" : "right",
           }}
@@ -692,13 +686,13 @@ function Principles() {
           <Tilt key={p.n} int={5}>
             <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "34px 32px", height: "100%" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, letterSpacing: "0.16em", color: L2 }}>{p.n}</div>
+                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{p.n}</div>
                 <div style={{ flex: 1, height: 1, background: PL }} />
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 20, color: "#000", letterSpacing: "0.03em", lineHeight: 1.3, marginBottom: 14 }}>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 21, color: "#000", letterSpacing: "normal", lineHeight: 1.3, marginBottom: 14 }}>
                 {p.t}
               </div>
-              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.55)" }}>{p.d}</div>
+              <div style={{ fontFamily: SN, fontSize: 14, lineHeight: 1.7, color: "rgba(0,0,0,0.62)" }}>{p.d}</div>
             </ConsultancyInteractiveSurface>
           </Tilt>
         ))}
@@ -712,10 +706,11 @@ export default function ServicesPageClient() {
     <ConsultancyLoadedShell label="SERVICES">
       <Nav current="Services" />
       <PageHero
+        compact
         eyebrow="Services"
-        title="STRATEGY,|BUILD, OPERATE.|END-TO-END."
+        title="STRATEGY,|BUILD,OPERATE.|END-TO-END."
         sub="Six service modes. Mix and match. Pay for what you use. We're equally happy as the strategy partner, the build team, or the on-call ops crew."
-        meta={[["Service modes", "6"], ["Avg engagement", "14 weeks"], ["Smallest", "$15K · 2 wks"], ["Largest", "$2.4M · 3 yrs"]]}
+        meta={[["Service modes", "6"], ["Avg engagement", "14 weeks"], ["Smallest", "$15K · 2 weeks"], ["Largest", "$2.4M · 3 yrs"]]}
         accent="Booking Q3 / Q4 engagements now"
       />
       <Ticker

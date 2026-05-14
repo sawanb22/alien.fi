@@ -166,7 +166,7 @@ function SolutionsGrid() {
                 fontFamily: MN,
                 fontSize: 10,
                 fontWeight: 700,
-                letterSpacing: "0.1em",
+                letterSpacing: "normal",
                 cursor: "pointer",
                 transition: "background .2s,color .2s,transform .15s,box-shadow .2s",
                 textTransform: "uppercase",
@@ -296,7 +296,7 @@ function SolutionsGrid() {
                       style={{
                         fontFamily: MN,
                         fontSize: 9,
-                        letterSpacing: "0.14em",
+                        letterSpacing: "normal",
                         color: active ? "rgba(21,24,43,0.78)" : L2,
                         fontWeight: 700,
                         transition: "color .22s ease",
@@ -308,7 +308,7 @@ function SolutionsGrid() {
                       <Arr sz={10} cl={active ? "#000" : PL} sw={2} />
                     </span>
                   </div>
-                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 16, letterSpacing: "0.03em", color: "#000", lineHeight: 1.3 }}>{s.t}</div>
+                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 16, letterSpacing: "normal", color: "#000", lineHeight: 1.3 }}>{s.t}</div>
                   <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.55)" }}>{s.d}</div>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     {s.stack.map((t) => (
@@ -321,7 +321,7 @@ function SolutionsGrid() {
                           fontFamily: MN,
                           fontSize: 9.5,
                           fontWeight: 500,
-                          letterSpacing: "0.04em",
+                          letterSpacing: "normal",
                           color: "rgba(0,0,0,0.55)",
                           transition: "background .2s ease",
                         }}
@@ -359,7 +359,7 @@ function SolutionsGrid() {
                           fontWeight: 600,
                           fontSize: 10.5,
                           color: "#000",
-                          letterSpacing: "0.02em",
+                          letterSpacing: "normal",
                           lineHeight: 1.45,
                           minWidth: 0,
                         }}
@@ -380,7 +380,7 @@ function SolutionsGrid() {
                         fontFamily: MN,
                         fontSize: 10,
                         fontWeight: 600,
-                        letterSpacing: "0.08em",
+                        letterSpacing: "normal",
                         textTransform: "uppercase",
                         color: active ? L2 : "rgba(0,0,0,0.4)",
                         textDecoration: "none",
@@ -465,10 +465,10 @@ function HowItWorks() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "0.12em", color: L2 }}>{s.n}</span>
+                <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: L2 }}>{s.n}</span>
                 {i < 3 ? <Arr sz={10} cl={h ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.2)"} sw={2} /> : null}
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, letterSpacing: "0.03em", color: "#fff" }}>{s.t}</div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, letterSpacing: "normal", color: "#fff" }}>{s.t}</div>
               <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
               <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.7, color: h ? "rgba(255,255,255,0.62)" : "rgba(255,255,255,0.5)", transition: "color .2s ease" }}>{s.d}</div>
             </div>
@@ -555,7 +555,7 @@ function StackStrip() {
                     color: h ? "rgba(0,0,0,0.78)" : "rgba(0,0,0,0.7)",
                     padding: "6px 0",
                     borderBottom: `1px solid ${PL}`,
-                    letterSpacing: "0.03em",
+                    letterSpacing: "normal",
                     transition: "color .2s ease",
                   }}
                 >

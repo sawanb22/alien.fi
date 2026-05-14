@@ -17,7 +17,7 @@ import {
   useLandingLayout,
 } from "@/lib/landing-layout-context";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
-import { MN, OT, SN } from "@/lib/consultancy/tokens";
+import { MN, MN_WORD_SPACE, OT, SN } from "@/lib/consultancy/tokens";
 
 const L = "rgb(150,238,82)";
 const L2 = "rgb(177,238,82)";
@@ -52,6 +52,20 @@ export function consultancyLimeCtaEnter(e: MouseEvent<HTMLElement>) {
 export function consultancyLimeCtaLeave(e: MouseEvent<HTMLElement>) {
   e.currentTarget.style.background = L;
   e.currentTarget.style.color = "#000";
+  e.currentTarget.style.boxShadow = "none";
+}
+
+/** Outline pill on light backgrounds (`1px solid PL` at rest). Hover matches lime pill: light fill + lime ring only — avoids stacked dark border + ring. */
+export function consultancyOutlineLightPillEnter(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "rgb(230,230,234)";
+  e.currentTarget.style.borderColor = "transparent";
+  e.currentTarget.style.boxShadow = consultancyPrimaryCtaHoverRing;
+}
+
+export function consultancyOutlineLightPillLeave(e: MouseEvent<HTMLElement>) {
+  e.currentTarget.style.background = "transparent";
+  e.currentTarget.style.color = "#000";
+  e.currentTarget.style.borderColor = PL;
   e.currentTarget.style.boxShadow = "none";
 }
 
@@ -111,7 +125,8 @@ export function Chip({
         fontFamily: MN,
         fontWeight: 700,
         fontSize: 9,
-        letterSpacing: "0.12em",
+        letterSpacing: "normal",
+        wordSpacing: MN_WORD_SPACE,
         textTransform: "uppercase",
         padding: "4px 10px",
         borderRadius: 20,
@@ -137,12 +152,13 @@ export function Lbl({
     <div
       style={{
         fontFamily: MN,
-        fontWeight: 600,
-        fontSize: 10,
-        letterSpacing: "0.14em",
+        fontWeight: 700,
+        fontSize: "clamp(13px, 1.35vw, 16px)",
+        letterSpacing: "normal",
+        wordSpacing: MN_WORD_SPACE,
         textTransform: "uppercase",
-        color: lt ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)",
-        marginBottom: 12,
+        color: lt ? "rgba(255,255,255,0.92)" : "rgba(0,0,0,0.78)",
+        marginBottom: 14,
         ...sx,
       }}
     >
@@ -166,7 +182,8 @@ export function Ttl({
         fontFamily: MN,
         fontWeight: 300,
         fontSize: "clamp(38px,4vw,64px)",
-        letterSpacing: "0.06em",
+        letterSpacing: "normal",
+        wordSpacing: MN_WORD_SPACE,
         lineHeight: 1.05,
         color: lt ? "#fff" : "#000",
         ...sx,
@@ -311,7 +328,7 @@ export function MiniLoader({
           fontFamily: MN,
           fontWeight: 700,
           fontSize: 13,
-          letterSpacing: "0.32em",
+          letterSpacing: "normal",
           color: "#fff",
         }}
       >
@@ -425,7 +442,7 @@ function DesktopNavItem({ item, current }: { item: typeof navLinks[0]; current?:
           fontFamily: MN,
           fontWeight: active ? 700 : 500,
           fontSize: 12,
-          letterSpacing: "0.06em",
+          letterSpacing: "normal",
           color: active ? "#000" : "rgba(0,0,0,0.6)",
           textDecoration: "none",
           transition: "color .2s",
@@ -459,7 +476,7 @@ function DesktopNavItem({ item, current }: { item: typeof navLinks[0]; current?:
           fontFamily: MN,
           fontWeight: active ? 700 : 500,
           fontSize: 12,
-          letterSpacing: "0.06em",
+          letterSpacing: "normal",
           color: hover || active ? "#000" : "rgba(0,0,0,0.6)",
           textDecoration: "none",
           transition: "color .2s",
@@ -551,7 +568,7 @@ function MobileNavItem({ item, current, close }: { item: typeof navLinks[0]; cur
           fontFamily: MN,
           fontWeight: active ? 700 : 600,
           fontSize: 12,
-          letterSpacing: "0.08em",
+          letterSpacing: "normal",
           textTransform: "uppercase",
           color: "#000",
           textDecoration: "none",
@@ -586,7 +603,7 @@ function MobileNavItem({ item, current, close }: { item: typeof navLinks[0]; cur
             fontFamily: MN,
             fontWeight: active ? 700 : 600,
             fontSize: 12,
-            letterSpacing: "0.08em",
+            letterSpacing: "normal",
             textTransform: "uppercase",
             color: "#000",
             textDecoration: "none",
@@ -720,7 +737,7 @@ export function Nav({ current }: { current?: NavPage }) {
             fontFamily: MN,
             fontWeight: 600,
             fontSize: 11,
-            letterSpacing: "0.08em",
+            letterSpacing: "normal",
             padding: "10px 18px",
             cursor: "none",
             transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
@@ -799,7 +816,7 @@ export function Nav({ current }: { current?: NavPage }) {
               fontFamily: MN,
               fontWeight: 600,
               fontSize: layout === "mobile" ? 10 : 11,
-              letterSpacing: "0.06em",
+              letterSpacing: "normal",
               padding: layout === "mobile" ? "9px 12px" : "10px 16px",
               textDecoration: "none",
               transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
@@ -914,7 +931,7 @@ export function Ticker({
               fontFamily: MN,
               fontWeight: 500,
               fontSize: 11,
-              letterSpacing: "0.1em",
+              letterSpacing: "normal",
               textTransform: "uppercase",
               opacity: 0.28,
               flexShrink: 0,
@@ -942,39 +959,69 @@ export function Ticker({
 }
 
 const INTERACTIVE_CARD_PRESETS: Record<
-  "dk" | "light" | "muted" | "gradient",
+  "dk" | "darkGlass" | "light" | "muted" | "gradient",
   { rest: CSSProperties; hover: CSSProperties }
 > = {
   dk: {
-    rest: { background: DK, boxShadow: "none", transform: "translateY(0)" },
+    rest: {
+      background: DK,
+      boxShadow: "none",
+      transform: "translateY(0)",
+      zIndex: 0,
+    },
     hover: {
-      background: "rgb(26,30,52)",
-      boxShadow: "inset 0 0 0 1px rgba(150,238,82,0.32), 0 10px 28px rgba(0,0,0,0.18)",
+      background: "rgb(52,56,88)",
+      /** Outer ring (not inset) so grid `overflow: hidden` does not clip to two sides */
+      boxShadow: "0 0 0 1.5px rgba(177,238,82,0.52), 0 12px 32px rgba(0,0,0,0.22)",
       transform: "translateY(-2px)",
+      zIndex: 2,
+    },
+  },
+  /** Translucent panels on navy sections (metrics, partner rows). */
+  darkGlass: {
+    rest: {
+      background: "rgba(255,255,255,0.03)",
+      boxShadow: "none",
+      transform: "translateY(0)",
+      zIndex: 0,
+    },
+    hover: {
+      background: "rgba(255,255,255,0.07)",
+      boxShadow: "0 0 0 1.5px rgba(177,238,82,0.48), 0 12px 28px rgba(0,0,0,0.22)",
+      transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
   light: {
-    rest: { background: BG, boxShadow: "none", transform: "translateY(0)" },
+    rest: { background: BG, boxShadow: "none", transform: "translateY(0)", zIndex: 0 },
     hover: {
       background: "rgb(232,246,214)",
-      boxShadow: "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)",
+      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)",
       transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
   muted: {
-    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)" },
+    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)", zIndex: 0 },
     hover: {
       background: "rgb(218,244,200)",
-      boxShadow: "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
+      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
       transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
   gradient: {
-    rest: { background: `linear-gradient(160deg,${BG},${BG2})`, boxShadow: "none", transform: "translateY(0)" },
+    rest: {
+      background: `linear-gradient(160deg,${BG},${BG2})`,
+      boxShadow: "none",
+      transform: "translateY(0)",
+      zIndex: 0,
+    },
     hover: {
       background: `linear-gradient(160deg,rgb(228,244,210),${BG2})`,
-      boxShadow: "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
+      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
       transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
 };
@@ -990,6 +1037,7 @@ export function ConsultancyInteractiveSurface({
   children: ReactNode;
 }) {
   const { rest, hover } = INTERACTIVE_CARD_PRESETS[variant];
+  const mergedRest = { ...rest, ...style };
   return (
     <div
       className="hv"
@@ -1000,12 +1048,15 @@ export function ConsultancyInteractiveSurface({
         ...style,
       }}
       onMouseEnter={(e) => {
-        Object.assign(e.currentTarget.style, hover);
+        Object.assign(e.currentTarget.style, hover as CSSProperties);
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = rest.background as string;
-        e.currentTarget.style.boxShadow = (rest.boxShadow as string) ?? "none";
-        e.currentTarget.style.transform = (rest.transform as string) ?? "translateY(0)";
+        const t = e.currentTarget;
+        t.style.background = mergedRest.background as string;
+        t.style.boxShadow = (mergedRest.boxShadow as string) ?? "none";
+        t.style.transform = (mergedRest.transform as string) ?? "translateY(0)";
+        t.style.zIndex =
+          mergedRest.zIndex !== undefined ? String(mergedRest.zIndex) : "";
       }}
     >
       {children}
@@ -1139,7 +1190,8 @@ export function CTAStrip({
         fontFamily: MN,
         fontWeight: 700,
         fontSize: "clamp(36px,3.6vw,56px)",
-        letterSpacing: "0.04em",
+        letterSpacing: "normal",
+        wordSpacing: MN_WORD_SPACE,
         lineHeight: 1.05,
         color: "#fff",
         marginBottom: 18,
@@ -1156,7 +1208,8 @@ export function CTAStrip({
         fontFamily: MN,
         fontWeight: 700,
         fontSize: "clamp(36px,3.6vw,56px)",
-        letterSpacing: "0.04em",
+        letterSpacing: "normal",
+        wordSpacing: MN_WORD_SPACE,
         lineHeight: 1.0,
         color: "#fff",
         marginBottom: 18,
@@ -1242,7 +1295,8 @@ export function CTAStrip({
                 fontFamily: MN,
                 fontWeight: 700,
                 fontSize: 14,
-                letterSpacing: "0.08em",
+                letterSpacing: "normal",
+                wordSpacing: MN_WORD_SPACE,
                 textTransform: ctaUppercase ? "uppercase" : "none",
                 cursor: layout === "desktop" ? "none" : "pointer",
                 display: "flex",
@@ -1278,7 +1332,8 @@ export function CTAStrip({
                 fontFamily: MN,
                 fontWeight: 700,
                 fontSize: 14,
-                letterSpacing: "0.08em",
+                letterSpacing: "normal",
+                wordSpacing: MN_WORD_SPACE,
                 textTransform: ctaUppercase ? "uppercase" : "none",
                 cursor: layout === "desktop" ? "none" : "pointer",
                 display: "flex",
@@ -1360,11 +1415,84 @@ export function Footer() {
   const linkEnter: FooterMouseHandler = (e) => {
     e.currentTarget.style.color = "rgba(255,255,255,0.88)";
     e.currentTarget.style.paddingLeft = "6px";
+    e.currentTarget.style.paddingRight = "0";
   };
   const linkLeave: FooterMouseHandler = (e) => {
     e.currentTarget.style.color = "rgba(255,255,255,0.38)";
     e.currentTarget.style.paddingLeft = "0";
+    e.currentTarget.style.paddingRight = "0";
   };
+  const linkEnterEnd: FooterMouseHandler = (e) => {
+    e.currentTarget.style.color = "rgba(255,255,255,0.88)";
+    e.currentTarget.style.paddingRight = "6px";
+    e.currentTarget.style.paddingLeft = "0";
+  };
+  const linkLeaveEnd: FooterMouseHandler = (e) => {
+    e.currentTarget.style.color = "rgba(255,255,255,0.38)";
+    e.currentTarget.style.paddingLeft = "0";
+    e.currentTarget.style.paddingRight = "0";
+  };
+
+  const renderFooterNavCol = (
+    { h, links }: (typeof cols)[0],
+    align: "start" | "end",
+  ) => {
+    const onEnter = align === "end" ? linkEnterEnd : linkEnter;
+    const onLeave = align === "end" ? linkLeaveEnd : linkLeave;
+    return (
+      <div key={h}>
+        <div
+          style={{
+            fontFamily: MN,
+            fontWeight: 700,
+            fontSize: 10,
+            letterSpacing: "normal",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.2)",
+            marginBottom: 18,
+          }}
+        >
+          {h}
+        </div>
+        {links.map(([label, href]) => {
+          const isProtocolLink = href.startsWith("mailto:") || href.startsWith("tel:");
+          const baseStyles = {
+            display: "block",
+            fontFamily: MN,
+            fontSize: 12,
+            fontWeight: 500,
+            letterSpacing: "normal",
+            color: "rgba(255,255,255,0.38)",
+            marginBottom: 10,
+            transition: "color .2s,padding-left .18s,padding-right .18s",
+            textDecoration: "none",
+          } as const;
+
+          if (isProtocolLink) {
+            return (
+              <a
+                key={label}
+                href={href}
+                className="hv"
+                style={baseStyles}
+                onMouseEnter={onEnter}
+                onMouseLeave={onLeave}
+              >
+                {label}
+              </a>
+            );
+          }
+
+          return (
+            <Link key={label} href={href} className="hv" style={baseStyles} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+              {label}
+            </Link>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <footer
       style={{
@@ -1381,11 +1509,13 @@ export function Footer() {
           padding: layout === "mobile" ? "40px 4px 28px" : layout === "tablet" ? "44px 12px 36px" : "48px 9px 32px",
           display: "grid",
           gridTemplateColumns:
-            layout === "desktop" ? "1.4fr 1.2fr 1fr 1fr 1fr" : layout === "tablet" ? "1fr 1fr" : "1fr",
-          gap: layout === "mobile" ? 32 : 40,
+            layout === "desktop"
+              ? "1.4fr 1.2fr 1fr 1fr 1fr"
+              : "1fr 1fr",
+          gap: layout === "mobile" ? "28px 20px" : layout === "tablet" ? "32px 28px" : 40,
         }}
       >
-        <div>
+        <div style={layout !== "desktop" ? { gridColumn: "1 / -1" } : undefined}>
           <img
             src="/assets/logo-with-font.svg"
             alt="Alien.fi"
@@ -1437,65 +1567,38 @@ export function Footer() {
             ))}
           </div>
         </div>
-        {cols.map(({ h, links }) => (
-          <div key={h}>
+        {layout !== "desktop" ? (
+          <>
             <div
               style={{
-                fontFamily: MN,
-                fontWeight: 700,
-                fontSize: 10,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.2)",
-                marginBottom: 18,
+                display: "flex",
+                flexDirection: "column",
+                gap: layout === "mobile" ? 28 : 32,
+                alignItems: "flex-start",
+                textAlign: "left",
+                minWidth: 0,
               }}
             >
-              {h}
+              {renderFooterNavCol(cols[0]!, "start")}
+              {renderFooterNavCol(cols[1]!, "start")}
             </div>
-            {links.map(([label, href]) => {
-              const isProtocolLink = href.startsWith("mailto:") || href.startsWith("tel:");
-              const baseStyles = {
-                display: "block",
-                fontFamily: MN,
-                fontSize: 12,
-                fontWeight: 500,
-                letterSpacing: "0.04em",
-                color: "rgba(255,255,255,0.38)",
-                marginBottom: 10,
-                transition: "color .2s,padding-left .18s",
-                textDecoration: "none",
-              } as const;
-
-              if (isProtocolLink) {
-                return (
-                  <a
-                    key={label}
-                    href={href}
-                    className="hv"
-                    style={baseStyles}
-                    onMouseEnter={linkEnter}
-                    onMouseLeave={linkLeave}
-                  >
-                    {label}
-                  </a>
-                );
-              }
-
-              return (
-                <Link
-                  key={label}
-                  href={href}
-                  className="hv"
-                  style={baseStyles}
-                  onMouseEnter={linkEnter}
-                  onMouseLeave={linkLeave}
-                >
-                  {label}
-                </Link>
-              );
-            })}
-          </div>
-        ))}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: layout === "mobile" ? 28 : 32,
+                alignItems: "flex-end",
+                textAlign: "right",
+                minWidth: 0,
+              }}
+            >
+              {renderFooterNavCol(cols[2]!, "end")}
+              {renderFooterNavCol(cols[3]!, "end")}
+            </div>
+          </>
+        ) : (
+          cols.map((c) => renderFooterNavCol(c, "start"))
+        )}
       </div>
       <div
         style={{
@@ -1513,7 +1616,7 @@ export function Footer() {
             fontFamily: MN,
             fontSize: 11,
             fontWeight: 500,
-            letterSpacing: "0.04em",
+            letterSpacing: "normal",
             color: "rgba(255,255,255,0.18)",
           }}
         >
@@ -1524,7 +1627,7 @@ export function Footer() {
             fontFamily: MN,
             fontSize: 11,
             fontWeight: 500,
-            letterSpacing: "0.08em",
+            letterSpacing: "normal",
             color: "rgba(255,255,255,0.18)",
           }}
         >
@@ -1544,6 +1647,10 @@ export function PageHero({
   meta,
   accent,
   accentHref,
+  /** Tighter hero vertical rhythm (e.g. /services QA: less empty band under the headline). */
+  compact = false,
+  /** Optional hero title tracking; default matches other PageHero routes. */
+  titleLetterSpacing,
 }: {
   eyebrow: string;
   title: string;
@@ -1551,6 +1658,8 @@ export function PageHero({
   meta?: [string, string][];
   accent?: string;
   accentHref?: string;
+  compact?: boolean;
+  titleLetterSpacing?: string;
 }) {
   const layout = useLandingLayout();
   const g = sectionGutter(layout);
@@ -1566,7 +1675,8 @@ export function PageHero({
         fontFamily: MN,
         fontWeight: 300,
         fontSize: layout === "mobile" ? "clamp(26px,7vw,40px)" : "clamp(30px,4.5vw,72px)",
-        letterSpacing: "0.04em",
+        letterSpacing: titleLetterSpacing ?? "normal",
+        wordSpacing: MN_WORD_SPACE,
         lineHeight: 0.98,
         color: "#000",
         wordBreak: "keep-all" as const,
@@ -1618,13 +1728,26 @@ export function PageHero({
     fontFamily: MN,
     fontSize: 10,
     fontWeight: 600,
-    letterSpacing: "0.08em",
+    letterSpacing: "normal",
+    wordSpacing: MN_WORD_SPACE,
     textTransform: "uppercase",
     color: L2,
     textDecoration: "none",
   };
 
   if (layout !== "desktop") {
+    const pbOuter = compact ? (layout === "mobile" ? 24 : 32) : layout === "mobile" ? 32 : 40;
+    const innerPad = compact
+      ? layout === "mobile"
+        ? "24px 14px 26px"
+        : "30px 20px 32px"
+      : layout === "mobile"
+        ? "28px 16px 32px"
+        : "36px 22px 40px";
+    const crumbMb = compact ? 14 : 20;
+    const subMb = compact ? 18 : 24;
+    const metaMt = compact ? (layout === "mobile" ? 22 : 28) : layout === "mobile" ? 28 : 36;
+    const accentMt = compact ? 22 : 28;
     return (
       <section
         style={{
@@ -1634,12 +1757,12 @@ export function PageHero({
           borderBottom: `1px solid ${PL}`,
         }}
       >
-        <div style={{ marginLeft: g, marginRight: g, paddingBottom: layout === "mobile" ? 32 : 40, boxSizing: "border-box" }}>
+        <div style={{ marginLeft: g, marginRight: g, paddingBottom: pbOuter, boxSizing: "border-box" }}>
           <div
             style={{
               borderLeft: `1px solid ${PL}`,
               borderRight: `1px solid ${PL}`,
-              padding: layout === "mobile" ? "28px 16px 32px" : "36px 22px 40px",
+              padding: innerPad,
             }}
           >
             <div
@@ -1650,10 +1773,11 @@ export function PageHero({
                 fontFamily: MN,
                 fontSize: 9,
                 fontWeight: 600,
-                letterSpacing: "0.14em",
+                letterSpacing: "normal",
+                wordSpacing: MN_WORD_SPACE,
                 textTransform: "uppercase",
                 color: "rgba(0,0,0,0.35)",
-                marginBottom: 20,
+                marginBottom: crumbMb,
               }}
             >
               <Link href="/" className="hv" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
@@ -1663,12 +1787,12 @@ export function PageHero({
               <span>{eyebrow}</span>
             </div>
             <Lbl ch={eyebrow} />
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.75, color: "rgba(0,0,0,0.5)", marginTop: 8, marginBottom: 24 }}>
+            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.75, color: "rgba(0,0,0,0.5)", marginTop: 8, marginBottom: subMb }}>
               {sub}
             </div>
             {titleBlock}
             {(meta?.length ?? 0) > 0 ? (
-              <div style={{ marginTop: layout === "mobile" ? 28 : 36 }}>
+              <div style={{ marginTop: metaMt }}>
                 <Lbl ch="Quick Facts" />
                 {(meta ?? []).map((m, i) => (
                   <div
@@ -1682,7 +1806,8 @@ export function PageHero({
                       fontFamily: MN,
                       fontSize: 11,
                       fontWeight: 500,
-                      letterSpacing: "0.04em",
+                      letterSpacing: "normal",
+                      wordSpacing: MN_WORD_SPACE,
                     }}
                   >
                     <span style={{ flex: 1, minWidth: 0, color: "rgba(0,0,0,0.45)", paddingRight: 2 }}>{m[0]}</span>
@@ -1698,18 +1823,23 @@ export function PageHero({
               <a
                 href={accentHref}
                 className="hv"
-                style={{ ...accentRowStyle, marginTop: 28 }}
+                style={{ ...accentRowStyle, marginTop: accentMt }}
               >
                 {accentInner}
               </a>
             ) : accent ? (
-              <div style={{ ...accentRowStyle, marginTop: 28 }}>{accentInner}</div>
+              <div style={{ ...accentRowStyle, marginTop: accentMt }}>{accentInner}</div>
             ) : null}
           </div>
         </div>
       </section>
     );
   }
+
+  const padL = compact ? "40px 24px 40px 18px" : "52px 28px 52px 20px";
+  const padC = compact ? "40px 36px 40px 18px" : "52px 44px 52px 20px";
+  const padR = compact ? "40px 24px" : "52px 30px";
+  const colGap = compact ? 18 : 24;
 
   return (
     <section
@@ -1790,19 +1920,19 @@ export function PageHero({
         style={{
           display: "grid",
           gridTemplateColumns: `${PAGE_HERO_SIDE}px 1fr ${PAGE_HERO_SIDE}px`,
-          minHeight: 300,
           width: "100%",
           boxSizing: "border-box",
+          ...(compact ? { minHeight: "auto" } : { minHeight: 300 }),
         }}
       >
         <div
           className="rvl"
           style={{
-            padding: "52px 28px 52px 20px",
+            padding: padL,
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            gap: 24,
+            gap: colGap,
             boxSizing: "border-box",
           }}
         >
@@ -1820,7 +1950,8 @@ export function PageHero({
               fontFamily: MN,
               fontSize: 9,
               fontWeight: 600,
-              letterSpacing: "0.14em",
+              letterSpacing: "normal",
+              wordSpacing: MN_WORD_SPACE,
               textTransform: "uppercase",
               color: "rgba(0,0,0,0.3)",
             }}
@@ -1834,7 +1965,7 @@ export function PageHero({
         </div>
         <div
           style={{
-            padding: "52px 44px 52px 20px",
+            padding: padC,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -1852,11 +1983,11 @@ export function PageHero({
         <div
           className="rvr"
           style={{
-            padding: "52px 30px",
+            padding: padR,
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            gap: 24,
+            gap: colGap,
             boxSizing: "border-box",
           }}
         >
@@ -1874,7 +2005,8 @@ export function PageHero({
                   fontFamily: MN,
                   fontSize: 11,
                   fontWeight: 500,
-                  letterSpacing: "0.04em",
+                  letterSpacing: "normal",
+                  wordSpacing: MN_WORD_SPACE,
                 }}
               >
                 <span style={{ flex: 1, minWidth: 0, color: "rgba(0,0,0,0.45)", paddingRight: 2 }}>

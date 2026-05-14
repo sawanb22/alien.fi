@@ -16,7 +16,7 @@ import {
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
-import { MN, SN } from "@/lib/consultancy/tokens";
+import { MN, MN_WORD_SPACE, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { useMemo, useState } from "react";
 
@@ -222,7 +222,7 @@ function Filters({
   const cats = useMemo(() => FILTER_ORDER, []);
   return (
     <div className="rv d1" style={{ padding: "0 9px", marginBottom: 32, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-      <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginRight: 8 }}>
+      <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginRight: 8 }}>
         Filter:
       </span>
       {cats.map((c) => {
@@ -242,7 +242,7 @@ function Filters({
               fontFamily: MN,
               fontSize: 10,
               fontWeight: 700,
-              letterSpacing: "0.1em",
+              letterSpacing: "normal",
               cursor: "none",
               transition: "background .2s",
               textTransform: "uppercase",
@@ -304,9 +304,9 @@ function OutcomeSplitCard({
             {showFeaturedBadge ? <Chip ch="Featured" bg={L} cl="#000" /> : null}
             <Chip ch={s.industry} bg="rgba(255,255,255,0.08)" cl="rgba(255,255,255,0.7)" />
           </div>
-          <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#fff", letterSpacing: "0.03em", marginBottom: 6 }}>{s.client}</div>
+          <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#fff", letterSpacing: "normal", marginBottom: 6 }}>{s.client}</div>
           <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>{s.blurb}</div>
-          <div style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(22px,2vw,30px)", lineHeight: 1.3, color: "#fff", letterSpacing: "0.02em", maxWidth: 560 }}>
+          <div style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(22px,2vw,30px)", lineHeight: 1.3, color: "#fff", letterSpacing: "normal", maxWidth: 560 }}>
             {s.headline}
           </div>
         </div>
@@ -319,7 +319,7 @@ function OutcomeSplitCard({
               fontFamily: MN,
               fontWeight: 700,
               fontSize: 11,
-              letterSpacing: "0.1em",
+              letterSpacing: "normal",
               textTransform: "uppercase",
               color: hov ? L : L2,
               transition: "color .2s",
@@ -328,7 +328,7 @@ function OutcomeSplitCard({
             Read full study <Arr sz={11} cl={hov ? L : L2} sw={2.2} />
           </div>
           <div style={{ height: 1, flex: 1, background: "rgba(255,255,255,0.1)" }} />
-          <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)" }}>{s.duration}</div>
+          <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", color: "rgba(255,255,255,0.4)" }}>{s.duration}</div>
         </div>
       </div>
       <div
@@ -350,13 +350,13 @@ function OutcomeSplitCard({
             pointerEvents: "none",
           }}
         />
-        <div style={{ position: "relative", fontFamily: MN, fontWeight: 700, fontSize: "clamp(80px,9vw,140px)", color: "#000", lineHeight: 0.95, letterSpacing: "0.02em" }}>
+        <div style={{ position: "relative", fontFamily: MN, fontWeight: 700, fontSize: "clamp(80px,9vw,140px)", color: "#000", lineHeight: 0.95, letterSpacing: "normal" }}>
           {s.hero}
         </div>
-        <div style={{ position: "relative", fontFamily: MN, fontWeight: 600, fontSize: 14, letterSpacing: "0.08em", textTransform: "uppercase", color: "#000", marginTop: 14, opacity: 0.7 }}>{s.heroLbl}</div>
+        <div style={{ position: "relative", fontFamily: MN, fontWeight: 600, fontSize: 14, letterSpacing: "normal", textTransform: "uppercase", color: "#000", marginTop: 14, opacity: 0.7 }}>{s.heroLbl}</div>
         <div style={{ position: "relative", display: "flex", gap: 8, marginTop: 32, flexWrap: "wrap" }}>
           {s.services.map((sv) => (
-            <div key={sv} style={{ padding: "5px 12px", background: "rgba(0,0,0,0.08)", borderRadius: 6, fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", color: "#000" }}>
+            <div key={sv} style={{ padding: "5px 12px", background: "rgba(0,0,0,0.08)", borderRadius: 6, fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", color: "#000" }}>
               {sv}
             </div>
           ))}
@@ -416,10 +416,9 @@ function Grid() {
           display: "grid",
           gridTemplateColumns: "1fr",
           gap: 1,
-          background: PL,
+          background: "transparent",
           borderRadius: layout === "mobile" ? 16 : 20,
           overflow: "hidden",
-          border: `1px solid ${PL}`,
         }}
       >
         {filtered.map((s, i) => (
@@ -477,10 +476,10 @@ function RoiSnapshot() {
         {stats.map((stat) => (
           <Tilt key={stat.label} int={5}>
             <div style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: layout === "mobile" ? "28px 22px" : "34px 28px" }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: layout === "mobile" ? "clamp(28px,8vw,42px)" : 44, color: "#000", letterSpacing: "0.02em", lineHeight: 1 }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: layout === "mobile" ? "clamp(28px,8vw,42px)" : 44, color: "#000", letterSpacing: "normal", lineHeight: 1 }}>
                 {stat.value}
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginTop: 12 }}>
+              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.45)", marginTop: 12 }}>
                 {stat.label}
               </div>
             </div>
@@ -531,13 +530,13 @@ function StatsBar() {
                   fontWeight: 700,
                   fontSize: layout === "mobile" ? "clamp(32px,8vw,44px)" : 54,
                   color: L,
-                  letterSpacing: "0.02em",
+                  letterSpacing: "normal",
                   lineHeight: 1,
                 }}
               >
                 {stat.v}
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginTop: 14 }}>{stat.l}</div>
+              <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginTop: 14 }}>{stat.l}</div>
             </div>
           </Tilt>
         ))}
@@ -587,7 +586,7 @@ function CaseStudiesPageHero() {
               Audited outcomes from production AI deployments. Every number below has been signed off by client finance or operations teams, making these AI case studies a proof layer for serious buyers evaluating enterprise AI implementation success stories and measurable AI ROI.
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.3)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.3)" }}>
             <Link href="/" className="hv" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
               Home
             </Link>
@@ -608,7 +607,7 @@ function CaseStudiesPageHero() {
             minWidth: 0,
           }}
         >
-          <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(34px,4.5vw,72px)", letterSpacing: "0.04em", lineHeight: 0.98, color: "#000", wordBreak: "keep-all" }}>
+          <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(34px,4.5vw,72px)", letterSpacing: "normal", wordSpacing: MN_WORD_SPACE, lineHeight: 0.98, color: "#000", wordBreak: "keep-all" }}>
             {title.split("|").map((part, i, arr) => (
               <div
                 key={part}
@@ -643,13 +642,13 @@ function CaseStudiesPageHero() {
           <div>
             <Lbl ch="Quick Facts" />
             {facts.map((fact) => (
-              <div key={fact[0]} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${PL}`, fontFamily: MN, fontSize: 11, fontWeight: 500, letterSpacing: "0.04em" }}>
+              <div key={fact[0]} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${PL}`, fontFamily: MN, fontSize: 11, fontWeight: 500, letterSpacing: "normal" }}>
                 <span style={{ color: "rgba(0,0,0,0.45)" }}>{fact[0]}</span>
                 <span style={{ color: "#000", fontWeight: 700 }}>{fact[1]}</span>
               </div>
             ))}
           </div>
-          <Link href="#real-outcomes" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
+          <Link href="#real-outcomes" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
             View audited outcomes <Arr sz={11} cl="rgba(0,0,0,0.6)" sw={2} />
           </Link>
         </div>

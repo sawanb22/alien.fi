@@ -86,8 +86,8 @@
   --af-type-meta-line:       17.36px;
   --af-type-caption-size:    12px;
   --af-type-caption-line:    13.92px;
-  --af-tracking:             0.06em;     /* the brand-wide letter-spacing */
-  --af-tracking-tight:       -0.05em;    /* card titles / metadata */
+  --af-tracking: normal;     /* the brand-wide letter-spacing */
+  --af-tracking-tight: normal;    /* card titles / metadata */
 
   /* ---------- Geometry ---------- */
   --af-radius-sm:  8px;   /* icon buttons, checkboxes */

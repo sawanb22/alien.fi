@@ -15,7 +15,7 @@ import {
 } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
-import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { BG, BG2, CD, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
 import { useEffect, useRef, useState } from "react";
 
 type Ind = {
@@ -241,14 +241,32 @@ const INDUSTRIES: Ind[] = [
 ];
 
 function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onClick: () => void }) {
+  const [hover, setHover] = useState(false);
+  const inactiveHover = hover && !active;
+
+  const cardBg = active
+    ? DK
+    : inactiveHover
+      ? `linear-gradient(160deg,rgb(228,244,210),${BG2})`
+      : `linear-gradient(160deg,${BG},${BG2})`;
+  const cardBorder = active ? DK : inactiveHover ? "rgba(150,238,82,0.45)" : PL;
+  const cardTransform = active ? "translateY(-3px)" : inactiveHover ? "translateY(-2px)" : "none";
+  const cardShadow = active
+    ? "0 12px 32px rgba(0,0,0,0.18)"
+    : inactiveHover
+      ? "inset 0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)"
+      : "none";
+
   return (
     <button
       type="button"
       onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       className="hv"
       style={{
-        background: active ? DK : `linear-gradient(160deg,${BG},${BG2})`,
-        border: `1px solid ${active ? DK : PL}`,
+        background: cardBg,
+        border: `1px solid ${cardBorder}`,
         borderRadius: 14,
         padding: "24px 22px",
         cursor: "none",
@@ -256,9 +274,9 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
         display: "flex",
         flexDirection: "column",
         gap: 10,
-        transition: "background .25s,transform .25s,border-color .25s",
-        transform: active ? "translateY(-3px)" : "none",
-        boxShadow: active ? "0 12px 32px rgba(0,0,0,0.18)" : "none",
+        transition: "background .22s ease,transform .22s ease,border-color .22s ease,box-shadow .22s ease",
+        transform: cardTransform,
+        boxShadow: cardShadow,
         width: "100%",
       }}
     >
@@ -268,7 +286,7 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
             width: 42,
             height: 42,
             borderRadius: 10,
-            background: active ? L : CD,
+            background: active ? L : inactiveHover ? "rgb(218,244,200)" : CD,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -276,12 +294,21 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
             fontSize: 22,
             fontWeight: 700,
             color: active ? "#000" : "rgba(0,0,0,0.5)",
-            transition: "all .25s",
+            transition: "background .22s ease,color .22s ease",
           }}
         >
           {ind.ic}
         </div>
-        <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.1em", color: active ? L2 : "rgba(0,0,0,0.4)" }}>
+        <div
+          style={{
+            fontFamily: MN,
+            fontWeight: 700,
+            fontSize: 9,
+            letterSpacing: "normal",
+            color: active ? L2 : inactiveHover ? "rgba(21,24,43,0.62)" : "rgba(0,0,0,0.4)",
+            transition: "color .22s ease",
+          }}
+        >
           {ind.engagements} ENG.
         </div>
       </div>
@@ -291,7 +318,7 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
           fontWeight: 600,
           fontSize: 14,
           color: active ? "#fff" : "#000",
-          letterSpacing: "0.03em",
+          letterSpacing: "normal",
           lineHeight: 1.3,
           transition: "color .25s",
         }}
@@ -308,7 +335,16 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
             gap: 8,
           }}
         >
-          <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 18, color: active ? L : "#000", letterSpacing: "0.02em" }}>
+          <span
+            style={{
+              fontFamily: MN,
+              fontWeight: 700,
+              fontSize: 18,
+              color: active ? L : inactiveHover ? L2 : "#000",
+              letterSpacing: "normal",
+              transition: "color .22s ease",
+            }}
+          >
             {ind.highlight.v}
           </span>
         </div>
@@ -369,8 +405,8 @@ function DetailPanel({ ind }: { ind: Ind }) {
             {ind.ic}
           </div>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.16em", color: L2, marginBottom: 4, textTransform: "uppercase" }}>{ind.industryLabel ?? "INDUSTRY"}</div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 24, color: "#fff", letterSpacing: "0.03em" }}>{ind.n}</div>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: L2, marginBottom: 4, textTransform: "uppercase" }}>{ind.industryLabel ?? "INDUSTRY"}</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 24, color: "#fff", letterSpacing: "normal" }}>{ind.n}</div>
           </div>
         </div>
         <div
@@ -385,20 +421,20 @@ function DetailPanel({ ind }: { ind: Ind }) {
           }}
         >
           <div style={{ background: DK, padding: "18px 20px" }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>
               ENGAGEMENTS
             </div>
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#fff", lineHeight: 1 }}>{ind.engagements}</div>
           </div>
           <div style={{ background: DK, padding: "18px 20px" }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>
               CLIENTS
             </div>
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#fff", lineHeight: 1 }}>{ind.clientCount ?? ind.clients.length}+</div>
           </div>
         </div>
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: "rgba(255,255,255,0.4)", marginBottom: 14 }}>
             USE CASES DEPLOYED
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -415,7 +451,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
                   fontSize: 13,
                   fontWeight: 500,
                   color: "rgba(255,255,255,0.85)",
-                  letterSpacing: "0.02em",
+                  letterSpacing: "normal",
                 }}
               >
                 <div style={{ width: 6, height: 6, borderRadius: "50%", background: L, flexShrink: 0 }} />
@@ -425,7 +461,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
           </div>
         </div>
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "0.14em", color: "rgba(255,255,255,0.4)", marginBottom: 12 }}>
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: "rgba(255,255,255,0.4)", marginBottom: 12 }}>
             SELECTED CLIENTS
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -445,7 +481,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
                       fontSize: 11,
                       fontWeight: 600,
                       color: "#fff",
-                      letterSpacing: "0.04em",
+                      letterSpacing: "normal",
                     }}
                   >
                     {c}
@@ -466,7 +502,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
                     fontSize: 11,
                     fontWeight: 600,
                     color: "#fff",
-                    letterSpacing: "0.04em",
+                    letterSpacing: "normal",
                     textDecoration: "none",
                   }}
                 >
@@ -478,13 +514,13 @@ function DetailPanel({ ind }: { ind: Ind }) {
         </div>
         {ind.highlight ? (
           <div style={{ padding: "24px 24px", background: `linear-gradient(135deg,${L},${L2})`, borderRadius: 14, marginBottom: 24 }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "0.14em", color: "rgba(0,0,0,0.5)", marginBottom: 8 }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: "rgba(0,0,0,0.5)", marginBottom: 8 }}>
               FEATURED OUTCOME
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 42, color: "#000", letterSpacing: "0.02em", lineHeight: 1, marginBottom: 8 }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 42, color: "#000", letterSpacing: "normal", lineHeight: 1, marginBottom: 8 }}>
               {ind.highlight.v}
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.06em", color: "#000", opacity: 0.7 }}>{ind.highlight.l}</div>
+            <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", color: "#000", opacity: 0.7 }}>{ind.highlight.l}</div>
           </div>
         ) : null}
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "stretch" }}>
@@ -506,7 +542,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
               fontFamily: MN,
               fontSize: 11,
               fontWeight: 700,
-              letterSpacing: "0.06em",
+              letterSpacing: "normal",
               lineHeight: 1.3,
               textAlign: "center",
               textTransform: "uppercase",
@@ -542,7 +578,7 @@ function DetailPanel({ ind }: { ind: Ind }) {
               fontFamily: MN,
               fontSize: 11,
               fontWeight: 700,
-              letterSpacing: "0.08em",
+              letterSpacing: "normal",
               textTransform: "uppercase",
               cursor: "none",
               textDecoration: "none",
@@ -617,6 +653,7 @@ function Methodology() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
+  const [methodologyHover, setMethodologyHover] = useState<number | null>(null);
   const items = [
     {
       h: "Vertical fluency",
@@ -681,18 +718,61 @@ function Methodology() {
           overflow: "hidden",
         }}
       >
-        {items.map((it, i) => (
-          <div key={it.h} style={{ background: DK, padding: "34px 32px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, letterSpacing: "0.16em", color: L2 }}>
-                0{i + 1}
+        {items.map((it, i) => {
+          const hovered = methodologyHover === i;
+          return (
+            <div
+              key={it.h}
+              onMouseEnter={() => setMethodologyHover(i)}
+              onMouseLeave={() => setMethodologyHover(null)}
+              style={{
+                background: hovered ? "rgb(32,36,62)" : DK,
+                padding: "34px 32px",
+                transition: "background 0.22s ease, box-shadow 0.22s ease",
+                boxShadow: hovered ? "inset 0 0 0 1px rgba(177,238,82,0.55)" : "none",
+                position: "relative",
+                zIndex: hovered ? 1 : 0,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                <div
+                  style={{
+                    fontFamily: MN,
+                    fontWeight: 700,
+                    fontSize: 11,
+                    letterSpacing: "normal",
+                    color: hovered ? L : L2,
+                    transition: "color 0.22s ease",
+                  }}
+                >
+                  0{i + 1}
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    height: 1,
+                    background: hovered ? "rgba(150,238,82,0.35)" : "rgba(255,255,255,0.08)",
+                    transition: "background 0.22s ease",
+                  }}
+                />
               </div>
-              <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 600,
+                  fontSize: 18,
+                  color: hovered ? L2 : "#fff",
+                  letterSpacing: "normal",
+                  marginBottom: 14,
+                  transition: "color 0.22s ease",
+                }}
+              >
+                {it.h}
+              </div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{it.d}</div>
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, color: "#fff", letterSpacing: "0.03em", marginBottom: 14 }}>{it.h}</div>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{it.d}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -760,6 +840,7 @@ function Outcomes() {
   const sectionRef = useRef<HTMLElement>(null);
   /** Eased animation progress in [0, 1] — drives displayed metric values. */
   const [metricProgress, setMetricProgress] = useState(0);
+  const [outcomeHover, setOutcomeHover] = useState<number | null>(null);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -820,7 +901,14 @@ function Outcomes() {
       }}
     >
       <div style={{ marginBottom: layout === "mobile" ? 28 : 40 }}>
-        <Lbl ch="AI in Industry :- Results Across Verticals" />
+        <Lbl
+          ch="AI in Industry :- Results Across Verticals"
+          sx={{
+            fontSize: "clamp(15px, 1.55vw, 19px)",
+            color: "rgba(12, 14, 22, 0.88)",
+            letterSpacing: "normal",
+          }}
+        />
         <Ttl ch="WHAT AI IN INDUSTRY DELIVERS." />
       </div>
       <div
@@ -834,55 +922,68 @@ function Outcomes() {
           border: `1px solid ${PL}`,
         }}
       >
-        {OUTCOME_STATS.map((s) => (
-          <div
-            key={s.keyword}
-            style={{
-              background: `linear-gradient(160deg,${BG},${BG2})`,
-              padding: layout === "mobile" ? "26px 22px" : "32px 28px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 12,
-              minHeight: 180,
-            }}
-          >
+        {OUTCOME_STATS.map((s, i) => {
+          const hovered = outcomeHover === i;
+          return (
             <div
+              key={s.keyword}
+              onMouseEnter={() => setOutcomeHover(i)}
+              onMouseLeave={() => setOutcomeHover(null)}
               style={{
-                fontFamily: MN,
-                fontWeight: 700,
-                fontSize: 9,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: L2,
+                background: hovered
+                  ? "linear-gradient(158deg,rgb(252,252,255),rgb(216,220,244))"
+                  : `linear-gradient(160deg,${BG},${BG2})`,
+                padding: layout === "mobile" ? "26px 22px" : "32px 28px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 12,
+                minHeight: 180,
+                position: "relative",
+                zIndex: hovered ? 1 : 0,
+                transition: "background 0.22s ease, box-shadow 0.22s ease",
+                boxShadow: hovered ? "inset 0 0 0 1px rgba(150,238,82,0.55)" : "none",
               }}
             >
-              {s.keyword}
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 700,
+                  fontSize: layout === "mobile" ? 11 : 12,
+                  letterSpacing: "normal",
+                  textTransform: "uppercase",
+                  color: hovered ? L : L_TEXT_ON_LIGHT,
+                  transition: "color 0.22s ease",
+                }}
+              >
+                {s.keyword}
+              </div>
+              <div
+                style={{
+                  fontFamily: MN,
+                  fontWeight: 700,
+                  fontSize: "clamp(34px,3.4vw,52px)",
+                  letterSpacing: "normal",
+                  color: "#000",
+                  lineHeight: 1,
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
+                {formatOutcomeValue(s, metricProgress)}
+              </div>
+              <div
+                style={{
+                  fontFamily: SN,
+                  fontSize: layout === "mobile" ? 14 : 15,
+                  lineHeight: 1.6,
+                  color: hovered ? "rgba(0,0,0,0.82)" : "rgba(0,0,0,0.72)",
+                  transition: "color 0.22s ease",
+                }}
+              >
+                {s.l}
+              </div>
             </div>
-            <div
-              style={{
-                fontFamily: MN,
-                fontWeight: 700,
-                fontSize: "clamp(34px,3.4vw,52px)",
-                letterSpacing: "0.02em",
-                color: "#000",
-                lineHeight: 1,
-                fontVariantNumeric: "tabular-nums",
-              }}
-            >
-              {formatOutcomeValue(s, metricProgress)}
-            </div>
-            <div
-              style={{
-                fontFamily: SN,
-                fontSize: 12.5,
-                lineHeight: 1.6,
-                color: "rgba(0,0,0,0.5)",
-              }}
-            >
-              {s.l}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

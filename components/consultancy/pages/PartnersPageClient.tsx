@@ -2,7 +2,20 @@
 
 import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
-import { Arr, Chip, CTAStrip, Footer, Lbl, Nav, Ttl } from "@/components/consultancy/consultancy-ui";
+import {
+  Arr,
+  Chip,
+  ConsultancyInteractiveSurface,
+  CTAStrip,
+  Footer,
+  Lbl,
+  Nav,
+  Ttl,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
+  consultancyOutlineLightPillEnter,
+  consultancyOutlineLightPillLeave,
+} from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, PL } from "@/lib/consultancy/theme";
@@ -75,7 +88,7 @@ function Hero() {
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 440 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: stacked ? "none" : `1px solid ${PL}`, borderBottom: stacked ? `1px solid ${PL}` : "none", background: "rgb(250,251,255)" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
                 <Link href="/" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "rgba(0,0,0,0.5)" }}>About</span>
@@ -90,16 +103,62 @@ function Hero() {
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <Chip ch="Partner Ecosystem" sx={{ marginBottom: 24 }} />
-            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(40px,5vw,72px)", lineHeight: 1, color: "#000", letterSpacing: "0.03em", marginBottom: 28 }}>
+            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(40px,5vw,72px)", lineHeight: 1, color: "#000", letterSpacing: "normal", marginBottom: 28 }}>
               <div style={{ fontWeight: 300 }}>VENDOR-NEUTRAL.</div>
               <div style={{ fontWeight: 500 }}>PLATFORM-DEEP.</div>
               <div style={{ fontWeight: 700, color: DK }}>NEVER LOCKED-IN.</div>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: DK, color: L, borderRadius: 24, padding: "14px 22px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
-                Become a partner <Arr sz={10} cl={L} sw={2.4} />
+              <Link
+                href="/contact"
+                className="hv"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: L,
+                  color: "#000",
+                  borderRadius: 24,
+                  padding: "14px 22px",
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "normal",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  border: "none",
+                  cursor: "none",
+                  transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+                }}
+                onMouseEnter={consultancyLimeCtaEnter}
+                onMouseLeave={consultancyLimeCtaLeave}
+              >
+                Become a partner <Arr sz={10} cl="currentColor" sw={2.4} />
               </Link>
-              <a href="#alliance-tiers" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: DK, borderRadius: 24, padding: "14px 20px", border: `1px solid ${PL}`, fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none" }}>
+              <a
+                href="#alliance-tiers"
+                className="hv"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "transparent",
+                  color: "#000",
+                  borderRadius: 24,
+                  padding: "14px 20px",
+                  border: `1px solid ${PL}`,
+                  fontFamily: MN,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "normal",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  cursor: "none",
+                  transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
+                }}
+                onMouseEnter={consultancyOutlineLightPillEnter}
+                onMouseLeave={consultancyOutlineLightPillLeave}
+              >
                 See alliance tiers
               </a>
             </div>
@@ -111,14 +170,29 @@ function Hero() {
 }
 
 function TrioGrid({ items, dark }: { items: { partner: string; category: string; role: string }[]; dark?: boolean }) {
+  const layout = useLandingLayout();
+  const roleAlign = layout === "desktop" ? "left" : "right";
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
       {items.map((item) => (
-        <div key={item.partner} style={{ background: dark ? "rgba(255,255,255,0.04)" : `linear-gradient(160deg,${BG},${BG2})`, border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`, borderRadius: 14, padding: "18px 16px", display: "grid", gridTemplateColumns: "1.2fr 1fr 1.6fr", gap: 12 }}>
-          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: dark ? "#fff" : "#000" }}>{item.partner}</div>
-          <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: dark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)" }}>{item.category}</div>
-          <div style={{ fontFamily: SN, fontSize: 12, lineHeight: 1.6, color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>{item.role}</div>
-        </div>
+        <ConsultancyInteractiveSurface
+          key={item.partner}
+          variant={dark ? "darkGlass" : "gradient"}
+          style={{
+            ...(dark ? { background: "rgba(255,255,255,0.04)" } : {}),
+            border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`,
+            borderRadius: 14,
+            padding: "18px 16px",
+            display: "grid",
+            gridTemplateColumns: "1.2fr 1fr 1.6fr",
+            gap: 12,
+            alignItems: "start",
+          }}
+        >
+          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: dark ? "#fff" : "#000", textAlign: "left" }}>{item.partner}</div>
+          <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: dark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)", textAlign: "center" }}>{item.category}</div>
+          <div style={{ fontFamily: SN, fontSize: 12, lineHeight: 1.6, color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)", textAlign: roleAlign }}>{item.role}</div>
+        </ConsultancyInteractiveSurface>
       ))}
     </div>
   );
@@ -135,11 +209,11 @@ export default function PartnersPageClient() {
       <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>
           {METRICS.map((m) => (
-            <div key={m.label} style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "18px 16px", background: "rgba(255,255,255,0.03)" }}>
+            <ConsultancyInteractiveSurface key={m.label} variant="darkGlass" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "18px 16px" }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 22, color: "#fff", marginBottom: 8 }}>{m.metric}</div>
-              <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>{m.label}</div>
+              <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>{m.label}</div>
               <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{m.sub}</div>
-            </div>
+            </ConsultancyInteractiveSurface>
           ))}
         </div>
       </section>
@@ -147,10 +221,10 @@ export default function PartnersPageClient() {
         <div style={{ marginBottom: 36 }}><Lbl ch="How we work" /><Ttl ch="PARTNER ECOSYSTEM." /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 14 }}>
           {PARTNER_TIERS.map((tier) => (
-            <div key={tier.tier} style={{ border: `1px solid ${PL}`, borderRadius: 14, background: "#fff", padding: "20px 18px" }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>{tier.tier}</div>
+            <ConsultancyInteractiveSurface key={tier.tier} variant="light" style={{ border: `1px solid ${PL}`, borderRadius: 14, background: "#fff", padding: "20px 18px" }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", textTransform: "uppercase", marginBottom: 10 }}>{tier.tier}</div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.6)" }}>{tier.desc}</div>
-            </div>
+            </ConsultancyInteractiveSurface>
           ))}
         </div>
       </section>

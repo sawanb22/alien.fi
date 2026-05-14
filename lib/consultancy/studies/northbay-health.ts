@@ -26,7 +26,7 @@ export const northbayHealthStudy = {
   challenge: {
     heading: "BURNOUT EPIDEMIC.",
     paragraphs: [
-      "NorthBayâ€™s clinicians spent 38 percent of every shift on charting instead of patient care. Documentation backlog had become the top driver of physician burnout and the second driver of regrettable attrition.",
+      "NorthBay's clinicians spent 38 percent of every shift on charting instead of patient care. Documentation backlog had become the top driver of physician burnout and the second driver of regrettable attrition.",
       "Two prior AI scribes had stalled, one on Epic integration and one on accuracy. The CMO needed AI for healthcare that was Epic-native, HIPAA-defensible, conservative by design, and trusted enough to roll out to 1,800 physicians without disruption.",
     ],
     stats: [
@@ -38,7 +38,7 @@ export const northbayHealthStudy = {
   phases: [
     {
       p: "Phase 1",
-      w: "Weeks 1â€“10",
+      w: "Weeks 1-10",
       n: "Clinical pilot",
       d: "Hand built ambient-listening copilot piloted with 20 EPs at a flagship hospital.",
       deliv: [
@@ -49,7 +49,7 @@ export const northbayHealthStudy = {
     },
     {
       p: "Phase 2",
-      w: "Weeks 11â€“24",
+      w: "Weeks 11-24",
       n: "Epic integration",
       d: "Native HL7 FHIR integration into Epic Hyperspace for real AI for healthcare workflows.",
       deliv: [
@@ -60,7 +60,7 @@ export const northbayHealthStudy = {
     },
     {
       p: "Phase 3",
-      w: "Weeks 25â€“34",
+      w: "Weeks 25-34",
       n: "System wide rollout",
       d: "Hospital by hospital deployment with specialty playbooks for each clinical unit.",
       deliv: [
@@ -71,7 +71,7 @@ export const northbayHealthStudy = {
     },
     {
       p: "Phase 4",
-      w: "Weeks 35â€“60",
+      w: "Weeks 35-60",
       n: "Managed operations",
       d: "Weekly accuracy review on de-identified shadow charts.",
       deliv: [
@@ -96,7 +96,7 @@ export const northbayHealthStudy = {
       i: "Insurance",
       v: "62%",
       l: "Faster claims",
-      h: "Claims and fraud program delivered AI for healthcareâ€™s sister pattern in insurance, cutting claims time 62 percent and saving $3.2M annually.",
+      h: "Claims and fraud program delivered AI for healthcare's sister pattern in insurance, cutting claims time 62 percent and saving $3.2M annually.",
     },
     {
       n: "Lumen Legal",
@@ -113,10 +113,10 @@ export const northbayHealthStudy = {
       h: "Benefits fraud ML recovered $28M in one year and reused the same healthcare automation playbook for regulated environments.",
     },
   ],
-  relatedCtaLabel: "See all â†’",
+  relatedCtaLabel: "See all →",
   cta: {
     title: "WRITE YOUR STORY",
-    sub: "Tell us your most painful clinical or operational metric. We will show you how AI for healthcare deployments like NorthBayâ€™s documentation copilot turned similar baselines into audited outcomes and outline three AI solutions for healthcare and healthcare automation that could work in your environment.",
+    sub: "Tell us your most painful clinical or operational metric. We will show you how AI for healthcare deployments like NorthBay's documentation copilot turned similar baselines into audited outcomes and outline three AI solutions for healthcare and healthcare automation that could work in your environment.",
     button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

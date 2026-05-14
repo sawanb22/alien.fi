@@ -3,6 +3,9 @@
 import Link from "next/link";
 import {
   Chip,
+  ConsultancyInteractiveSurface,
+  consultancyOutlineLightPillEnter,
+  consultancyOutlineLightPillLeave,
   CTAStrip,
   Footer,
   Lbl,
@@ -15,7 +18,7 @@ import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-hea
 import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import type { CaseStudyTemplateData } from "@/lib/consultancy/studies/types";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
-import { MN, SN } from "@/lib/consultancy/tokens";
+import { MN, MN_WORD_SPACE, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 
 function StudyHero({ d }: { d: CaseStudyTemplateData }) {
@@ -52,7 +55,7 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
                 fontFamily: MN,
                 fontSize: 9,
                 fontWeight: 600,
-                letterSpacing: "0.14em",
+                letterSpacing: "normal",
                 textTransform: "uppercase",
                 color: "rgba(255,255,255,0.4)",
                 marginBottom: 32,
@@ -69,7 +72,7 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
               <span style={{ color: L2 }}>{d.short}</span>
             </div>
             <Lbl ch={`${d.industry} · ${d.duration}`} lt />
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#fff", letterSpacing: "0.03em", marginBottom: 8 }}>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 22, color: "#fff", letterSpacing: "normal", wordSpacing: MN_WORD_SPACE, marginBottom: 8 }}>
               {d.client}
             </div>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{d.blurb}</div>
@@ -87,7 +90,7 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
+                <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
                   {k}
                 </span>
                 <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", textAlign: "right", lineHeight: 1.25 }}>{v}</span>
@@ -113,7 +116,8 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
               fontSize: "clamp(36px,4.8vw,68px)",
               lineHeight: 1.0,
               color: "#fff",
-              letterSpacing: "0.04em",
+              letterSpacing: "normal",
+              wordSpacing: MN_WORD_SPACE,
               marginBottom: 32,
               wordBreak: "keep-all",
             }}
@@ -176,14 +180,14 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
                     fontWeight: 700,
                     fontSize: layout === "mobile" ? "clamp(28px,7vw,40px)" : 52,
                     color: L,
-                    letterSpacing: "0.02em",
+                    letterSpacing: "normal",
                     lineHeight: 1,
                     marginBottom: 14,
                   }}
                 >
                   {x.v}
                 </div>
-                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
+                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "normal", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
                 <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
               </div>
             }
@@ -235,7 +239,7 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
             {c.stats.map(([v, l]) => (
               <div key={l} style={{ background: BG, padding: "24px" }}>
                 <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#000", lineHeight: 1 }}>{v}</div>
-                <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginTop: 8 }}>{l}</div>
+                <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginTop: 8 }}>{l}</div>
               </div>
             ))}
           </div>
@@ -291,21 +295,28 @@ function Approach({
         }}
       >
         {phases.map((ph) => (
-          <div
+          <ConsultancyInteractiveSurface
             key={ph.n}
-            style={{
-              background: `linear-gradient(160deg,${BG},${BG2})`,
-              padding: "30px 28px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 14,
-            }}
+            variant="gradient"
+            style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14, height: "100%" }}
           >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <Chip ch={ph.p} />
-              <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.1em", color: "rgba(0,0,0,0.4)", fontWeight: 600 }}>{ph.w}</span>
+              <span
+                style={{
+                  fontFamily: MN,
+                  fontSize: 11,
+                  letterSpacing: "normal",
+                  color: "rgba(0,0,0,0.62)",
+                  fontWeight: 600,
+                  textAlign: "right",
+                  lineHeight: 1.35,
+                }}
+              >
+                {ph.w}
+              </span>
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "0.03em", lineHeight: 1.3 }}>{ph.n}</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "normal", lineHeight: 1.3 }}>{ph.n}</div>
             <div style={{ fontFamily: SN, fontSize: 12, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1 }}>{ph.d}</div>
             <div style={{ height: 1, background: PL, marginTop: 6 }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -328,7 +339,7 @@ function Approach({
                 </div>
               ))}
             </div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -361,7 +372,7 @@ function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
                 fontWeight: 400,
                 fontSize: layout === "mobile" ? 17 : 22,
                 lineHeight: 1.6,
-                letterSpacing: "0.02em",
+                letterSpacing: "normal",
                 color: "rgba(255,255,255,0.85)",
                 marginBottom: 32,
                 maxWidth: 780,
@@ -389,7 +400,7 @@ function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
               </div>
               <div>
                 <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#fff" }}>{q.name}</div>
-                <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.06em", color: L2, textTransform: "uppercase", marginTop: 4 }}>
+                <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", color: L2, textTransform: "uppercase", marginTop: 4 }}>
                   {q.role}
                 </div>
               </div>
@@ -438,7 +449,7 @@ function Related({
         </div>
         <Link
           href="/case-studies"
-          className="rv d2 hv"
+          className="rv d2"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -446,11 +457,18 @@ function Related({
             fontFamily: MN,
             fontSize: 11,
             fontWeight: 600,
-            letterSpacing: "0.1em",
+            letterSpacing: "normal",
             textTransform: "uppercase",
             color: "rgba(0,0,0,0.6)",
             textDecoration: "none",
+            border: `1px solid ${PL}`,
+            borderRadius: 999,
+            padding: "10px 20px",
+            cursor: "pointer",
+            transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
           }}
+          onMouseEnter={consultancyOutlineLightPillEnter}
+          onMouseLeave={consultancyOutlineLightPillLeave}
         >
           {ctaLabel ?? "See all 8 →"}
         </Link>
@@ -491,7 +509,7 @@ function Related({
             <Chip ch={r.i} />
             <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 38, color: "#000", lineHeight: 1 }}>{r.v}</div>
-              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{r.l}</div>
+              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{r.l}</div>
             </div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000" }}>{r.n}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.5)" }}>{r.h}</div>

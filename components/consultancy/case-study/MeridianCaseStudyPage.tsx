@@ -4,6 +4,9 @@ import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Chip,
+  ConsultancyInteractiveSurface,
+  consultancyOutlineLightPillEnter,
+  consultancyOutlineLightPillLeave,
   CTAStrip,
   Footer,
   Lbl,
@@ -13,7 +16,7 @@ import {
 } from "@/components/consultancy/consultancy-ui";
 import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
-import { CW, MN, OT, SN } from "@/lib/consultancy/tokens";
+import { CW, MN, MN_WORD_SPACE, OT, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 
 function StudyHero() {
@@ -52,7 +55,7 @@ function StudyHero() {
                   fontFamily: MN,
                   fontSize: 9,
                   fontWeight: 600,
-                  letterSpacing: "0.14em",
+                  letterSpacing: "normal",
                   textTransform: "uppercase",
                   color: "rgba(255,255,255,0.4)",
                   marginBottom: 32,
@@ -69,7 +72,7 @@ function StudyHero() {
                 <span style={{ color: L2 }}>Meridian</span>
               </div>
               <Lbl ch="Insurance · 9 months" lt />
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: stacked ? 22 : 24, color: "#fff", letterSpacing: "0.03em", marginBottom: 8 }}>Meridian Insurance</div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: stacked ? 22 : 24, color: "#fff", letterSpacing: "normal", wordSpacing: MN_WORD_SPACE, marginBottom: 8 }}>Meridian Insurance</div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>
                 Regional P&C carrier serving 240,000 policyholders across the Mountain West. 500+ employees. Founded 1962.
               </div>
@@ -85,23 +88,23 @@ function StudyHero() {
                 ] as const
               ).map(([k, v]) => (
                 <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
                     {k}
                   </span>
-                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: "0.02em" }}>{v}</span>
+                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: "normal" }}>{v}</span>
                 </div>
               ))}
             </div>
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
             <Chip ch="Featured case study" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
-            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(18px,1.5vw,22px)", lineHeight: 1.1, color: "rgba(255,255,255,0.72)", letterSpacing: "0.06em", marginBottom: 16 }}>
+            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(18px,1.5vw,22px)", lineHeight: 1.1, color: "rgba(255,255,255,0.72)", letterSpacing: "normal", wordSpacing: MN_WORD_SPACE, marginBottom: 16 }}>
               AI FOR INSURANCE COMPANIES:
             </div>
-            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
+            <div className="rv" style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "normal", wordSpacing: MN_WORD_SPACE, marginBottom: 12 }}>
               HOW WE CUT
             </div>
-            <div className="rv d1" style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "0.04em", marginBottom: 12 }}>
+            <div className="rv d1" style={{ fontFamily: MN, fontWeight: 500, fontSize: "clamp(36px,4.8vw,72px)", lineHeight: 1.0, color: "#fff", letterSpacing: "normal", wordSpacing: MN_WORD_SPACE, marginBottom: 12 }}>
               CLAIMS TIME
             </div>
             <div
@@ -111,7 +114,8 @@ function StudyHero() {
                 fontWeight: 700,
                 fontSize: "clamp(36px,4.8vw,72px)",
                 lineHeight: 1.0,
-                letterSpacing: "0.04em",
+                letterSpacing: "normal",
+                wordSpacing: MN_WORD_SPACE,
                 background: `linear-gradient(90deg,#fff 40%,${L} 60%,#fff 80%)`,
                 backgroundSize: "200% auto",
                 WebkitBackgroundClip: "text",
@@ -166,14 +170,14 @@ function MetricsBar() {
                     fontWeight: 700,
                     fontSize: layout === "mobile" ? "clamp(28px,7vw,40px)" : 52,
                     color: L,
-                    letterSpacing: "0.02em",
+                    letterSpacing: "normal",
                     lineHeight: 1,
                     marginBottom: 14,
                   }}
                 >
                   {x.v}
                 </div>
-                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
+                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "normal", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
                 <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
               </div>
             }
@@ -227,8 +231,8 @@ function Challenge() {
           >
             {stats.map(([v, l]) => (
               <div key={l} style={{ background: BG, padding: "24px" }}>
-                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#000", lineHeight: 1, letterSpacing: "0.02em" }}>{v}</div>
-                <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginTop: 8 }}>{l}</div>
+                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#000", lineHeight: 1, letterSpacing: "normal" }}>{v}</div>
+                <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginTop: 8 }}>{l}</div>
               </div>
             ))}
           </div>
@@ -327,12 +331,24 @@ function Approach() {
         }}
       >
         {phases.map((p) => (
-          <div key={p.n} style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <ConsultancyInteractiveSurface key={p.n} variant="gradient" style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14, height: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
               <Chip ch={p.p} />
-              <span style={{ fontFamily: MN, fontSize: 9, letterSpacing: "0.1em", color: "rgba(0,0,0,0.4)", fontWeight: 600 }}>{p.w}</span>
+              <span
+                style={{
+                  fontFamily: MN,
+                  fontSize: 11,
+                  letterSpacing: "normal",
+                  color: "rgba(0,0,0,0.62)",
+                  fontWeight: 600,
+                  textAlign: "right",
+                  lineHeight: 1.35,
+                }}
+              >
+                {p.w}
+              </span>
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "0.03em", lineHeight: 1.3 }}>{p.n}</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "normal", lineHeight: 1.3 }}>{p.n}</div>
             <div style={{ fontFamily: SN, fontSize: 12, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1 }}>{p.d}</div>
             <div style={{ height: 1, background: PL, marginTop: 6 }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -355,7 +371,7 @@ function Approach() {
                 </div>
               ))}
             </div>
-          </div>
+          </ConsultancyInteractiveSurface>
         ))}
       </div>
     </section>
@@ -388,7 +404,7 @@ function Quote() {
                 fontWeight: 400,
                 fontSize: layout === "mobile" ? 17 : 22,
                 lineHeight: 1.6,
-                letterSpacing: "0.02em",
+                letterSpacing: "normal",
                 color: "rgba(255,255,255,0.85)",
                 marginBottom: 32,
                 maxWidth: 780,
@@ -415,8 +431,8 @@ function Quote() {
                 SR
               </div>
               <div>
-                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#fff", letterSpacing: "0.02em" }}>Sarah Reyes</div>
-                <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.06em", color: L2, textTransform: "uppercase", marginTop: 4 }}>
+                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#fff", letterSpacing: "normal" }}>Sarah Reyes</div>
+                <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", color: L2, textTransform: "uppercase", marginTop: 4 }}>
                   Chief Operations Officer, Meridian Insurance
                 </div>
               </div>
@@ -480,7 +496,29 @@ function Related() {
           <Lbl ch="More like this" />
           <Ttl ch="RELATED STUDIES" />
         </div>
-        <Link href="/case-studies" className="rv d2 hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
+        <Link
+          href="/case-studies"
+          className="rv d2"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            fontFamily: MN,
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: "normal",
+            textTransform: "uppercase",
+            color: "rgba(0,0,0,0.6)",
+            textDecoration: "none",
+            border: `1px solid ${PL}`,
+            borderRadius: 999,
+            padding: "10px 20px",
+            cursor: "pointer",
+            transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
+          }}
+          onMouseEnter={consultancyOutlineLightPillEnter}
+          onMouseLeave={consultancyOutlineLightPillLeave}
+        >
           See all →
         </Link>
       </div>
@@ -519,10 +557,10 @@ function Related() {
           >
             <Chip ch={r.i} />
             <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 38, color: "#000", lineHeight: 1, letterSpacing: "0.02em" }}>{r.v}</div>
-              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{r.l}</div>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 38, color: "#000", lineHeight: 1, letterSpacing: "normal" }}>{r.v}</div>
+              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{r.l}</div>
             </div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000", letterSpacing: "0.03em" }}>{r.n}</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000", letterSpacing: "normal" }}>{r.n}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.5)" }}>{r.h}</div>
           </Link>
         ))}

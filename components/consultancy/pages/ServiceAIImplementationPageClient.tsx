@@ -21,10 +21,10 @@ import {
 } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
-import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
 
 const METRICS = [
-  { v: "4 wks", l: "Avg to first integration", s: "Scoping to live API" },
+  { v: "4 weeks", l: "Avg to first integration", s: "Scoping to live API" },
   { v: "99.7%", l: "Avg system uptime", s: "Across managed deployments" },
   { v: "62%", l: "Avg process time reduction", s: "Post AI integration services" },
   { v: "100%", l: "Client IP ownership", s: "All code and configs" },
@@ -80,7 +80,7 @@ export default function ServiceAIImplementationPageClient() {
         <div style={{ padding: `0 ${gv}px` }}>
           <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr" }}>
             <div style={{ padding: 28, borderRight: layout === "desktop" ? "1px solid rgba(255,255,255,0.08)" : "none", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, color: "rgba(255,255,255,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, color: "rgba(255,255,255,0.5)", letterSpacing: "normal", textTransform: "uppercase", marginBottom: 20 }}>
                 <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <Link href="/services" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Services</Link>
@@ -171,13 +171,13 @@ export default function ServiceAIImplementationPageClient() {
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
           {PHASES.map(([p, t, d, b]) => (
             <ConsultancyInteractiveSurface key={p} variant="muted" style={{ padding: 20 }}>
-              <div style={{ fontFamily: MN, fontSize: 10, color: L2 }}>{p}</div>
+              <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{p}</div>
               <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0" }}>{t}</div>
               <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.56)", marginBottom: 8 }}>{d}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {b.map((x) => (
                   <div key={x} style={{ display: "flex", gap: 8, alignItems: "flex-start", fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.72)" }}>
-                    <span aria-hidden style={{ width: 4, height: 4, borderRadius: "50%", background: L2, flexShrink: 0, marginTop: 5 }} />
+                    <span aria-hidden style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, flexShrink: 0, marginTop: 5 }} />
                     <span>{x}</span>
                   </div>
                 ))}
@@ -192,7 +192,7 @@ export default function ServiceAIImplementationPageClient() {
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
           {DELIVER.map(([t, d], i) => (
             <ConsultancyInteractiveSurface key={t} variant="light" style={{ padding: 22 }}>
-              <div style={{ fontFamily: MN, fontSize: 10, color: L2 }}>{String(i + 1).padStart(2, "0")} -</div>
+              <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{String(i + 1).padStart(2, "0")} -</div>
               <div style={{ fontFamily: MN, fontSize: 15, margin: "6px 0" }}>{t}</div>
               <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{d}</div>
             </ConsultancyInteractiveSurface>
@@ -225,7 +225,7 @@ export default function ServiceAIImplementationPageClient() {
                     style={{
                       fontFamily: MN,
                       fontSize: 10.5,
-                      letterSpacing: "0.06em",
+                      letterSpacing: "normal",
                       color: L,
                       lineHeight: 1.5,
                       marginTop: 12,
@@ -241,7 +241,7 @@ export default function ServiceAIImplementationPageClient() {
       </section>
 
       <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-        <Lbl ch="Got questions" /><Ttl ch="COMMON QUESTIONS." />
+        <Lbl ch="Got questions" /><Ttl ch="FAQS." />
         <ConsultancyFaqAccordion items={FAQS} tone="paper" />
       </section>
 

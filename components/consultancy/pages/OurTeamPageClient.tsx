@@ -5,11 +5,14 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
   Lbl,
   Nav,
   Ttl,
+  consultancyLimeCtaEnter,
+  consultancyLimeCtaLeave,
 } from "@/components/consultancy/consultancy-ui";
 import {
   gridCols,
@@ -54,22 +57,36 @@ type TeamPerson = {
 };
 
 function PersonCard({ p, big = false, dark = false }: { p: TeamPerson; big?: boolean; dark?: boolean }) {
+  const pad = big ? "30px 28px" : "22px";
+  const gap = big ? 14 : 10;
   return (
-    <div style={{ background: dark ? "rgba(255,255,255,0.04)" : `linear-gradient(160deg,${BG},${BG2})`, border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`, borderRadius: 14, padding: big ? "30px 28px" : "22px", display: "flex", flexDirection: "column", gap: big ? 14 : 10, height: "100%" }}>
+    <ConsultancyInteractiveSurface
+      variant={dark ? "darkGlass" : "gradient"}
+      style={{
+        ...(dark ? { background: "rgba(255,255,255,0.04)" } : {}),
+        border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`,
+        borderRadius: 14,
+        padding: pad,
+        display: "flex",
+        flexDirection: "column",
+        gap,
+        height: "100%",
+      }}
+    >
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
         <div style={{ width: big ? 56 : 46, height: big ? 56 : 46, borderRadius: "50%", background: `linear-gradient(135deg,${L},${L2})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontWeight: 700, fontSize: big ? 16 : 14, color: "#000" }}>{p.init}</div>
         <div>
           <div style={{ fontFamily: MN, fontWeight: 600, fontSize: big ? 16 : 14, color: dark ? "#fff" : "#000" }}>{p.n}</div>
-          <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "0.04em", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", marginTop: 3 }}>{p.r}</div>
+          <div style={{ fontFamily: MN, fontWeight: 500, fontSize: 11, letterSpacing: "normal", color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", marginTop: 3 }}>{p.r}</div>
         </div>
       </div>
       {p.bio ? <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>{p.bio}</div> : null}
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: "auto" }}>
         {p.tags.map((t: string) => (
-          <div key={t} style={{ padding: "3px 9px", background: dark ? "rgba(255,255,255,0.08)" : "rgba(21,24,43,0.06)", borderRadius: 5, fontFamily: MN, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.06em", color: dark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)", textTransform: "uppercase" }}>{t}</div>
+          <div key={t} style={{ padding: "3px 9px", background: dark ? "rgba(255,255,255,0.08)" : "rgba(21,24,43,0.06)", borderRadius: 5, fontFamily: MN, fontSize: 9.5, fontWeight: 600, letterSpacing: "normal", color: dark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)", textTransform: "uppercase" }}>{t}</div>
         ))}
       </div>
-    </div>
+    </ConsultancyInteractiveSurface>
   );
 }
 
@@ -84,7 +101,7 @@ function TeamHero() {
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 440 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)", borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 32 }}>
                 <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "rgba(255,255,255,0.5)" }}>About</span>
@@ -101,7 +118,7 @@ function TeamHero() {
                 <div key={label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                     <span style={{ fontFamily: MN, fontSize: 12, fontWeight: 700, color: "#fff" }}>{value}</span>
-                    <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>{label}</span>
+                    <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>{label}</span>
                     <span style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{sub}</span>
                   </div>
                 </div>
@@ -110,7 +127,7 @@ function TeamHero() {
           </div>
           <div style={{ padding: stacked ? "32px 0 44px" : "72px 60px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <Chip ch="Our Team" bg={L} cl="#000" sx={{ marginBottom: 24 }} />
-            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(40px,5vw,72px)", lineHeight: 1, color: "#fff", letterSpacing: "0.04em", marginBottom: 32 }}>
+            <div style={{ fontFamily: MN, fontWeight: 300, fontSize: "clamp(40px,5vw,72px)", lineHeight: 1, color: "#fff", letterSpacing: "normal", marginBottom: 32 }}>
               <div style={{ fontWeight: 300 }}>SMALL TEAMS.</div>
               <div style={{ fontWeight: 500 }}>SENIOR PEOPLE.</div>
               <div style={{ fontWeight: 700, background: `linear-gradient(90deg,#fff 40%,${L} 60%,#fff 80%)`, backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "consultancy-shimmer 4s linear infinite" }}>NO HANDOFFS.</div>
@@ -152,14 +169,34 @@ export default function OurTeamPageClient() {
         </div>
         <div style={{ display: "flex", alignItems: layout === "mobile" ? "flex-start" : "center", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 14 : 0, borderTop: `1px solid ${PL}`, marginTop: 48, paddingTop: 32 }}>
           <div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 8 }}>Plus 80 more across delivery, research, design, and ops</div>
+            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 8 }}>Plus 80 more across delivery, research, design, and ops</div>
             <div style={{ fontFamily: MN, fontSize: 14, color: "#000", fontWeight: 500 }}>We are hiring 14 roles this quarter.</div>
           </div>
-          <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#000", color: L, borderRadius: 24, padding: "12px 18px", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "background .2s,color .2s,transform .15s" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgb(230,230,234)"; e.currentTarget.style.color = "#000"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "#000"; e.currentTarget.style.color = L; }}
+          <Link
+            href="/contact"
+            className="hv"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: L,
+              color: "#000",
+              border: "none",
+              borderRadius: 24,
+              padding: "12px 18px",
+              fontFamily: MN,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "normal",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              cursor: "none",
+              transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+            }}
+            onMouseEnter={consultancyLimeCtaEnter}
+            onMouseLeave={consultancyLimeCtaLeave}
           >
-            See open roles <Arr sz={10} cl={L} sw={2.4} />
+            See open roles <Arr sz={10} cl="currentColor" sw={2.4} />
           </Link>
         </div>
       </section>
