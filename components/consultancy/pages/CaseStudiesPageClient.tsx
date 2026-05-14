@@ -488,40 +488,6 @@ function RoiSnapshot() {
               <Lbl ch="AI ROI Snapshot" sx={{ letterSpacing: "normal" }} />
               <Ttl ch="AI ROI ACROSS CASE STUDIES" sx={{ letterSpacing: "normal" }} />
             </div>
-            <div
-              style={{
-                width: "100%",
-                height: 1,
-                background: PL,
-                marginTop: layout === "mobile" ? 14 : 18,
-                marginBottom: layout === "mobile" ? 18 : 22,
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-              <div
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: "50%",
-                  border: `2px solid ${L}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxSizing: "border-box",
-                  flexShrink: 0,
-                }}
-                aria-hidden
-              >
-                <div
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: "50%",
-                    background: "rgb(96, 76, 168)",
-                  }}
-                />
-              </div>
-            </div>
           </div>
         </button>
         {!roiOpen ? (
@@ -618,7 +584,6 @@ function StatsBar() {
     { v: "94%", l: "Client retention" },
     { v: "7.3", l: "Average payback (months)" },
   ];
-  const hair = "rgba(255,255,255,0.12)";
   const railBg = "rgba(255,255,255,0.07)";
   const railBorder = "rgba(255,255,255,0.14)";
   return (
@@ -685,41 +650,6 @@ function StatsBar() {
                 }}
               >
                 Ten AI case studies. Ten different operating environments. These enterprise AI implementation success stories show how alien.fi turns AI transformation examples into audited AI ROI across healthcare, legal, banking, manufacturing, logistics, retail, education, real estate, restaurants, and SaaS.
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-                height: 1,
-                background: hair,
-                marginTop: layout === "mobile" ? 14 : 18,
-                marginBottom: layout === "mobile" ? 18 : 22,
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-              <div
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: "50%",
-                  border: `2px solid ${L}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxSizing: "border-box",
-                  flexShrink: 0,
-                }}
-                aria-hidden
-              >
-                <div
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    background: L,
-                    boxShadow: `0 0 14px ${L}`,
-                  }}
-                />
               </div>
             </div>
           </div>
