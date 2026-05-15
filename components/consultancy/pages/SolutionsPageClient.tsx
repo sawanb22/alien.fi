@@ -11,7 +11,6 @@ import {
   Nav,
   PageHero,
   Ticker,
-  Tilt,
   Ttl,
 } from "@/components/consultancy/consultancy-ui";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
@@ -413,66 +412,87 @@ function HowItWorks() {
   const pv = sectionVPad(layout);
   const [stepHov, setStepHov] = useState<string | null>(null);
   const steps = [
-    {
-      n: "01",
-      t: "Choose a solution",
-      d: "Choose a solution from the catalog.",
-    },
-    {
-      n: "02",
-      t: "Connect",
-      d: "Connect your data, tools, and permissions.",
-    },
-    {
-      n: "03",
-      t: "Configure workflows",
-      d: "Configure workflows and success metrics.",
-    },
-    {
-      n: "04",
-      t: "Go live",
-      d: "Go live in 2 to 6 weeks with managed support.",
-    },
+    { n: "01", text: "Choose a solution from the catalog." },
+    { n: "02", text: "Connect your data, tools, and permissions." },
+    { n: "03", text: "Configure workflows and success metrics." },
+    { n: "04", text: "Go live in 2 to 6 weeks with managed support." },
   ];
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
+    <section
+      id="how-it-works"
+      style={{
+        padding: `${pv}px ${gv}px`,
+        background: DK,
+        position: "relative",
+        zIndex: 3,
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
+      }}
+    >
+      <div style={{ marginBottom: layout === "mobile" ? 28 : 40 }}>
         <div className="rv">
-          <Lbl ch="From shelf to production" lt />
-          <Ttl ch="HOW IT WORKS." lt />
+          <Lbl ch="From shelf to production" lt sx={{ letterSpacing: "normal" }} />
+          <Ttl ch="HOW IT WORKS." lt sx={{ letterSpacing: "normal" }} />
         </div>
       </div>
-      <div className="rv d1" style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", alignItems: "stretch" }}>
-        {steps.map((s, i) => {
+      <div
+        className="rv d1"
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, 4, 2),
+          gap: layout === "mobile" ? 14 : 18,
+          alignItems: "stretch",
+        }}
+      >
+        {steps.map((s) => {
           const h = stepHov === s.n;
           return (
-          <Tilt key={s.n} int={6} sx={{ height: "100%" }}>
-            <div
-              role="presentation"
-              onMouseEnter={() => setStepHov(s.n)}
-              onMouseLeave={() => setStepHov(null)}
-              style={{
-                background: h ? "rgba(255,255,255,0.07)" : DK,
-                padding: "36px 28px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 14,
-                height: "100%",
-                cursor: "pointer",
-                transition: "background .22s ease, box-shadow .22s ease, transform .22s ease",
-                boxShadow: h ? `inset 0 0 0 1px rgba(177,238,82,0.45)` : "none",
-                transform: h ? "translateY(-2px)" : "translateY(0)",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: L2 }}>{s.n}</span>
-                {i < 3 ? <Arr sz={10} cl={h ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.2)"} sw={2} /> : null}
+            <div key={s.n} style={{ height: "100%", minHeight: 0 }}>
+              <div
+                role="presentation"
+                onMouseEnter={() => setStepHov(s.n)}
+                onMouseLeave={() => setStepHov(null)}
+                style={{
+                  height: "100%",
+                  boxSizing: "border-box",
+                  borderRadius: layout === "mobile" ? 14 : 16,
+                  padding: layout === "mobile" ? "22px 20px" : "26px 24px",
+                  background: h ? "rgb(28,32,56)" : "rgba(255,255,255,0.05)",
+                  border: h ? `1px solid rgba(177,238,82,0.35)` : "1px solid rgba(255,255,255,0.08)",
+                  cursor: "default",
+                  transition: "background .28s ease, border-color .28s ease, box-shadow .28s ease, transform .22s ease",
+                  boxShadow: h ? `0 12px 32px rgba(0,0,0,0.35)` : "none",
+                  transform: h ? "translateY(-3px)" : "translateY(0)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 14,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: MN,
+                    fontWeight: 700,
+                    fontSize: 10,
+                    letterSpacing: "normal",
+                    color: h ? L : L2,
+                    transition: "color .25s ease",
+                  }}
+                >
+                  {s.n}
+                </span>
+                <div
+                  style={{
+                    fontFamily: SN,
+                    fontSize: 13.5,
+                    lineHeight: 1.65,
+                    color: h ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.72)",
+                    transition: "color .25s ease",
+                  }}
+                >
+                  {s.text}
+                </div>
               </div>
-              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 18, letterSpacing: "normal", color: "#fff" }}>{s.t}</div>
-              <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
-              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.7, color: h ? "rgba(255,255,255,0.62)" : "rgba(255,255,255,0.5)", transition: "color .2s ease" }}>{s.d}</div>
             </div>
-          </Tilt>
           );
         })}
       </div>
