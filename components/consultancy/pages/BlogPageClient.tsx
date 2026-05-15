@@ -7,6 +7,7 @@ import { Arr, Chip, ConsultancyInteractiveSurface, CTAStrip, Footer, Lbl, Nav, T
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const FEATURED = {
   cat: "STRATEGY",
@@ -41,7 +42,7 @@ function Hero() {
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
   return (
-    <section style={{ paddingTop: 60, background: "#fff", borderBottom: `1px solid ${PL}` }}>
+    <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: "#fff", borderBottom: `1px solid ${PL}` }}>
       <div style={{ paddingLeft: gv, paddingRight: gv }}>
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 380 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24, borderRight: stacked ? "none" : `1px solid ${PL}`, borderBottom: stacked ? `1px solid ${PL}` : "none", background: "rgb(250,251,255)" }}>
@@ -66,7 +67,7 @@ function Hero() {
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -80,7 +81,7 @@ export default function BlogPageClient() {
     <ConsultancyLoadedShell label="FIELD NOTES">
       <Nav current="Blog" />
       <Hero />
-      <section style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px 0`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
+      <ScrollSection as="section" index={1} style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px 0`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
         <div style={{ marginBottom: 32 }}><Lbl ch="Featured this week" /></div>
         <ConsultancyInteractiveSurface
           variant="dk"
@@ -106,8 +107,8 @@ export default function BlogPageClient() {
           </div>
           <div style={{ background: `linear-gradient(135deg,${L}66,${L2}33,${DK})`, minHeight: 260 }} />
         </ConsultancyInteractiveSurface>
-      </section>
-      <section style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px ${pv}px`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={2} style={{ padding: `${Math.max(48, pv - 12)}px ${gv}px ${pv}px`, background: `linear-gradient(180deg,${BG2},${BG})` }}>
         <div style={{ marginBottom: 32, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
           <div><Lbl ch="All field notes" /><Ttl ch="THE ARCHIVE." /></div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
@@ -120,9 +121,9 @@ export default function BlogPageClient() {
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 16 }}>
-          {filtered.map((p) => (
+          {filtered.map((p, i) => (
+            <ScrollGridItem key={p.t} sectionIndex={2} cardIndex={i}>
             <ConsultancyInteractiveSurface
-              key={p.t}
               variant="gradient"
               style={{
                 border: `1px solid ${PL}`,
@@ -147,10 +148,11 @@ export default function BlogPageClient() {
                 <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", color: "rgba(0,0,0,0.4)" }}>{p.date}</span>
               </div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "1fr 1fr" : "1fr", gap: 60, alignItems: "center" }}>
           <div>
             <Lbl ch="Field Notes weekly" lt />
@@ -173,7 +175,7 @@ export default function BlogPageClient() {
             </button>
           </div>
         </div>
-      </section>
+      </ScrollSection>
       <CTAStrip title="WANT US TO COVER SOMETHING SPECIFIC?" sub="Reply to the newsletter or send us a topic. We turn 1 in 4 reader prompts into a full field note." />
       <Footer />
     </ConsultancyLoadedShell>

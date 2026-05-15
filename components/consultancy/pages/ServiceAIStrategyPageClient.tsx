@@ -25,6 +25,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const PHASES = [
   {
@@ -116,7 +117,9 @@ function StrategyHero() {
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={0}
       style={{
         paddingTop: 60,
         background: DK,
@@ -226,60 +229,64 @@ function StrategyHero() {
               Eight focused weeks. We sit with your leadership, audit your data, score your opportunities, and hand you an 18-month roadmap your CFO will sign.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link
-                href="/contact"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: L,
-                  color: "#000",
-                  borderRadius: 999,
-                  padding: "12px 18px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  transition: "background .2s,color .2s,box-shadow .2s",
-                }}
-                onMouseEnter={consultancyLimeCtaEnter}
-                onMouseLeave={consultancyLimeCtaLeave}
-              >
-                Book a strategy call <Arr sz={10} cl="currentColor" sw={2.4} />
-              </Link>
-              <Link
-                href="/case-studies"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "transparent",
-                  color: "#fff",
-                  border: "1px solid rgba(255,255,255,0.28)",
-                  borderRadius: 999,
-                  padding: "12px 18px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  transition: "background .2s,box-shadow .2s",
-                }}
-                onMouseEnter={consultancyGhostOnDarkEnter}
-                onMouseLeave={consultancyGhostOnDarkLeave}
-              >
-                See past roadmaps
-              </Link>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href="/contact"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: L,
+                    color: "#000",
+                    borderRadius: 999,
+                    padding: "12px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    transition: "background .2s,color .2s,box-shadow .2s",
+                  }}
+                  onMouseEnter={consultancyLimeCtaEnter}
+                  onMouseLeave={consultancyLimeCtaLeave}
+                >
+                  Book a strategy call <Arr sz={10} cl="currentColor" sw={2.4} />
+                </Link>
+              </MagneticWrap>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href="/case-studies"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: "transparent",
+                    color: "#fff",
+                    border: "1px solid rgba(255,255,255,0.28)",
+                    borderRadius: 999,
+                    padding: "12px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    transition: "background .2s,box-shadow .2s",
+                  }}
+                  onMouseEnter={consultancyGhostOnDarkEnter}
+                  onMouseLeave={consultancyGhostOnDarkLeave}
+                >
+                  See past roadmaps
+                </Link>
+              </MagneticWrap>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -287,17 +294,19 @@ function OutcomesSection() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   return (
-    <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, OUTCOMES.length, 2), gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
-        {OUTCOMES.map((x) => (
-          <ConsultancyInteractiveSurface key={x.l} variant="dk" style={{ padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
+        {OUTCOMES.map((x, i) => (
+          <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
+          <ConsultancyInteractiveSurface variant="dk" style={{ padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: layout === "mobile" ? "clamp(28px,7vw,40px)" : 48, color: L, lineHeight: 1, marginBottom: 14 }}>{x.v}</div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 12, letterSpacing: "normal", color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>{x.l}</div>
             <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{x.sub}</div>
           </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -306,7 +315,7 @@ function PhasesSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: layout === "mobile" ? 32 : 48, display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr", gap: layout === "mobile" ? 20 : 60, alignItems: layout === "mobile" ? "start" : "flex-end" }}>
         <div>
           <Lbl ch="Eight weeks · Four phases" />
@@ -317,8 +326,9 @@ function PhasesSection() {
         </div>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}` }}>
-        {PHASES.map((p) => (
-          <ConsultancyInteractiveSurface key={p.n} variant="gradient" style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
+        {PHASES.map((p, i) => (
+          <ScrollGridItem key={p.n} sectionIndex={2} cardIndex={i}>
+          <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{p.n}</div>
               <Chip ch={p.w} />
@@ -335,9 +345,10 @@ function PhasesSection() {
               ))}
             </div>
           </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -346,30 +357,31 @@ function DeliverablesGrid() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 40 }}>
         <Lbl ch="Six artifacts" lt />
         <Ttl ch="WHAT YOU TAKE HOME." lt />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
         {DELIVERABLES.map((d, i) => (
-          <Tilt
-            key={d.h}
-            int={5}
-            ch={
-              <ConsultancyInteractiveSurface variant="dk" style={{ padding: "34px 32px", height: "100%" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-                  <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L }}>{String(i + 1).padStart(2, "0")}</div>
-                  <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
-                </div>
-                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#fff", letterSpacing: "normal", marginBottom: 14 }}>{d.h}</div>
-                <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{d.d}</div>
-              </ConsultancyInteractiveSurface>
-            }
-          />
+          <ScrollGridItem key={d.h} sectionIndex={3} cardIndex={i}>
+            <Tilt
+              int={5}
+              ch={
+                <ConsultancyInteractiveSurface variant="dk" style={{ padding: "34px 32px", height: "100%" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                    <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L }}>{String(i + 1).padStart(2, "0")}</div>
+                    <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+                  </div>
+                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#fff", letterSpacing: "normal", marginBottom: 14 }}>{d.h}</div>
+                  <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{d.d}</div>
+                </ConsultancyInteractiveSurface>
+              }
+            />
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 

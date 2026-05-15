@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { installDelegatedMagnet } from "@/lib/consultancy/delegated-magnet";
 
 export function ConsultancyChrome() {
   useEffect(() => {
@@ -67,6 +68,8 @@ export function ConsultancyChrome() {
       if (el) el.style.transform = "translate(0,0)";
     };
 
+    const removeDelegatedMagnet = installDelegatedMagnet();
+
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mousedown", onDown);
     document.addEventListener("mouseup", onUp);
@@ -79,6 +82,7 @@ export function ConsultancyChrome() {
     document.body.classList.remove("cc", "ch");
 
     return () => {
+      removeDelegatedMagnet();
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("mouseup", onUp);

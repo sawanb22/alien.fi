@@ -16,6 +16,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 import { useEffect, useRef, useState } from "react";
 
 type Ind = {
@@ -611,7 +612,7 @@ function Selector() {
   const [activeId, setActiveId] = useState("ins");
   const active = INDUSTRIES.find((i) => i.id === activeId) ?? INDUSTRIES[0]!;
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+    <ScrollSection as="section" index={0} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 28 : 36,
@@ -639,13 +640,15 @@ function Selector() {
         }}
       >
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 12 }}>
-          {INDUSTRIES.map((ind) => (
-            <IndustryCard key={ind.id} ind={ind} active={activeId === ind.id} onClick={() => setActiveId(ind.id)} />
+          {INDUSTRIES.map((ind, i) => (
+            <ScrollGridItem key={ind.id} sectionIndex={0} cardIndex={i}>
+              <IndustryCard ind={ind} active={activeId === ind.id} onClick={() => setActiveId(ind.id)} />
+            </ScrollGridItem>
           ))}
         </div>
         <DetailPanel ind={active} />
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -677,7 +680,7 @@ function Methodology() {
     },
   ];
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={1} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 32 : 48,
@@ -721,8 +724,8 @@ function Methodology() {
         {items.map((it, i) => {
           const hovered = methodologyHover === i;
           return (
+            <ScrollGridItem key={it.h} sectionIndex={1} cardIndex={i}>
             <div
-              key={it.h}
               onMouseEnter={() => setMethodologyHover(i)}
               onMouseLeave={() => setMethodologyHover(null)}
               style={{
@@ -732,6 +735,8 @@ function Methodology() {
                 boxShadow: hovered ? "inset 0 0 0 1px rgba(177,238,82,0.55)" : "none",
                 position: "relative",
                 zIndex: hovered ? 1 : 0,
+                height: "100%",
+                boxSizing: "border-box",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
@@ -771,10 +776,11 @@ function Methodology() {
               </div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{it.d}</div>
             </div>
+            </ScrollGridItem>
           );
         })}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -889,8 +895,10 @@ function Outcomes() {
   }, []);
 
   return (
-    <section
+    <ScrollSection
       ref={sectionRef}
+      as="section"
+      index={2}
       style={{
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
@@ -925,8 +933,8 @@ function Outcomes() {
         {OUTCOME_STATS.map((s, i) => {
           const hovered = outcomeHover === i;
           return (
+            <ScrollGridItem key={s.keyword} sectionIndex={2} cardIndex={i}>
             <div
-              key={s.keyword}
               onMouseEnter={() => setOutcomeHover(i)}
               onMouseLeave={() => setOutcomeHover(null)}
               style={{
@@ -942,6 +950,8 @@ function Outcomes() {
                 zIndex: hovered ? 1 : 0,
                 transition: "background 0.22s ease, box-shadow 0.22s ease",
                 boxShadow: hovered ? "inset 0 0 0 1px rgba(150,238,82,0.55)" : "none",
+                height: "100%",
+                boxSizing: "border-box",
               }}
             >
               <div
@@ -982,10 +992,11 @@ function Outcomes() {
                 {s.l}
               </div>
             </div>
+            </ScrollGridItem>
           );
         })}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 

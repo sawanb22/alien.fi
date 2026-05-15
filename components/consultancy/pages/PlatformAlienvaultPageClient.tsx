@@ -25,6 +25,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 import {
   platformSplitHeaderBlurbCol,
   platformSplitHeaderRow,
@@ -84,7 +85,9 @@ function VaultHero() {
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={0}
       style={{
         paddingTop: 60,
         background: "#fff",
@@ -244,60 +247,64 @@ function VaultHero() {
               AlienVault is a vertical AI platform for finance teams. Six modules deployed in a secure tenant for banks, lending, payments, and operations teams, without a multi-year transformation program.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link
-                href="/contact"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: DK,
-                  color: "#fff",
-                  borderRadius: 999,
-                  padding: "12px 18px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
-                }}
-                onMouseEnter={consultancyPrimaryBlackCtaEnter}
-                onMouseLeave={consultancyPrimaryBlackCtaLeave}
-              >
-                Book a finance demo <Arr sz={10} cl="currentColor" sw={2.4} />
-              </Link>
-              <Link
-                href="/case-studies/kestrel-bank"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "transparent",
-                  color: "#000",
-                  border: `1px solid ${PL}`,
-                  borderRadius: 999,
-                  padding: "12px 18px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
-                }}
-                onMouseEnter={consultancyOutlineLightPillEnter}
-                onMouseLeave={consultancyOutlineLightPillLeave}
-              >
-                Kestrel case study <Arr sz={10} cl="currentColor" sw={2.4} />
-              </Link>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href="/contact"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: DK,
+                    color: "#fff",
+                    borderRadius: 999,
+                    padding: "12px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+                  }}
+                  onMouseEnter={consultancyPrimaryBlackCtaEnter}
+                  onMouseLeave={consultancyPrimaryBlackCtaLeave}
+                >
+                  Book a finance demo <Arr sz={10} cl="currentColor" sw={2.4} />
+                </Link>
+              </MagneticWrap>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href="/case-studies/kestrel-bank"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: "transparent",
+                    color: "#000",
+                    border: `1px solid ${PL}`,
+                    borderRadius: 999,
+                    padding: "12px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
+                  }}
+                  onMouseEnter={consultancyOutlineLightPillEnter}
+                  onMouseLeave={consultancyOutlineLightPillLeave}
+                >
+                  Kestrel case study <Arr sz={10} cl="currentColor" sw={2.4} />
+                </Link>
+              </MagneticWrap>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -306,13 +313,7 @@ function ModulesSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section
-      style={{
-        padding: `${pv}px ${gv}px`,
-        background: `linear-gradient(180deg,${BG2},${BG})`,
-        position: "relative",
-      }}
-    >
+    <ScrollSection as="section" index={1} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative" }}>
       <div
         style={{
           marginBottom: 36,
@@ -340,8 +341,8 @@ function ModulesSection() {
         }}
       >
         {MODULES.map((m, i) => (
+          <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i}>
           <Tilt
-            key={m.t}
             int={4}
             ch={
               <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
@@ -357,9 +358,10 @@ function ModulesSection() {
               </div>
             }
           />
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -368,11 +370,15 @@ function ComplianceSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={2}
       style={{
         padding: `${pv}px ${gv}px`,
         background: DK,
         position: "relative",
+        borderRadius: "24px 24px 0 0",
+        marginTop: -24,
       }}
     >
       <div style={platformSplitHeaderRow(layout, 40)}>
@@ -394,14 +400,16 @@ function ComplianceSection() {
           overflow: "hidden",
         }}
       >
-        {COMPLIANCE.map((c) => (
-          <ConsultancyInteractiveSurface key={c.n} variant="dk" style={{ padding: "30px 28px" }}>
+        {COMPLIANCE.map((c, i) => (
+          <ScrollGridItem key={c.n} sectionIndex={2} cardIndex={i}>
+          <ConsultancyInteractiveSurface variant="dk" style={{ padding: "30px 28px" }}>
             <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 18, color: L, letterSpacing: "normal", marginBottom: 12 }}>{c.n}</div>
             <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.55)" }}>{c.d}</div>
           </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 

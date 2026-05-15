@@ -19,6 +19,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const METRICS = [
   ["4 to 8 weeks", "Time to production RAG", "From data audit to go-live"],
@@ -74,7 +75,7 @@ export default function ServiceRAGAcceleratorPageClient() {
   return (
     <ConsultancyLoadedShell label="RAG ACCELERATOR">
       <Nav current="Services" />
-      <section style={{ paddingTop: 60, background: DK }}>
+      <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: DK }}>
         <div style={{ padding: `0 ${gv}px` }}>
           <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr" }}>
             <div style={{ padding: 28, borderRight: layout === "desktop" ? "1px solid rgba(255,255,255,0.08)" : "none", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
@@ -101,146 +102,161 @@ export default function ServiceRAGAcceleratorPageClient() {
                 Most AI systems make things up. Our RAG development services build retrieval-augmented generation systems that answer questions by dynamically retrieving verified content from your own documents and knowledge bases.
               </div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Link
-                  href="/contact"
-                  className="hv"
-                  style={{
-                    background: L,
-                    color: "#000",
-                    textDecoration: "none",
-                    padding: "12px 18px",
-                    borderRadius: 999,
-                    fontFamily: MN,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    transition: "background .2s,color .2s,box-shadow .2s",
-                  }}
-                  onMouseEnter={consultancyLimeCtaEnter}
-                  onMouseLeave={consultancyLimeCtaLeave}
-                >
-                  Start your RAG project <Arr sz={10} cl="currentColor" />
-                </Link>
-                <Link
-                  href="/case-studies"
-                  className="hv"
-                  style={{
-                    color: "#fff",
-                    textDecoration: "none",
-                    padding: "12px 18px",
-                    borderRadius: 999,
-                    border: "1px solid rgba(255,255,255,0.28)",
-                    fontFamily: MN,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    transition: "background .2s,box-shadow .2s",
-                  }}
-                  onMouseEnter={consultancyGhostOnDarkEnter}
-                  onMouseLeave={consultancyGhostOnDarkLeave}
-                >
-                  See past builds
-                </Link>
+                <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                  <Link
+                    href="/contact"
+                    className="hv"
+                    style={{
+                      background: L,
+                      color: "#000",
+                      textDecoration: "none",
+                      padding: "12px 18px",
+                      borderRadius: 999,
+                      fontFamily: MN,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      transition: "background .2s,color .2s,box-shadow .2s",
+                    }}
+                    onMouseEnter={consultancyLimeCtaEnter}
+                    onMouseLeave={consultancyLimeCtaLeave}
+                  >
+                    Start your RAG project <Arr sz={10} cl="currentColor" />
+                  </Link>
+                </MagneticWrap>
+                <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                  <Link
+                    href="/case-studies"
+                    className="hv"
+                    style={{
+                      color: "#fff",
+                      textDecoration: "none",
+                      padding: "12px 18px",
+                      borderRadius: 999,
+                      border: "1px solid rgba(255,255,255,0.28)",
+                      fontFamily: MN,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      transition: "background .2s,box-shadow .2s",
+                    }}
+                    onMouseEnter={consultancyGhostOnDarkEnter}
+                    onMouseLeave={consultancyGhostOnDarkLeave}
+                  >
+                    See past builds
+                  </Link>
+                </MagneticWrap>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `42px ${gv}px`, background: DK }}>
+      <ScrollSection as="section" index={1} style={{ padding: `42px ${gv}px`, background: DK }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {METRICS.map(([v, l, s]) => (
-            <ConsultancyInteractiveSurface key={l} variant="dk" style={{ padding: 22 }}>
-              <div style={{ fontFamily: MN, fontSize: 42, color: L, fontWeight: 700 }}>{v}</div>
-              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{l}</div>
-              <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{s}</div>
-            </ConsultancyInteractiveSurface>
+          {METRICS.map(([v, l, s], i) => (
+            <ScrollGridItem key={l} sectionIndex={1} cardIndex={i}>
+              <ConsultancyInteractiveSurface variant="dk" style={{ padding: 22 }}>
+                <div style={{ fontFamily: MN, fontSize: 42, color: L, fontWeight: 700 }}>{v}</div>
+                <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{l}</div>
+                <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{s}</div>
+              </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Four to eight weeks · Four phases" /><Ttl ch="THE METHOD." />
         <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.58)", maxWidth: 760 }}>Our custom RAG development services follow four sequential phases. Each phase produces a tangible output.</p>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {PHASES.map(([p, t, d, b]) => (
-            <ConsultancyInteractiveSurface key={p} variant="muted" style={{ padding: 20 }}>
-              <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{p}</div>
-              <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0" }}>{t}</div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.56)", marginBottom: 8 }}>{d}</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {b.map((x) => (
-                  <div key={x} style={{ display: "flex", gap: 8, alignItems: "flex-start", fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.72)" }}>
-                    <span aria-hidden style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, flexShrink: 0, marginTop: 5 }} />
-                    <span>{x}</span>
-                  </div>
-                ))}
-              </div>
-            </ConsultancyInteractiveSurface>
+          {PHASES.map(([p, t, d, b], i) => (
+            <ScrollGridItem key={p} sectionIndex={2} cardIndex={i}>
+              <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
+                <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{p}</div>
+                <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0" }}>{t}</div>
+                <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.56)", marginBottom: 8 }}>{d}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {b.map((x) => (
+                    <div key={x} style={{ display: "flex", gap: 8, alignItems: "flex-start", fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.72)" }}>
+                      <span aria-hidden style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, flexShrink: 0, marginTop: 5 }} />
+                      <span>{x}</span>
+                    </div>
+                  ))}
+                </div>
+              </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Six deliverables" /><Ttl ch="WHAT YOU TAKE HOME." />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
           {DELIVERABLES.map((t, i) => (
-            <ConsultancyInteractiveSurface key={t} variant="light" style={{ padding: 22 }}>
-              <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{String(i + 1).padStart(2, "0")} -</div>
-              <div style={{ fontFamily: MN, fontSize: 15, marginTop: 8 }}>{t}</div>
-            </ConsultancyInteractiveSurface>
+            <ScrollGridItem key={t} sectionIndex={3} cardIndex={i}>
+              <ConsultancyInteractiveSurface variant="light" style={{ padding: 22 }}>
+                <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT }}>{String(i + 1).padStart(2, "0")} -</div>
+                <div style={{ fontFamily: MN, fontSize: 15, marginTop: 8 }}>{t}</div>
+              </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={4} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Beyond standard RAG" /><Ttl ch="ADVANCED RAG OPTIONS." />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {ADVANCED.map(([t, d]) => (
-            <ConsultancyInteractiveSurface key={t} variant="muted" style={{ padding: 20 }}>
-              <div style={{ fontFamily: MN, fontSize: 14, marginBottom: 6 }}>{t}</div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{d}</div>
-            </ConsultancyInteractiveSurface>
+          {ADVANCED.map(([t, d], i) => (
+            <ScrollGridItem key={t} sectionIndex={4} cardIndex={i}>
+              <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
+                <div style={{ fontFamily: MN, fontSize: 14, marginBottom: 6 }}>{t}</div>
+                <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{d}</div>
+              </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {QUOTES.map((q) => (
-            <ConsultancyInteractiveSurface key={q} variant="dk" style={{ padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-              {q}
-            </ConsultancyInteractiveSurface>
+          {QUOTES.map((q, i) => (
+            <ScrollGridItem key={q} sectionIndex={5} cardIndex={i}>
+              <ConsultancyInteractiveSurface variant="dk" style={{ padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
+                {q}
+              </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Built for your industry" /><Ttl ch="WHERE RAG WORKS." />
         <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {INDUSTRIES.map(([ind, a, b]) => (
-            <ConsultancyInteractiveSurface
-              key={ind}
-              variant="light"
-              style={{ padding: 18, display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1.1fr 1.6fr 1.3fr", gap: 8 }}
-            >
-              <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600 }}>{ind}</div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{a}</div>
-              <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(0,0,0,0.6)" }}>{b}</div>
-            </ConsultancyInteractiveSurface>
+          {INDUSTRIES.map(([ind, a, b], i) => (
+            <ScrollGridItem key={ind} sectionIndex={6} cardIndex={i}>
+              <ConsultancyInteractiveSurface
+                variant="light"
+                style={{ padding: 18, display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1.1fr 1.6fr 1.3fr", gap: 8 }}
+              >
+                <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600 }}>{ind}</div>
+                <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.57)" }}>{a}</div>
+                <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(0,0,0,0.6)" }}>{b}</div>
+              </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={7} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Got questions" /><Ttl ch="FAQS." />
         <ConsultancyFaqAccordion items={FAQS} tone="paper" />
-      </section>
+      </ScrollSection>
 
       <CTAStrip
         title="FOUR WEEKS.|ONE RAG SYSTEM.|FIXED FEE."

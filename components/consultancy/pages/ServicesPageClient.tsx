@@ -26,6 +26,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 import { useEffect, useState } from "react";
 
 const SERVICES = [
@@ -365,58 +366,62 @@ function ServiceRow({
               {s.d}
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <Link
-                href="/contact"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: L,
-                  color: "#000",
-                  border: "none",
-                  borderRadius: 999,
-                  padding: "10px 18px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  cursor: "none",
-                  textDecoration: "none",
-                  transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
-                }}
-                onMouseEnter={consultancyLimeCtaEnter}
-                onMouseLeave={consultancyLimeCtaLeave}
-              >
-                Discuss this engagement <Arr sz={10} cl="currentColor" sw={2.2} />
-              </Link>
-              <Link
-                href={`/case-studies?service=${s.anchor}`}
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "transparent",
-                  color: "#000",
-                  border: `1px solid ${PL}`,
-                  borderRadius: 999,
-                  padding: "10px 18px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  cursor: "none",
-                  textDecoration: "none",
-                  transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
-                }}
-                onMouseEnter={consultancyOutlineLightPillEnter}
-                onMouseLeave={consultancyOutlineLightPillLeave}
-              >
-                Related case studies <Arr sz={10} cl="currentColor" sw={2.2} />
-              </Link>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href="/contact"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: L,
+                    color: "#000",
+                    border: "none",
+                    borderRadius: 999,
+                    padding: "10px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    cursor: "none",
+                    textDecoration: "none",
+                    transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+                  }}
+                  onMouseEnter={consultancyLimeCtaEnter}
+                  onMouseLeave={consultancyLimeCtaLeave}
+                >
+                  Discuss this engagement <Arr sz={10} cl="currentColor" sw={2.2} />
+                </Link>
+              </MagneticWrap>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href={`/case-studies?service=${s.anchor}`}
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: "transparent",
+                    color: "#000",
+                    border: `1px solid ${PL}`,
+                    borderRadius: 999,
+                    padding: "10px 18px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    cursor: "none",
+                    textDecoration: "none",
+                    transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
+                  }}
+                  onMouseEnter={consultancyOutlineLightPillEnter}
+                  onMouseLeave={consultancyOutlineLightPillLeave}
+                >
+                  Related case studies <Arr sz={10} cl="currentColor" sw={2.2} />
+                </Link>
+              </MagneticWrap>
             </div>
           </div>
           <div>
@@ -477,7 +482,7 @@ function ServicesAccordion() {
   const pv = sectionVPad(layout);
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+    <ScrollSection as="section" index={0} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 28 : 36,
@@ -508,11 +513,13 @@ function ServicesAccordion() {
       <div>
         <div style={{ background: BG, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}`, isolation: "isolate" }}>
           {SERVICES.map((s, i) => (
-            <ServiceRow key={s.n} s={s} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            <ScrollGridItem key={s.n} sectionIndex={0} cardIndex={i}>
+              <ServiceRow s={s} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            </ScrollGridItem>
           ))}
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -524,7 +531,7 @@ function ProcessTimeline() {
   const reduceMotion = usePrefersReducedMotion();
   const pulseAnimation = reduceMotion ? "none" : "consultancy-pulseRing 3.8s ease-out infinite";
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={1} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: layout === "mobile" ? 32 : 48 }}>
         <Lbl ch="Boring is good" lt sx={{ letterSpacing: "normal" }} />
         <Ttl ch="THE PROCESS" lt sx={{ letterSpacing: "normal" }} />
@@ -544,8 +551,9 @@ function ProcessTimeline() {
           }}
         />
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 5, 2), gap: layout === "mobile" ? 16 : 20, position: "relative", zIndex: 1 }}>
-          {PROCESS.map((p) => (
-            <ConsultancyInteractiveSurface key={p.p} variant="dk" style={{ borderRadius: 14, padding: "12px 14px 18px" }}>
+          {PROCESS.map((p, i) => (
+            <ScrollGridItem key={p.p} sectionIndex={1} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="dk" style={{ borderRadius: 14, padding: "12px 14px 18px" }}>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                 <div
                   style={{
@@ -595,10 +603,11 @@ function ProcessTimeline() {
                 <div style={{ fontFamily: SN, fontSize: 13.5, lineHeight: 1.65, color: "rgba(255,255,255,0.58)" }}>{p.d}</div>
               </div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -635,7 +644,9 @@ function Principles() {
     },
   ];
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={2}
       id="principles"
       data-expanded={principlesOpen ? "true" : "false"}
       style={{
@@ -730,55 +741,57 @@ function Principles() {
               }}
             >
               {ps.map((p, i) => (
-                <div key={p.n} style={{ height: "100%", minHeight: 0 }}>
-                  <div
-                    onMouseEnter={() => setHov(i)}
-                    onMouseLeave={() => setHov(null)}
-                    style={{
-                      background: hov === i ? DK : `linear-gradient(140deg,${BG},${BG2})`,
-                      padding: "36px 36px",
-                      transition: "background .35s",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 14,
-                      minHeight: "100%",
-                      boxSizing: "border-box",
-                    }}
-                  >
-                    <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: L2, transition: "color .3s" }}>{p.n}</span>
+                <ScrollGridItem key={p.n} sectionIndex={2} cardIndex={i}>
+                  <div style={{ height: "100%", minHeight: 0 }}>
                     <div
+                      onMouseEnter={() => setHov(i)}
+                      onMouseLeave={() => setHov(null)}
                       style={{
-                        fontFamily: MN,
-                        fontWeight: 600,
-                        fontSize: 14,
-                        letterSpacing: "normal",
-                        lineHeight: 1.35,
-                        transition: "color .3s",
-                        color: hov === i ? "#fff" : "rgba(0,0,0,0.85)",
+                        background: hov === i ? DK : `linear-gradient(140deg,${BG},${BG2})`,
+                        padding: "36px 36px",
+                        transition: "background .35s",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 14,
+                        minHeight: "100%",
+                        boxSizing: "border-box",
                       }}
                     >
-                      {p.t}
-                    </div>
-                    <div style={{ height: 1, background: hov === i ? "rgba(255,255,255,0.08)" : PL, transition: "background .3s" }} />
-                    <div
-                      style={{
-                        fontFamily: SN,
-                        fontSize: 12.5,
-                        lineHeight: 1.7,
-                        color: hov === i ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.48)",
-                        transition: "color .3s",
-                      }}
-                    >
-                      {p.d}
+                      <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: L2, transition: "color .3s" }}>{p.n}</span>
+                      <div
+                        style={{
+                          fontFamily: MN,
+                          fontWeight: 600,
+                          fontSize: 14,
+                          letterSpacing: "normal",
+                          lineHeight: 1.35,
+                          transition: "color .3s",
+                          color: hov === i ? "#fff" : "rgba(0,0,0,0.85)",
+                        }}
+                      >
+                        {p.t}
+                      </div>
+                      <div style={{ height: 1, background: hov === i ? "rgba(255,255,255,0.08)" : PL, transition: "background .3s" }} />
+                      <div
+                        style={{
+                          fontFamily: SN,
+                          fontSize: 12.5,
+                          lineHeight: 1.7,
+                          color: hov === i ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.48)",
+                          transition: "color .3s",
+                        }}
+                      >
+                        {p.d}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ScrollGridItem>
               ))}
             </div>
           </div>
         ) : null}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 

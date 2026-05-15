@@ -25,6 +25,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const METRICS = [
   { v: "95%+", l: "Model accuracy", s: "Avg on production deployments" },
@@ -193,7 +194,7 @@ function Hero() {
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
   return (
-    <section style={{ paddingTop: 60, background: DK, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+    <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: DK, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
       <div style={{ padding: `0 ${gv}px` }}>
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 480 }}>
           <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)", borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 24 }}>
@@ -236,23 +237,27 @@ function Hero() {
               Off-the-shelf AI tools are built for someone else&#39;s problem. We are a custom ai development company that builds machine learning models, NLP systems, and intelligent automation for your specific data, your workflows, and your compliance constraints.
             </div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", borderRadius: 999, padding: "12px 18px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", transition: "background .2s,color .2s,box-shadow .2s" }}
-                onMouseEnter={consultancyLimeCtaEnter}
-                onMouseLeave={consultancyLimeCtaLeave}
-              >
-                Start a project <Arr sz={10} cl="currentColor" sw={2.4} />
-              </Link>
-              <Link href="/case-studies" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid rgba(255,255,255,0.28)", color: "#fff", borderRadius: 999, padding: "12px 18px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", transition: "background .2s,box-shadow .2s" }}
-                onMouseEnter={consultancyGhostOnDarkEnter}
-                onMouseLeave={consultancyGhostOnDarkLeave}
-              >
-                See case studies <Arr sz={10} cl="currentColor" sw={2.4} />
-              </Link>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link href="/contact" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: L, color: "#000", borderRadius: 999, padding: "12px 18px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", transition: "background .2s,color .2s,box-shadow .2s" }}
+                  onMouseEnter={consultancyLimeCtaEnter}
+                  onMouseLeave={consultancyLimeCtaLeave}
+                >
+                  Start a project <Arr sz={10} cl="currentColor" sw={2.4} />
+                </Link>
+              </MagneticWrap>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link href="/case-studies" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid rgba(255,255,255,0.28)", color: "#fff", borderRadius: 999, padding: "12px 18px", textDecoration: "none", fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", textTransform: "uppercase", transition: "background .2s,box-shadow .2s" }}
+                  onMouseEnter={consultancyGhostOnDarkEnter}
+                  onMouseLeave={consultancyGhostOnDarkLeave}
+                >
+                  See case studies <Arr sz={10} cl="currentColor" sw={2.4} />
+                </Link>
+              </MagneticWrap>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -260,17 +265,19 @@ function Metrics() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   return (
-    <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
+    <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
-        {METRICS.map((x) => (
-          <ConsultancyInteractiveSurface key={x.l} variant="dk" style={{ padding: layout === "mobile" ? "24px 20px" : "32px 28px" }}>
-            <div style={{ fontFamily: MN, fontSize: 44, fontWeight: 700, color: L, lineHeight: 1, marginBottom: 10 }}>{x.v}</div>
-            <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", marginBottom: 4 }}>{x.l}</div>
-            <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{x.s}</div>
-          </ConsultancyInteractiveSurface>
+        {METRICS.map((x, i) => (
+          <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="dk" style={{ padding: layout === "mobile" ? "24px 20px" : "32px 28px" }}>
+              <div style={{ fontFamily: MN, fontSize: 44, fontWeight: 700, color: L, lineHeight: 1, marginBottom: 10 }}>{x.v}</div>
+              <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.75)", marginBottom: 4 }}>{x.l}</div>
+              <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{x.s}</div>
+            </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -279,7 +286,7 @@ function Method() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 40, display: "grid", gridTemplateColumns: layout === "desktop" ? "320px 1fr" : "1fr", gap: 40, alignItems: "end" }}>
         <div><Lbl ch="Six weeks to production · Five phases" /><Ttl ch="THE METHOD." /></div>
         <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(0,0,0,0.55)", maxWidth: 620, lineHeight: 1.7 }}>
@@ -287,23 +294,25 @@ function Method() {
         </div>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 5, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
-        {PHASES.map((p) => (
-          <ConsultancyInteractiveSurface key={p.p} variant="gradient" style={{ padding: "28px 24px" }}>
-            <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT, marginBottom: 10 }}>{p.p}</div>
-            <div style={{ fontFamily: MN, fontSize: 16, fontWeight: 600, marginBottom: 10 }}>{p.t}</div>
-            <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.55)", marginBottom: 12 }}>{p.d}</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {p.deliv.map((d) => (
-                <div key={d} style={{ display: "flex", gap: 8, fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.55)" }}>
-                  <div style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, marginTop: 6 }} />
-                  {d}
-                </div>
-              ))}
-            </div>
-          </ConsultancyInteractiveSurface>
+        {PHASES.map((p, i) => (
+          <ScrollGridItem key={p.p} sectionIndex={2} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "28px 24px" }}>
+              <div style={{ fontFamily: MN, fontSize: 11, fontWeight: 700, letterSpacing: "normal", color: L_TEXT_ON_LIGHT, marginBottom: 10 }}>{p.p}</div>
+              <div style={{ fontFamily: MN, fontSize: 16, fontWeight: 600, marginBottom: 10 }}>{p.t}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.55)", marginBottom: 12 }}>{p.d}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {p.deliv.map((d) => (
+                  <div key={d} style={{ display: "flex", gap: 8, fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.55)" }}>
+                    <div style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, marginTop: 6 }} />
+                    {d}
+                  </div>
+                ))}
+              </div>
+            </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -311,37 +320,41 @@ function CardsSection({
   eyebrow,
   title,
   items,
+  sectionIndex,
 }: {
   eyebrow: string;
   title: string;
   items: { t: string; d: string; b?: string[] }[];
+  sectionIndex: number;
 }) {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={sectionIndex} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 36 }}><Lbl ch={eyebrow} /><Ttl ch={title} /></div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
         {items.map((it, i) => (
-          <ConsultancyInteractiveSurface key={it.t} variant="gradient" style={{ padding: "28px 24px" }}>
-            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, color: L_TEXT_ON_LIGHT, letterSpacing: "normal", marginBottom: 8 }}>{String(i + 1).padStart(2, "0")} -</div>
-            <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, marginBottom: 10 }}>{it.t}</div>
-            <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.55)" }}>{it.d}</div>
-            {it.b ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 12 }}>
-                {it.b.map((x) => (
-                  <div key={x} style={{ display: "flex", gap: 8, fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.55)" }}>
-                    <div style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, marginTop: 6 }} />
-                    {x}
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </ConsultancyInteractiveSurface>
+          <ScrollGridItem key={it.t} sectionIndex={sectionIndex} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "28px 24px" }}>
+              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, color: L_TEXT_ON_LIGHT, letterSpacing: "normal", marginBottom: 8 }}>{String(i + 1).padStart(2, "0")} -</div>
+              <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, marginBottom: 10 }}>{it.t}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.55)" }}>{it.d}</div>
+              {it.b ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 12 }}>
+                  {it.b.map((x) => (
+                    <div key={x} style={{ display: "flex", gap: 8, fontFamily: MN, fontSize: 10.5, color: "rgba(0,0,0,0.55)" }}>
+                      <div style={{ width: 4, height: 4, borderRadius: "50%", background: L_TEXT_ON_LIGHT, marginTop: 6 }} />
+                      {x}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -350,17 +363,19 @@ function QuotesSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 36 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
       <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
-        {QUOTES.map((q) => (
-          <ConsultancyInteractiveSurface key={q.by} variant="dk" style={{ padding: "28px 24px" }}>
-            <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>&ldquo;{q.q}&rdquo;</div>
-            <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>{q.by}</div>
-          </ConsultancyInteractiveSurface>
+        {QUOTES.map((q, i) => (
+          <ScrollGridItem key={q.by} sectionIndex={5} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="dk" style={{ padding: "28px 24px" }}>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>&ldquo;{q.q}&rdquo;</div>
+              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>{q.by}</div>
+            </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -369,10 +384,10 @@ function FAQSection() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 32 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
       <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="light" />
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -383,8 +398,8 @@ export default function ServiceCustomAIDevelopmentPageClient() {
       <Hero />
       <Metrics />
       <Method />
-      <CardsSection eyebrow="Six capabilities" title="WHAT WE BUILD." items={BUILDS} />
-      <CardsSection eyebrow="Built for these teams" title="WHO THIS IS FOR." items={PERSONAS} />
+      <CardsSection eyebrow="Six capabilities" title="WHAT WE BUILD." items={BUILDS} sectionIndex={3} />
+      <CardsSection eyebrow="Built for these teams" title="WHO THIS IS FOR." items={PERSONAS} sectionIndex={4} />
       <QuotesSection />
       <FAQSection />
       <CTAStrip

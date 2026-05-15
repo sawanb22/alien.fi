@@ -18,6 +18,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { MN, MN_WORD_SPACE, OT, SN } from "@/lib/consultancy/tokens";
+import { MagneticWrap } from "@/components/motion/scroll-primitives";
 
 const L = "rgb(150,238,82)";
 const L2 = "rgb(177,238,82)";
@@ -195,11 +196,13 @@ export function Ttl({
 }
 
 export function Tilt({
+  children,
   ch,
   sx = {},
   int = 10,
 }: {
-  ch: ReactNode;
+  children?: ReactNode;
+  ch?: ReactNode;
   sx?: React.CSSProperties;
   int?: number;
 }) {
@@ -233,7 +236,7 @@ export function Tilt({
         ...sx,
       }}
     >
-      {ch}
+      {children ?? ch}
     </div>
   );
 }
@@ -746,7 +749,6 @@ export function Nav({ current }: { current?: NavPage }) {
           }}
           onMouseEnter={consultancyPrimaryBlackCtaEnter}
           onMouseLeave={consultancyPrimaryBlackCtaLeave}
-          onMouseMove={(e) => window.magnet?.(e.currentTarget, e)}
         >
           Start a project <Arr sz={9} cl="currentColor" sw={2.2} />
         </Link>
@@ -1031,14 +1033,21 @@ export function ConsultancyInteractiveSurface({
   variant,
   style,
   children,
+  /** Subtle pull toward cursor (same idea as home service cards). Set `false` or `0` inside `Tilt` to avoid stacked motion. */
+  magnetic = 0.2,
 }: {
   variant: keyof typeof INTERACTIVE_CARD_PRESETS;
   style?: CSSProperties;
   children: ReactNode;
+  magnetic?: number | false;
 }) {
   const { rest, hover } = INTERACTIVE_CARD_PRESETS[variant];
   const mergedRest = { ...rest, ...style };
-  return (
+  const strength =
+    magnetic === false || magnetic === 0 ? 0 : typeof magnetic === "number" ? magnetic : 0.2;
+  const fillHeight = style?.height === "100%";
+
+  const surface = (
     <div
       className="hv"
       style={{
@@ -1061,6 +1070,25 @@ export function ConsultancyInteractiveSurface({
     >
       {children}
     </div>
+  );
+
+  if (strength <= 0) return surface;
+
+  return (
+    <MagneticWrap
+      strength={strength}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        minHeight: 0,
+        alignSelf: "stretch",
+        boxSizing: "border-box",
+        ...(fillHeight ? { height: "100%", flex: "1 1 auto" } : {}),
+      }}
+    >
+      {surface}
+    </MagneticWrap>
   );
 }
 
@@ -1281,11 +1309,7 @@ export function CTAStrip({
               href={href}
               className="hv"
               onMouseEnter={() => setHov(true)}
-              onMouseLeave={(e) => {
-                setHov(false);
-                window.magnetReset?.(e.currentTarget);
-              }}
-              onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
+              onMouseLeave={() => setHov(false)}
               style={{
                 background: hov ? "rgb(230,230,234)" : L,
                 color: "#000",
@@ -1318,11 +1342,7 @@ export function CTAStrip({
               href={href}
               className="hv"
               onMouseEnter={() => setHov(true)}
-              onMouseLeave={(e) => {
-                setHov(false);
-                window.magnetReset?.(e.currentTarget);
-              }}
-              onMouseMove={(e) => window.magnet?.(e.currentTarget, e, 0.2)}
+              onMouseLeave={() => setHov(false)}
               style={{
                 background: hov ? "rgb(230,230,234)" : L,
                 color: "#000",

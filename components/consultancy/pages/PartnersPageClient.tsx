@@ -19,6 +19,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const METRICS = [
   { metric: "22", label: "Active alliances", sub: "Across cloud, data, and industry" },
@@ -82,7 +83,7 @@ function Hero() {
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
   return (
-    <section style={{ paddingTop: 60, background: "#fff", position: "relative", overflow: "hidden", borderBottom: `1px solid ${PL}` }}>
+    <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: "#fff", position: "relative", overflow: "hidden", borderBottom: `1px solid ${PL}` }}>
       <div style={{ position: "absolute", left: "40%", top: 60, width: 500, height: 500, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ paddingLeft: gv, paddingRight: gv }}>
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 440 }}>
@@ -109,63 +110,67 @@ function Hero() {
               <div style={{ fontWeight: 700, color: DK }}>NEVER LOCKED-IN.</div>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-              <Link
-                href="/contact"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: L,
-                  color: "#000",
-                  borderRadius: 24,
-                  padding: "14px 22px",
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  border: "none",
-                  cursor: "none",
-                  transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
-                }}
-                onMouseEnter={consultancyLimeCtaEnter}
-                onMouseLeave={consultancyLimeCtaLeave}
-              >
-                Become a partner <Arr sz={10} cl="currentColor" sw={2.4} />
-              </Link>
-              <a
-                href="#alliance-tiers"
-                className="hv"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "transparent",
-                  color: "#000",
-                  borderRadius: 24,
-                  padding: "14px 20px",
-                  border: `1px solid ${PL}`,
-                  fontFamily: MN,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "normal",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  cursor: "none",
-                  transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
-                }}
-                onMouseEnter={consultancyOutlineLightPillEnter}
-                onMouseLeave={consultancyOutlineLightPillLeave}
-              >
-                See alliance tiers
-              </a>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <Link
+                  href="/contact"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: L,
+                    color: "#000",
+                    borderRadius: 24,
+                    padding: "14px 22px",
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    border: "none",
+                    cursor: "none",
+                    transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+                  }}
+                  onMouseEnter={consultancyLimeCtaEnter}
+                  onMouseLeave={consultancyLimeCtaLeave}
+                >
+                  Become a partner <Arr sz={10} cl="currentColor" sw={2.4} />
+                </Link>
+              </MagneticWrap>
+              <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                <a
+                  href="#alliance-tiers"
+                  className="hv"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: "transparent",
+                    color: "#000",
+                    borderRadius: 24,
+                    padding: "14px 20px",
+                    border: `1px solid ${PL}`,
+                    fontFamily: MN,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "normal",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    cursor: "none",
+                    transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
+                  }}
+                  onMouseEnter={consultancyOutlineLightPillEnter}
+                  onMouseLeave={consultancyOutlineLightPillLeave}
+                >
+                  See alliance tiers
+                </a>
+              </MagneticWrap>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -206,41 +211,45 @@ export default function PartnersPageClient() {
     <ConsultancyLoadedShell label="PARTNERS">
       <Nav current="About" />
       <Hero />
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <ScrollSection as="section" index={1} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>
-          {METRICS.map((m) => (
-            <ConsultancyInteractiveSurface key={m.label} variant="darkGlass" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "18px 16px" }}>
+          {METRICS.map((m, i) => (
+            <ScrollGridItem key={m.label} sectionIndex={1} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="darkGlass" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "18px 16px" }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 22, color: "#fff", marginBottom: 8 }}>{m.metric}</div>
               <div style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", marginBottom: 6 }}>{m.label}</div>
               <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{m.sub}</div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
-      <section id="alliance-tiers" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={2} id="alliance-tiers" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 36 }}><Lbl ch="How we work" /><Ttl ch="PARTNER ECOSYSTEM." /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 14 }}>
-          {PARTNER_TIERS.map((tier) => (
-            <ConsultancyInteractiveSurface key={tier.tier} variant="light" style={{ border: `1px solid ${PL}`, borderRadius: 14, background: "#fff", padding: "20px 18px" }}>
+          {PARTNER_TIERS.map((tier, i) => (
+            <ScrollGridItem key={tier.tier} sectionIndex={2} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="light" style={{ border: `1px solid ${PL}`, borderRadius: 14, background: "#fff", padding: "20px 18px" }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", textTransform: "uppercase", marginBottom: 10 }}>{tier.tier}</div>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(0,0,0,0.6)" }}>{tier.desc}</div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 26 }}><Lbl ch="Strategic and technical" lt /><Ttl ch="PLATFORM PARTNERS." lt /></div>
         <TrioGrid items={ALLIANCE_GRID} dark />
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={4} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 26 }}><Lbl ch="Enterprise systems" /><Ttl ch="BUSINESS ECOSYSTEM." /></div>
         <TrioGrid items={INDUSTRY_PARTNERS} />
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 6, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 6, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 26 }}><Lbl ch="Research and policy" lt /><Ttl ch="ADVISORY AND RESEARCH." lt /></div>
         <TrioGrid items={ADVISORY_PARTNERS} dark />
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 7, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 7, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 18 }}><Lbl ch="Why it matters" /><Ttl ch="BUILT TO INTEGRATE." /></div>
         <div style={{ maxWidth: 980, fontFamily: SN, fontSize: 14, lineHeight: 1.8, color: "rgba(0,0,0,0.65)" }}>
           <p style={{ marginTop: 0, marginBottom: 16 }}>
@@ -250,7 +259,7 @@ export default function PartnersPageClient() {
             We are vendor-neutral in principle and platform-deep in practice. Clients get a solution designed around business outcomes, not around whatever stack happens to be easiest to sell.
           </p>
         </div>
-      </section>
+      </ScrollSection>
       <CTAStrip title="THE BENCH GROWS|WHEN OUR CLIENTS|NEED IT TO." sub="If you are building something we should integrate with, talk to us. We onboarded 5 new partners in 2026 and are open to ecosystem conversations that help clients ship faster." cta="Start a project" />
       <Footer />
     </ConsultancyLoadedShell>

@@ -15,6 +15,7 @@ import {
 import { sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollSection } from "@/components/motion/scroll-primitives";
 import { CONTACT_BUDGETS, CONTACT_SERVICES, CONTACT_TIMELINES } from "@/lib/lead-form-allowlists";
 import dynamic from "next/dynamic";
 import { type ReactNode, useEffect, useRef, useState } from "react";
@@ -84,12 +85,12 @@ export default function ContactPageClient() {
         accentHref="mailto:hello@alien.fi?subject=Free%20AI%20consultation"
       />
       <Ticker words={["Get a quote", "Sign an NDA", "Request references", "Tour the team", "Send a brief", "Schedule a fit call"]} />
-      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+      <ScrollSection as="section" index={0} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
         <div style={{ display: "grid", gridTemplateColumns: layout === "desktop" ? "1.6fr 1fr" : "1fr", gap: layout === "mobile" ? 28 : 32 }}>
           <Form />
           <SidePanel />
         </div>
-      </section>
+      </ScrollSection>
       <CTAStrip
         title="WE'RE FIVE|MINUTES AWAY"
         sub="Prefer to skip the form? Contact alien.fi directly at hello@alien.fi and a senior AI expert will respond within an hour during PT business hours to schedule a free AI consultation or a quick fit check."
@@ -559,48 +560,50 @@ function Form() {
         >
           ← Back
         </button>
-        <button
-          type="button"
-          className="hv"
-          onClick={() => void handlePrimaryClick()}
-          disabled={(step === 1 && !step1Valid) || submitting}
-          style={{
-            background: "#000",
-            color: "#fff",
-            border: "none",
-            borderRadius: 24,
-            padding: "12px 22px",
-            fontFamily: MN,
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "normal",
-            textTransform: "none",
-            cursor: submitting ? "wait" : "none",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            transition: "background .2s,color .2s,transform .15s,box-shadow .2s",
-            boxShadow: "none",
-            opacity: submitting ? 0.65 : 1,
-          }}
-          onMouseEnter={(e) => {
-            if (e.currentTarget.disabled) return;
-            consultancyPrimaryBlackCtaEnter(e);
-          }}
-          onMouseLeave={(e) => {
-            consultancyPrimaryBlackCtaLeave(e);
-          }}
-        >
-          {step < 3 ? (
-            <>Continue <Arr sz={11} cl="currentColor" sw={2.2} /></>
-          ) : submitting ? (
-            <>Sending…</>
-          ) : (
-            <>
-              Transmit <Arr sz={11} cl="currentColor" sw={2.2} />
-            </>
-          )}
-        </button>
+        <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+          <button
+            type="button"
+            className="hv"
+            onClick={() => void handlePrimaryClick()}
+            disabled={(step === 1 && !step1Valid) || submitting}
+            style={{
+              background: "#000",
+              color: "#fff",
+              border: "none",
+              borderRadius: 24,
+              padding: "12px 22px",
+              fontFamily: MN,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "normal",
+              textTransform: "none",
+              cursor: submitting ? "wait" : "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "background .2s,color .2s,transform .15s,box-shadow .2s",
+              boxShadow: "none",
+              opacity: submitting ? 0.65 : 1,
+            }}
+            onMouseEnter={(e) => {
+              if (e.currentTarget.disabled) return;
+              consultancyPrimaryBlackCtaEnter(e);
+            }}
+            onMouseLeave={(e) => {
+              consultancyPrimaryBlackCtaLeave(e);
+            }}
+          >
+            {step < 3 ? (
+              <>Continue <Arr sz={11} cl="currentColor" sw={2.2} /></>
+            ) : submitting ? (
+              <>Sending…</>
+            ) : (
+              <>
+                Transmit <Arr sz={11} cl="currentColor" sw={2.2} />
+              </>
+            )}
+          </button>
+        </MagneticWrap>
       </div>
     </div>
   );

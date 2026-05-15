@@ -23,7 +23,7 @@ import {
   sectionVPad,
   useLandingLayout,
 } from "@/lib/landing-layout-context";
-import { HomeGridCard, HomeSection, MagneticWrap } from "./home-motion";
+import { HomeGridCard, HomeSection, MagneticWrap } from "@/components/motion/scroll-primitives";
 
 /** HomeSection indices: 0 Hero, 1 Ticker, 2 Services, 3 Process, 4 Differentiators, 5 Industries, 6 CaseStudy, 7 Solutions, 8 EngagementModels, 9 CTA */
 import { LandingChrome } from "./LandingChrome";

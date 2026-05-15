@@ -20,6 +20,7 @@ import type { CaseStudyTemplateData } from "@/lib/consultancy/studies/types";
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, MN_WORD_SPACE, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 function StudyHero({ d }: { d: CaseStudyTemplateData }) {
   const layout = useLandingLayout();
@@ -30,7 +31,7 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
     .filter(Boolean);
   const stacked = layout !== "desktop";
   return (
-    <section style={{ paddingTop: 60, background: DK, position: "relative", borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
+    <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: DK, position: "relative", borderBottom: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
       <div style={{ position: "absolute", right: -200, top: 60, width: 520, height: 520, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ paddingLeft: gv, paddingRight: gv, boxSizing: "border-box", width: "100%" }}>
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 440 }}>
@@ -149,7 +150,7 @@ function StudyHero({ d }: { d: CaseStudyTemplateData }) {
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -157,7 +158,7 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   return (
-    <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+    <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
       <div
         style={{
           display: "grid",
@@ -168,12 +169,12 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
           overflow: "hidden",
         }}
       >
-        {m.map((x) => (
+        {m.map((x, i) => (
+          <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
           <Tilt
-            key={x.l}
             int={6}
             ch={
-              <div style={{ background: DK, padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
+              <div data-consultancy-magnet="" style={{ background: DK, padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
                 <div
                   style={{
                     fontFamily: MN,
@@ -192,9 +193,10 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
               </div>
             }
           />
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -203,7 +205,9 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={2}
       style={{
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG2},${BG})`,
@@ -236,16 +240,18 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
               marginTop: 12,
             }}
           >
-            {c.stats.map(([v, l]) => (
-              <div key={l} style={{ background: BG, padding: "24px" }}>
+            {c.stats.map(([v, l], i) => (
+              <ScrollGridItem key={l} sectionIndex={2} cardIndex={i}>
+              <div style={{ background: BG, padding: "24px" }}>
                 <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 30, color: "#000", lineHeight: 1 }}>{v}</div>
                 <div style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginTop: 8 }}>{l}</div>
               </div>
+              </ScrollGridItem>
             ))}
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -265,7 +271,7 @@ function Approach({
   const phaseCols =
     layout === "mobile" ? "1fr" : layout === "tablet" ? (n <= 2 ? `repeat(${n},1fr)` : "repeat(2,1fr)") : `repeat(${n},1fr)`;
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 32 : 48,
@@ -294,9 +300,9 @@ function Approach({
           border: `1px solid ${PL}`,
         }}
       >
-        {phases.map((ph) => (
+        {phases.map((ph, i) => (
+          <ScrollGridItem key={ph.n} sectionIndex={3} cardIndex={i}>
           <ConsultancyInteractiveSurface
-            key={ph.n}
             variant="gradient"
             style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14, height: "100%" }}
           >
@@ -340,9 +346,10 @@ function Approach({
               ))}
             </div>
           </ConsultancyInteractiveSurface>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -351,7 +358,7 @@ function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+    <ScrollSection as="section" index={4} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 5, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div>
         <div
           style={{
@@ -408,7 +415,7 @@ function Quote({ q }: { q: CaseStudyTemplateData["quote"] }) {
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -423,7 +430,9 @@ function Related({
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={5}
       style={{
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
@@ -447,31 +456,33 @@ function Related({
           <Lbl ch="More like this" />
           <Ttl ch="RELATED STUDIES" />
         </div>
-        <Link
-          href="/case-studies"
-          className="rv d2"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            fontFamily: MN,
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: "normal",
-            textTransform: "uppercase",
-            color: "rgba(0,0,0,0.6)",
-            textDecoration: "none",
-            border: `1px solid ${PL}`,
-            borderRadius: 999,
-            padding: "10px 20px",
-            cursor: "pointer",
-            transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
-          }}
-          onMouseEnter={consultancyOutlineLightPillEnter}
-          onMouseLeave={consultancyOutlineLightPillLeave}
-        >
-          {ctaLabel ?? "See all 8 →"}
-        </Link>
+        <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+          <Link
+            href="/case-studies"
+            className="rv d2"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: MN,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "normal",
+              textTransform: "uppercase",
+              color: "rgba(0,0,0,0.6)",
+              textDecoration: "none",
+              border: `1px solid ${PL}`,
+              borderRadius: 999,
+              padding: "10px 20px",
+              cursor: "pointer",
+              transition: "background .2s,color .2s,border-color .2s,box-shadow .2s,transform .15s",
+            }}
+            onMouseEnter={consultancyOutlineLightPillEnter}
+            onMouseLeave={consultancyOutlineLightPillLeave}
+          >
+            {ctaLabel ?? "See all 8 →"}
+          </Link>
+        </MagneticWrap>
       </div>
       <div
         className="rv d1"
@@ -485,9 +496,9 @@ function Related({
           border: `1px solid ${PL}`,
         }}
       >
-        {rel.map((r) => (
+        {rel.map((r, i) => (
+          <ScrollGridItem key={r.n} sectionIndex={5} cardIndex={i}>
           <Link
-            key={r.n}
             href={caseStudyPathByClient(r.n)}
             className="hv"
             style={{
@@ -514,9 +525,10 @@ function Related({
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000" }}>{r.n}</div>
             <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.5)" }}>{r.h}</div>
           </Link>
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 

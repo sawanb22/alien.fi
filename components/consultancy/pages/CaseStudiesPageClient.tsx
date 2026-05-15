@@ -17,6 +17,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, MN_WORD_SPACE, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 import { useMemo, useState } from "react";
 
 type StudyHub = {
@@ -390,7 +391,7 @@ function Grid() {
 
   const filtered = baseStudies.filter((s) => active === "All" || s.industry === active);
   return (
-    <section id="real-outcomes" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+    <ScrollSection as="section" index={1} id="real-outcomes" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 28 : 36,
@@ -421,15 +422,16 @@ function Grid() {
         }}
       >
         {filtered.map((s, i) => (
-          <OutcomeSplitCard
-            key={s.id}
-            s={s}
-            showFeaturedBadge={!!s.featured}
-            delayClass={`d${(i % 5) + 1}`}
-          />
+          <ScrollGridItem key={s.id} sectionIndex={1} cardIndex={i}>
+            <OutcomeSplitCard
+              s={s}
+              showFeaturedBadge={!!s.featured}
+              delayClass={`d${(i % 5) + 1}`}
+            />
+          </ScrollGridItem>
         ))}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -446,7 +448,9 @@ function RoiSnapshot() {
     { label: "Case studies with production deployment", value: "10/10" },
   ];
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={2}
       id="ai-roi-snapshot"
       data-expanded={roiOpen ? "true" : "false"}
       style={{
@@ -568,7 +572,7 @@ function RoiSnapshot() {
           </div>
         ) : null}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -587,7 +591,9 @@ function StatsBar() {
   const railBg = "rgba(255,255,255,0.07)";
   const railBorder = "rgba(255,255,255,0.14)";
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={3}
       id="what-weve-shipped"
       data-expanded={shippedOpen ? "true" : "false"}
       style={{
@@ -732,7 +738,7 @@ function StatsBar() {
           </div>
         ) : null}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -749,7 +755,7 @@ function CaseStudiesPageHero() {
   ];
 
   return (
-    <section style={{ paddingTop: 60, background: `linear-gradient(180deg,${BG} 0%,${BG2} 100%)`, position: "relative", borderBottom: `1px solid ${PL}` }}>
+    <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: `linear-gradient(180deg,${BG} 0%,${BG2} 100%)`, position: "relative", borderBottom: `1px solid ${PL}` }}>
       {layout !== "mobile" ? (
         <>
           <div style={{ position: "absolute", left: gv, right: gv, top: 60, bottom: 0, border: `1px solid ${PL}`, borderTop: "none", pointerEvents: "none" }} />
@@ -839,13 +845,15 @@ function CaseStudiesPageHero() {
               </div>
             ))}
           </div>
-          <Link href="#real-outcomes" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
-            View audited outcomes <Arr sz={11} cl="rgba(0,0,0,0.6)" sw={2} />
-          </Link>
+          <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+            <Link href="#real-outcomes" className="hv" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 11, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", textDecoration: "none" }}>
+              View audited outcomes <Arr sz={11} cl="rgba(0,0,0,0.6)" sw={2} />
+            </Link>
+          </MagneticWrap>
         </div>
       </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 

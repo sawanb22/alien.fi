@@ -19,6 +19,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const METRICS = [
   { v: "60%", l: "Avg reduction in manual task volume", s: "Post ai agents for business deployment" },
@@ -103,7 +104,7 @@ export default function ServiceAIAgentsPageClient() {
   return (
     <ConsultancyLoadedShell label="AI AGENTS">
       <Nav current="Services" />
-      <section style={{ paddingTop: 60, background: DK, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: DK, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ padding: `0 ${gv}px` }}>
           <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "minmax(340px, 380px) 1fr", minHeight: stacked ? undefined : 500 }}>
             <div style={{ padding: stacked ? "36px 0 28px" : "60px 36px", borderRight: stacked ? "none" : "1px solid rgba(255,255,255,0.06)", borderBottom: stacked ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
@@ -148,73 +149,79 @@ export default function ServiceAIAgentsPageClient() {
                 Chatbots answer questions. AI agents get work done. Our ai agent development services build autonomous systems that reason across tools, execute multi-step business processes, and complete entire workflows without human initiation. From pre-built ai agents you can deploy in days to fully custom ai agent development for your most complex operations.
               </div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Link
-                  href="/contact"
-                  className="hv"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    background: L,
-                    color: "#000",
-                    textDecoration: "none",
-                    borderRadius: 999,
-                    padding: "12px 18px",
-                    fontFamily: MN,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: "normal",
-                    textTransform: "uppercase",
-                    transition: "background .2s,color .2s,box-shadow .2s",
-                  }}
-                  onMouseEnter={consultancyLimeCtaEnter}
-                  onMouseLeave={consultancyLimeCtaLeave}
-                >
-                  Start your agent project <Arr sz={10} cl="currentColor" />
-                </Link>
-                <a
-                  href="#prebuilt-agents"
-                  className="hv"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    border: "1px solid rgba(255,255,255,0.26)",
-                    color: "#fff",
-                    textDecoration: "none",
-                    borderRadius: 999,
-                    padding: "12px 18px",
-                    fontFamily: MN,
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: "normal",
-                    textTransform: "uppercase",
-                    transition: "background .2s,box-shadow .2s",
-                  }}
-                  onMouseEnter={consultancyGhostOnDarkEnter}
-                  onMouseLeave={consultancyGhostOnDarkLeave}
-                >
-                  See pre-built agents
-                </a>
+                <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                  <Link
+                    href="/contact"
+                    className="hv"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      background: L,
+                      color: "#000",
+                      textDecoration: "none",
+                      borderRadius: 999,
+                      padding: "12px 18px",
+                      fontFamily: MN,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "normal",
+                      textTransform: "uppercase",
+                      transition: "background .2s,color .2s,box-shadow .2s",
+                    }}
+                    onMouseEnter={consultancyLimeCtaEnter}
+                    onMouseLeave={consultancyLimeCtaLeave}
+                  >
+                    Start your agent project <Arr sz={10} cl="currentColor" />
+                  </Link>
+                </MagneticWrap>
+                <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                  <a
+                    href="#prebuilt-agents"
+                    className="hv"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      border: "1px solid rgba(255,255,255,0.26)",
+                      color: "#fff",
+                      textDecoration: "none",
+                      borderRadius: 999,
+                      padding: "12px 18px",
+                      fontFamily: MN,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "normal",
+                      textTransform: "uppercase",
+                      transition: "background .2s,box-shadow .2s",
+                    }}
+                    onMouseEnter={consultancyGhostOnDarkEnter}
+                    onMouseLeave={consultancyGhostOnDarkLeave}
+                  >
+                    See pre-built agents
+                  </a>
+                </MagneticWrap>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
+      <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
-          {METRICS.map((m) => (
-            <ConsultancyInteractiveSurface key={m.l} variant="dk" style={{ padding: "22px 18px" }}>
+          {METRICS.map((m, i) => (
+            <ScrollGridItem key={m.l} sectionIndex={1} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="dk" style={{ padding: "22px 18px" }}>
               <div style={{ fontFamily: MN, fontSize: 40, fontWeight: 700, color: L }}>{m.v}</div>
               <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(255,255,255,0.8)" }}>{m.l}</div>
               <div style={{ fontFamily: SN, fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{m.s}</div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 32 }}><Lbl ch="Three to sixteen weeks · Four phases" /><Ttl ch="THE METHOD." /></div>
         <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.78)", maxWidth: 840, lineHeight: 1.7, marginBottom: 12 }}>
           Our ai agent development services follow four sequential phases whether you are deploying pre-built ai agents or commissioning a fully custom build. Each phase produces a tangible output. Each output earns the next.
@@ -223,8 +230,9 @@ export default function ServiceAIAgentsPageClient() {
           You always get written artifacts between phases—architecture decisions, integration contracts, test results, and pilot readouts—so procurement and engineering leads can review progress without sitting in every working session.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
-          {PHASES.map((p) => (
-            <ConsultancyInteractiveSurface key={p.p} variant="muted" style={{ padding: 20 }}>
+          {PHASES.map((p, i) => (
+            <ScrollGridItem key={p.p} sectionIndex={2} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
               <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "normal", color: L_TEXT_ON_LIGHT, fontWeight: 700 }}>{p.p}</div>
               <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0", fontWeight: 600, color: "#0f1118" }}>{p.t}</div>
               <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(15,17,24,0.82)", lineHeight: 1.65, marginBottom: 12 }}>{p.d}</div>
@@ -259,11 +267,12 @@ export default function ServiceAIAgentsPageClient() {
                 ))}
               </div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Six deliverables" lt /><Ttl ch="WHAT YOU TAKE HOME." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
           {DELIVERABLES.map(([h, d], i) => (
@@ -274,9 +283,9 @@ export default function ServiceAIAgentsPageClient() {
             </ConsultancyInteractiveSurface>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section id="prebuilt-agents" style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={4} id="prebuilt-agents" style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Deploy in days" /><Ttl ch="PRE-BUILT AGENTS READY TO GO." /></div>
         <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(15,17,24,0.78)", maxWidth: 920, marginBottom: 16, lineHeight: 1.65 }}>Our pre-built ai agents are production-ready, domain-tuned agents that integrate into your existing tools within days rather than months. All pre-built ai agents include human-in-the-loop override, full audit trails, and optional managed retainer support.</div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
@@ -321,9 +330,9 @@ export default function ServiceAIAgentsPageClient() {
             );
           })}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Built for your exact process" lt /><Ttl ch="FULLY CUSTOM AI AGENT DEVELOPMENT." lt /></div>
         <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.72, color: "rgba(255,255,255,0.6)", maxWidth: 980, marginBottom: 14 }}>When pre-built ai agents do not map precisely to your workflows, our custom ai agent development services design and build agents from the ground up on your data, your tools, and your specific business process logic.</div>
         <div style={{ display: "grid", gap: 8, marginBottom: 12 }}>
@@ -341,9 +350,9 @@ export default function ServiceAIAgentsPageClient() {
           ))}
         </div>
         <div style={{ fontFamily: MN, fontSize: 11, color: L, letterSpacing: "normal", textTransform: "uppercase" }}>Budget range: $80K to $500K depending on complexity, number of integrated systems, and whether multi-agent orchestration is required.</div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 24 }}><Lbl ch="Built across every department" /><Ttl ch="WHERE AI AGENTS WORK." /></div>
         <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
           {FUNCTION_MATRIX.map(([fn, type, key]) => (
@@ -358,9 +367,9 @@ export default function ServiceAIAgentsPageClient() {
             </ConsultancyInteractiveSurface>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={7} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
           {QUOTES.map(([q, by]) => (
@@ -370,12 +379,12 @@ export default function ServiceAIAgentsPageClient() {
             </ConsultancyInteractiveSurface>
           ))}
         </div>
-      </section>
+      </ScrollSection>
 
-      <section style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      <ScrollSection as="section" index={8} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 24 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
         <ConsultancyFaqAccordion items={FAQS} tone="light" />
-      </section>
+      </ScrollSection>
 
       <CTAStrip title="YOUR PROCESS.|ONE AGENT.|FIXED FEE." sub="Tell us which business process consumes the most manual effort in your team. We will identify the right ai agents for business approach, whether a pre-built deployment or custom ai agent development, send three peer references from your industry, and deliver a fixed-fee statement of work within 48 hours." cta="Start a project" />
       <Footer />

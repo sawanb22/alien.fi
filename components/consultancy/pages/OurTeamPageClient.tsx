@@ -22,6 +22,7 @@ import {
 } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 
 const LEADERSHIP = [
   { init: "JR", n: "Jordan Reyes", r: "Co-founder and CEO", bio: "Ex-McKinsey QuantumBlack. Led AI transformation programs at three Fortune 100s before starting alien.fi.", tags: ["Strategy", "Operating"] },
@@ -95,7 +96,7 @@ function TeamHero() {
   const gv = sectionGutter(layout);
   const stacked = layout !== "desktop";
   return (
-    <section style={{ paddingTop: 60, background: DK, position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+    <ScrollSection as="section" index={0} style={{ paddingTop: 60, background: DK, position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
       <div style={{ position: "absolute", right: -200, top: 60, width: 520, height: 520, borderRadius: "50%", background: `radial-gradient(circle,${L}22,transparent 70%)`, pointerEvents: "none" }} />
       <div style={{ paddingLeft: gv, paddingRight: gv }}>
         <div style={{ display: "grid", gridTemplateColumns: stacked ? "1fr" : "320px 1fr", minHeight: stacked ? undefined : 440 }}>
@@ -135,7 +136,7 @@ function TeamHero() {
           </div>
         </div>
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -147,59 +148,73 @@ export default function OurTeamPageClient() {
     <ConsultancyLoadedShell label="TEAM">
       <Nav current="About" />
       <TeamHero />
-      <section style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <ScrollSection as="section" index={1} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ marginBottom: 36 }}><Lbl ch="Founders and C-Suite" lt /><Ttl ch="LEADERSHIP." lt /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 16 }}>
-          {LEADERSHIP.map((p) => <PersonCard key={p.init} p={p} big dark />)}
+          {LEADERSHIP.map((p, i) => (
+            <ScrollGridItem key={p.init} sectionIndex={1} cardIndex={i}>
+              <PersonCard p={p} big dark />
+            </ScrollGridItem>
+          ))}
         </div>
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 3, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 36, display: "flex", alignItems: layout === "mobile" ? "flex-start" : "flex-end", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 12 : 0 }}>
           <div><Lbl ch="Vertical experts" /><Ttl ch="PRACTICE LEADS." /></div>
           <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(0,0,0,0.4)", maxWidth: 330, textAlign: layout === "mobile" ? "left" : "right", lineHeight: 1.6 }}>Each vertical has a senior practice lead with 8+ years in industry.</div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 16 }}>
-          {PRACTICE.map((p) => <PersonCard key={p.init} p={p} />)}
+          {PRACTICE.map((p, i) => (
+            <ScrollGridItem key={p.init} sectionIndex={2} cardIndex={i}>
+              <PersonCard p={p} />
+            </ScrollGridItem>
+          ))}
         </div>
-      </section>
-      <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
+      </ScrollSection>
+      <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 36 }}><Lbl ch="Senior technical craft" /><Ttl ch="CRAFT LEADS." /></div>
         <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 14 }}>
-          {CRAFT.map((p) => <PersonCard key={p.init} p={p} />)}
+          {CRAFT.map((p, i) => (
+            <ScrollGridItem key={p.init} sectionIndex={3} cardIndex={i}>
+              <PersonCard p={p} />
+            </ScrollGridItem>
+          ))}
         </div>
         <div style={{ display: "flex", alignItems: layout === "mobile" ? "flex-start" : "center", justifyContent: "space-between", flexDirection: layout === "mobile" ? "column" : "row", gap: layout === "mobile" ? 14 : 0, borderTop: `1px solid ${PL}`, marginTop: 48, paddingTop: 32 }}>
           <div>
             <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 8 }}>Plus 80 more across delivery, research, design, and ops</div>
             <div style={{ fontFamily: MN, fontSize: 14, color: "#000", fontWeight: 500 }}>We are hiring 14 roles this quarter.</div>
           </div>
-          <Link
-            href="/contact"
-            className="hv"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: L,
-              color: "#000",
-              border: "none",
-              borderRadius: 24,
-              padding: "12px 18px",
-              fontFamily: MN,
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "normal",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              cursor: "none",
-              transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
-            }}
-            onMouseEnter={consultancyLimeCtaEnter}
-            onMouseLeave={consultancyLimeCtaLeave}
-          >
-            See open roles <Arr sz={10} cl="currentColor" sw={2.4} />
-          </Link>
+          <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+            <Link
+              href="/contact"
+              className="hv"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: L,
+                color: "#000",
+                border: "none",
+                borderRadius: 24,
+                padding: "12px 18px",
+                fontFamily: MN,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "normal",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                cursor: "none",
+                transition: "background .2s,color .2s,box-shadow .2s,transform .15s",
+              }}
+              onMouseEnter={consultancyLimeCtaEnter}
+              onMouseLeave={consultancyLimeCtaLeave}
+            >
+              See open roles <Arr sz={10} cl="currentColor" sw={2.4} />
+            </Link>
+          </MagneticWrap>
         </div>
-      </section>
+      </ScrollSection>
       <CTAStrip title="MEET THE PEOPLE|WHO'D OWN YOUR|ENGAGEMENT." sub="A 30-min intro call with the partner and practice lead who would staff your project. Always free." cta="Start a project" />
       <Footer />
     </ConsultancyLoadedShell>

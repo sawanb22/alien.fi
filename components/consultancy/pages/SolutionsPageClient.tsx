@@ -16,6 +16,7 @@ import {
 import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/landing-layout-context";
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, PL } from "@/lib/consultancy/theme";
+import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
 import { useState } from "react";
 
 const SOLUTIONS = [
@@ -123,7 +124,7 @@ function SolutionsGrid() {
   const [filterHov, setFilterHov] = useState<(typeof CATS)[number] | null>(null);
   const filtered = cat === "ALL" ? SOLUTIONS : SOLUTIONS.filter((s) => s.cat === cat);
   return (
-    <section style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
+    <ScrollSection as="section" index={0} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
         style={{
           marginBottom: layout === "mobile" ? 28 : 36,
@@ -191,13 +192,14 @@ function SolutionsGrid() {
           alignItems: "stretch",
         }}
       >
-        {filtered.map((s) => {
+        {filtered.map((s, i) => {
           const active = hov === s.t;
           const isWide = layout !== "mobile";
           const spanFull = isWide && filtered.length === 1;
           return (
+            <ScrollGridItem key={s.t} sectionIndex={0} cardIndex={i}>
+            <MagneticWrap strength={0.2} style={{ display: "flex", flexDirection: "column", minHeight: 0, width: "100%", height: "100%" }}>
             <div
-              key={s.t}
               role="presentation"
               onMouseEnter={() => setHov(s.t)}
               onMouseLeave={() => setHov(null)}
@@ -369,40 +371,43 @@ function SolutionsGrid() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
                     <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000" }}>{s.price}</div>
-                    <Link
-                      href="/contact"
-                      className="hv"
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 5,
-                        fontFamily: MN,
-                        fontSize: 10,
-                        fontWeight: 600,
-                        letterSpacing: "normal",
-                        textTransform: "uppercase",
-                        color: active ? L2 : "rgba(0,0,0,0.4)",
-                        textDecoration: "none",
-                        transition: "color .2s,transform .15s",
-                        marginLeft: "auto",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.color = "#000";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.color = active ? L2 : "rgba(0,0,0,0.4)";
-                      }}
-                    >
-                      Configure <Arr sz={9} cl="currentColor" sw={1.8} />
-                    </Link>
+                    <MagneticWrap strength={0.35} style={{ display: "inline-flex", marginLeft: "auto" }}>
+                      <Link
+                        href="/contact"
+                        className="hv"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 5,
+                          fontFamily: MN,
+                          fontSize: 10,
+                          fontWeight: 600,
+                          letterSpacing: "normal",
+                          textTransform: "uppercase",
+                          color: active ? L2 : "rgba(0,0,0,0.4)",
+                          textDecoration: "none",
+                          transition: "color .2s,transform .15s",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.color = "#000";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.color = active ? L2 : "rgba(0,0,0,0.4)";
+                        }}
+                      >
+                        Configure <Arr sz={9} cl="currentColor" sw={1.8} />
+                      </Link>
+                    </MagneticWrap>
                   </div>
                 </div>
               </div>
             </div>
+            </MagneticWrap>
+            </ScrollGridItem>
           );
         })}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -418,7 +423,9 @@ function HowItWorks() {
     { n: "04", text: "Go live in 2 to 6 weeks with managed support." },
   ];
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={1}
       id="how-it-works"
       style={{
         padding: `${pv}px ${gv}px`,
@@ -444,11 +451,13 @@ function HowItWorks() {
           alignItems: "stretch",
         }}
       >
-        {steps.map((s) => {
+        {steps.map((s, i) => {
           const h = stepHov === s.n;
           return (
-            <div key={s.n} style={{ height: "100%", minHeight: 0 }}>
+            <ScrollGridItem key={s.n} sectionIndex={1} cardIndex={i}>
+            <div style={{ height: "100%", minHeight: 0 }}>
               <div
+                data-consultancy-magnet=""
                 role="presentation"
                 onMouseEnter={() => setStepHov(s.n)}
                 onMouseLeave={() => setStepHov(null)}
@@ -490,10 +499,11 @@ function HowItWorks() {
                 </div>
               </div>
             </div>
+            </ScrollGridItem>
           );
         })}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
@@ -509,7 +519,9 @@ function StackStrip() {
     { h: "Frameworks", i: ["LangChain", "LlamaIndex", "PyTorch", "TensorFlow", "Hugging Face", "vLLM"] },
   ];
   return (
-    <section
+    <ScrollSection
+      as="section"
+      index={2}
       style={{
         padding: `${pv}px ${gv}px`,
         background: `linear-gradient(180deg,${BG},${BG2})`,
@@ -538,11 +550,12 @@ function StackStrip() {
           alignItems: "stretch",
         }}
       >
-        {stacks.map((s) => {
+        {stacks.map((s, i) => {
           const h = stackHov === s.h;
           return (
+          <ScrollGridItem key={s.h} sectionIndex={2} cardIndex={i}>
+          <MagneticWrap strength={0.2} style={{ display: "flex", flexDirection: "column", minHeight: 0, width: "100%", height: "100%" }}>
           <div
-            key={s.h}
             role="presentation"
             onMouseEnter={() => setStackHov(s.h)}
             onMouseLeave={() => setStackHov(null)}
@@ -582,10 +595,12 @@ function StackStrip() {
               ))}
             </div>
           </div>
+          </MagneticWrap>
+          </ScrollGridItem>
           );
         })}
       </div>
-    </section>
+    </ScrollSection>
   );
 }
 
