@@ -410,6 +410,7 @@ const navLinks: {
     href: "/case-studies",
     sub: [
       { l: "Northbay Health", href: "/case-studies/northbay-health" },
+      { l: "Meridian Insurance", href: "/case-studies/meridian-insurance" },
       { l: "Kestrel Bank", href: "/case-studies/kestrel-bank" },
       { l: "Redline Logistics", href: "/case-studies/redline-logistics" },
       { l: "Oakridge Industrial", href: "/case-studies/oakridge-industrial" },

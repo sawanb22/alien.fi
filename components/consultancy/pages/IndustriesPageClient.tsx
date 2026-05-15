@@ -279,6 +279,10 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
         transform: cardTransform,
         boxShadow: cardShadow,
         width: "100%",
+        height: "100%",
+        minHeight: 0,
+        boxSizing: "border-box",
+        alignItems: "stretch",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -322,20 +326,24 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
           letterSpacing: "normal",
           lineHeight: 1.3,
           transition: "color .25s",
+          minHeight: "2.6em",
         }}
       >
         {ind.n}
       </div>
-      {ind.highlight ? (
-        <div
-          style={{
-            paddingTop: 10,
-            borderTop: `1px solid ${active ? "rgba(255,255,255,0.1)" : PL}`,
-            display: "flex",
-            alignItems: "baseline",
-            gap: 8,
-          }}
-        >
+      <div
+        style={{
+          marginTop: "auto",
+          minHeight: 44,
+          paddingTop: 10,
+          borderTop: `1px solid ${active ? "rgba(255,255,255,0.1)" : PL}`,
+          display: "flex",
+          alignItems: "baseline",
+          gap: 8,
+          flexShrink: 0,
+        }}
+      >
+        {ind.highlight ? (
           <span
             style={{
               fontFamily: MN,
@@ -348,8 +356,22 @@ function IndustryCard({ ind, active, onClick }: { ind: Ind; active: boolean; onC
           >
             {ind.highlight.v}
           </span>
-        </div>
-      ) : null}
+        ) : (
+          <span
+            aria-hidden
+            style={{
+              fontFamily: MN,
+              fontWeight: 700,
+              fontSize: 18,
+              letterSpacing: "normal",
+              visibility: "hidden",
+              userSelect: "none",
+            }}
+          >
+            00%
+          </span>
+        )}
+      </div>
     </button>
   );
 }
@@ -639,7 +661,15 @@ function Selector() {
           alignItems: "flex-start",
         }}
       >
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 12 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: gridCols(layout, 3, 2),
+            gap: 12,
+            alignItems: "stretch",
+            gridAutoRows: "minmax(196px, auto)",
+          }}
+        >
           {INDUSTRIES.map((ind, i) => (
             <ScrollGridItem key={ind.id} sectionIndex={0} cardIndex={i}>
               <IndustryCard ind={ind} active={activeId === ind.id} onClick={() => setActiveId(ind.id)} />

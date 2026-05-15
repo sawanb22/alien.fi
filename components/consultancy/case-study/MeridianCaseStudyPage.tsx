@@ -88,11 +88,23 @@ function StudyHero() {
                   ["Stack", "Python · PyTorch · AWS · Snowflake"],
                 ] as const
               ).map(([k, v]) => (
-                <div key={k} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.35)" }}>
+                <div
+                  key={k}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "minmax(96px, auto) minmax(0, 1fr)",
+                    alignItems: "start",
+                    gap: 12,
+                    padding: "8px 0",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <span style={{ fontFamily: MN, fontSize: 10, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", whiteSpace: "normal", lineHeight: 1.2 }}>
                     {k}
                   </span>
-                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: "normal" }}>{v}</span>
+                  <span style={{ fontFamily: MN, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: "normal", textAlign: "right", lineHeight: 1.25, minWidth: 0, wordBreak: "break-word" }}>
+                    {v}
+                  </span>
                 </div>
               ))}
             </div>
