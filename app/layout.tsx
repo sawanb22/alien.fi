@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { MotionLazyRoot } from "./MotionLazyRoot";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +28,9 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="/colors_and_type.css" />
       </head>
-      <body className="af-page">{children}</body>
+      <body className="af-page">
+        <MotionLazyRoot>{children}</MotionLazyRoot>
+      </body>
     </html>
   );
 }

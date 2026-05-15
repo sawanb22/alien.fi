@@ -457,12 +457,10 @@ function HowItWorks() {
                   boxSizing: "border-box",
                   borderRadius: layout === "mobile" ? 14 : 16,
                   padding: layout === "mobile" ? "22px 20px" : "26px 24px",
-                  background: h ? "rgb(28,32,56)" : "rgba(255,255,255,0.05)",
-                  border: h ? `1px solid rgba(177,238,82,0.35)` : "1px solid rgba(255,255,255,0.08)",
+                  background: h ? "rgb(28,32,56)" : "rgb(21,24,43)",
+                  border: `1px solid ${h ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.08)"}`,
                   cursor: "default",
-                  transition: "background .28s ease, border-color .28s ease, box-shadow .28s ease, transform .22s ease",
-                  boxShadow: h ? `0 12px 32px rgba(0,0,0,0.35)` : "none",
-                  transform: h ? "translateY(-3px)" : "translateY(0)",
+                  transition: "background .28s ease, border-color .28s ease, color .28s ease",
                   display: "flex",
                   flexDirection: "column",
                   gap: 14,
@@ -474,8 +472,7 @@ function HowItWorks() {
                     fontWeight: 700,
                     fontSize: 10,
                     letterSpacing: "normal",
-                    color: h ? L : L2,
-                    transition: "color .25s ease",
+                    color: L2,
                   }}
                 >
                   {s.n}
@@ -483,10 +480,10 @@ function HowItWorks() {
                 <div
                   style={{
                     fontFamily: SN,
-                    fontSize: 13.5,
-                    lineHeight: 1.65,
-                    color: h ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.72)",
-                    transition: "color .25s ease",
+                    fontSize: 12.5,
+                    lineHeight: 1.7,
+                    color: h ? "rgba(255,255,255,0.52)" : "rgba(255,255,255,0.42)",
+                    transition: "color .28s ease",
                   }}
                 >
                   {s.text}

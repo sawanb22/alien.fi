@@ -7,23 +7,6 @@ export function LandingChrome() {
     const dot = document.getElementById("c-dot");
     const ring = document.getElementById("c-ring");
     if (!dot || !ring) {
-      // #region agent log
-      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "78b70a",
-        },
-        body: JSON.stringify({
-          sessionId: "78b70a",
-          hypothesisId: "H6",
-          location: "LandingChrome.tsx:useEffect",
-          message: "cursor_nodes_missing_globals_skipped",
-          data: { hasDot: !!dot, hasRing: !!ring },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
       return;
     }
 
@@ -85,28 +68,6 @@ export function LandingChrome() {
     window.magnetReset = (el: HTMLElement | null) => {
       if (el) el.style.transform = "translate(0,0)";
     };
-
-    // #region agent log
-    fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "78b70a",
-      },
-      body: JSON.stringify({
-        sessionId: "78b70a",
-        hypothesisId: "H2",
-        location: "LandingChrome.tsx:useEffect",
-        message: "globals_registered",
-        data: {
-          initRv: typeof window.initRv,
-          magnet: typeof window.magnet,
-          magnetReset: typeof window.magnetReset,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
 
     document.addEventListener("mousemove", onMove);
     document.addEventListener("mousedown", onDown);

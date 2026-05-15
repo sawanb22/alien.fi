@@ -9,14 +9,13 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
 } from "react";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { CW, MN_WORD_SPACE, OT } from "@/lib/consultancy/tokens";
-import {
-  Footer as ConsultancyFooter,
-  Lbl,
-  Nav as ConsultancyNav,
-} from "@/components/consultancy/consultancy-ui";
+import { Lbl } from "@/components/consultancy/consultancy-ui";
 import {
   LandingLayoutProvider,
   gridCols,
@@ -24,6 +23,9 @@ import {
   sectionVPad,
   useLandingLayout,
 } from "@/lib/landing-layout-context";
+import { HomeGridCard, HomeSection, MagneticWrap } from "./home-motion";
+
+/** HomeSection indices: 0 Hero, 1 Ticker, 2 Services, 3 Process, 4 Differentiators, 5 Industries, 6 CaseStudy, 7 Solutions, 8 EngagementModels, 9 CTA */
 import { LandingChrome } from "./LandingChrome";
 import { SplineHeroLogo } from "./SplineHeroLogo";
 
@@ -121,7 +123,7 @@ function useCountUp(target,dur=1400,trigger){
 
 /* ── STAT CELL with countUp ── */
 function StatCell({val,raw,lbl}){
-  const ref=useRef();
+  const ref=useRef<HTMLDivElement>(null);
   const [triggered,setTriggered]=useState(false);
   const count=useCountUp(raw,1200,triggered);
   useEffect(()=>{
@@ -134,27 +136,62 @@ function StatCell({val,raw,lbl}){
   const isDecimal=val.includes('.');
   const display=isDecimal?(count/10).toFixed(1)+suffix:count+suffix;
   return(
-    <div ref={ref} className="hv" style={{background:`linear-gradient(135deg,${BG},${BG2})`,padding:'26px 24px',transition:'background .3s',cursor:'default'}}
+    <MagneticWrap ref={ref} strength={0.2} className="hv" style={{background:`linear-gradient(135deg,${BG},${BG2})`,padding:'26px 24px',transition:'background .3s',cursor:'default'}}
       onMouseEnter={e=>e.currentTarget.style.background='rgb(218,242,200)'}
       onMouseLeave={e=>e.currentTarget.style.background=`linear-gradient(135deg,${BG},${BG2})`}>
       <div style={{fontFamily:MN,fontWeight:700,fontSize:34,letterSpacing: "normal",color:L2,lineHeight:1,animation:triggered?'statPop .5s ease':'none'}}>{display}</div>
       <div style={{fontFamily:SN,fontWeight:500,fontSize:10,color:'rgba(0,0,0,0.38)',marginTop:5}}>{lbl}</div>
-    </div>
+    </MagneticWrap>
   );
 }
 
 /* ── TILT CARD ── */
-function Tilt({ch,sx={},int=10}){
-  const ref=useRef();
-  const mv=useCallback(e=>{
-    const r=ref.current.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
-    ref.current.style.transform=`perspective(700px) rotateY(${x*int*2}deg) rotateX(${-y*int*1.5}deg) scale(1.025)`;
-    ref.current.style.boxShadow=`${-x*10}px ${-y*10}px 32px rgba(0,0,0,0.1)`;
-  },[int]);
-  const lv=useCallback(()=>{ref.current.style.transform='perspective(700px) rotateY(0) rotateX(0) scale(1)';ref.current.style.boxShadow='none';},[]);
-  return<div ref={ref} onMouseMove={mv} onMouseLeave={lv} style={{transition:'transform .22s cubic-bezier(.16,1,.3,1),box-shadow .22s',...sx}}>{ch}</div>;
+function Tilt({
+  ch,
+  children,
+  sx = {},
+  int = 10,
+}: {
+  ch?: ReactNode;
+  children?: ReactNode;
+  sx?: CSSProperties;
+  int?: number;
+}) {
+  const content = children ?? ch;
+  const ref = useRef<HTMLDivElement | null>(null);
+  const mv = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(700px) rotateY(${x * int * 2}deg) rotateX(${-y * int * 1.5}deg) scale(1.025)`;
+      el.style.boxShadow = `${-x * 10}px ${-y * 10}px 32px rgba(0,0,0,0.1)`;
+    },
+    [int],
+  );
+  const lv = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.transform =
+      "perspective(700px) rotateY(0) rotateX(0) scale(1)";
+    el.style.boxShadow = "none";
+  }, []);
+  return (
+    <div
+      ref={ref}
+      onMouseMove={mv}
+      onMouseLeave={lv}
+      style={{
+        transition:
+          "transform .22s cubic-bezier(.16,1,.3,1),box-shadow .22s",
+        ...sx,
+      }}
+    >
+      {content}
+    </div>
+  );
 }
 
 /* ── LOADER ── */
@@ -215,21 +252,26 @@ function Nav(){
   if(layout==='desktop'){
     return(
       <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:300,background:L,height:60,display:'flex',alignItems:'center',justifyContent:'space-between',padding:`0 ${OT+9}px`,boxShadow:sc?'0 2px 28px rgba(0,0,0,0.14)':'none',transition:'box-shadow .3s'}}>
-        <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
-          <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
-        </Link>
+        <MagneticWrap strength={0.35} style={{ display: "flex" }}>
+          <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
+            <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
+          </Link>
+        </MagneticWrap>
         <div style={{display:'flex',gap:32,alignItems:'center'}}>
           {links.map(([l,h])=>(
-            <Link key={l} href={h} className="hv" style={{fontFamily:MN,fontWeight:500,fontSize:12,letterSpacing: "normal",color:'rgba(0,0,0,0.6)',textDecoration:'none',transition:'color .2s'}}
-              onMouseEnter={e=>{e.currentTarget.style.color='#000';}} onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0.6)';}}>{l}</Link>
+            <MagneticWrap key={l} strength={0.35} style={{ display: "flex" }}>
+              <Link href={h} className="hv" style={{fontFamily:MN,fontWeight:500,fontSize:12,letterSpacing: "normal",color:'rgba(0,0,0,0.6)',textDecoration:'none',transition:'color .2s'}}
+                onMouseEnter={e=>{e.currentTarget.style.color='#000';}} onMouseLeave={e=>{e.currentTarget.style.color='rgba(0,0,0,0.6)';}}>{l}</Link>
+            </MagneticWrap>
           ))}
         </div>
-        <button className="hv" onClick={()=>document.getElementById('contact')?.scrollIntoView({block:'start'})}
-          style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'10px 18px',cursor:'none',transition:'background .2s,color .2s,transform .15s'}}
-          onMouseMove={e=>window.magnet?.(e.currentTarget,e)}
-          onMouseEnter={e=>{e.currentTarget.style.background='rgb(243,243,255)';e.currentTarget.style.color='#000';}}
-          onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';window.magnetReset?.(e.currentTarget);}}
-        >Start a project <Arr sz={9} cl="currentColor" sw={2.2}/></button>
+        <MagneticWrap strength={0.35} style={{ display: "flex" }}>
+          <button className="hv" type="button" onClick={()=>document.getElementById('contact')?.scrollIntoView({block:'start'})}
+            style={{display:'flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'10px 18px',cursor:'none',transition:'background .2s,color .2s,transform .15s'}}
+            onMouseEnter={e=>{e.currentTarget.style.background='rgb(243,243,255)';e.currentTarget.style.color='#000';}}
+            onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';}}
+          >Start a project <Arr sz={9} cl="currentColor" sw={2.2}/></button>
+        </MagneticWrap>
       </nav>
     );
   }
@@ -237,20 +279,26 @@ function Nav(){
   return(
     <>
       <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:300,background:L,height:60,display:'flex',alignItems:'center',justifyContent:'space-between',padding:`0 ${navHPad}px`,boxShadow:sc?'0 2px 28px rgba(0,0,0,0.14)':'none',transition:'box-shadow .3s'}}>
-        <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
-          <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
-        </Link>
+        <MagneticWrap strength={0.35} style={{ display: "flex" }}>
+          <Link href="/" className="hv" style={{display:'flex',alignItems:'center',textDecoration:'none'}}>
+            <img src="/assets/logo-with-font.svg" alt="Alien.fi" style={{height:20}}/>
+          </Link>
+        </MagneticWrap>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <button type="button" className="hv landing-nav-menu-btn" aria-expanded={menu} aria-controls="landing-nav-sheet" aria-label={menu?'Close menu':'Open menu'} onClick={()=>setMenu(m=>!m)}
-            style={{width:42,height:40,borderRadius:10,border:'1.5px solid rgba(0,0,0,0.35)',background:menu?'#000':'rgba(255,255,255,0.35)',color:menu?'#fff':'#000',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,padding:0}}
-          >
-            <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
-            <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
-          </button>
-          <button type="button" className="hv landing-nav-cta" onClick={()=>{setMenu(false);document.getElementById('contact')?.scrollIntoView({block:'start'});}}
-            style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:layout==='mobile'?10:11,letterSpacing: "normal",padding:layout==='mobile'?'9px 12px':'10px 16px'}}>
-            Start <Arr sz={9} cl={L} sw={2.2}/>
-          </button>
+          <MagneticWrap strength={0.35} style={{ display: "flex" }}>
+            <button type="button" className="hv landing-nav-menu-btn" aria-expanded={menu} aria-controls="landing-nav-sheet" aria-label={menu?'Close menu':'Open menu'} onClick={()=>setMenu(m=>!m)}
+              style={{width:42,height:40,borderRadius:10,border:'1.5px solid rgba(0,0,0,0.35)',background:menu?'#000':'rgba(255,255,255,0.35)',color:menu?'#fff':'#000',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:5,padding:0}}
+            >
+              <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
+              <span style={{display:'block',width:18,height:2,background:'currentColor',borderRadius:2,transition:'transform .2s'}}/>
+            </button>
+          </MagneticWrap>
+          <MagneticWrap strength={0.35} style={{ display: "flex" }}>
+            <button type="button" className="hv landing-nav-cta" onClick={()=>{setMenu(false);document.getElementById('contact')?.scrollIntoView({block:'start'});}}
+              style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',border:'none',borderRadius:8,fontFamily:MN,fontWeight:600,fontSize:layout==='mobile'?10:11,letterSpacing: "normal",padding:layout==='mobile'?'9px 12px':'10px 16px'}}>
+              Start <Arr sz={9} cl={L} sw={2.2}/>
+            </button>
+          </MagneticWrap>
         </div>
       </nav>
       {menu&&<>
@@ -272,7 +320,7 @@ function HeroDesktop({tweaks}){
   const [hovSvc,setHovSvc]=useState(null);
 
   return(
-    <section style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative',minHeight:'100vh'}}>
+    <HomeSection as="section" index={0} style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative',minHeight:'100vh'}}>
       {/* Grid lines */}
       <div style={{position:'absolute',left:OT,right:OT,top:60,bottom:0,border:`1px solid ${PL}`,borderTop:'none',pointerEvents:'none'}}/>
       <div style={{position:'absolute',left:OT+CWS,top:60,bottom:0,width:1,background:PL,pointerEvents:'none'}}/>
@@ -287,11 +335,11 @@ function HeroDesktop({tweaks}){
       <div style={{display:'grid',gridTemplateColumns:`${CWS}px 1fr ${CWS}px`,gridTemplateRows:'auto minmax(0,1fr)',minHeight:'calc(100vh - 60px)'}}>
 
         {/* Row 1 — shared auto height so headline can grow on large screens */}
-        <div className="rvl" style={{minHeight:220,padding:'40px 0',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center',boxSizing:'border-box'}}>
+        <div style={{minHeight:220,padding:'40px 0',borderBottom:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center',boxSizing:'border-box'}}>
           <img src="/assets/logo-icon.svg" alt="" style={{height:52,opacity:.1,display:'block'}}/>
         </div>
-        <div style={{minHeight:220,padding:'36px 52px 36px 20px',display:'flex',alignItems:'flex-start',justifyContent:'space-between',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
-          <div className="rv">
+        <div style={{minHeight:220,padding:'36px 52px 36px 20px',display:'flex',alignItems:'flex-start',justifyContent:'flex-start',borderBottom:`1px solid ${PL}`,borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,boxSizing:'border-box'}}>
+          <div>
             <div style={{fontFamily:MN,fontWeight:300,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>WE BUILD</div>
             <div style={{fontFamily:MN,fontWeight:500,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.95,color:'#000',whiteSpace:'nowrap'}}>AI THAT</div>
             <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,5.2vw,80px)',letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.95,whiteSpace:'nowrap',
@@ -299,16 +347,8 @@ function HeroDesktop({tweaks}){
               backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
               animation:'shimmer 4s linear infinite'}}>WORKS</div>
           </div>
-          <Tilt int={20} sx={{flexShrink:0}}>
-            <div className="hv rv d2" style={{width:96,height:96,borderRadius:26,background:CD,border:`1.5px solid ${L2}`,display:'flex',alignItems:'center',justifyContent:'center',cursor:'none',transition:'background .2s'}}
-              onClick={()=>document.getElementById('contact').scrollIntoView({block:'start'})}
-              onMouseEnter={e=>e.currentTarget.style.background='rgb(208,245,185)'}
-              onMouseLeave={e=>e.currentTarget.style.background=CD}>
-              <svg width={38} height={38} viewBox="0 0 40 40" fill="none"><path d="M8 32L32 8M32 8H14M32 8V26" stroke={L2} strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </div>
-          </Tilt>
         </div>
-        <div className="rvr" style={{minHeight:220,padding:'40px 28px 40px 18px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
+        <div style={{minHeight:220,padding:'40px 28px 40px 18px',borderBottom:`1px solid ${PL}`,boxSizing:'border-box'}}>
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -317,6 +357,7 @@ function HeroDesktop({tweaks}){
           }}>
             <Lbl ch="Services" />
             <Link href="/services">
+              <MagneticWrap strength={0.35} style={{ display: "flex" }}>
               <div
                 className="hv"
                 style={{
@@ -335,11 +376,12 @@ function HeroDesktop({tweaks}){
               >
                 <Arr sz={9} cl="#fff" sw={1.8} />
               </div>
+              </MagneticWrap>
             </Link>
           </div>
           {heroServices.map((s, i) => (
+            <MagneticWrap key={s.name} strength={0.35} style={{ display: "block" }}>
             <Link
-              key={s.name}
               href={s.href}
               onMouseEnter={() => setHovSvc(i)}
               onMouseLeave={() => setHovSvc(null)}
@@ -362,17 +404,18 @@ function HeroDesktop({tweaks}){
               {s.name}
               <span style={{ opacity: 0.25, fontSize: 9 }}>0{i + 1}</span>
             </Link>
+            </MagneticWrap>
           ))}
         </div>
 
         {/* Row 2 */}
-        <div className="rvl" style={{padding:'36px 18px 36px 28px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+        <div style={{padding:'36px 18px 36px 28px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
           <div>
             <Lbl ch="About"/>
             <div style={{fontFamily:SN,fontWeight:400,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:28}}>
               alien.fi is a full-service partner for organizations looking beyond generic ai consulting firms and searching for a team that can plan, build, deploy, and improve AI systems with measurable business value. We support companies at every stage of AI maturity through ai strategy consulting, custom ai development, implementation, and managed ai services.
             </div>
-            <div className="ld" style={{height:1,background:PL,marginBottom:28}}/>
+            <div style={{height:1,background:PL,marginBottom:28}}/>
             <Lbl ch="Engagement models"/>
             {['Project-Based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
               <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'9px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing: "normal"}}>
@@ -418,41 +461,49 @@ function HeroDesktop({tweaks}){
 
             {/* Text — ABOVE logo (z:3) with frosted backing */}
             <div style={{position:'relative',zIndex:3,padding:'32px 52px 0 20px',pointerEvents:'none'}}>
-              <div className="rv d1" style={{display:'inline-block',pointerEvents:'all'}}>
+              <div style={{display:'inline-block',pointerEvents:'all'}}>
                 <div style={{fontFamily:SN,fontSize:13.5,lineHeight:1.8,color:'rgba(0,0,0,0.55)',marginBottom:28,maxWidth:320,background:'rgba(243,243,255,0.75)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:12,padding:'14px 18px',boxShadow:'0 4px 24px rgba(0,0,0,0.06)'}}>
                   <p style={{margin:0}}>alien.fi is one of the ai consulting firms helping businesses turn strategy into production-ready systems through custom ai development, implementation, and managed ai services.</p>
                   <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
                 </div>
               </div>
-              <div className="rv d2" style={{display:'flex',gap:12,flexWrap:'wrap',pointerEvents:'all'}}>
-                <Link href="/contact#about-you" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'13px 22px',borderRadius:9,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
-                  onMouseMove={e=>window.magnet(e.currentTarget,e,.25)}
-                onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
-                  onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';window.magnetReset(e.currentTarget);}}
-                >Start a project <Arr sz={9} cl="currentColor" sw={2}/></Link>
-                <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9,background:'transparent'}} 
-                  onMouseMove={e=>window.magnet?.(e.currentTarget,e,.22)}
-                  onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
-                  onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.4)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';window.magnetReset?.(e.currentTarget);}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
+              <div style={{display:'flex',gap:12,flexWrap:'wrap',pointerEvents:'all'}}>
+                <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                  <Link href="/contact#about-you" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'13px 22px',borderRadius:9,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
+                    onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';}}
+                  >Start a project <Arr sz={9} cl="currentColor" sw={2}/></Link>
+                </MagneticWrap>
+                <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+                  <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:'rgba(0,0,0,0.4)',textDecoration:'none',padding:'13px 14px',minWidth:170,justifyContent:'center',transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',borderRadius:9,background:'transparent'}}
+                    onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.4)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
+                </MagneticWrap>
               </div>
             </div>
 
             {/* Stats — z:3, always on top */}
             {tweaks.showStats&&(
-              <div className="rv d3" style={{marginTop:'auto',position:'relative',zIndex:3,display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
-                <StatCell val="20+" raw={20} lbl="Industries served"/>
-                <StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/>
-                <StatCell val="62%" raw={62} lbl="Faster operations"/>
+              <div style={{marginTop:'auto',position:'relative',zIndex:3,display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
+                <HomeGridCard sectionIndex={0} cardIndex={0} style={{ minHeight: 0 }}>
+                  <StatCell val="20+" raw={20} lbl="Industries served"/>
+                </HomeGridCard>
+                <HomeGridCard sectionIndex={0} cardIndex={1} style={{ minHeight: 0 }}>
+                  <StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/>
+                </HomeGridCard>
+                <HomeGridCard sectionIndex={0} cardIndex={2} style={{ minHeight: 0 }}>
+                  <StatCell val="62%" raw={62} lbl="Faster operations"/>
+                </HomeGridCard>
               </div>
             )}
           </div>
         </div>
 
-        <div className="rvr" style={{padding:'36px 28px 36px 18px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
+        <div style={{padding:'36px 28px 36px 18px',display:'flex',flexDirection:'column',justifyContent:'space-between',minHeight:0}}>
           <div>
             <Lbl ch="Collaborate"/>
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.8,color:'rgba(0,0,0,0.5)',marginBottom:24}}>Partner with us to build next-generation AI infrastructure for your business.</div>
-            <div className="ld" style={{height:1,background:PL,marginBottom:24}}/>
+            <div style={{height:1,background:PL,marginBottom:24}}/>
             <Lbl ch="Contact"/>
             <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing: "normal"}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
           </div>
@@ -462,18 +513,20 @@ function HeroDesktop({tweaks}){
               {['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
                 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
                 'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'].map((d,i)=>(
-                <div key={i} className="hv" style={{width:34,height:34,borderRadius:8,background:CD,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s'}}
-                  onMouseEnter={e=>{e.currentTarget.style.background=L;e.currentTarget.style.transform='scale(1.15)rotate(-8deg)';}}
-                  onMouseLeave={e=>{e.currentTarget.style.background=CD;e.currentTarget.style.transform='scale(1)rotate(0)';}}>
+                <MagneticWrap key={i} strength={0.35} style={{ display: "flex" }}>
+                <div className="hv" style={{width:34,height:34,borderRadius:8,background:CD,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s'}}
+                  onMouseEnter={e=>{e.currentTarget.style.background=L;}}
+                  onMouseLeave={e=>{e.currentTarget.style.background=CD;}}>
                   <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.65}><path d={d}/></svg>
                 </div>
+                </MagneticWrap>
               ))}
             </div>
           </div>
         </div>
       </div>
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -490,10 +543,10 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
     'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'];
 
   return(
-    <section style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative'}}>
+    <HomeSection as="section" index={0} style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative'}}>
       <div style={{borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,marginLeft:g,marginRight:g,paddingLeft:frameInset,paddingRight:frameInset,boxSizing:'border-box'}}>
 
-        <div className="rv" style={{padding:'30px 0 22px',borderBottom:`1px solid ${PL}`}}>
+        <div style={{padding:'30px 0 22px',borderBottom:`1px solid ${PL}`}}>
           <div style={{fontFamily:MN,fontWeight:300,fontSize:headlineFs,letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.98,color:'#000'}}>WE BUILD</div>
           <div style={{fontFamily:MN,fontWeight:500,fontSize:headlineFs,letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.98,color:'#000'}}>AI THAT</div>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:headlineFs,letterSpacing: "normal",wordSpacing:MN_WORD_SPACE,lineHeight:0.98,
@@ -507,21 +560,25 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
           </div>
         </div>
 
-        <div className="rv d1" style={{padding:'26px 0 28px'}}>
+        <div style={{padding:'26px 0 28px'}}>
           <div style={{fontFamily:SN,fontSize:13.5,lineHeight:1.8,color:'rgba(0,0,0,0.55)',marginBottom:22,background:'rgba(243,243,255,0.85)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:14,padding:'16px 18px',boxShadow:'0 4px 24px rgba(0,0,0,0.06)',border:`1px solid ${PL}`}}>
             <p style={{margin:0}}>alien.fi is one of the ai consulting firms helping businesses turn strategy into production-ready systems through custom ai development, implementation, and managed ai services.</p>
             <p style={{margin:'14px 0 0'}}>From first roadmap to long-term optimization, our ai strategy consulting and delivery model help organizations improve operations, decision-making, and customer experience with practical AI solutions.</p>
           </div>
           <div style={{display:'flex',gap:12,flexWrap:'wrap',alignItems:'center'}}>
-            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,transform .15s,box-shadow .2s',boxShadow:'none'}}
+            <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+            <Link href="/contact" className="hv" style={{display:'inline-flex',alignItems:'center',gap:8,background:'#000',color:'#fff',fontFamily:MN,fontWeight:600,fontSize:11,letterSpacing: "normal",padding:'13px 20px',borderRadius:10,textDecoration:'none',transition:'background .2s,color .2s,box-shadow .2s',boxShadow:'none'}}
               onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
               onMouseLeave={e=>{e.currentTarget.style.background='#000';e.currentTarget.style.color='#fff';e.currentTarget.style.boxShadow='none';}}
             >
               Start a project <Arr sz={9} cl="currentColor" sw={2}/>
             </Link>
-            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 14px',minWidth:148,justifyContent:'center',borderRadius:10,transition:'background .2s,color .2s,box-shadow .2s,transform .15s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',background:'transparent'}}
+            </MagneticWrap>
+            <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
+            <Link href="/services" className="hv" style={{display:'inline-flex',alignItems:'center',gap:6,fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:'rgba(0,0,0,0.45)',textDecoration:'none',padding:'13px 14px',minWidth:148,justifyContent:'center',borderRadius:10,transition:'background .2s,color .2s,box-shadow .2s',boxShadow:'0 0 0 1px rgba(21,24,43,0.12)',background:'transparent'}}
               onMouseEnter={e=>{e.currentTarget.style.background='rgb(230,230,234)';e.currentTarget.style.color='#000';e.currentTarget.style.boxShadow='0 0 0 2px rgba(177,238,82,0.85)';}}
               onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='rgba(0,0,0,0.45)';e.currentTarget.style.boxShadow='0 0 0 1px rgba(21,24,43,0.12)';}}>See services <Arr sz={9} cl="currentColor" sw={2}/></Link>
+            </MagneticWrap>
           </div>
           <div style={{marginTop:18,display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:9,fontWeight:500,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(0,0,0,0.25)'}}>
             <div style={{width:4,height:4,borderRadius:'50%',background:L2,animation:'dotPulse 1.8s ease-in-out infinite'}}/>Interact with the 3D logo
@@ -529,19 +586,19 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
         </div>
 
         {tweaks.showStats&&(
-          <div className="rv d2" style={{display:'grid',gridTemplateColumns:layout==='mobile'?'1fr':'repeat(3,1fr)',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
-            <StatCell val="20+" raw={20} lbl="Industries served"/>
-            <StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/>
-            <StatCell val="62%" raw={62} lbl="Faster operations"/>
+          <div style={{display:'grid',gridTemplateColumns:layout==='mobile'?'1fr':'repeat(3,1fr)',gap:1,background:PL,borderTop:`1px solid ${PL}`,overflow:'hidden'}}>
+            <HomeGridCard sectionIndex={0} cardIndex={0} style={{ minHeight: 0 }}><StatCell val="20+" raw={20} lbl="Industries served"/></HomeGridCard>
+            <HomeGridCard sectionIndex={0} cardIndex={1} style={{ minHeight: 0 }}><StatCell val="3.1×" raw={31} lbl="Avg. first-year ROI"/></HomeGridCard>
+            <HomeGridCard sectionIndex={0} cardIndex={2} style={{ minHeight: 0 }}><StatCell val="62%" raw={62} lbl="Faster operations"/></HomeGridCard>
           </div>
         )}
 
-        <div style={{padding:'28px 0',borderTop:`1px solid ${PL}`}} className="rv d2">
+        <div style={{padding:'28px 0',borderTop:`1px solid ${PL}`}}>
           <Lbl ch="Services"/>
           <div style={{ marginTop: 4, borderRadius: 14, border: `1px solid ${PL}`, overflow: "hidden" }}>
             {heroServices.map((s, i) => (
+              <MagneticWrap key={s.name} strength={0.35} style={{ display: "block" }}>
               <Link
-                key={s.name}
                 href={s.href}
                 style={{
                   padding: "12px 14px",
@@ -568,17 +625,18 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </Link>
+              </MagneticWrap>
             ))}
           </div>
         </div>
 
-        <div className="rv d3" style={{padding:'26px 0',borderTop:`1px solid ${PL}`,display:'grid',gridTemplateColumns:layout==='tablet'?'1fr 1fr':'1fr',gap:layout==='tablet'?20:26}}>
+        <div style={{padding:'26px 0',borderTop:`1px solid ${PL}`,display:'grid',gridTemplateColumns:layout==='tablet'?'1fr 1fr':'1fr',gap:layout==='tablet'?20:26}}>
           <div>
             <Lbl ch="About"/>
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.75,color:'rgba(0,0,0,0.5)',marginBottom:22}}>
               alien.fi is a full-service partner for organizations looking beyond generic ai consulting firms and searching for a team that can plan, build, deploy, and improve AI systems with measurable business value. We support companies at every stage of AI maturity through ai strategy consulting, custom ai development, implementation, and managed ai services.
             </div>
-            <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
+            <div style={{height:1,background:PL,marginBottom:18}}/>
             <Lbl ch="Engagement models"/>
             {['Project-Based','Retainer & Managed','Staff Augmentation','Strategic Advisory'].map(m=>(
               <div key={m} style={{display:'flex',alignItems:'center',gap:10,padding:'8px 0',borderBottom:`1px solid ${PL}`,fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.5)',letterSpacing: "normal"}}>
@@ -595,21 +653,23 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.75,color:'rgba(0,0,0,0.5)',marginBottom:22}}>
               Partner with us to build next-generation AI infrastructure for your business.
             </div>
-            <div className="ld" style={{height:1,background:PL,marginBottom:18}}/>
+            <div style={{height:1,background:PL,marginBottom:18}}/>
             <Lbl ch="Contact"/>
             <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing: "normal",marginBottom:22}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
             <Lbl ch="Follow"/>
             <div style={{display:'flex',gap:10}}>
               {socialPaths.map((d,i)=>(
-                <div key={i} className="hv" style={{width:36,height:36,borderRadius:9,background:CD,border:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <MagneticWrap key={i} strength={0.35} style={{ display: "flex" }}>
+                <div className="hv" style={{width:36,height:36,borderRadius:9,background:CD,border:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center'}}>
                   <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.6}><path d={d}/></svg>
                 </div>
+                </MagneticWrap>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -625,7 +685,7 @@ function Ticker(){
   const layout=useLandingLayout();
   const g=sectionGutter(layout);
   return(
-    <div style={{overflow:'hidden',borderTop:`1px solid ${PL}`,borderBottom:`1px solid ${PL}`,background:BG,padding:`13px ${g}px`}}>
+    <HomeSection as="div" index={1} style={{overflow:'hidden',borderTop:`1px solid ${PL}`,borderBottom:`1px solid ${PL}`,background:BG,padding:`13px ${g}px`}}>
       <div style={{display:'flex',gap:64,animation:'ticker 32s linear infinite',whiteSpace:'nowrap'}}>
         {[...words,...words].map((w,i)=>(
           <span key={i} style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",textTransform:'uppercase',opacity:.28,flexShrink:0,display:'flex',alignItems:'center',gap:10}}>
@@ -633,7 +693,7 @@ function Ticker(){
           </span>
         ))}
       </div>
-    </div>
+    </HomeSection>
   );
 }
 
@@ -652,7 +712,9 @@ function Services(){
     {n:'05',href:'/services',t:'Training & Enablement',d:'Help internal teams adopt AI through workshops, documentation, operational playbooks, and change management support.',tags:['Workshops','Documentation','Operational playbooks','Change management']},
   ];
   return(
-    <section
+    <HomeSection
+      as="section"
+      index={2}
       id="services"
       data-expanded={servicesOpen ? "true" : "false"}
       style={{
@@ -664,6 +726,7 @@ function Services(){
       }}
     >
       <div style={{padding:'0'}}>
+        <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
         <button
           type="button"
           className="hv"
@@ -694,14 +757,14 @@ function Services(){
               gap:layout==='mobile'?12:0,
             }}
           >
-            <div className="rv"><Lbl ch="What we do"/><Ttl ch="SERVICES"/></div>
-            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Our services cover the full lifecycle of AI adoption, from ai strategy consulting to custom ai development and long-term managed ai services.</div>
+            <div><Lbl ch="What we do"/><Ttl ch="SERVICES"/></div>
+            <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Our services cover the full lifecycle of AI adoption, from ai strategy consulting to custom ai development and long-term managed ai services.</div>
           </div>
         </button>
+        </MagneticWrap>
         {!servicesOpen ? (
           <div
             aria-hidden
-            className="rv d1 in"
             style={{
               display: "grid",
               gridTemplateColumns: gridCols(layout, 3, 2),
@@ -719,35 +782,41 @@ function Services(){
           <div id="services-list" role="region" aria-label="Service offerings" style={{ position: "relative", zIndex: 1 }}>
             <div style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
               {svcs.map((s,i)=>(
-                <div key={s.n} style={{ height: "100%", minHeight: 0 }}>
+                <HomeGridCard key={s.n} sectionIndex={2} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
+                  <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
                   <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .35s',minHeight:'100%',boxSizing:'border-box'}}>
                     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                       <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2,transition:'color .3s'}}>{s.n}</span>
+                      <MagneticWrap strength={0.35} style={{ display: "flex" }}>
                       <Link
                         href={s.href}
                         className="hv"
-                        style={{width:20,height:20,borderRadius:5,background:hov===i?'rgba(255,255,255,0.12)':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .25s,transform .2s',transform:hov===i?'rotate(0deg)':'rotate(45deg)',textDecoration:'none'}}
+                        style={{width:20,height:20,borderRadius:5,background:hov===i?'rgba(255,255,255,0.12)':PL,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .25s,opacity .2s',opacity:hov===i?1:0.85,textDecoration:'none'}}
                       >
                         <Arr sz={8} cl={hov===i?'#fff':'rgba(0,0,0,0.4)'} sw={1.8}/>
                       </Link>
+                      </MagneticWrap>
                     </div>
                     <div style={{fontFamily:MN,fontWeight:600,fontSize:13,letterSpacing: "normal",lineHeight:1.45,color:hov===i?'#fff':'#000',transition:'color .3s'}}>{s.t}</div>
                     <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.48)',flexGrow:1,transition:'color .3s'}}>{s.d}</div>
                     <div style={{display:'flex',flexDirection:'column',gap:6}}>
                       {s.tags.map(t=>(
-                        <Link key={t} href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:hov===i?'rgba(255,255,255,0.42)':'rgba(0,0,0,0.38)',textDecoration:'none',transition:'color .3s'}}>
+                        <MagneticWrap key={t} strength={0.35} style={{ display: "block" }}>
+                        <Link href={s.href} className="hv" style={{display:'flex',alignItems:'center',gap:7,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:hov===i?'rgba(255,255,255,0.42)':'rgba(0,0,0,0.38)',textDecoration:'none',transition:'color .3s'}}>
                           <div style={{width:4,height:4,borderRadius:'50%',background:hov===i?L2:PL,flexShrink:0,transition:'background .3s'}}/>{t}
                         </Link>
+                        </MagneticWrap>
                       ))}
                     </div>
                   </div>
-                </div>
+                  </MagneticWrap>
+                </HomeGridCard>
               ))}
             </div>
           </div>
         ) : null}
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -765,7 +834,9 @@ function Process(){
     {n:'04',t:'Improve',sub:'',d:'We continue with managed ai services, monitoring, retraining, reporting, and ongoing optimization after go-live.',time:''},
   ];
   return(
-    <section
+    <HomeSection
+      as="section"
+      index={3}
       id="process"
       data-expanded={processOpen ? "true" : "false"}
       style={{
@@ -778,6 +849,7 @@ function Process(){
       }}
     >
       <div style={{padding:'0'}}>
+        <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
         <button
           type="button"
           className="hv"
@@ -808,10 +880,11 @@ function Process(){
               gap:layout==='mobile'?12:0,
             }}
           >
-            <div className="rv"><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
-            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
+            <div><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
+            <div style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
           </div>
         </button>
+        </MagneticWrap>
         {processOpen ? (
           <div
             id="process-phases"
@@ -830,11 +903,17 @@ function Process(){
               }}
             >
               {steps.map((s,i)=>(
+                <HomeGridCard key={s.n} sectionIndex={3} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
+                  <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
                 <div
-                  key={s.n}
-                  style={{ height: "100%", minHeight: 0 }}
                   onMouseEnter={()=>setProcessHov(i)}
                   onMouseLeave={()=>setProcessHov(null)}
+                  style={{
+                    height: "100%",
+                    minHeight: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
                   <div
                     style={{
@@ -858,15 +937,17 @@ function Process(){
                       {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:L2,marginTop:4}}>{s.sub}</div>:null}
                     </div>
                     <div style={{height:1,background:processHov===i?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.06)',transition:'background .28s ease'}}/>
-                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:processHov===i?'rgba(255,255,255,0.52)':'rgba(255,255,255,0.42)',flexGrow:1,transition:'color .28s ease'}}>{s.d}</div>
+                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:processHov===i?'rgba(255,255,255,0.52)':'rgba(255,255,255,0.42)',flexGrow:1,flexShrink:1,minHeight:0,transition:'color .28s ease'}}>{s.d}</div>
                   </div>
                 </div>
+                  </MagneticWrap>
+                </HomeGridCard>
               ))}
             </div>
           </div>
         ) : null}
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -884,7 +965,9 @@ function Differentiators(){
     {n:'04',t:'Long-term ownership',d:'We stay involved after launch to monitor performance, improve models, and help teams scale AI responsibly.'},
   ];
   return(
-    <section
+    <HomeSection
+      as="section"
+      index={4}
       id="why-us"
       data-expanded={whyUsOpen ? "true" : "false"}
       style={{
@@ -896,6 +979,7 @@ function Differentiators(){
       }}
     >
       <div style={{padding:'0'}}>
+        <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
         <button
           type="button"
           className="hv"
@@ -926,14 +1010,14 @@ function Differentiators(){
               gap:layout==='mobile'?12:0,
             }}
           >
-            <div className="rv"><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
-            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Many ai consulting firms can talk about transformation. Fewer can deliver AI that performs reliably inside real business operations.</div>
+            <div><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
+            <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Many ai consulting firms can talk about transformation. Fewer can deliver AI that performs reliably inside real business operations.</div>
           </div>
         </button>
+        </MagneticWrap>
         {!whyUsOpen ? (
           <div
             aria-hidden
-            className="rv d1 in"
             style={{
               display:'grid',
               gridTemplateColumns:gridCols(layout,4,2),
@@ -949,22 +1033,24 @@ function Differentiators(){
         ) : null}
         {whyUsOpen ? (
           <div id="why-us-blocks" role="region" aria-label="What sets us apart" style={{position:'relative',zIndex:1}}>
-            <div className="rv d1 in" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+            <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
               {items.map((item,i)=>(
-                <div key={item.n} style={{height:'100%',minHeight:0}}>
+                <HomeGridCard key={item.n} sectionIndex={4} cardIndex={i} style={{height:'100%',minHeight:0}}>
+                  <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
                   <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .35s',display:'flex',flexDirection:'column',gap:14,minHeight:'100%',boxSizing:'border-box'}}>
                     <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2,transition:'color .3s'}}>{item.n}</span>
                     <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .3s',color:hov===i?'#fff':'rgba(0,0,0,0.85)'}}>{item.t}</div>
                     <div style={{height:1,background:hov===i?'rgba(255,255,255,0.08)':PL,transition:'background .3s'}}/>
                     <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.48)',transition:'color .3s'}}>{item.d}</div>
                   </div>
-                </div>
+                  </MagneticWrap>
+                </HomeGridCard>
               ))}
             </div>
           </div>
         ) : null}
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -990,17 +1076,20 @@ function Industries(){
     {name:'Tech Startups',detail:'Product copilots, churn prediction, growth analytics, internal AI tools.'},
   ];
   return(
-    <section id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+    <HomeSection as="section" index={5} id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Link href="/industries" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Who we help"/></Link><Ttl ch="INDUSTRIES"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>We support organizations across sectors where speed, accuracy, compliance, and operational efficiency matter most.</div>
+        <div><MagneticWrap strength={0.35} style={{ display: "inline-block" }}><Link href="/industries" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Who we help"/></Link></MagneticWrap><Ttl ch="INDUSTRIES"/></div>
+        <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>We support organizations across sectors where speed, accuracy, compliance, and operational efficiency matter most.</div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {list.map((ind,i)=>(
-          <Link key={ind.name} href="/industries" className="hv" onMouseEnter={()=>setHov(i)} onMouseLeave={()=>{setHov(null);setArrowHov(null);}}
-            style={{background:hov===i?`linear-gradient(135deg,rgb(218,244,200),${BG2})`:`linear-gradient(135deg,${BG},${BG2})`,padding:'24px 28px',transition:'background .22s',position:'relative',zIndex:hov===i?2:1}}>
+          <HomeGridCard key={ind.name} sectionIndex={5} cardIndex={i} style={{ minHeight: 0 }}>
+            <MagneticWrap strength={0.2} style={{ display: "block", height: "100%" }}>
+          <Link href="/industries" className="hv" onMouseEnter={()=>setHov(i)} onMouseLeave={()=>{setHov(null);setArrowHov(null);}}
+            style={{background:hov===i?`linear-gradient(135deg,rgb(218,244,200),${BG2})`:`linear-gradient(135deg,${BG},${BG2})`,padding:'24px 28px',transition:'background .22s',position:'relative',zIndex:hov===i?2:1,display:'block',height:'100%',textDecoration:'none'}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:hov===i?12:0}}>
               <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(14px, 1.15vw, 16px)',letterSpacing: "normal",color:hov===i?'#000':'rgba(0,0,0,0.88)',transition:'color .2s'}}>{ind.name}</div>
+              <MagneticWrap strength={0.35} style={{ display: "flex" }}>
               <div
                 aria-hidden
                 onMouseEnter={()=>setArrowHov(i)}
@@ -1015,20 +1104,22 @@ function Industries(){
                   justifyContent:'center',
                   flexShrink:0,
                   opacity:hov===i?1:0,
-                  transform:hov===i?(arrowHov===i?'scale(1.12)':'scale(1)'):'scale(0.6)',
-                  transition:'opacity .2s,transform .2s,background .2s,box-shadow .2s',
+                  transition:'opacity .2s,background .2s,box-shadow .2s',
                   boxShadow:arrowHov===i?'0 0 0 2px rgba(177,238,82,0.85)':'none',
                   pointerEvents:hov===i?'auto':'none',
                 }}
               >
                 <Arr sz={9} cl={arrowHov===i?'#000':'#fff'} sw={1.8}/>
               </div>
+              </MagneticWrap>
             </div>
             <div style={{fontFamily:SN,fontSize:13,lineHeight:1.55,color:'rgba(0,0,0,0.74)',maxHeight:hov===i?88:0,overflow:'hidden',transition:'max-height .32s ease,opacity .28s',opacity:hov===i?1:0}}>{ind.detail}</div>
           </Link>
+            </MagneticWrap>
+          </HomeGridCard>
         ))}
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -1037,6 +1128,8 @@ function CaseStudy(){
   const layout=useLandingLayout();
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
+  const [phaseHov,setPhaseHov]=useState<number|null>(null);
+  const [caseBtnHov,setCaseBtnHov]=useState(false);
   const metrics=[
     {val:'62%',lbl:'Faster claims processing',sub:'14 days → 5.3 days'},
     {val:'47%',lbl:'Fraud loss reduction',sub:'$3.2M saved annually'},
@@ -1044,75 +1137,100 @@ function CaseStudy(){
     {val:'3.1×',lbl:'First-year ROI',sub:'Full deployment in 9 months'},
   ];
   return(
-    <section id="case-studies" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:6,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+    <HomeSection as="section" index={6} id="case-studies" style={{background:DK,padding:`${pv}px ${gv}px`,position:'relative',zIndex:6,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0'}}>
         <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
-          <div className="rv"><Link href="/case-studies" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Case study" lt/></Link><Ttl ch="REAL RESULTS." lt/></div>
-          <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees, 9-month transformation delivered through ai strategy consulting, custom ai development, and managed ai services.</div>
+          <div><MagneticWrap strength={0.35} style={{ display: "inline-block" }}><Link href="/case-studies" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Case study" lt/></Link></MagneticWrap><Ttl ch="REAL RESULTS." lt/></div>
+          <div style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees, 9-month transformation delivered through ai strategy consulting, custom ai development, and managed ai services.</div>
         </div>
-        <div className="rv d1" style={{ marginBottom: layout === "mobile" ? 24 : 28 }}>
+        <div style={{ marginBottom: layout === "mobile" ? 24 : 28 }}>
+          <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
           <Link
             href="/case-studies"
             className="hv"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 8,
+              justifyContent: "center",
+              gap: 10,
               fontFamily: MN,
-              fontWeight: 600,
-              fontSize: 11,
+              fontWeight: 700,
+              fontSize: 12,
               letterSpacing: "normal",
               textTransform: "uppercase",
-              color: L,
+              color: "#000",
               textDecoration: "none",
-              padding: "12px 20px",
+              padding: "16px 28px",
               borderRadius: 10,
-              border: "1px solid rgba(150,238,82,0.45)",
-              background: "rgba(150,238,82,0.08)",
-              transition: "background .2s,color .2s,border-color .2s,transform .15s",
+              border: "none",
+              background: caseBtnHov ? "rgb(230,230,234)" : L,
+              transition: "background .2s,color .2s",
+              cursor: "pointer",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(150,238,82,0.2)";
-              e.currentTarget.style.borderColor = L2;
-              e.currentTarget.style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(150,238,82,0.08)";
-              e.currentTarget.style.borderColor = "rgba(150,238,82,0.45)";
-              e.currentTarget.style.color = L;
-            }}
+            onMouseEnter={() => setCaseBtnHov(true)}
+            onMouseLeave={() => setCaseBtnHov(false)}
           >
-            View all case studies <Arr sz={9} cl="currentColor" sw={2} />
+            View all case studies <Arr sz={11} cl="currentColor" sw={2.5} />
           </Link>
+          </MagneticWrap>
         </div>
-        <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
-          {metrics.map(m=>(
-            <Tilt key={m.val} int={8} sx={{height:'100%'}}>
-              <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 22px':'36px 28px',height:'100%'}}>
+        <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
+          {metrics.map((m,i)=>(
+            <HomeGridCard key={m.val} sectionIndex={6} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
+              <MagneticWrap strength={0.2} style={{ height: "100%" }}>
+            <Tilt int={8} sx={{ height: "100%", minHeight: 0, display: "flex", flexDirection: "column" }}>
+              <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 22px':'36px 28px',height:'100%',minHeight:0,flex:1,display:'flex',flexDirection:'column',boxSizing:'border-box'}}>
                 <div style={{fontFamily:MN,fontWeight:700,fontSize:layout==='mobile'?'clamp(28px,8vw,40px)':52,letterSpacing: "normal",color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
                 <div style={{fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing: "normal",color:'rgba(255,255,255,0.65)',marginBottom:4}}>{m.lbl}</div>
                 <div style={{fontFamily:SN,fontSize:11,color:'rgba(255,255,255,0.28)'}}>{m.sub}</div>
               </div>
             </Tilt>
+              </MagneticWrap>
+            </HomeGridCard>
           ))}
         </div>
-        <div className="rv d2" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.04)',borderRadius:16,overflow:'hidden',marginBottom:20}}>
+        <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:layout==='mobile'?10:12,marginBottom:20}}>
           {[{p:'Phase 1',n:'Claims Automation',d:'NLP-powered extraction automated 70% of routine claims intake and routing.'},{p:'Phase 2',n:'Fraud Detection AI',d:'Real-time machine learning flagged suspicious patterns before payouts.'},{p:'Phase 3',n:'Customer Experience AI',d:'A conversational assistant handled policy inquiries and status updates 24/7.'},{p:'Phase 4',n:'Unified Data Platform',d:'Siloed systems were integrated into a centralized data pipeline for real-time visibility.'}].map((p,i)=>(
-            <div key={p.p} style={{background:'rgba(255,255,255,0.02)',padding:layout==='mobile'?'20px 18px':'24px 24px'}}>
+            <HomeGridCard key={p.p} sectionIndex={6} cardIndex={i} style={{ minHeight: 0, height: "100%" }}>
+            <MagneticWrap strength={0.2} style={{ height: "100%" }}>
+            <div
+              onMouseEnter={()=>setPhaseHov(i)}
+              onMouseLeave={()=>setPhaseHov(null)}
+              style={{
+                height:'100%',
+                minHeight:0,
+                display:'flex',
+                flexDirection:'column',
+                boxSizing:'border-box',
+                padding:layout==='mobile'?'20px 18px':'24px 24px',
+                borderRadius:14,
+                border:`1px solid ${phaseHov===i?'rgba(150,238,82,0.28)':'rgba(255,255,255,0.1)'}`,
+                background:phaseHov===i
+                  ? 'linear-gradient(165deg,rgb(34,38,62) 0%,rgb(24,27,48) 100%)'
+                  : 'linear-gradient(165deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.02) 55%,rgba(21,24,43,0.4) 100%)',
+                boxShadow:phaseHov===i
+                  ? `0 14px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(150,238,82,0.12)`
+                  : '0 6px 22px rgba(0,0,0,0.28)',
+                transition:'background .28s ease,box-shadow .28s ease,border-color .28s ease',
+                cursor:'default',
+              }}
+            >
               <Chip ch={p.p} bg='rgba(150,238,82,0.1)' cl={L} sx={{marginBottom:12}}/>
-              <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:'rgba(255,255,255,0.75)',marginBottom:8,letterSpacing: "normal",lineHeight:1.35}}>{p.n}</div>
-              <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:'rgba(255,255,255,0.3)'}}>{p.d}</div>
+              <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:phaseHov===i?'rgba(255,255,255,0.92)':'rgba(255,255,255,0.78)',marginBottom:8,letterSpacing: "normal",lineHeight:1.35,transition:'color .28s ease'}}>{p.n}</div>
+              <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:phaseHov===i?'rgba(255,255,255,0.42)':'rgba(255,255,255,0.32)',transition:'color .28s ease'}}>{p.d}</div>
             </div>
+            </MagneticWrap>
+            </HomeGridCard>
           ))}
         </div>
-        <div className="rv d3" style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
+        <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
           <div style={{fontSize:layout==='mobile'?42:56,lineHeight:1,color:L,fontFamily:'Georgia,serif',flexShrink:0,marginTop:-8}}>&ldquo;</div>
           <div>
             <div style={{fontFamily:MN,fontWeight:400,fontSize:15,lineHeight:1.75,letterSpacing: "normal",color:'rgba(255,255,255,0.65)',maxWidth:700}}>The best ai consulting firms do more than launch systems — they create solutions that perform in production, earn trust internally, and improve the numbers that matter.</div>
           </div>
         </div>
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -1132,7 +1250,9 @@ function Solutions(){
     {tag:'Domain-specific agents',t:'AI Agents & Copilots',d:'Automate multi-step workflows with domain-specific agents embedded into business operations.'},
   ];
   return(
-    <section
+    <HomeSection
+      as="section"
+      index={7}
       id="solutions"
       data-expanded={solutionsOpen ? "true" : "false"}
       style={{
@@ -1145,6 +1265,7 @@ function Solutions(){
       }}
     >
       <div style={{padding:'0'}}>
+        <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
         <button
           type="button"
           className="hv"
@@ -1175,14 +1296,14 @@ function Solutions(){
               gap:layout==='mobile'?12:0,
             }}
           >
-            <div className="rv"><Lbl ch="Ready-to-deploy"/><Ttl ch="SOLUTIONS"/></div>
-            <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value, plus custom ai development when the use case requires a tailored solution.</div>
+            <div><Lbl ch="Ready-to-deploy"/><Ttl ch="SOLUTIONS"/></div>
+            <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value, plus custom ai development when the use case requires a tailored solution.</div>
           </div>
         </button>
+        </MagneticWrap>
         {!solutionsOpen ? (
           <div
             aria-hidden
-            className="rv d1 in"
             style={{
               display:'grid',
               gridTemplateColumns:gridCols(layout,3,3),
@@ -1198,9 +1319,10 @@ function Solutions(){
         ) : null}
         {solutionsOpen ? (
           <div id="solutions-tiles" role="region" aria-label="Solutions" style={{position:'relative',zIndex:1}}>
-            <div className="rv d1 in" style={{display:'grid',gridTemplateColumns:gridCols(layout,3,3),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+            <div style={{display:'grid',gridTemplateColumns:gridCols(layout,3,3),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
               {items.map((item,i)=>(
-                <div key={item.t} style={{height:'100%',minHeight:0}}>
+                <HomeGridCard key={item.t} sectionIndex={7} cardIndex={i} style={{height:'100%',minHeight:0}}>
+                  <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
                   <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .35s',minHeight:'100%',boxSizing:'border-box'}}>
                     <Chip
                       ch={item.tag}
@@ -1211,17 +1333,20 @@ function Solutions(){
                     <div style={{fontFamily:MN,fontWeight:600,fontSize:12.5,letterSpacing: "normal",lineHeight:1.35,color:hov===i?"#fff":"#000",transition:'color .3s'}}>{item.t}</div>
                     <div style={{height:1,background:hov===i?"rgba(255,255,255,0.08)":PL,transition:'background .3s'}}/>
                     <div style={{fontFamily:SN,fontSize:12,lineHeight:1.65,color:hov===i?"rgba(255,255,255,0.45)":"rgba(0,0,0,0.44)",flexGrow:1,transition:'color .3s'}}>{item.d}</div>
-                    <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',marginTop:4,textDecoration:'none'}}>
+                    <MagneticWrap strength={0.35} style={{ display: "flex", marginTop: 4 }}>
+                    <Link href="/solutions" className="hv" style={{display:'flex',alignItems:'center',gap:5,fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:hov===i?L:'rgba(0,0,0,0.3)',transition:'color .3s',textDecoration:'none'}}>
                       Learn more <Arr sz={8} cl={hov===i?L:'rgba(0,0,0,0.3)'} sw={1.8}/>
                     </Link>
+                    </MagneticWrap>
                   </div>
-                </div>
+                  </MagneticWrap>
+                </HomeGridCard>
               ))}
             </div>
           </div>
         ) : null}
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -1238,20 +1363,22 @@ function EngagementModels(){
     {t:'Strategic Advisory',r:'$10K – $50K/mo',d:'Senior-level ai strategy consulting for leadership teams shaping AI roadmaps, governance, investment priorities, and risk strategy.',f:['CAIO-level access','Board-ready output','Risk & ethics review','Quarterly sessions']},
   ];
   return(
-    <section id="engagements" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:8,borderRadius:'24px 24px 0 0',marginTop:-24}}>
+    <HomeSection as="section" index={8} id="engagements" style={{background:BG,padding:`${pv}px ${gv}px`,position:'relative',zIndex:8,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
-        <div className="rv"><Link href="/contact#about-you" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="How to work with us"/></Link><Ttl ch="ENGAGEMENT MODELS"/></div>
-        <div className="rv d2" style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From a sprint to a multi-year partnership.</div>
+        <div><MagneticWrap strength={0.35} style={{ display: "inline-block" }}><Link href="/contact#about-you" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="How to work with us"/></Link></MagneticWrap><Ttl ch="ENGAGEMENT MODELS"/></div>
+        <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From a sprint to a multi-year partnership.</div>
       </div>
-      <div className="rv d1" style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
         {models.map((m,i)=>(
-          <div key={m.t} onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'36px 28px',display:'flex',flexDirection:'column',gap:16,transition:'background .4s'}}>
+          <HomeGridCard key={m.t} sectionIndex={8} cardIndex={i} style={{ minHeight: 0, height: "100%" }}>
+            <MagneticWrap strength={0.2} style={{ height: "100%" }}>
+          <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'36px 28px',display:'flex',flexDirection:'column',gap:16,transition:'background .4s',height:'100%',minHeight:0,boxSizing:'border-box'}}>
             <div>
               <div style={{fontFamily:MN,fontWeight:700,fontSize:16,letterSpacing: "normal",color:hov===i?'#fff':'#000',transition:'color .3s'}}>{m.t}</div>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:11,color:hov===i?L2:'rgba(0,0,0,0.35)',letterSpacing: "normal",marginTop:4,transition:'color .3s'}}>{m.r}</div>
             </div>
             <div style={{height:1,background:hov===i?'rgba(255,255,255,0.08)':PL,transition:'background .3s'}}/>
-            <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.45)',transition:'color .3s',flexGrow:1}}>{m.d}</div>
+            <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:hov===i?'rgba(255,255,255,0.45)':'rgba(0,0,0,0.45)',transition:'color .3s',flexGrow:1,flexShrink:1,minHeight:0}}>{m.d}</div>
             <div style={{display:'flex',flexDirection:'column',gap:7}}>
               {m.f.map(f=>(
                 <div key={f} style={{display:'flex',alignItems:'center',gap:8,fontFamily:MN,fontSize:10,fontWeight:500,letterSpacing: "normal",color:hov===i?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.38)',transition:'color .3s'}}>
@@ -1263,9 +1390,11 @@ function EngagementModels(){
               Get started <Arr sz={9} cl={hov===i?L:'rgba(0,0,0,0.3)'} sw={1.8}/>
             </Link>
           </div>
+            </MagneticWrap>
+          </HomeGridCard>
         ))}
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -1362,8 +1491,8 @@ function CTA(){
     }
   };
   return(
-    <section id="contact" style={{padding:`0 ${gv}px`,position:'relative',zIndex:9}}>
-      <div className="rv" style={{background:DK,borderRadius:'20px 20px 0 0',padding:layout==='mobile'?`${Math.max(48,pv-12)}px ${sectionGutter(layout)+4}px`:layout==='tablet'?`${pv}px 36px`:`${pv}px 60px`,display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:layout==='mobile'?40:layout==='tablet'?48:80,alignItems:'start'}}>
+    <HomeSection as="section" index={9} id="contact" style={{padding:`0 ${gv}px`,position:'relative',zIndex:9}}>
+      <div style={{background:DK,borderRadius:'20px 20px 0 0',padding:layout==='mobile'?`${Math.max(48,pv-12)}px ${sectionGutter(layout)+4}px`:layout==='tablet'?`${pv}px 36px`:`${pv}px 60px`,display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:layout==='mobile'?40:layout==='tablet'?48:80,alignItems:'start'}}>
         <div>
           <Lbl ch="Let's build together" lt/>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing: "normal",lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
@@ -1411,14 +1540,15 @@ function CTA(){
               <ReCAPTCHA ref={recaptchaRef} sitekey={RECAPTCHA_SITE_KEY} theme="dark" />
             </div>
           ) : null}
+          <MagneticWrap strength={0.35} style={{ display: "flex", alignSelf: "flex-start" }}>
           <button type="submit" disabled={submitting} className="hv" onMouseEnter={()=>setHovBtn(true)} onMouseLeave={()=>setHovBtn(false)}
-            onMouseMove={e=>window.magnet(e.currentTarget,e,.2)} onMouseOut={e=>window.magnetReset(e.currentTarget)}
-            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing: "normal",textTransform:'uppercase',cursor:submitting?'wait':'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s,transform .15s',transform:hovBtn?'translateY(-2px)':'none',opacity:submitting?0.65:1}}>
+            style={{background:hovBtn?'rgb(230,230,234)':L,color:'#000',border:'none',borderRadius:10,padding:'16px 28px',fontFamily:MN,fontWeight:700,fontSize:12,letterSpacing: "normal",textTransform:'uppercase',cursor:submitting?'wait':'none',display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'background .2s,color .2s',opacity:submitting?0.65:1}}>
             {submitting?'Sending…':'Send message'} <Arr sz={11} cl="currentColor" sw={2.5}/>
           </button>
+          </MagneticWrap>
         </form>
       </div>
-    </section>
+    </HomeSection>
   );
 }
 
@@ -1434,11 +1564,13 @@ function Footer(){
           <div style={{fontFamily:SN,fontSize:12,lineHeight:1.7,color:'rgba(255,255,255,0.28)',marginBottom:20}}>A full-service AI consultancy.<br/>New Jersey (NJ) — Operating globally.</div>
           <div style={{display:'flex',gap:10}}>
             {['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613z','M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z'].map((d,i)=>(
-              <div key={i} className="hv" style={{width:32,height:32,borderRadius:7,background:'rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s,transform .2s'}}
-                onMouseEnter={e=>{e.currentTarget.style.background='rgba(150,238,82,0.18)';e.currentTarget.style.transform='scale(1.12)';}}
-                onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.06)';e.currentTarget.style.transform='scale(1)';}}>
+              <MagneticWrap key={i} strength={0.35} style={{ width:32,height:32,borderRadius:7 }}>
+              <div className="hv" style={{width:32,height:32,borderRadius:7,background:'rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s'}}
+                onMouseEnter={e=>{e.currentTarget.style.background='rgba(150,238,82,0.18)';}}
+                onMouseLeave={e=>{e.currentTarget.style.background='rgba(255,255,255,0.06)';}}>
                 <svg width={13} height={13} viewBox="0 0 24 24" fill="rgba(255,255,255,0.5)"><path d={d}/></svg>
               </div>
+              </MagneticWrap>
             ))}
           </div>
         </div>
@@ -1446,15 +1578,17 @@ function Footer(){
           <div key={h}>
             <div style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(255,255,255,0.2)',marginBottom:18}}>{h}</div>
             {links.map(([label,href])=>(
-              href.startsWith('mailto:') || href.startsWith('tel:') ? (
-                <a key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
+              <MagneticWrap key={label} strength={0.35} style={{ display: "block", marginBottom: 10 }}>
+              {href.startsWith('mailto:') || href.startsWith('tel:') ? (
+                <a href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.38)',transition:'color .2s,padding-left .18s',textDecoration:'none'}}
                   onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
                   onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{label}</a>
               ) : (
-                <Link key={label} href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.38)',marginBottom:10,transition:'color .2s,padding-left .18s',textDecoration:'none'}}
+                <Link href={href} className="hv" style={{display:'block',fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.38)',transition:'color .2s,padding-left .18s',textDecoration:'none'}}
                   onMouseEnter={e=>{e.currentTarget.style.color='rgba(255,255,255,0.88)';e.currentTarget.style.paddingLeft='6px';}}
                   onMouseLeave={e=>{e.currentTarget.style.color='rgba(255,255,255,0.38)';e.currentTarget.style.paddingLeft='0';}}>{label}</Link>
-              )
+              )}
+              </MagneticWrap>
             ))}
           </div>
         ))}
@@ -1468,134 +1602,26 @@ function Footer(){
 }
 
 /* ── APP ── */
-function LandingRuntimeProbe({ loaded }: { loaded: boolean }) {
-  const layout = useLandingLayout();
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const iw = window.innerWidth;
-    const derived: "desktop" | "tablet" | "mobile" =
-      iw >= 1120 ? "desktop" : iw >= 768 ? "tablet" : "mobile";
-    // #region agent log
-    fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "78b70a",
-      },
-      body: JSON.stringify({
-        sessionId: "78b70a",
-        hypothesisId: "H1-H4",
-        location: "LandingPageClient.tsx:LandingRuntimeProbe",
-        message: "layout_and_globals",
-        data: {
-          layout,
-          derivedFromInnerWidth: derived,
-          layoutMismatch: layout !== derived,
-          innerWidth: iw,
-          loaded,
-          magnet: typeof (window as { magnet?: unknown }).magnet,
-          initRv: typeof (window as { initRv?: unknown }).initRv,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-  }, [layout, loaded]);
-
-  useEffect(() => {
-    if (!loaded || typeof window === "undefined") return;
-    const t = window.setTimeout(() => {
-      const inEls = document.querySelectorAll(".rv.in,.rvl.in,.rvr.in,.ld.in").length;
-      const allRv = document.querySelectorAll(".rv,.rvl,.rvr,.ld").length;
-      // #region agent log
-      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "78b70a",
-        },
-        body: JSON.stringify({
-          sessionId: "78b70a",
-          hypothesisId: "H3",
-          location: "LandingPageClient.tsx:LandingRuntimeProbe",
-          message: "post_loader_reveal_counts",
-          data: { inClassCount: inEls, revealTrackedEls: allRv },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
-    }, 220);
-    return () => window.clearTimeout(t);
-  }, [loaded]);
-
-  return null;
-}
-
 export default function LandingPageClient(){
   const [loaded,setLoaded]=useState(false);
-  useEffect(()=>{
-    const onErr = (e: ErrorEvent) => {
-      // #region agent log
-      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "78b70a",
-        },
-        body: JSON.stringify({
-          sessionId: "78b70a",
-          hypothesisId: "H5",
-          location: "LandingPageClient.tsx:window.error",
-          message: "window_error",
-          data: {
-            msg: String(e.message ?? ""),
-            file: e.filename ?? "",
-            lineno: e.lineno ?? 0,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
-    };
-    const onRej = (e: PromiseRejectionEvent) => {
-      // #region agent log
-      fetch("http://127.0.0.1:7710/ingest/21cd7f61-07ad-4063-be55-ca4e32b6e124", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "78b70a",
-        },
-        body: JSON.stringify({
-          sessionId: "78b70a",
-          hypothesisId: "H5",
-          location: "LandingPageClient.tsx:unhandledrejection",
-          message: "unhandled_rejection",
-          data: { reason: String(e.reason ?? "") },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
-    };
-    window.addEventListener("error", onErr);
-    window.addEventListener("unhandledrejection", onRej);
-    return () => {
-      window.removeEventListener("error", onErr);
-      window.removeEventListener("unhandledrejection", onRej);
-    };
-  }, []);
-  useEffect(()=>{
-    if(loaded)setTimeout(()=>{window.initRv&&window.initRv();document.querySelectorAll('.rv,.rvl,.rvr,.ld').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight*.95)el.classList.add('in');});},120);
-  },[loaded]);
   return(
     <>
       <LandingChrome />
       {!loaded&&<Loader onDone={()=>setLoaded(true)}/>}
       <LandingLayoutProvider>
-        <LandingRuntimeProbe loaded={loaded} />
         <div style={{opacity:loaded?1:0,transition:'opacity .5s',pointerEvents:loaded?'all':'none'}}>
-          <ConsultancyNav/><Hero tweaks={TWEAK_DEFAULTS}/><Ticker/>
-          <Services/><Process/><Differentiators/><Industries/>
-          <CaseStudy/><Solutions/><EngagementModels/><CTA/><ConsultancyFooter/>
+          <Nav />
+          <Hero tweaks={TWEAK_DEFAULTS} />
+          <Ticker />
+          <Services />
+          <Process />
+          <Differentiators />
+          <Industries />
+          <CaseStudy />
+          <Solutions />
+          <EngagementModels />
+          <CTA />
+          <Footer />
         </div>
       </LandingLayoutProvider>
     </>
