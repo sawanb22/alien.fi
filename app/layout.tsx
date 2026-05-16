@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Alien.fi",
   description: "Alien.fi — design system & Next shell",
+  icons: {
+    icon: [{ url: "/assets/favicon.svg", type: "image/svg+xml" }],
+  },
 };
 
 export default function RootLayout({
