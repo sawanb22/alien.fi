@@ -370,10 +370,14 @@ export function MiniLoader({
   );
 }
 
+const PITCH_DECK_PDF_URL = "https://media.alien.fi/Alienfi.pdf";
+
+type NavSubItem = { l: string; href: string; newTab?: boolean };
+
 const navLinks: {
   l: NavPage;
   href: string;
-  sub?: { l: string; href: string }[];
+  sub?: NavSubItem[];
 }[] = [
   {
     l: "Services",
@@ -428,11 +432,60 @@ const navLinks: {
     sub: [
       { l: "Team", href: "/about/team" },
       { l: "Partners", href: "/about/partners" },
+      { l: "Pitch deck", href: PITCH_DECK_PDF_URL, newTab: true },
     ],
   },
   { l: "Blog", href: "/blog" },
   { l: "Contact", href: "/contact" },
 ];
+
+function NavDropdownSubLink({
+  sub,
+  style,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+}: {
+  sub: NavSubItem;
+  style: CSSProperties;
+  onMouseEnter?: MouseEventHandler<HTMLAnchorElement>;
+  onMouseLeave?: MouseEventHandler<HTMLAnchorElement>;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+}) {
+  const openNewTab =
+    sub.newTab ??
+    (sub.href.startsWith("http://") || sub.href.startsWith("https://"));
+
+  if (openNewTab) {
+    return (
+      <a
+        href={sub.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hv"
+        style={style}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onClick={onClick}
+      >
+        {sub.l}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={sub.href}
+      className="hv"
+      style={style}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+    >
+      {sub.l}
+    </Link>
+  );
+}
 
 function DesktopNavItem({ item, current }: { item: typeof navLinks[0]; current?: NavPage }) {
   const [hover, setHover] = useState(false);
@@ -525,10 +578,9 @@ function DesktopNavItem({ item, current }: { item: typeof navLinks[0]; current?:
             }}
           >
             {item.sub.map((s) => (
-              <Link
+              <NavDropdownSubLink
                 key={s.l}
-                href={s.href}
-                className="hv"
+                sub={s}
                 style={{
                   padding: "10px 16px",
                   fontFamily: MN,
@@ -547,9 +599,7 @@ function DesktopNavItem({ item, current }: { item: typeof navLinks[0]; current?:
                   e.currentTarget.style.background = "transparent";
                   e.currentTarget.style.color = "rgba(0,0,0,0.7)";
                 }}
-              >
-                {s.l}
-              </Link>
+              />
             ))}
           </div>
         </div>
@@ -644,9 +694,9 @@ function MobileNavItem({ item, current, close }: { item: typeof navLinks[0]; cur
       {open && (
         <div style={{ padding: "0 4px 12px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
           {item.sub.map((s) => (
-            <Link
+            <NavDropdownSubLink
               key={s.l}
-              href={s.href}
+              sub={s}
               onClick={close}
               style={{
                 fontFamily: MN,
@@ -658,9 +708,7 @@ function MobileNavItem({ item, current, close }: { item: typeof navLinks[0]; cur
                 padding: "4px 0",
                 cursor: "pointer",
               }}
-            >
-              {s.l}
-            </Link>
+            />
           ))}
         </div>
       )}
