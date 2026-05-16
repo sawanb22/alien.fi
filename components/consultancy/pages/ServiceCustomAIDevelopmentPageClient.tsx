@@ -6,6 +6,7 @@ import {
   Arr,
   Chip,
   ConsultancyFaqAccordion,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -266,7 +267,7 @@ function Metrics() {
   const gv = sectionGutter(layout);
   return (
     <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark">
         {METRICS.map((x, i) => (
           <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: layout === "mobile" ? "24px 20px" : "32px 28px" }}>
@@ -276,7 +277,7 @@ function Metrics() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -293,7 +294,7 @@ function Method() {
           Each phase has a clear output and a go or no-go gate. Nothing moves forward until the previous phase is validated.
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 5, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={5} tabletCols={2} tone="light">
         {PHASES.map((p, i) => (
           <ScrollGridItem key={p.p} sectionIndex={2} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "28px 24px" }}>
@@ -311,7 +312,7 @@ function Method() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -333,7 +334,7 @@ function CardsSection({
   return (
     <ScrollSection as="section" index={sectionIndex} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 36 }}><Lbl ch={eyebrow} /><Ttl ch={title} /></div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light">
         {items.map((it, i) => (
           <ScrollGridItem key={it.t} sectionIndex={sectionIndex} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "28px 24px" }}>
@@ -353,7 +354,7 @@ function CardsSection({
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -365,7 +366,7 @@ function QuotesSection() {
   return (
     <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 36 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark">
         {QUOTES.map((q, i) => (
           <ScrollGridItem key={q.by} sectionIndex={5} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: "28px 24px" }}>
@@ -374,7 +375,7 @@ function QuotesSection() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

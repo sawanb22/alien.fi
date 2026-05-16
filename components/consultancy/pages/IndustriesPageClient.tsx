@@ -5,6 +5,7 @@ import { caseStudyPathByClient } from "@/lib/consultancy/case-study-routes";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Arr,
+  ConsultancyCardGrid,
   CTAStrip,
   Footer,
   Lbl,
@@ -741,16 +742,7 @@ function Methodology() {
           }
         </div>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 2, 2),
-          gap: 1,
-          background: "rgba(255,255,255,0.05)",
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={2} tabletCols={2} tone="dark">
         {items.map((it, i) => {
           const hovered = methodologyHover === i;
           return (
@@ -809,7 +801,7 @@ function Methodology() {
             </ScrollGridItem>
           );
         })}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -949,17 +941,7 @@ function Outcomes() {
         />
         <Ttl ch="WHAT AI IN INDUSTRY DELIVERS." />
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 4, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light">
         {OUTCOME_STATS.map((s, i) => {
           const hovered = outcomeHover === i;
           return (
@@ -1025,7 +1007,7 @@ function Outcomes() {
             </ScrollGridItem>
           );
         })}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

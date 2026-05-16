@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -215,7 +216,7 @@ function ModulesSection() {
           <Chip key={m.t} ch={<a href={`#${m.t.toLowerCase().replace(/\s/g, '-')}`}>{m.t}</a>} />
         ))}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light">
         {MODULES.map((m, i) => (
           <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i}>
           <Tilt
@@ -236,7 +237,7 @@ function ModulesSection() {
           />
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -256,7 +257,7 @@ function ComplianceSection() {
           AlienServe ships with the controls retail and hospitality teams need from day one. The platform is designed for customer-facing environments where privacy, system consistency, and auditability matter across every location.
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark">
         {COMPLIANCE.map((c, i) => (
           <ScrollGridItem key={c.n} sectionIndex={2} cardIndex={i}>
           <ConsultancyInteractiveSurface variant="dk" style={{ padding: "30px 28px" }}>
@@ -265,7 +266,7 @@ function ComplianceSection() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   ConsultancyFaqAccordion,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -287,7 +288,7 @@ function Metrics() {
   const gv = sectionGutter(layout);
   return (
     <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark" borderRadius={18}>
         {METRICS.map((m, i) => (
           <ScrollGridItem key={m.l} sectionIndex={1} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: "24px 20px" }}>
@@ -297,7 +298,7 @@ function Metrics() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -314,7 +315,7 @@ function Method() {
           Our custom ai copilot development services follow four sequential phases. Each phase produces a tangible output. Each output earns the next. No surprises at month six.
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light" borderRadius={18}>
         {PHASES.map((p, i) => (
           <ScrollGridItem key={p.p} sectionIndex={2} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "24px 20px" }}>
@@ -332,7 +333,7 @@ function Method() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -344,7 +345,7 @@ function Deliverables() {
   return (
     <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 34 }}><Lbl ch="Six deliverables" lt /><Ttl ch="WHAT YOU TAKE HOME." lt /></div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
         {DELIVERABLES.map((d, i) => (
           <ScrollGridItem key={d.h} sectionIndex={3} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: "24px 20px" }}>
@@ -356,7 +357,7 @@ function Deliverables() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -368,7 +369,7 @@ function BuildTypes() {
   return (
     <ScrollSection as="section" index={4} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 32 }}><Lbl ch="Copilot types" /><Ttl ch="FOUR TYPES WE BUILD." /></div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={2} tabletCols={1} tone="light" borderRadius={18}>
         {BUILD_TYPES.map((x, i) => (
           <ScrollGridItem key={x.h} sectionIndex={4} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="light" style={{ padding: "24px 20px" }}>
@@ -377,7 +378,7 @@ function BuildTypes() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -389,7 +390,7 @@ function Platforms() {
   return (
     <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 28 }}><Lbl ch="Integration-ready" lt /><Ttl ch="WHERE YOUR COPILOT LIVES." lt /></div>
-      <div style={{ display: "grid", gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 14, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={1} tabletCols={1} tone="dark" borderRadius={14}>
         {PLATFORMS.map(([platform, integration, useCases], i) => (
           <ScrollGridItem key={platform} sectionIndex={5} cardIndex={i}>
             <ConsultancyInteractiveSurface
@@ -402,7 +403,7 @@ function Platforms() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -440,7 +441,7 @@ function SocialProof() {
   return (
     <ScrollSection as="section" index={7} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div style={{ marginBottom: 30 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
         {QUOTES.map((q, i) => (
           <ScrollGridItem key={q.by} sectionIndex={7} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: "24px 20px" }}>
@@ -449,7 +450,7 @@ function SocialProof() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

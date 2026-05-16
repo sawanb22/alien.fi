@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   ConsultancyFaqAccordion,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -147,7 +148,7 @@ export default function ServiceManagedAIPageClient() {
       </ScrollSection>
 
       <ScrollSection as="section" index={1} style={{ padding: `42px ${gv}px`, background: DK }}>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark" borderRadius={18}>
           {METRICS.map(([v, l, s], i) => (
             <ScrollGridItem key={l} sectionIndex={1} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="dk" style={{ padding: 22 }}>
@@ -157,13 +158,13 @@ export default function ServiceManagedAIPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Ongoing operations · Four pillars" /><Ttl ch="THE METHOD." />
         <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.58)", maxWidth: 760 }}>Our managed ai services operate across four continuous pillars. Each one runs in parallel from the first day of your retainer.</p>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light" borderRadius={18}>
           {PILLARS.map(([p, t, d, b], i) => (
             <ScrollGridItem key={p} sectionIndex={2} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
@@ -181,12 +182,12 @@ export default function ServiceManagedAIPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Six deliverables" /><Ttl ch="WHAT YOU GET EVERY MONTH." />
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light" borderRadius={18}>
           {DELIVERABLES.map(([t, d], i) => (
             <ScrollGridItem key={t} sectionIndex={3} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="light" style={{ padding: 22 }}>
@@ -196,12 +197,12 @@ export default function ServiceManagedAIPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={4} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt />
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
           {QUOTES.map((q, i) => (
             <ScrollGridItem key={q} sectionIndex={4} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="dk" style={{ padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
@@ -209,7 +210,7 @@ export default function ServiceManagedAIPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>

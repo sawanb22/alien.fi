@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   ConsultancyFaqAccordion,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -157,7 +158,7 @@ export default function ServiceRAGAcceleratorPageClient() {
       </ScrollSection>
 
       <ScrollSection as="section" index={1} style={{ padding: `42px ${gv}px`, background: DK }}>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark" borderRadius={18}>
           {METRICS.map(([v, l, s], i) => (
             <ScrollGridItem key={l} sectionIndex={1} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="dk" style={{ padding: 22 }}>
@@ -167,13 +168,13 @@ export default function ServiceRAGAcceleratorPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Four to eight weeks · Four phases" /><Ttl ch="THE METHOD." />
         <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.58)", maxWidth: 760 }}>Our custom RAG development services follow four sequential phases. Each phase produces a tangible output.</p>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light" borderRadius={18}>
           {PHASES.map(([p, t, d, b], i) => (
             <ScrollGridItem key={p} sectionIndex={2} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
@@ -191,12 +192,12 @@ export default function ServiceRAGAcceleratorPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Six deliverables" /><Ttl ch="WHAT YOU TAKE HOME." />
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light" borderRadius={18}>
           {DELIVERABLES.map((t, i) => (
             <ScrollGridItem key={t} sectionIndex={3} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="light" style={{ padding: 22 }}>
@@ -205,12 +206,12 @@ export default function ServiceRAGAcceleratorPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={4} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Beyond standard RAG" /><Ttl ch="ADVANCED RAG OPTIONS." />
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light" borderRadius={18}>
           {ADVANCED.map(([t, d], i) => (
             <ScrollGridItem key={t} sectionIndex={4} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
@@ -219,12 +220,12 @@ export default function ServiceRAGAcceleratorPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt />
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
           {QUOTES.map((q, i) => (
             <ScrollGridItem key={q} sectionIndex={5} cardIndex={i}>
               <ConsultancyInteractiveSurface variant="dk" style={{ padding: 22, fontFamily: SN, fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
@@ -232,12 +233,12 @@ export default function ServiceRAGAcceleratorPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <Lbl ch="Built for your industry" /><Ttl ch="WHERE RAG WORKS." />
-        <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={1} tabletCols={1} tone="light" borderRadius={14}>
           {INDUSTRIES.map(([ind, a, b], i) => (
             <ScrollGridItem key={ind} sectionIndex={6} cardIndex={i}>
               <ConsultancyInteractiveSurface
@@ -250,7 +251,7 @@ export default function ServiceRAGAcceleratorPageClient() {
               </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={7} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>

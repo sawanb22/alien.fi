@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -390,16 +391,7 @@ function ComplianceSection() {
           AlienVault ships with the controls finance and banking teams need from day one. It is designed for regulated environments where security, traceability, and policy alignment matter as much as model performance.
         </div>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 3, 2),
-          gap: 1,
-          background: "rgba(255,255,255,0.06)",
-          borderRadius: 20,
-          overflow: "hidden",
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark">
         {COMPLIANCE.map((c, i) => (
           <ScrollGridItem key={c.n} sectionIndex={2} cardIndex={i}>
           <ConsultancyInteractiveSurface variant="dk" style={{ padding: "30px 28px" }}>
@@ -408,7 +400,7 @@ function ComplianceSection() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

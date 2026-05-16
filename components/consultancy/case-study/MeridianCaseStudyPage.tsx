@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   consultancyOutlineLightPillEnter,
   consultancyOutlineLightPillLeave,
@@ -161,16 +162,7 @@ function MetricsBar() {
   ];
   return (
     <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${m.length},1fr)`,
-          gap: 1,
-          background: "rgba(255,255,255,0.05)",
-          borderRadius: 20,
-          overflow: "hidden",
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={m.length} tabletCols={m.length} tone="dark">
         {m.map((x, i) => (
           <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
           <Tilt
@@ -197,7 +189,7 @@ function MetricsBar() {
           />
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -233,17 +225,12 @@ function Challenge() {
           <p style={{ fontFamily: SN, fontSize: 16, lineHeight: 1.8, color: "rgba(0,0,0,0.7)" }}>
             Meridian’s claims operation was buried in manual work. Average claim took 14 days to close, and adjusters spent 60% of their day re-keying data from PDFs into legacy systems. Fraud losses were creeping up year over year, but the SIU team was overwhelmed reviewing low-priority cases. Leadership had already tested multiple AI for insurance companies pilots with other vendors; each produced a fragile chatbot and no measurable AI ROI. The board was AI-skeptical and wanted audited outcomes or nothing.
           </p>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${stats.length},1fr)`,
-              gap: 1,
-              background: PL,
-              borderRadius: 14,
-              overflow: "hidden",
-              border: `1px solid ${PL}`,
-              marginTop: 12,
-            }}
+          <ConsultancyCardGrid
+            desktopCols={stats.length}
+            tabletCols={stats.length}
+            tone="light"
+            borderRadius={14}
+            style={{ marginTop: 12 }}
           >
             {stats.map(([v, l], i) => (
               <ScrollGridItem key={l} sectionIndex={2} cardIndex={i}>
@@ -253,7 +240,7 @@ function Challenge() {
               </div>
               </ScrollGridItem>
             ))}
-          </div>
+          </ConsultancyCardGrid>
         </div>
       </div>
     </ScrollSection>
@@ -315,8 +302,7 @@ function Approach() {
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const n = phases.length;
-  const phaseCols =
-    layout === "mobile" ? "1fr" : layout === "tablet" ? (n <= 2 ? `repeat(${n},1fr)` : "repeat(2,1fr)") : `repeat(${n},1fr)`;
+  const tabletPhaseCols = n <= 2 ? n : 2;
   return (
     <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div
@@ -336,18 +322,7 @@ function Approach() {
           We sequenced the insurance AI solutions program into four phases, each designed to be cash-flow positive on its own. Every phase shipped to production, generated visible AI ROI, and de-risked the next layer of AI for insurance companies.
         </div>
       </div>
-      <div
-        className="rv d1"
-        style={{
-          display: "grid",
-          gridTemplateColumns: phaseCols,
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
+      <ConsultancyCardGrid className="rv d1" desktopCols={n} tabletCols={tabletPhaseCols} tone="light">
         {phases.map((p, i) => (
           <ScrollGridItem key={p.n} sectionIndex={3} cardIndex={i}>
           <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14, height: "100%" }}>
@@ -393,7 +368,7 @@ function Approach() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -546,18 +521,7 @@ function Related() {
           </Link>
         </MagneticWrap>
       </div>
-      <div
-        className="rv d1"
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 3, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
+      <ConsultancyCardGrid className="rv d1" desktopCols={3} tabletCols={2} tone="light">
         {related.map((r, i) => (
           <ScrollGridItem key={r.n} sectionIndex={5} cardIndex={i}>
           <Link
@@ -589,7 +553,7 @@ function Related() {
           </Link>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

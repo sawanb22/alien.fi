@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
   CTAStrip,
   Footer,
   Lbl,
@@ -179,18 +180,11 @@ function SolutionsGrid() {
           );
         })}
       </div>
-      <div
+      <ConsultancyCardGrid
         className="rv d2"
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 2, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-          alignItems: "stretch",
-        }}
+        desktopCols={2}
+        tabletCols={2}
+        tone="light"
       >
         {filtered.map((s, i) => {
           const active = hov === s.t;
@@ -406,7 +400,7 @@ function SolutionsGrid() {
             </ScrollGridItem>
           );
         })}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -537,19 +531,7 @@ function StackStrip() {
           <Ttl ch="OUR STACK." />
         </div>
       </div>
-      <div
-        className="rv d1"
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 4, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-          alignItems: "stretch",
-        }}
-      >
+      <ConsultancyCardGrid className="rv d1" desktopCols={4} tabletCols={2} tone="light">
         {stacks.map((s, i) => {
           const h = stackHov === s.h;
           return (
@@ -599,7 +581,7 @@ function StackStrip() {
           </ScrollGridItem>
           );
         })}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

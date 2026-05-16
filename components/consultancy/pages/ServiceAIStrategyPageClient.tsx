@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -295,7 +296,7 @@ function OutcomesSection() {
   const gv = sectionGutter(layout);
   return (
     <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, OUTCOMES.length, 2), gap: 1, background: "rgba(255,255,255,0.05)", borderRadius: 20, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={OUTCOMES.length} tabletCols={2} tone="dark">
         {OUTCOMES.map((x, i) => (
           <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
           <ConsultancyInteractiveSurface variant="dk" style={{ padding: layout === "mobile" ? "26px 22px" : "36px 30px" }}>
@@ -305,7 +306,7 @@ function OutcomesSection() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -325,7 +326,7 @@ function PhasesSection() {
           Each phase produces tangible output. Each output earns the next. No surprises in week 8.
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: layout === "mobile" ? 16 : 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light">
         {PHASES.map((p, i) => (
           <ScrollGridItem key={p.n} sectionIndex={2} cardIndex={i}>
           <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 }}>
@@ -347,7 +348,7 @@ function PhasesSection() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -362,7 +363,7 @@ function DeliverablesGrid() {
         <Lbl ch="Six artifacts" lt />
         <Ttl ch="WHAT YOU TAKE HOME." lt />
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark">
         {DELIVERABLES.map((d, i) => (
           <ScrollGridItem key={d.h} sectionIndex={3} cardIndex={i}>
             <Tilt
@@ -380,7 +381,7 @@ function DeliverablesGrid() {
             />
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

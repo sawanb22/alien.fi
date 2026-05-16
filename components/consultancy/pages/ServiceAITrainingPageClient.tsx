@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from '@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   ConsultancyFaqAccordion,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -266,7 +267,7 @@ function Metrics() {
   const gv = sectionGutter(layout);
   return (
     <ScrollSection as="section" index={1} style={{ padding: `${layout === 'mobile' ? 40 : 60}px ${gv}px`, background: DK }}>
-      <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 20, overflow: 'hidden' }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark">
         {METRICS.map((x, i) => (
           <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: layout === 'mobile' ? '24px 20px' : '32px 28px' }}>
@@ -276,7 +277,7 @@ function Metrics() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -293,7 +294,7 @@ function Method() {
           Our ai training programs follow four phases whether you are booking a single executive ai workshop or a multi-cohort ai workforce training rollout. Each phase produces a tangible output your team keeps after delivery.
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light">
         {PHASES.map((p, i) => (
           <ScrollGridItem key={p.p} sectionIndex={2} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="gradient" style={{ padding: '28px 24px' }}>
@@ -311,7 +312,7 @@ function Method() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -323,7 +324,7 @@ function Deliverables() {
     return (
         <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: '24px 24px 0 0', marginTop: -24 }}>
             <Lbl ch="Six deliverables" /><Ttl ch="WHAT YOU TAKE HOME." />
-            <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}`, marginTop: 36 }}>
+            <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light" style={{ marginTop: 36 }}>
                 {DELIVERABLES.map((item, i) => (
                     <ScrollGridItem key={item.t} sectionIndex={3} cardIndex={i}>
                     <ConsultancyInteractiveSurface variant="gradient" style={{ padding: '28px 24px' }}>
@@ -333,7 +334,7 @@ function Deliverables() {
                     </ConsultancyInteractiveSurface>
                     </ScrollGridItem>
                 ))}
-            </div>
+            </ConsultancyCardGrid>
         </ScrollSection>
     );
 }
@@ -345,7 +346,7 @@ function TrainingTracks() {
     return (
         <ScrollSection as="section" index={4} id="training-tracks" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG},${BG2})`, borderRadius: '24px 24px 0 0', marginTop: -24 }}>
             <Lbl ch="Three tracks, one outcome" /><Ttl ch="PICK YOUR TRACK." />
-            <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 1), gap: 1, background: PL, borderRadius: 20, overflow: 'hidden', border: `1px solid ${PL}`, marginTop: 36 }}>
+            <ConsultancyCardGrid desktopCols={3} tabletCols={1} tone="light" style={{ marginTop: 36 }}>
                 {TRACKS.map((track, i) => (
                     <ScrollGridItem key={track.title} sectionIndex={4} cardIndex={i}>
                     <ConsultancyInteractiveSurface variant="gradient" style={{ padding: '28px 24px' }}>
@@ -361,7 +362,7 @@ function TrainingTracks() {
                     </ConsultancyInteractiveSurface>
                     </ScrollGridItem>
                 ))}
-            </div>
+            </ConsultancyCardGrid>
         </ScrollSection>
     );
 }
@@ -373,7 +374,7 @@ function QuotesSection() {
   return (
     <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: '24px 24px 0 0', marginTop: -24 }}>
       <div style={{ marginBottom: 36 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
-      <div style={{ display: 'grid', gridTemplateColumns: gridCols(layout, 3, 1), gap: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 20, overflow: 'hidden' }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={1} tone="dark">
         {QUOTES.map((q, i) => (
           <ScrollGridItem key={q.by} sectionIndex={5} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: '28px 24px' }}>
@@ -382,7 +383,7 @@ function QuotesSection() {
             </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

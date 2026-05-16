@@ -5,6 +5,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   ConsultancyFaqAccordion,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -208,7 +209,7 @@ export default function ServiceAIAgentsPageClient() {
       </ScrollSection>
 
       <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK }}>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark" borderRadius={18}>
           {METRICS.map((m, i) => (
             <ScrollGridItem key={m.l} sectionIndex={1} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: "22px 18px" }}>
@@ -218,7 +219,7 @@ export default function ServiceAIAgentsPageClient() {
             </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={2} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
@@ -229,7 +230,7 @@ export default function ServiceAIAgentsPageClient() {
         <p style={{ fontFamily: SN, color: "rgba(0,0,0,0.72)", maxWidth: 840, lineHeight: 1.7, marginBottom: 24, fontSize: 13 }}>
           You always get written artifacts between phases—architecture decisions, integration contracts, test results, and pilot readouts—so procurement and engineering leads can review progress without sitting in every working session.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 4, 2), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light" borderRadius={18}>
           {PHASES.map((p, i) => (
             <ScrollGridItem key={p.p} sectionIndex={2} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
@@ -269,12 +270,12 @@ export default function ServiceAIAgentsPageClient() {
             </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Six deliverables" lt /><Ttl ch="WHAT YOU TAKE HOME." lt /></div>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
           {DELIVERABLES.map(([h, d], i) => (
             <ConsultancyInteractiveSurface key={h} variant="dk" style={{ padding: 20 }}>
               <div style={{ fontFamily: MN, fontSize: 11, color: L, letterSpacing: "normal", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")} —</div>
@@ -282,13 +283,13 @@ export default function ServiceAIAgentsPageClient() {
               <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.66 }}>{d}</div>
             </ConsultancyInteractiveSurface>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={4} id="prebuilt-agents" style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="Deploy in days" /><Ttl ch="PRE-BUILT AGENTS READY TO GO." /></div>
         <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(15,17,24,0.78)", maxWidth: 920, marginBottom: 16, lineHeight: 1.65 }}>Our pre-built ai agents are production-ready, domain-tuned agents that integrate into your existing tools within days rather than months. All pre-built ai agents include human-in-the-loop override, full audit trails, and optional managed retainer support.</div>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 1, background: PL, borderRadius: 18, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={2} tabletCols={1} tone="light" borderRadius={18}>
           {PREBUILT.map(([name, desc, budget], i) => {
             const twoCol = layout === "desktop";
             const orphanLast = twoCol && PREBUILT.length % 2 === 1 && i === PREBUILT.length - 1;
@@ -329,7 +330,7 @@ export default function ServiceAIAgentsPageClient() {
             </ConsultancyInteractiveSurface>
             );
           })}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
@@ -354,7 +355,7 @@ export default function ServiceAIAgentsPageClient() {
 
       <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 24 }}><Lbl ch="Built across every department" /><Ttl ch="WHERE AI AGENTS WORK." /></div>
-        <div style={{ display: "grid", gap: 1, background: PL, borderRadius: 14, overflow: "hidden", border: `1px solid ${PL}` }}>
+        <ConsultancyCardGrid desktopCols={1} tabletCols={1} tone="light" borderRadius={14}>
           {FUNCTION_MATRIX.map(([fn, type, key]) => (
             <ConsultancyInteractiveSurface
               key={fn}
@@ -366,19 +367,19 @@ export default function ServiceAIAgentsPageClient() {
               <div style={{ fontFamily: SN, fontSize: 12, color: "rgba(15,17,24,0.78)", lineHeight: 1.45 }}>{key}</div>
             </ConsultancyInteractiveSurface>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={7} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 18, overflow: "hidden" }}>
+        <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
           {QUOTES.map(([q, by]) => (
             <ConsultancyInteractiveSurface key={by} variant="dk" style={{ padding: 20 }}>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10 }}>&ldquo;{q}&rdquo;</div>
               <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>-- {by}</div>
             </ConsultancyInteractiveSurface>
           ))}
-        </div>
+        </ConsultancyCardGrid>
       </ScrollSection>
 
       <ScrollSection as="section" index={8} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>

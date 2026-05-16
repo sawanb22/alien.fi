@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   consultancyOutlineLightPillEnter,
   consultancyOutlineLightPillLeave,
@@ -159,16 +160,7 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
   const gv = sectionGutter(layout);
   return (
     <ScrollSection as="section" index={1} style={{ padding: `${layout === "mobile" ? 40 : 60}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${m.length},1fr)`,
-          gap: 1,
-          background: "rgba(255,255,255,0.05)",
-          borderRadius: 20,
-          overflow: "hidden",
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={m.length} tabletCols={m.length} tone="dark">
         {m.map((x, i) => (
           <ScrollGridItem key={x.l} sectionIndex={1} cardIndex={i}>
           <Tilt
@@ -195,7 +187,7 @@ function MetricsBar({ m }: { m: CaseStudyTemplateData["metrics"] }) {
           />
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -228,17 +220,12 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
               {p}
             </p>
           ))}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: layout === "mobile" ? "1fr" : `repeat(${c.stats.length},1fr)`,
-              gap: 1,
-              background: PL,
-              borderRadius: 14,
-              overflow: "hidden",
-              border: `1px solid ${PL}`,
-              marginTop: 12,
-            }}
+          <ConsultancyCardGrid
+            desktopCols={c.stats.length}
+            tabletCols={c.stats.length}
+            tone="light"
+            borderRadius={14}
+            style={{ marginTop: 12 }}
           >
             {c.stats.map(([v, l], i) => (
               <ScrollGridItem key={l} sectionIndex={2} cardIndex={i}>
@@ -248,7 +235,7 @@ function Challenge({ c }: { c: CaseStudyTemplateData["challenge"] }) {
               </div>
               </ScrollGridItem>
             ))}
-          </div>
+          </ConsultancyCardGrid>
         </div>
       </div>
     </ScrollSection>
@@ -268,8 +255,7 @@ function Approach({
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const n = phases.length;
-  const phaseCols =
-    layout === "mobile" ? "1fr" : layout === "tablet" ? (n <= 2 ? `repeat(${n},1fr)` : "repeat(2,1fr)") : `repeat(${n},1fr)`;
+  const tabletPhaseCols = n <= 2 ? n : 2;
   return (
     <ScrollSection as="section" index={3} style={{ padding: `${pv}px ${gv}px`, background: BG, position: "relative", zIndex: 4, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
       <div
@@ -289,17 +275,7 @@ function Approach({
           {intro ?? "Sequenced for cash-flow positive value at every milestone. Each phase paid for the next."}
         </div>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: phaseCols,
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={n} tabletCols={tabletPhaseCols} tone="light">
         {phases.map((ph, i) => (
           <ScrollGridItem key={ph.n} sectionIndex={3} cardIndex={i}>
           <ConsultancyInteractiveSurface
@@ -348,7 +324,7 @@ function Approach({
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -484,18 +460,7 @@ function Related({
           </Link>
         </MagneticWrap>
       </div>
-      <div
-        className="rv d1"
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 3, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
+      <ConsultancyCardGrid className="rv d1" desktopCols={3} tabletCols={2} tone="light">
         {rel.map((r, i) => (
           <ScrollGridItem key={r.n} sectionIndex={5} cardIndex={i}>
           <Link
@@ -527,7 +492,7 @@ function Related({
           </Link>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

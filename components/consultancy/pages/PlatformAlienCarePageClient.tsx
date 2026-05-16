@@ -6,6 +6,7 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
@@ -266,7 +267,7 @@ function ComplianceSection() {
           AlienCare ships with the audit packs your CISO and compliance lead need from day one. The platform is designed for healthcare environments that require clear controls, traceable outputs, and regulated deployment patterns.
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 1, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden" }}>
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark">
         {COMPLIANCE.map((c, i) => (
           <ScrollGridItem key={c.n} sectionIndex={2} cardIndex={i}>
           <ConsultancyInteractiveSurface variant="dk" style={{ padding: "30px 28px" }}>
@@ -275,7 +276,7 @@ function ComplianceSection() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }
@@ -295,7 +296,7 @@ function HowItWorksSection() {
           Start with one module or six. Deploy inside the same tenant. Connect Epic, Cerner, or athenahealth. Go live in 3 weeks with audit-ready controls.
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "repeat(4,1fr)", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={1} tone="light">
         {[
           "Start with one module or six.",
           "Deploy inside the same tenant.",
@@ -309,7 +310,7 @@ function HowItWorksSection() {
           </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  gridCols,
   sectionGutter,
   sectionVPad,
   useLandingLayout,
@@ -961,6 +962,62 @@ export function Ticker({
   );
 }
 
+const CARD_GRID_BLEED_PX = 14;
+
+/** Mosaic card grid: visible overflow so magnetic pull + hover lift are not clipped. */
+export function ConsultancyCardGrid({
+  desktopCols,
+  tabletCols,
+  tone = "light",
+  children,
+  style,
+  className,
+  borderRadius,
+}: {
+  desktopCols: number;
+  tabletCols: number;
+  tone?: "light" | "dark";
+  children: ReactNode;
+  style?: CSSProperties;
+  className?: string;
+  borderRadius?: number;
+}) {
+  const layout = useLandingLayout();
+  const radius =
+    borderRadius ?? (layout === "mobile" ? 16 : 20);
+  const gutter = tone === "dark" ? "rgba(255,255,255,0.06)" : PL;
+  const border = tone === "dark" ? "rgba(255,255,255,0.08)" : `1px solid ${PL}`;
+
+  return (
+    <div
+      className={["consultancy-card-grid", className].filter(Boolean).join(" ")}
+      style={{
+        borderRadius: radius,
+        border: tone === "dark" ? `1px solid ${border}` : border,
+        padding: CARD_GRID_BLEED_PX,
+        overflow: "visible",
+        boxSizing: "border-box",
+        ...style,
+      }}
+    >
+      <div
+        className="consultancy-card-grid__inner"
+        style={{
+          display: "grid",
+          gridTemplateColumns: gridCols(layout, desktopCols, tabletCols),
+          gap: 1,
+          background: gutter,
+          borderRadius: Math.max(0, radius - CARD_GRID_BLEED_PX),
+          overflow: "visible",
+          alignItems: "stretch",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 const INTERACTIVE_CARD_PRESETS: Record<
   "dk" | "darkGlass" | "light" | "muted" | "gradient",
   { rest: CSSProperties; hover: CSSProperties }
@@ -970,14 +1027,11 @@ const INTERACTIVE_CARD_PRESETS: Record<
       background: DK,
       boxShadow: "none",
       transform: "translateY(0)",
-      zIndex: 0,
     },
     hover: {
       background: "rgb(52,56,88)",
-      /** Outer ring (not inset) so grid `overflow: hidden` does not clip to two sides */
       boxShadow: "0 0 0 1.5px rgba(177,238,82,0.52), 0 12px 32px rgba(0,0,0,0.22)",
       transform: "translateY(-2px)",
-      zIndex: 2,
     },
   },
   /** Translucent panels on navy sections (metrics, partner rows). */
@@ -986,31 +1040,27 @@ const INTERACTIVE_CARD_PRESETS: Record<
       background: "rgba(255,255,255,0.03)",
       boxShadow: "none",
       transform: "translateY(0)",
-      zIndex: 0,
     },
     hover: {
       background: "rgba(255,255,255,0.07)",
       boxShadow: "0 0 0 1.5px rgba(177,238,82,0.48), 0 12px 28px rgba(0,0,0,0.22)",
       transform: "translateY(-2px)",
-      zIndex: 2,
     },
   },
   light: {
-    rest: { background: BG, boxShadow: "none", transform: "translateY(0)", zIndex: 0 },
+    rest: { background: BG, boxShadow: "none", transform: "translateY(0)" },
     hover: {
       background: "rgb(232,246,214)",
       boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)",
       transform: "translateY(-2px)",
-      zIndex: 2,
     },
   },
   muted: {
-    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)", zIndex: 0 },
+    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)" },
     hover: {
       background: "rgb(218,244,200)",
       boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
       transform: "translateY(-2px)",
-      zIndex: 2,
     },
   },
   gradient: {
@@ -1018,16 +1068,30 @@ const INTERACTIVE_CARD_PRESETS: Record<
       background: `linear-gradient(160deg,${BG},${BG2})`,
       boxShadow: "none",
       transform: "translateY(0)",
-      zIndex: 0,
     },
     hover: {
       background: `linear-gradient(160deg,rgb(228,244,210),${BG2})`,
       boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
       transform: "translateY(-2px)",
-      zIndex: 2,
     },
   },
 };
+
+function interactiveSurfaceHover(
+  variant: keyof typeof INTERACTIVE_CARD_PRESETS,
+  magnetic: boolean,
+): CSSProperties {
+  const { hover } = INTERACTIVE_CARD_PRESETS[variant];
+  if (!magnetic) return hover;
+  const shadow = hover.boxShadow as string;
+  return {
+    ...hover,
+    transform: "translateY(-3px)",
+    boxShadow: shadow.includes("32px")
+      ? shadow.replace("32px", "40px").replace("0.22)", "0.28")
+      : shadow.replace("26px", "34px").replace("0.08)", "0.12").replace("0.07)", "0.11"),
+  };
+}
 
 /** Hover lift for grid “cards” on service pages (metrics, deliverables, personas, etc.). */
 export function ConsultancyInteractiveSurface({
@@ -1042,11 +1106,21 @@ export function ConsultancyInteractiveSurface({
   children: ReactNode;
   magnetic?: number | false;
 }) {
-  const { rest, hover } = INTERACTIVE_CARD_PRESETS[variant];
+  const { rest } = INTERACTIVE_CARD_PRESETS[variant];
   const mergedRest = { ...rest, ...style };
   const strength =
     magnetic === false || magnetic === 0 ? 0 : typeof magnetic === "number" ? magnetic : 0.2;
   const fillHeight = style?.height === "100%";
+  const hasMagnetic = strength > 0;
+
+  const applyHover = (el: HTMLElement) => {
+    Object.assign(el.style, interactiveSurfaceHover(variant, hasMagnetic));
+  };
+  const clearHover = (el: HTMLElement) => {
+    el.style.background = mergedRest.background as string;
+    el.style.boxShadow = (mergedRest.boxShadow as string) ?? "none";
+    el.style.transform = (mergedRest.transform as string) ?? "translateY(0)";
+  };
 
   const surface = (
     <div
@@ -1057,17 +1131,8 @@ export function ConsultancyInteractiveSurface({
         ...rest,
         ...style,
       }}
-      onMouseEnter={(e) => {
-        Object.assign(e.currentTarget.style, hover as CSSProperties);
-      }}
-      onMouseLeave={(e) => {
-        const t = e.currentTarget;
-        t.style.background = mergedRest.background as string;
-        t.style.boxShadow = (mergedRest.boxShadow as string) ?? "none";
-        t.style.transform = (mergedRest.transform as string) ?? "translateY(0)";
-        t.style.zIndex =
-          mergedRest.zIndex !== undefined ? String(mergedRest.zIndex) : "";
-      }}
+      onMouseEnter={(e) => applyHover(e.currentTarget)}
+      onMouseLeave={(e) => clearHover(e.currentTarget)}
     >
       {children}
     </div>
