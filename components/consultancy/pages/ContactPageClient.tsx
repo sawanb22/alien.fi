@@ -3,6 +3,8 @@
 import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoadedShell";
 import {
   Arr,
+  ConsultancyCardGrid,
+  ConsultancyInteractiveSurface,
   CTAStrip,
   Footer,
   Lbl,
@@ -611,7 +613,7 @@ function Form() {
 
 function SidePanel() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 1, background: PL, borderRadius: 20, overflow: "hidden", border: `1px solid ${PL}` }}>
+    <ConsultancyCardGrid desktopCols={1} tabletCols={1} tone="light">
       <div className="rv d1" style={{ background: DK, padding: "30px 28px" }}>
         <Lbl ch="Direct lines" lt />
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -628,34 +630,33 @@ function SidePanel() {
           ))}
         </div>
       </div>
-      <div className="rv d2" style={{ background: `linear-gradient(160deg,${BG},${BG2})`, padding: "30px 28px" }}>
-        <Lbl ch="Headquarters" />
-        <div style={{ paddingTop: 4 }}>
-          <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "normal", marginBottom: 8 }}>New Jersey (NJ)</div>
-          <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.55 }}>
-            NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY, United States
+      <div className="rv d2">
+        <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px" }}>
+          <Lbl ch="Headquarters" />
+          <div style={{ paddingTop: 4 }}>
+            <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 13, color: "#000", letterSpacing: "normal", marginBottom: 8 }}>New Jersey (NJ)</div>
+            <div style={{ fontFamily: SN, fontSize: 11.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.55 }}>
+              NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY, United States
+            </div>
           </div>
-        </div>
+        </ConsultancyInteractiveSurface>
       </div>
-      <div
-        className="rv d2b"
-        style={{
-          background: `linear-gradient(160deg,${BG2},${BG})`,
-          padding: "30px 28px",
-          borderTop: `1px solid ${PL}`,
-        }}
-      >
-        <Lbl ch="Operating globally" />
-        <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.6, paddingTop: 4 }}>
-          North America · Europe · APAC
-        </div>
+      <div className="rv d2b">
+        <ConsultancyInteractiveSurface variant="muted" style={{ padding: "30px 28px" }}>
+          <Lbl ch="Operating globally" />
+          <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.55)", lineHeight: 1.6, paddingTop: 4 }}>
+            North America · Europe · APAC
+          </div>
+        </ConsultancyInteractiveSurface>
       </div>
-      <div className="rv d3" style={{ background: `linear-gradient(160deg,${BG2},${BG})`, padding: "30px 28px" }}>
-        <Lbl ch="Response promise" />
-        <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.52)", lineHeight: 1.65, paddingTop: 4 }}>
-          Replies within 1 business day. Always from a human. If your request is urgent, mention it in the form or email and we&apos;ll surface it to a senior AI expert immediately.
-        </div>
+      <div className="rv d3">
+        <ConsultancyInteractiveSurface variant="muted" style={{ padding: "30px 28px" }}>
+          <Lbl ch="Response promise" />
+          <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(0,0,0,0.52)", lineHeight: 1.65, paddingTop: 4 }}>
+            Replies within 1 business day. Always from a human. If your request is urgent, mention it in the form or email and we&apos;ll surface it to a senior AI expert immediately.
+          </div>
+        </ConsultancyInteractiveSurface>
       </div>
-    </div>
+    </ConsultancyCardGrid>
   );
 }

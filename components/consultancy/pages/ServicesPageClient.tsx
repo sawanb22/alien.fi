@@ -5,7 +5,9 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
   ConsultancyInteractiveSurface,
+  consultancyCardGridCellLift,
   CTAStrip,
   Footer,
   Lbl,
@@ -27,6 +29,7 @@ import {
 import { MN, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, CD, DK, L, L2, L_TEXT_ON_LIGHT, PL } from "@/lib/consultancy/theme";
 import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
+import { useHoverSectionOpen } from "@/lib/use-hover-section-open";
 import { useEffect, useState } from "react";
 
 const SERVICES = [
@@ -615,7 +618,7 @@ function Principles() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
-  const [principlesOpen, setPrinciplesOpen] = useState(false);
+  const { open: principlesOpen, sectionHoverHandlers: principlesHover } = useHoverSectionOpen();
   const [hov, setHov] = useState<number | null>(null);
   const ps = [
     {
@@ -658,27 +661,8 @@ function Principles() {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={principlesOpen}
-          aria-controls={principlesOpen ? "principles-blocks" : undefined}
-          aria-label={principlesOpen ? "Collapse principles" : "Expand principles"}
-          onClick={() => setPrinciplesOpen((v) => !v)}
-          style={{
-            display: "block",
-            width: "100%",
-            background: "transparent",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            font: "inherit",
-            color: "inherit",
-            textAlign: "inherit",
-            boxSizing: "border-box",
-          }}
-        >
+      <div style={{ padding: "0" }} {...principlesHover}>
+        <div className="hv" style={{ display: "block", width: "100%", boxSizing: "border-box" }}>
           <div
             style={{
               display: "flex",
@@ -708,7 +692,7 @@ function Principles() {
               These principles shape every engagement, from early AI consulting service work to large-scale AI development services and long-term support.
             </div>
           </div>
-        </button>
+        </div>
         {!principlesOpen ? (
           <div
             aria-hidden
@@ -728,33 +712,31 @@ function Principles() {
         ) : null}
         {principlesOpen ? (
           <div id="principles-blocks" role="region" aria-label="Principles" style={{ position: "relative", zIndex: 1 }}>
-            <div
-              className="rv d1 in"
-              style={{
-                display: "grid",
-                gridTemplateColumns: gridCols(layout, 4, 2),
-                gap: 1,
-                background: PL,
-                borderRadius: layout === "mobile" ? 16 : 20,
-                overflow: "hidden",
-                border: `1px solid ${PL}`,
-              }}
-            >
+            <ConsultancyCardGrid className="rv d1 in" desktopCols={4} tabletCols={2} tone="light">
               {ps.map((p, i) => (
                 <ScrollGridItem key={p.n} sectionIndex={2} cardIndex={i}>
                   <div style={{ height: "100%", minHeight: 0 }}>
                     <div
-                      onMouseEnter={() => setHov(i)}
-                      onMouseLeave={() => setHov(null)}
+                      onMouseEnter={(e) => {
+                        setHov(i);
+                        consultancyCardGridCellLift(e.currentTarget, true);
+                      }}
+                      onMouseLeave={(e) => {
+                        setHov(null);
+                        consultancyCardGridCellLift(e.currentTarget, false);
+                      }}
                       style={{
+                        position: "relative",
                         background: hov === i ? DK : `linear-gradient(140deg,${BG},${BG2})`,
                         padding: "36px 36px",
-                        transition: "background .35s",
+                        transition: "background .35s, transform .22s ease, box-shadow .22s ease",
                         display: "flex",
                         flexDirection: "column",
                         gap: 14,
                         minHeight: "100%",
                         boxSizing: "border-box",
+                        transform: hov === i ? "translateY(-2px)" : "translateY(0)",
+                        boxShadow: hov === i ? "0 12px 32px rgba(0,0,0,0.18)" : "none",
                       }}
                     >
                       <span style={{ fontFamily: MN, fontWeight: 700, fontSize: 10, letterSpacing: "normal", color: L2, transition: "color .3s" }}>{p.n}</span>
@@ -787,7 +769,7 @@ function Principles() {
                   </div>
                 </ScrollGridItem>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>

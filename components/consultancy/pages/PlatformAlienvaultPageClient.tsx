@@ -330,24 +330,14 @@ function ModulesSection() {
           <Ttl ch="WHAT'S INSIDE." />
         </div>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: gridCols(layout, 3, 2),
-          gap: 1,
-          background: PL,
-          borderRadius: 20,
-          overflow: "hidden",
-          border: `1px solid ${PL}`,
-        }}
-      >
+      <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light">
         {MODULES.map((m, i) => (
           <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i}>
           <Tilt
             int={4}
             ch={
               <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
-                <ConsultancyInteractiveSurface variant="gradient" style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
+                <ConsultancyInteractiveSurface variant="gradient" magnetic={false} style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
                     <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: L2 }}>{`0${i + 1}`}</div>
@@ -361,7 +351,7 @@ function ModulesSection() {
           />
           </ScrollGridItem>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </ScrollSection>
   );
 }

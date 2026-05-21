@@ -236,7 +236,7 @@ export default function ServiceAIAgentsPageClient() {
             <ConsultancyInteractiveSurface variant="muted" style={{ padding: 20 }}>
               <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "normal", color: L_TEXT_ON_LIGHT, fontWeight: 700 }}>{p.p}</div>
               <div style={{ fontFamily: MN, fontSize: 15, margin: "8px 0", fontWeight: 600, color: "#0f1118" }}>{p.t}</div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(15,17,24,0.82)", lineHeight: 1.65, marginBottom: 12 }}>{p.d}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(15,17,24,0.82)", lineHeight: 1.65, marginBottom: 12, flex: 1 }}>{p.d}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {p.b.map((x) => (
                   <div
@@ -277,11 +277,13 @@ export default function ServiceAIAgentsPageClient() {
         <div style={{ marginBottom: 28 }}><Lbl ch="Six deliverables" lt /><Ttl ch="WHAT YOU TAKE HOME." lt /></div>
         <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
           {DELIVERABLES.map(([h, d], i) => (
-            <ConsultancyInteractiveSurface key={h} variant="dk" style={{ padding: 20 }}>
+            <ScrollGridItem key={h} sectionIndex={3} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="dk" style={{ padding: 20 }}>
               <div style={{ fontFamily: MN, fontSize: 11, color: L, letterSpacing: "normal", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")} —</div>
               <div style={{ fontFamily: MN, fontSize: 15, color: "#fff", marginBottom: 8 }}>{h}</div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.66 }}>{d}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.66, flex: 1 }}>{d}</div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </ConsultancyCardGrid>
       </ScrollSection>
@@ -291,43 +293,16 @@ export default function ServiceAIAgentsPageClient() {
         <div style={{ fontFamily: SN, fontSize: 13, color: "rgba(15,17,24,0.78)", maxWidth: 920, marginBottom: 16, lineHeight: 1.65 }}>Our pre-built ai agents are production-ready, domain-tuned agents that integrate into your existing tools within days rather than months. All pre-built ai agents include human-in-the-loop override, full audit trails, and optional managed retainer support.</div>
         <ConsultancyCardGrid desktopCols={2} tabletCols={1} tone="light" borderRadius={18}>
           {PREBUILT.map(([name, desc, budget], i) => {
-            const twoCol = layout === "desktop";
-            const orphanLast = twoCol && PREBUILT.length % 2 === 1 && i === PREBUILT.length - 1;
+            const spanFullRow =
+              layout === "desktop" && PREBUILT.length % 2 === 1 && i === PREBUILT.length - 1;
             return (
-            <ConsultancyInteractiveSurface
-              key={name}
-              variant="light"
-              style={{
-                padding: 0,
-                ...(orphanLast
-                  ? {
-                      gridColumn: "1 / -1",
-                      width: "100%",
-                      maxWidth: "100%",
-                      justifySelf: "stretch",
-                    }
-                  : {}),
-              }}
-            >
-              <div
-                style={{
-                  padding: 20,
-                  boxSizing: "border-box",
-                  width: "100%",
-                  ...(orphanLast
-                    ? {
-                        maxWidth: "calc((100% - 1px) / 2)",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                      }
-                    : {}),
-                }}
-              >
+            <ScrollGridItem key={name} sectionIndex={4} cardIndex={i} gridSpanFull={spanFullRow}>
+            <ConsultancyInteractiveSurface variant="light" style={{ padding: 20, boxSizing: "border-box" }}>
               <div style={{ fontFamily: MN, fontSize: 15, marginBottom: 8, fontWeight: 600, color: "#0f1118" }}>{name}</div>
-              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(15,17,24,0.78)", marginBottom: 10 }}>{desc}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(15,17,24,0.78)", marginBottom: 10, flex: 1 }}>{desc}</div>
               <div style={{ fontFamily: MN, fontSize: 11, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(15,17,24,0.82)" }}>Budget: {budget}</div>
-              </div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
             );
           })}
         </ConsultancyCardGrid>
@@ -373,11 +348,13 @@ export default function ServiceAIAgentsPageClient() {
       <ScrollSection as="section" index={7} style={{ padding: `${pv}px ${gv}px`, background: DK, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
         <div style={{ marginBottom: 28 }}><Lbl ch="What clients say" lt /><Ttl ch="TRUSTED BY TEAMS THAT SHIP." lt /></div>
         <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark" borderRadius={18}>
-          {QUOTES.map(([q, by]) => (
-            <ConsultancyInteractiveSurface key={by} variant="dk" style={{ padding: 20 }}>
-              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10 }}>&ldquo;{q}&rdquo;</div>
+          {QUOTES.map(([q, by], i) => (
+            <ScrollGridItem key={by} sectionIndex={7} cardIndex={i}>
+            <ConsultancyInteractiveSurface variant="dk" style={{ padding: 20 }}>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10, flex: 1 }}>&ldquo;{q}&rdquo;</div>
               <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>-- {by}</div>
             </ConsultancyInteractiveSurface>
+            </ScrollGridItem>
           ))}
         </ConsultancyCardGrid>
       </ScrollSection>

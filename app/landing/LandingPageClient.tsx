@@ -13,9 +13,16 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
+import { HOME_INDUSTRY_CARDS, industryHref } from "@/lib/consultancy/industries";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { CW, MN_WORD_SPACE, OT } from "@/lib/consultancy/tokens";
-import { Footer, Lbl, Nav } from "@/components/consultancy/consultancy-ui";
+import {
+  ConsultancyCardGrid,
+  Footer,
+  Lbl,
+  Nav,
+  consultancyCardGridCellLift,
+} from "@/components/consultancy/consultancy-ui";
 import {
   LandingLayoutProvider,
   gridCols,
@@ -26,6 +33,7 @@ import {
 import { HomeGridCard, HomeSection, MagneticWrap } from "@/components/motion/scroll-primitives";
 
 /** HomeSection indices: 0 Hero, 1 Ticker, 2 Services, 3 Process, 4 Differentiators, 5 Industries, 6 CaseStudy, 7 Solutions, 8 EngagementModels, 9 CTA */
+import { useHoverSectionOpen } from "@/lib/use-hover-section-open";
 import { LandingChrome } from "./LandingChrome";
 import { SplineHeroLogo } from "./SplineHeroLogo";
 
@@ -36,6 +44,9 @@ const L='rgb(150,238,82)',L2='rgb(177,238,82)';
 const BG='rgb(243,243,255)',BG2='rgb(224,226,241)';
 const PL='rgb(199,200,211)',CD='rgb(229,231,245)';
 const DK='rgb(21,24,43)';
+/** Pop-out shadow for home mosaic cards (magnetic grids). */
+const MOSAIC_POP_SHADOW =
+  "0 0 0 1.5px rgba(150,238,82,0.42), 0 14px 36px rgba(21,24,43,0.12)";
 const MN="var(--font-azeret), 'Azeret Mono', monospace",
   SN="var(--font-poppins), 'Poppins', sans-serif";
 /** Hero side rails (.rvl / .rvr); inner verticals at OT+CWS from each edge */
@@ -617,7 +628,7 @@ function Ticker(){
 function Services(){
   const layout=useLandingLayout();
   const [hov,setHov]=useState(null);
-  const [servicesOpen,setServicesOpen]=useState(false);
+  const { open: servicesOpen, sectionHoverHandlers: servicesHover } = useHoverSectionOpen();
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const svcs=[
@@ -641,28 +652,9 @@ function Services(){
         zIndex:servicesOpen?8:2,
       }}
     >
-      <div style={{padding:'0'}}>
+      <div style={{padding:'0'}} {...servicesHover}>
         <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={servicesOpen}
-          aria-controls={servicesOpen?"services-list":undefined}
-          aria-label={servicesOpen?"Collapse services list":"Expand services list"}
-          onClick={()=>setServicesOpen((v)=>!v)}
-          style={{
-            display:'block',
-            width:'100%',
-            background:'transparent',
-            border:'none',
-            padding:0,
-            cursor:'pointer',
-            font:'inherit',
-            color:'inherit',
-            textAlign:'inherit',
-            boxSizing:'border-box',
-          }}
-        >
+        <div className="hv" style={{ display:'block', width:'100%', boxSizing:'border-box' }}>
           <div
             style={{
               display:'flex',
@@ -676,7 +668,7 @@ function Services(){
             <div><Lbl ch="What we do"/><Ttl ch="SERVICES"/></div>
             <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Our services cover the full lifecycle of AI adoption, from ai strategy consulting to custom ai development and long-term managed ai services.</div>
           </div>
-        </button>
+        </div>
         </MagneticWrap>
         {!servicesOpen ? (
           <div
@@ -696,11 +688,33 @@ function Services(){
         ) : null}
         {servicesOpen ? (
           <div id="services-list" role="region" aria-label="Service offerings" style={{ position: "relative", zIndex: 1 }}>
-            <div style={{display:'grid',gridTemplateColumns:gridCols(layout,5,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+            <ConsultancyCardGrid desktopCols={5} tabletCols={2} tone="light">
               {svcs.map((s,i)=>(
                 <HomeGridCard key={s.n} sectionIndex={2} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
                   <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
-                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'32px 26px 28px',display:'flex',flexDirection:'column',gap:18,transition:'background .35s',minHeight:'100%',boxSizing:'border-box'}}>
+                  <div
+                    onMouseEnter={(e) => {
+                      setHov(i);
+                      consultancyCardGridCellLift(e.currentTarget, true);
+                    }}
+                    onMouseLeave={(e) => {
+                      setHov(null);
+                      consultancyCardGridCellLift(e.currentTarget, false);
+                    }}
+                    style={{
+                      background: hov === i ? DK : `linear-gradient(160deg,${BG},${BG2})`,
+                      padding: "32px 26px 28px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 18,
+                      transition: "background .35s ease, transform .22s ease, box-shadow .22s ease",
+                      minHeight: "100%",
+                      boxSizing: "border-box",
+                      position: "relative",
+                      transform: hov === i ? "translateY(-3px)" : "none",
+                      boxShadow: hov === i ? MOSAIC_POP_SHADOW : "none",
+                    }}
+                  >
                     <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
                       <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2,transition:'color .3s'}}>{s.n}</span>
                       <MagneticWrap strength={0.35} style={{ display: "flex" }}>
@@ -728,7 +742,7 @@ function Services(){
                   </MagneticWrap>
                 </HomeGridCard>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>
@@ -741,7 +755,7 @@ function Process(){
   const layout=useLandingLayout();
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
-  const [processOpen,setProcessOpen]=useState(false);
+  const { open: processOpen, sectionHoverHandlers: processHover } = useHoverSectionOpen();
   const [processHov,setProcessHov]=useState<number|null>(null);
   const steps=[
     {n:'01',t:'Discover',sub:'',d:'We map goals, workflows, constraints, systems, and data so the right opportunities are clear from the start.',time:''},
@@ -764,28 +778,9 @@ function Process(){
         marginTop:-24,
       }}
     >
-      <div style={{padding:'0'}}>
+      <div style={{padding:'0'}} {...processHover}>
         <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={processOpen}
-          aria-controls={processOpen?"process-phases":undefined}
-          aria-label={processOpen?"Collapse the four process phases":"Expand the four process phases"}
-          onClick={()=>setProcessOpen((v)=>!v)}
-          style={{
-            display:'block',
-            width:'100%',
-            background:'transparent',
-            border:'none',
-            padding:0,
-            cursor:'pointer',
-            font:'inherit',
-            color:'inherit',
-            textAlign:'inherit',
-            boxSizing:'border-box',
-          }}
-        >
+        <div className="hv" style={{ display:'block', width:'100%', boxSizing:'border-box' }}>
           <div
             style={{
               display:'flex',
@@ -799,7 +794,7 @@ function Process(){
             <div><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
             <div style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
           </div>
-        </button>
+        </div>
         </MagneticWrap>
         {processOpen ? (
           <div
@@ -808,27 +803,28 @@ function Process(){
             aria-label="Four process phases"
             style={{ position: "relative", zIndex: 1 }}
           >
-            <div
-              style={{
-                display:'grid',
-                gridTemplateColumns:gridCols(layout,4,2),
-                gap:1,
-                background:'rgba(255,255,255,0.06)',
-                borderRadius:layout==='mobile'?16:20,
-                overflow:'hidden',
-              }}
-            >
+            <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="dark">
               {steps.map((s,i)=>(
                 <HomeGridCard key={s.n} sectionIndex={3} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
                   <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
                 <div
-                  onMouseEnter={()=>setProcessHov(i)}
-                  onMouseLeave={()=>setProcessHov(null)}
+                  onMouseEnter={(e) => {
+                    setProcessHov(i);
+                    consultancyCardGridCellLift(e.currentTarget, true);
+                  }}
+                  onMouseLeave={(e) => {
+                    setProcessHov(null);
+                    consultancyCardGridCellLift(e.currentTarget, false);
+                  }}
                   style={{
                     height: "100%",
                     minHeight: 0,
                     display: "flex",
                     flexDirection: "column",
+                    position: "relative",
+                    transform: processHov === i ? "translateY(-3px)" : "none",
+                    boxShadow: processHov === i ? "0 14px 36px rgba(0,0,0,0.32)" : "none",
+                    transition: "transform .22s ease, box-shadow .22s ease",
                   }}
                 >
                   <div
@@ -859,7 +855,7 @@ function Process(){
                   </MagneticWrap>
                 </HomeGridCard>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>
@@ -873,7 +869,7 @@ function Differentiators(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
-  const [whyUsOpen,setWhyUsOpen]=useState(false);
+  const { open: whyUsOpen, sectionHoverHandlers: whyUsHover } = useHoverSectionOpen();
   const items=[
     {n:'01',t:'Strategy through execution',d:'We combine ai strategy consulting, custom ai development, deployment, and managed ai services in one delivery model.'},
     {n:'02',t:'ROI-first delivery',d:'Every engagement is tied to operational value, measurable outcomes, and clear decision criteria.'},
@@ -894,28 +890,9 @@ function Differentiators(){
         borderRadius:'24px 24px 0 0',
       }}
     >
-      <div style={{padding:'0'}}>
+      <div style={{padding:'0'}} {...whyUsHover}>
         <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={whyUsOpen}
-          aria-controls={whyUsOpen?"why-us-blocks":undefined}
-          aria-label={whyUsOpen?"Collapse differentiators":"Expand differentiators"}
-          onClick={()=>setWhyUsOpen((v)=>!v)}
-          style={{
-            display:'block',
-            width:'100%',
-            background:'transparent',
-            border:'none',
-            padding:0,
-            cursor:'pointer',
-            font:'inherit',
-            color:'inherit',
-            textAlign:'inherit',
-            boxSizing:'border-box',
-          }}
-        >
+        <div className="hv" style={{ display:'block', width:'100%', boxSizing:'border-box' }}>
           <div
             style={{
               display:'flex',
@@ -929,7 +906,7 @@ function Differentiators(){
             <div><Lbl ch="Why alien.fi"/><Ttl ch="WHAT SETS US APART"/></div>
             <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Many ai consulting firms can talk about transformation. Fewer can deliver AI that performs reliably inside real business operations.</div>
           </div>
-        </button>
+        </div>
         </MagneticWrap>
         {!whyUsOpen ? (
           <div
@@ -949,11 +926,33 @@ function Differentiators(){
         ) : null}
         {whyUsOpen ? (
           <div id="why-us-blocks" role="region" aria-label="What sets us apart" style={{position:'relative',zIndex:1}}>
-            <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+            <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light">
               {items.map((item,i)=>(
                 <HomeGridCard key={item.n} sectionIndex={4} cardIndex={i} style={{height:'100%',minHeight:0}}>
                   <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
-                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(140deg,${BG},${BG2})`,padding:'36px 36px',transition:'background .35s',display:'flex',flexDirection:'column',gap:14,minHeight:'100%',boxSizing:'border-box'}}>
+                  <div
+                    onMouseEnter={(e) => {
+                      setHov(i);
+                      consultancyCardGridCellLift(e.currentTarget, true);
+                    }}
+                    onMouseLeave={(e) => {
+                      setHov(null);
+                      consultancyCardGridCellLift(e.currentTarget, false);
+                    }}
+                    style={{
+                      background: hov === i ? DK : `linear-gradient(140deg,${BG},${BG2})`,
+                      padding: "36px 36px",
+                      transition: "background .35s ease, transform .22s ease, box-shadow .22s ease",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 14,
+                      minHeight: "100%",
+                      boxSizing: "border-box",
+                      position: "relative",
+                      transform: hov === i ? "translateY(-3px)" : "none",
+                      boxShadow: hov === i ? MOSAIC_POP_SHADOW : "none",
+                    }}
+                  >
                     <span style={{fontFamily:MN,fontWeight:700,fontSize:10,letterSpacing: "normal",color:L2,transition:'color .3s'}}>{item.n}</span>
                     <div style={{fontFamily:MN,fontWeight:600,fontSize:14,letterSpacing: "normal",lineHeight:1.35,transition:'color .3s',color:hov===i?'#fff':'rgba(0,0,0,0.85)'}}>{item.t}</div>
                     <div style={{height:1,background:hov===i?'rgba(255,255,255,0.08)':PL,transition:'background .3s'}}/>
@@ -962,7 +961,7 @@ function Differentiators(){
                   </MagneticWrap>
                 </HomeGridCard>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>
@@ -977,32 +976,40 @@ function Industries(){
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState<number|null>(null);
   const [arrowHov,setArrowHov]=useState<number|null>(null);
-  const list=[
-    {name:'Healthcare',detail:'Diagnostic AI, EHR integration, patient operations, prior auth automation.'},
-    {name:'Financial Services',detail:'Fraud detection, credit risk, AML, underwriting intelligence.'},
-    {name:'Insurance',detail:'Claims automation, fraud scoring, policy servicing, document extraction.'},
-    {name:'Legal',detail:'Contract analysis, legal research, e-discovery, document workflows.'},
-    {name:'Retail & E-commerce',detail:'Personalization, demand forecasting, pricing, inventory optimization.'},
-    {name:'Manufacturing',detail:'Predictive maintenance, quality control, scheduling, production visibility.'},
-    {name:'Logistics',detail:'Route optimization, fleet intelligence, warehouse automation, ETA prediction.'},
-    {name:'Education',detail:'Student success prediction, personalized learning, admissions and admin workflows.'},
-    {name:'Real Estate',detail:'Property valuation, lead qualification, market intelligence, client automation.'},
-    {name:'Government',detail:'Citizen service automation, infrastructure planning, benefits fraud detection.'},
-    {name:'Marketing Agencies',detail:'Campaign analytics, content workflows, lead scoring, attribution support.'},
-    {name:'Tech Startups',detail:'Product copilots, churn prediction, growth analytics, internal AI tools.'},
-  ];
   return(
     <HomeSection as="section" index={5} id="industries" style={{background:`linear-gradient(180deg,${BG},${BG2})`,padding:`${pv}px ${gv}px`,position:'relative',zIndex:5,borderRadius:'24px 24px 0 0',marginTop:-24}}>
       <div style={{padding:'0',marginBottom:layout==='mobile'?36:48,display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',gap:layout==='mobile'?12:0}}>
         <div><MagneticWrap strength={0.35} style={{ display: "inline-block" }}><Link href="/industries" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Who we help"/></Link></MagneticWrap><Ttl ch="INDUSTRIES"/></div>
         <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>We support organizations across sectors where speed, accuracy, compliance, and operational efficiency matter most.</div>
       </div>
-      <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
-        {list.map((ind,i)=>(
-          <HomeGridCard key={ind.name} sectionIndex={5} cardIndex={i} style={{ minHeight: 0 }}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light">
+        {HOME_INDUSTRY_CARDS.map((ind,i)=>(
+          <HomeGridCard key={ind.id} sectionIndex={5} cardIndex={i} style={{ minHeight: 0 }}>
             <MagneticWrap strength={0.2} style={{ display: "block", height: "100%" }}>
-          <Link href="/industries" className="hv" onMouseEnter={()=>setHov(i)} onMouseLeave={()=>{setHov(null);setArrowHov(null);}}
-            style={{background:hov===i?`linear-gradient(135deg,rgb(218,244,200),${BG2})`:`linear-gradient(135deg,${BG},${BG2})`,padding:'24px 28px',transition:'background .22s',position:'relative',zIndex:hov===i?2:1,display:'block',height:'100%',textDecoration:'none'}}>
+          <Link
+            href={industryHref(ind.id)}
+            className="hv"
+            onMouseEnter={(e) => {
+              setHov(i);
+              consultancyCardGridCellLift(e.currentTarget, true);
+            }}
+            onMouseLeave={(e) => {
+              setHov(null);
+              setArrowHov(null);
+              consultancyCardGridCellLift(e.currentTarget, false);
+            }}
+            style={{
+              background: hov === i ? `linear-gradient(135deg,rgb(218,244,200),${BG2})` : `linear-gradient(135deg,${BG},${BG2})`,
+              padding: "24px 28px",
+              transition: "background .22s ease, transform .22s ease, box-shadow .22s ease",
+              position: "relative",
+              display: "block",
+              height: "100%",
+              textDecoration: "none",
+              transform: hov === i ? "translateY(-3px)" : "none",
+              boxShadow: hov === i ? MOSAIC_POP_SHADOW : "none",
+            }}
+          >
             <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:hov===i?12:0}}>
               <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(14px, 1.15vw, 16px)',letterSpacing: "normal",color:hov===i?'#000':'rgba(0,0,0,0.88)',transition:'color .2s'}}>{ind.name}</div>
               <MagneticWrap strength={0.35} style={{ display: "flex" }}>
@@ -1034,7 +1041,7 @@ function Industries(){
             </MagneticWrap>
           </HomeGridCard>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </HomeSection>
   );
 }
@@ -1090,10 +1097,11 @@ function CaseStudy(){
           </Link>
           </MagneticWrap>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20}}>
+        <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:'rgba(255,255,255,0.05)',borderRadius:layout==='mobile'?16:20,overflow:'hidden',marginBottom:20,alignItems:'stretch'}}>
           {metrics.map((m,i)=>(
-            <HomeGridCard key={m.val} sectionIndex={6} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
-              <MagneticWrap strength={0.2} style={{ height: "100%" }}>
+            <div key={m.val} style={{height:'100%',minHeight:0,display:'flex',flexDirection:'column',boxSizing:'border-box'}}>
+            <HomeGridCard sectionIndex={6} cardIndex={i} style={{ height: "100%", minHeight: 0, flex: "1 1 auto" }}>
+              <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0, flex: "1 1 auto" }}>
             <Tilt int={8} sx={{ height: "100%", minHeight: 0, display: "flex", flexDirection: "column" }}>
               <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 22px':'36px 28px',height:'100%',minHeight:0,flex:1,display:'flex',flexDirection:'column',boxSizing:'border-box'}}>
                 <div style={{fontFamily:MN,fontWeight:700,fontSize:layout==='mobile'?'clamp(28px,8vw,40px)':52,letterSpacing: "normal",color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
@@ -1103,12 +1111,14 @@ function CaseStudy(){
             </Tilt>
               </MagneticWrap>
             </HomeGridCard>
+            </div>
           ))}
         </div>
-        <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:layout==='mobile'?10:12,marginBottom:20}}>
+        <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:layout==='mobile'?10:12,marginBottom:20,alignItems:'stretch'}}>
           {[{p:'Phase 1',n:'Claims Automation',d:'NLP-powered extraction automated 70% of routine claims intake and routing.'},{p:'Phase 2',n:'Fraud Detection AI',d:'Real-time machine learning flagged suspicious patterns before payouts.'},{p:'Phase 3',n:'Customer Experience AI',d:'A conversational assistant handled policy inquiries and status updates 24/7.'},{p:'Phase 4',n:'Unified Data Platform',d:'Siloed systems were integrated into a centralized data pipeline for real-time visibility.'}].map((p,i)=>(
-            <HomeGridCard key={p.p} sectionIndex={6} cardIndex={i} style={{ minHeight: 0, height: "100%" }}>
-            <MagneticWrap strength={0.2} style={{ height: "100%" }}>
+            <div key={p.p} style={{height:'100%',minHeight:0,display:'flex',flexDirection:'column',boxSizing:'border-box'}}>
+            <HomeGridCard sectionIndex={6} cardIndex={i} style={{ minHeight: 0, height: "100%", flex: "1 1 auto" }}>
+            <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0, flex: "1 1 auto" }}>
             <div
               onMouseEnter={()=>setPhaseHov(i)}
               onMouseLeave={()=>setPhaseHov(null)}
@@ -1129,6 +1139,7 @@ function CaseStudy(){
                   : '0 6px 22px rgba(0,0,0,0.28)',
                 transition:'background .28s ease,box-shadow .28s ease,border-color .28s ease',
                 cursor:'default',
+                flex:'1 1 auto',
               }}
             >
               <Chip ch={p.p} bg='rgba(150,238,82,0.1)' cl={L} sx={{marginBottom:12}}/>
@@ -1137,6 +1148,7 @@ function CaseStudy(){
             </div>
             </MagneticWrap>
             </HomeGridCard>
+            </div>
           ))}
         </div>
         <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:16,padding:layout==='mobile'?'28px 22px':layout==='tablet'?'32px 32px':'36px 44px',display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:'flex-start',gap:layout==='mobile'?16:32}}>
@@ -1156,7 +1168,7 @@ function Solutions(){
   const gv=sectionGutter(layout);
   const pv=sectionVPad(layout);
   const [hov,setHov]=useState(null);
-  const [solutionsOpen,setSolutionsOpen]=useState(false);
+  const { open: solutionsOpen, sectionHoverHandlers: solutionsHover } = useHoverSectionOpen();
   const items=[
     {tag:'Customer communication',t:'AI Customer Service Assistant',d:'Handle FAQs, support requests, routing, and customer communication at scale.'},
     {tag:'Forms & contracts',t:'Intelligent Document Processing',d:'Extract, classify, and validate data from forms, contracts, invoices, and records.'},
@@ -1180,28 +1192,9 @@ function Solutions(){
         marginTop:-24,
       }}
     >
-      <div style={{padding:'0'}}>
+      <div style={{padding:'0'}} {...solutionsHover}>
         <MagneticWrap strength={0.35} style={{ display: "block", width: "100%" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={solutionsOpen}
-          aria-controls={solutionsOpen?"solutions-tiles":undefined}
-          aria-label={solutionsOpen?"Collapse solutions tiles":"Expand solutions tiles"}
-          onClick={()=>setSolutionsOpen((v)=>!v)}
-          style={{
-            display:'block',
-            width:'100%',
-            background:'transparent',
-            border:'none',
-            padding:0,
-            cursor:'pointer',
-            font:'inherit',
-            color:'inherit',
-            textAlign:'inherit',
-            boxSizing:'border-box',
-          }}
-        >
+        <div className="hv" style={{ display:'block', width:'100%', boxSizing:'border-box' }}>
           <div
             style={{
               display:'flex',
@@ -1215,7 +1208,7 @@ function Solutions(){
             <div><Lbl ch="Ready-to-deploy"/><Ttl ch="SOLUTIONS"/></div>
             <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>Pre-built AI products for faster time-to-value, plus custom ai development when the use case requires a tailored solution.</div>
           </div>
-        </button>
+        </div>
         </MagneticWrap>
         {!solutionsOpen ? (
           <div
@@ -1235,11 +1228,33 @@ function Solutions(){
         ) : null}
         {solutionsOpen ? (
           <div id="solutions-tiles" role="region" aria-label="Solutions" style={{position:'relative',zIndex:1}}>
-            <div style={{display:'grid',gridTemplateColumns:gridCols(layout,3,3),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+            <ConsultancyCardGrid desktopCols={3} tabletCols={3} tone="light">
               {items.map((item,i)=>(
                 <HomeGridCard key={item.t} sectionIndex={7} cardIndex={i} style={{height:'100%',minHeight:0}}>
                   <MagneticWrap strength={0.2} style={{ height: "100%", minHeight: 0 }}>
-                  <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'30px 26px',display:'flex',flexDirection:'column',gap:11,transition:'background .35s',minHeight:'100%',boxSizing:'border-box'}}>
+                  <div
+                    onMouseEnter={(e) => {
+                      setHov(i);
+                      consultancyCardGridCellLift(e.currentTarget, true);
+                    }}
+                    onMouseLeave={(e) => {
+                      setHov(null);
+                      consultancyCardGridCellLift(e.currentTarget, false);
+                    }}
+                    style={{
+                      background: hov === i ? DK : `linear-gradient(160deg,${BG},${BG2})`,
+                      padding: "30px 26px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 11,
+                      transition: "background .35s ease, transform .22s ease, box-shadow .22s ease",
+                      minHeight: "100%",
+                      boxSizing: "border-box",
+                      position: "relative",
+                      transform: hov === i ? "translateY(-3px)" : "none",
+                      boxShadow: hov === i ? MOSAIC_POP_SHADOW : "none",
+                    }}
+                  >
                     <Chip
                       ch={item.tag}
                       bg={hov===i?"rgba(255,255,255,0.1)":L2}
@@ -1258,7 +1273,7 @@ function Solutions(){
                   </MagneticWrap>
                 </HomeGridCard>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>
@@ -1284,11 +1299,34 @@ function EngagementModels(){
         <div><MagneticWrap strength={0.35} style={{ display: "inline-block" }}><Link href="/contact#about-you" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="How to work with us"/></Link></MagneticWrap><Ttl ch="ENGAGEMENT MODELS"/></div>
         <div style={{fontFamily:SN,fontSize:13,color:'rgba(0,0,0,0.38)',maxWidth:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>From a sprint to a multi-year partnership.</div>
       </div>
-      <div style={{display:'grid',gridTemplateColumns:gridCols(layout,4,2),gap:1,background:PL,borderRadius:layout==='mobile'?16:20,overflow:'hidden',border:`1px solid ${PL}`}}>
+      <ConsultancyCardGrid desktopCols={4} tabletCols={2} tone="light">
         {models.map((m,i)=>(
           <HomeGridCard key={m.t} sectionIndex={8} cardIndex={i} style={{ minHeight: 0, height: "100%" }}>
             <MagneticWrap strength={0.2} style={{ height: "100%" }}>
-          <div onMouseEnter={()=>setHov(i)} onMouseLeave={()=>setHov(null)} style={{background:hov===i?DK:`linear-gradient(160deg,${BG},${BG2})`,padding:'36px 28px',display:'flex',flexDirection:'column',gap:16,transition:'background .4s',height:'100%',minHeight:0,boxSizing:'border-box'}}>
+          <div
+            onMouseEnter={(e) => {
+              setHov(i);
+              consultancyCardGridCellLift(e.currentTarget, true);
+            }}
+            onMouseLeave={(e) => {
+              setHov(null);
+              consultancyCardGridCellLift(e.currentTarget, false);
+            }}
+            style={{
+              background: hov === i ? DK : `linear-gradient(160deg,${BG},${BG2})`,
+              padding: "36px 28px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+              transition: "background .4s ease, transform .22s ease, box-shadow .22s ease",
+              height: "100%",
+              minHeight: 0,
+              boxSizing: "border-box",
+              position: "relative",
+              transform: hov === i ? "translateY(-3px)" : "none",
+              boxShadow: hov === i ? MOSAIC_POP_SHADOW : "none",
+            }}
+          >
             <div>
               <div style={{fontFamily:MN,fontWeight:700,fontSize:16,letterSpacing: "normal",color:hov===i?'#fff':'#000',transition:'color .3s'}}>{m.t}</div>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:11,color:hov===i?L2:'rgba(0,0,0,0.35)',letterSpacing: "normal",marginTop:4,transition:'color .3s'}}>{m.r}</div>
@@ -1309,7 +1347,7 @@ function EngagementModels(){
             </MagneticWrap>
           </HomeGridCard>
         ))}
-      </div>
+      </ConsultancyCardGrid>
     </HomeSection>
   );
 }

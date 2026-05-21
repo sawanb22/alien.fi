@@ -7,6 +7,8 @@ import { ConsultancyLoadedShell } from "@/components/consultancy/ConsultancyLoad
 import {
   Arr,
   Chip,
+  ConsultancyCardGrid,
+  consultancyCardGridCellLift,
   CTAStrip,
   Footer,
   Lbl,
@@ -18,6 +20,7 @@ import { gridCols, sectionGutter, sectionVPad, useLandingLayout } from "@/lib/la
 import { MN, MN_WORD_SPACE, SN } from "@/lib/consultancy/tokens";
 import { BG, BG2, DK, L, L2, PL } from "@/lib/consultancy/theme";
 import { MagneticWrap, ScrollGridItem, ScrollSection } from "@/components/motion/scroll-primitives";
+import { useHoverSectionOpen } from "@/lib/use-hover-section-open";
 import { useMemo, useState } from "react";
 
 type StudyHub = {
@@ -418,7 +421,7 @@ function Grid() {
           gap: 1,
           background: "transparent",
           borderRadius: layout === "mobile" ? 16 : 20,
-          overflow: "hidden",
+          overflow: "visible",
         }}
       >
         {filtered.map((s, i) => (
@@ -439,7 +442,7 @@ function RoiSnapshot() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
-  const [roiOpen, setRoiOpen] = useState(false);
+  const { open: roiOpen, sectionHoverHandlers: roiHover } = useHoverSectionOpen();
   const [hov, setHov] = useState<number | null>(null);
   const stats = [
     { label: "Annual value delivered", value: "$14.89M+" },
@@ -462,27 +465,8 @@ function RoiSnapshot() {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={roiOpen}
-          aria-controls={roiOpen ? "ai-roi-stats" : undefined}
-          aria-label={roiOpen ? "Collapse AI ROI stats" : "Expand AI ROI stats"}
-          onClick={() => setRoiOpen((v) => !v)}
-          style={{
-            display: "block",
-            width: "100%",
-            background: "transparent",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            font: "inherit",
-            color: "inherit",
-            textAlign: "inherit",
-            boxSizing: "border-box",
-          }}
-        >
+      <div style={{ padding: "0" }} {...roiHover}>
+        <div className="hv" style={{ display: "block", width: "100%", boxSizing: "border-box" }}>
           <div
             style={{
               marginBottom: layout === "mobile" ? 36 : 48,
@@ -493,7 +477,7 @@ function RoiSnapshot() {
               <Ttl ch="AI ROI ACROSS CASE STUDIES" sx={{ letterSpacing: "normal" }} />
             </div>
           </div>
-        </button>
+        </div>
         {!roiOpen ? (
           <div
             aria-hidden
@@ -513,29 +497,27 @@ function RoiSnapshot() {
         ) : null}
         {roiOpen ? (
           <div id="ai-roi-stats" role="region" aria-label="AI ROI across case studies" style={{ position: "relative", zIndex: 1 }}>
-            <div
-              className="rv d1 in"
-              style={{
-                display: "grid",
-                gridTemplateColumns: gridCols(layout, 4, 2),
-                gap: 1,
-                background: PL,
-                borderRadius: layout === "mobile" ? 16 : 20,
-                overflow: "hidden",
-                border: `1px solid ${PL}`,
-              }}
-            >
+            <ConsultancyCardGrid className="rv d1 in" desktopCols={4} tabletCols={2} tone="light">
               {stats.map((stat, i) => (
                 <div key={stat.label} style={{ height: "100%", minHeight: 0 }}>
                   <div
-                    onMouseEnter={() => setHov(i)}
-                    onMouseLeave={() => setHov(null)}
+                    onMouseEnter={(e) => {
+                      setHov(i);
+                      consultancyCardGridCellLift(e.currentTarget, true);
+                    }}
+                    onMouseLeave={(e) => {
+                      setHov(null);
+                      consultancyCardGridCellLift(e.currentTarget, false);
+                    }}
                     style={{
+                      position: "relative",
                       background: hov === i ? DK : `linear-gradient(160deg,${BG},${BG2})`,
                       padding: layout === "mobile" ? "28px 22px" : "34px 28px",
-                      transition: "background .35s",
+                      transition: "background .35s, transform .22s ease, box-shadow .22s ease",
                       minHeight: "100%",
                       boxSizing: "border-box",
+                      transform: hov === i ? "translateY(-2px)" : "translateY(0)",
+                      boxShadow: hov === i ? "0 12px 32px rgba(0,0,0,0.18)" : "none",
                     }}
                   >
                     <div
@@ -568,7 +550,7 @@ function RoiSnapshot() {
                   </div>
                 </div>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>
@@ -580,7 +562,7 @@ function StatsBar() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
-  const [shippedOpen, setShippedOpen] = useState(false);
+  const { open: shippedOpen, sectionHoverHandlers: shippedHover } = useHoverSectionOpen();
   const [hov, setHov] = useState<number | null>(null);
   const stats = [
     { v: "10", l: "Audited case studies" },
@@ -605,27 +587,8 @@ function StatsBar() {
         marginTop: -24,
       }}
     >
-      <div style={{ padding: "0" }}>
-        <button
-          type="button"
-          className="hv"
-          aria-expanded={shippedOpen}
-          aria-controls={shippedOpen ? "shipped-stats" : undefined}
-          aria-label={shippedOpen ? "Collapse shipped stats" : "Expand shipped stats"}
-          onClick={() => setShippedOpen((v) => !v)}
-          style={{
-            display: "block",
-            width: "100%",
-            background: "transparent",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            font: "inherit",
-            color: "inherit",
-            textAlign: "inherit",
-            boxSizing: "border-box",
-          }}
-        >
+      <div style={{ padding: "0" }} {...shippedHover}>
+        <div className="hv" style={{ display: "block", width: "100%", boxSizing: "border-box" }}>
           <div
             style={{
               marginBottom: layout === "mobile" ? 36 : 48,
@@ -659,7 +622,7 @@ function StatsBar() {
               </div>
             </div>
           </div>
-        </button>
+        </div>
         {!shippedOpen ? (
           <div
             aria-hidden
@@ -679,28 +642,27 @@ function StatsBar() {
         ) : null}
         {shippedOpen ? (
           <div id="shipped-stats" role="region" aria-label="What we've shipped" style={{ position: "relative", zIndex: 1 }}>
-            <div
-              className="rv d1 in"
-              style={{
-                display: "grid",
-                gridTemplateColumns: gridCols(layout, 4, 2),
-                gap: 1,
-                background: "rgba(255,255,255,0.05)",
-                borderRadius: layout === "mobile" ? 16 : 20,
-                overflow: "hidden",
-              }}
-            >
+            <ConsultancyCardGrid className="rv d1 in" desktopCols={4} tabletCols={2} tone="dark">
               {stats.map((stat, i) => (
                 <div key={stat.l} style={{ height: "100%", minHeight: 0 }}>
                   <div
-                    onMouseEnter={() => setHov(i)}
-                    onMouseLeave={() => setHov(null)}
+                    onMouseEnter={(e) => {
+                      setHov(i);
+                      consultancyCardGridCellLift(e.currentTarget, true);
+                    }}
+                    onMouseLeave={(e) => {
+                      setHov(null);
+                      consultancyCardGridCellLift(e.currentTarget, false);
+                    }}
                     style={{
+                      position: "relative",
                       background: hov === i ? "rgb(28,32,56)" : DK,
                       padding: layout === "mobile" ? "28px 22px" : "40px 32px",
-                      transition: "background .3s",
+                      transition: "background .3s, transform .22s ease, box-shadow .22s ease",
                       minHeight: "100%",
                       boxSizing: "border-box",
+                      transform: hov === i ? "translateY(-2px)" : "translateY(0)",
+                      boxShadow: hov === i ? "0 12px 32px rgba(0,0,0,0.28)" : "none",
                     }}
                   >
                     <div
@@ -734,7 +696,7 @@ function StatsBar() {
                   </div>
                 </div>
               ))}
-            </div>
+            </ConsultancyCardGrid>
           </div>
         ) : null}
       </div>

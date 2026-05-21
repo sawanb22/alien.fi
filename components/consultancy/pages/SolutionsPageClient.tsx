@@ -6,6 +6,7 @@ import {
   Arr,
   Chip,
   ConsultancyCardGrid,
+  consultancyCardGridCellLift,
   CTAStrip,
   Footer,
   Lbl,
@@ -191,14 +192,21 @@ function SolutionsGrid() {
           const isWide = layout !== "mobile";
           const spanFull = isWide && filtered.length === 1;
           return (
-            <ScrollGridItem key={s.t} sectionIndex={0} cardIndex={i}>
+            <ScrollGridItem key={s.t} sectionIndex={0} cardIndex={i} gridSpanFull={spanFull}>
             <MagneticWrap strength={0.2} style={{ display: "flex", flexDirection: "column", minHeight: 0, width: "100%", height: "100%" }}>
             <div
               role="presentation"
-              onMouseEnter={() => setHov(s.t)}
-              onMouseLeave={() => setHov(null)}
+              onMouseEnter={(e) => {
+                setHov(s.t);
+                consultancyCardGridCellLift(e.currentTarget, true);
+              }}
+              onMouseLeave={(e) => {
+                setHov(null);
+                consultancyCardGridCellLift(e.currentTarget, false);
+              }}
               className="hv"
               style={{
+                position: "relative",
                 background: active ? `linear-gradient(150deg,rgb(220,244,200),${BG2})` : `linear-gradient(150deg,${BG},${BG2})`,
                 padding: layout === "mobile" ? "24px 20px" : "28px 28px 32px",
                 display: "flex",
@@ -209,7 +217,6 @@ function SolutionsGrid() {
                 minHeight: isWide ? 300 : undefined,
                 height: "100%",
                 boxSizing: "border-box",
-                gridColumn: spanFull ? "1 / -1" : undefined,
                 cursor: "pointer",
                 transition: "background .25s ease, box-shadow .22s ease, transform .22s ease",
                 boxShadow: active

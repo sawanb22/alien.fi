@@ -466,29 +466,26 @@ function Related({
           <Link
             href={caseStudyPathByClient(r.n)}
             className="hv"
-            style={{
-              background: `linear-gradient(160deg,${BG},${BG2})`,
-              padding: "30px",
-              textDecoration: "none",
-              display: "flex",
-              flexDirection: "column",
-              gap: 14,
-              transition: "background .25s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = `linear-gradient(160deg,rgb(220,244,200),${BG2})`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = `linear-gradient(160deg,${BG},${BG2})`;
-            }}
+            style={{ textDecoration: "none", display: "block", height: "100%" }}
           >
-            <Chip ch={r.i} />
-            <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
-              <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 38, color: "#000", lineHeight: 1 }}>{r.v}</div>
-              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{r.l}</div>
-            </div>
-            <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000" }}>{r.n}</div>
-            <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.5)" }}>{r.h}</div>
+            <ConsultancyInteractiveSurface
+              variant="gradient"
+              style={{
+                padding: "30px",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+              }}
+            >
+              <Chip ch={r.i} />
+              <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
+                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 38, color: "#000", lineHeight: 1 }}>{r.v}</div>
+                <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.45)" }}>{r.l}</div>
+              </div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 13, color: "#000" }}>{r.n}</div>
+              <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.6, color: "rgba(0,0,0,0.5)" }}>{r.h}</div>
+            </ConsultancyInteractiveSurface>
           </Link>
           </ScrollGridItem>
         ))}

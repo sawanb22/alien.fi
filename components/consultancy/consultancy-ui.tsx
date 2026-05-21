@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import {
+  createContext,
+  isValidElement,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -1012,6 +1015,25 @@ export function Ticker({
 
 const CARD_GRID_BLEED_PX = 14;
 
+/** When true, interactive surfaces inside ConsultancyCardGrid fill the row track height. */
+const MosaicGridFillContext = createContext(false);
+
+/** Use on custom card faces inside ConsultancyCardGrid (non-ConsultancyInteractiveSurface). */
+export function useMosaicGridFill() {
+  return useContext(MosaicGridFillContext);
+}
+
+/** Face styles for cards in ConsultancyCardGrid (equal height per row). */
+export const MOSAIC_CARD_FACE_FILL: CSSProperties = {
+  height: "100%",
+  minHeight: 0,
+  width: "100%",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  flex: "1 1 auto",
+};
+
 /** Mosaic card grid: visible overflow so magnetic pull + hover lift are not clipped. */
 export function ConsultancyCardGrid({
   desktopCols,
@@ -1060,10 +1082,60 @@ export function ConsultancyCardGrid({
           alignItems: "stretch",
         }}
       >
-        {children}
+        {Array.isArray(children)
+          ? children.map((child, i) => {
+              const spanFull =
+                isValidElement(child) &&
+                (child.props as { gridSpanFull?: boolean }).gridSpanFull === true;
+              return (
+              <div
+                key={i}
+                className="consultancy-card-grid__cell"
+                style={{
+                  position: "relative",
+                  zIndex: 0,
+                  minHeight: 0,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  boxSizing: "border-box",
+                  ...(spanFull ? { gridColumn: "1 / -1" } : {}),
+                }}
+              >
+                <div
+                  className="consultancy-card-grid__cell-stretch"
+                  style={{
+                    flex: "1 1 auto",
+                    minHeight: 0,
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <MosaicGridFillContext.Provider value={true}>{child}</MosaicGridFillContext.Provider>
+                </div>
+              </div>
+            );
+            })
+          : children}
       </div>
     </div>
   );
+}
+
+/** Stacking level for hovered mosaic cards (magnetic pull + lift must clear grid gutters). */
+export const CONSULTANCY_CARD_GRID_HOVER_Z = 24;
+
+/** Raise hovered card above neighbors when using custom hover (not ConsultancyInteractiveSurface). */
+export function consultancyCardGridCellLift(el: HTMLElement, active: boolean) {
+  const z = active ? String(CONSULTANCY_CARD_GRID_HOVER_Z) : "0";
+  el.style.zIndex = z;
+  el.style.position = el.style.position || "relative";
+  const cell = el.closest(".consultancy-card-grid__cell");
+  if (cell instanceof HTMLElement) {
+    cell.style.zIndex = z;
+    cell.style.position = "relative";
+  }
 }
 
 const INTERACTIVE_CARD_PRESETS: Record<
@@ -1075,11 +1147,14 @@ const INTERACTIVE_CARD_PRESETS: Record<
       background: DK,
       boxShadow: "none",
       transform: "translateY(0)",
+      position: "relative",
+      zIndex: 0,
     },
     hover: {
       background: "rgb(52,56,88)",
       boxShadow: "0 0 0 1.5px rgba(177,238,82,0.52), 0 12px 32px rgba(0,0,0,0.22)",
       transform: "translateY(-2px)",
+      zIndex: CONSULTANCY_CARD_GRID_HOVER_Z,
     },
   },
   /** Translucent panels on navy sections (metrics, partner rows). */
@@ -1088,27 +1163,32 @@ const INTERACTIVE_CARD_PRESETS: Record<
       background: "rgba(255,255,255,0.03)",
       boxShadow: "none",
       transform: "translateY(0)",
+      position: "relative",
+      zIndex: 0,
     },
     hover: {
       background: "rgba(255,255,255,0.07)",
       boxShadow: "0 0 0 1.5px rgba(177,238,82,0.48), 0 12px 28px rgba(0,0,0,0.22)",
       transform: "translateY(-2px)",
+      zIndex: CONSULTANCY_CARD_GRID_HOVER_Z,
     },
   },
   light: {
-    rest: { background: BG, boxShadow: "none", transform: "translateY(0)" },
+    rest: { background: BG, boxShadow: "none", transform: "translateY(0)", position: "relative", zIndex: 0 },
     hover: {
       background: "rgb(232,246,214)",
       boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)",
       transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
   muted: {
-    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)" },
+    rest: { background: BG2, boxShadow: "none", transform: "translateY(0)", position: "relative", zIndex: 0 },
     hover: {
       background: "rgb(218,244,200)",
       boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
       transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
   gradient: {
@@ -1116,11 +1196,14 @@ const INTERACTIVE_CARD_PRESETS: Record<
       background: `linear-gradient(160deg,${BG},${BG2})`,
       boxShadow: "none",
       transform: "translateY(0)",
+      position: "relative",
+      zIndex: 0,
     },
     hover: {
       background: `linear-gradient(160deg,rgb(228,244,210),${BG2})`,
       boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
       transform: "translateY(-2px)",
+      zIndex: 2,
     },
   },
 };
@@ -1154,20 +1237,24 @@ export function ConsultancyInteractiveSurface({
   children: ReactNode;
   magnetic?: number | false;
 }) {
+  const mosaicFill = useContext(MosaicGridFillContext);
   const { rest } = INTERACTIVE_CARD_PRESETS[variant];
   const mergedRest = { ...rest, ...style };
   const strength =
     magnetic === false || magnetic === 0 ? 0 : typeof magnetic === "number" ? magnetic : 0.2;
-  const fillHeight = style?.height === "100%";
+  const fillHeight = mosaicFill || style?.height === "100%";
   const hasMagnetic = strength > 0;
+  const faceFill = mosaicFill ? MOSAIC_CARD_FACE_FILL : {};
 
   const applyHover = (el: HTMLElement) => {
     Object.assign(el.style, interactiveSurfaceHover(variant, hasMagnetic));
+    consultancyCardGridCellLift(el, true);
   };
   const clearHover = (el: HTMLElement) => {
     el.style.background = mergedRest.background as string;
     el.style.boxShadow = (mergedRest.boxShadow as string) ?? "none";
     el.style.transform = (mergedRest.transform as string) ?? "translateY(0)";
+    consultancyCardGridCellLift(el, false);
   };
 
   const surface = (
@@ -1177,6 +1264,7 @@ export function ConsultancyInteractiveSurface({
         transition: "background .22s ease, box-shadow .22s ease, transform .22s ease",
         cursor: "default",
         ...rest,
+        ...faceFill,
         ...style,
       }}
       onMouseEnter={(e) => applyHover(e.currentTarget)}

@@ -14,6 +14,18 @@ import {
 
 const SPRING = { stiffness: 150, damping: 15, mass: 0.1 };
 
+/** Match `CONSULTANCY_CARD_GRID_HOVER_Z` in consultancy-ui (avoid circular import). */
+const MOSAIC_CELL_HOVER_Z = 24;
+
+function elevateMosaicGridCell(el: HTMLElement, active: boolean) {
+  const z = active ? String(MOSAIC_CELL_HOVER_Z) : "0";
+  const cell = el.closest(".consultancy-card-grid__cell");
+  if (cell instanceof HTMLElement) {
+    cell.style.zIndex = z;
+    cell.style.position = "relative";
+  }
+}
+
 const SECTION_TRANSITION = {
   duration: 0.7,
   ease: [0.25, 0.1, 0.25, 1] as const,
@@ -70,6 +82,8 @@ export type ScrollGridItemProps = {
   /** Parent section index (same parity as `ScrollSection` for horizontal direction). */
   sectionIndex: number;
   cardIndex: number;
+  /** Span all columns in the mosaic row (last odd tile in 2-col grid). */
+  gridSpanFull?: boolean;
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -79,6 +93,7 @@ export type ScrollGridItemProps = {
 export function ScrollGridItem({
   sectionIndex,
   cardIndex,
+  gridSpanFull,
   className,
   style,
   children,
@@ -91,10 +106,13 @@ export function ScrollGridItem({
       style={{
         display: "flex",
         flexDirection: "column",
+        flex: "1 1 auto",
         minHeight: 0,
         alignSelf: "stretch",
         width: "100%",
         boxSizing: "border-box",
+        position: "relative",
+        zIndex: 0,
         ...style,
         willChange: "transform",
       }}
@@ -137,9 +155,14 @@ export const MagneticWrap = forwardRef<HTMLDivElement, MagneticWrapProps>(
       y.set((e.clientY - cy) * strength);
     };
 
-    const reset = () => {
+    const onPointerEnter = (e: React.PointerEvent<HTMLDivElement>) => {
+      if (strength > 0) elevateMosaicGridCell(e.currentTarget, true);
+    };
+
+    const reset = (el?: HTMLElement) => {
       x.set(0);
       y.set(0);
+      if (el && strength > 0) elevateMosaicGridCell(el, false);
     };
 
     const rawStyle = style ?? {};
@@ -171,8 +194,9 @@ export const MagneticWrap = forwardRef<HTMLDivElement, MagneticWrapProps>(
           willChange: "transform",
         }}
         onPointerMove={onPointerMove}
-        onPointerLeave={reset}
-        onPointerCancel={reset}
+        onPointerEnter={onPointerEnter}
+        onPointerLeave={(e) => reset(e.currentTarget)}
+        onPointerCancel={(e) => reset(e.currentTarget)}
         {...rest}
       >
         {children}
