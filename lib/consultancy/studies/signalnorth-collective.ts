@@ -120,6 +120,6 @@ export const signalnorthCollectiveStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your hardest-to-move marketing metric. We will show you how AI for marketing, powered by AI marketing automation and AI campaign optimization, can turn it into an agency case study clients renew around.",
-    button: "Start a project ↗",
+    button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

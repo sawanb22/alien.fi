@@ -124,6 +124,6 @@ export const lumenLegalStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your boldest metric in legal operations. We will show you how AI for legal deployments like Lumen's contract copilot, anchored in AI for legal research and tightly governed legal automation software, turned similar baselines into audited outcomes.",
-    button: "Start a project ↗",
+    button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

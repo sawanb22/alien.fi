@@ -391,7 +391,7 @@ function ModulesSection() {
         {MODULES.map((m, i) => (
           <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i}>
           <Tilt
-            int={4}
+            int={2}
             ch={
               <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
                 <ConsultancyInteractiveSurface variant="gradient" magnetic={false} style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>

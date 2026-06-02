@@ -1,26 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { createContext, useContext, useSyncExternalStore } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { OT } from "@/lib/consultancy/tokens";
 
 export type LandingLayoutMode = "desktop" | "tablet" | "mobile";
 
-function subscribeLandingLayout(onStoreChange: () => void) {
-  if (typeof window === "undefined") return () => {};
-  const w = () => onStoreChange();
-  const m1 = window.matchMedia("(min-width: 1120px)");
-  const m2 = window.matchMedia("(min-width: 768px)");
-  m1.addEventListener("change", w);
-  m2.addEventListener("change", w);
-  return () => {
-    m1.removeEventListener("change", w);
-    m2.removeEventListener("change", w);
-  };
-}
-
-function getLandingLayoutSnapshot(): LandingLayoutMode {
-  if (typeof window === "undefined") return "desktop";
+function readLandingLayout(): LandingLayoutMode {
   const iw = window.innerWidth;
   if (iw >= 1120) return "desktop";
   if (iw >= 768) return "tablet";
@@ -29,8 +15,23 @@ function getLandingLayoutSnapshot(): LandingLayoutMode {
 
 const LandingLayoutContext = createContext<LandingLayoutMode>("desktop");
 
+/** SSR and first client paint use desktop; real breakpoint applies after mount to avoid hydration mismatches. */
 export function LandingLayoutProvider({ children }: { children: ReactNode }) {
-  const mode = useSyncExternalStore(subscribeLandingLayout, getLandingLayoutSnapshot, () => "desktop");
+  const [mode, setMode] = useState<LandingLayoutMode>("desktop");
+
+  useEffect(() => {
+    const update = () => setMode(readLandingLayout());
+    update();
+    const m1 = window.matchMedia("(min-width: 1120px)");
+    const m2 = window.matchMedia("(min-width: 768px)");
+    m1.addEventListener("change", update);
+    m2.addEventListener("change", update);
+    return () => {
+      m1.removeEventListener("change", update);
+      m2.removeEventListener("change", update);
+    };
+  }, []);
+
   return <LandingLayoutContext.Provider value={mode}>{children}</LandingLayoutContext.Provider>;
 }
 

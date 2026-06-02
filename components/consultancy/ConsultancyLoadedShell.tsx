@@ -11,6 +11,7 @@ export function ConsultancyLoadedShell({
   children: ReactNode;
 }) {
   const [loaded, setLoaded] = useState(false);
+
   return (
     <>
       {!loaded && (

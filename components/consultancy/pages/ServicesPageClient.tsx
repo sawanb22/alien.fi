@@ -57,7 +57,7 @@ const SERVICES = [
     cat: "BUILD",
     t: "Custom AI Development",
     d:
-      "End-to-end model development for high-stakes use cases — bespoke ML, custom fine-tuned LLMs, multi-modal systems.",
+      "End-to-end model development for high-stakes use cases, bespoke ML, custom fine-tuned LLMs, multi-modal systems.",
     price: "$120–500K",
     duration: "12–28 weeks",
     deliverables: ["Production model", "Eval & monitoring", "API + SDK", "Documentation", "Knowledge transfer"],
@@ -170,25 +170,21 @@ function ServiceRow({
   const layout = useLandingLayout();
   const narrow = layout !== "desktop";
   const isOpen = open;
-  const [rowHover, setRowHover] = useState(false);
-  const rowBg = isOpen ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : rowHover ? "rgba(21,24,43,0.055)" : "transparent";
+  const rowBg = isOpen ? `linear-gradient(160deg,rgb(220,244,200),${BG2})` : "transparent";
   return (
     <div
       id={s.anchor}
-      onMouseEnter={() => setRowHover(true)}
-      onMouseLeave={() => setRowHover(false)}
       style={{
         position: "relative",
-        zIndex: isOpen || rowHover ? 3 : 0,
+        zIndex: isOpen ? 3 : 0,
         borderBottom: `1px solid ${PL}`,
         background: rowBg,
-        transition: "background .22s ease, box-shadow .22s ease",
-        boxShadow: !isOpen && rowHover ? `inset 0 0 0 1.5px rgba(150,238,82,0.42)` : "none",
+        transition: "background .22s ease",
+        boxShadow: "none",
       }}
     >
       <button
         type="button"
-        className="hv"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -445,12 +441,6 @@ function ServiceRow({
                 <div
                   key={del}
                   role="presentation"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(21,24,43,0.06)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                  }}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -464,7 +454,6 @@ function ServiceRow({
                     fontWeight: 500,
                     color: "#000",
                     letterSpacing: "normal",
-                    transition: "background .18s ease",
                   }}
                 >
                   <div style={{ width: 5, height: 5, borderRadius: "50%", background: L_TEXT_ON_LIGHT, flexShrink: 0 }} />

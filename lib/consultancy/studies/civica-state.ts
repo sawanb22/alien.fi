@@ -120,6 +120,6 @@ export const civicaStateStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your boldest public-sector metric. We will show you how AI for government agencies deployments like Civica's benefits program, guided by AI consulting for government agencies and consulting firms AI driven public sector solutions, turned similar baselines into audited outcomes.",
-    button: "Start a project ↗",
+    button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

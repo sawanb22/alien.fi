@@ -11,6 +11,7 @@ import {
   Footer,
   Lbl,
   Nav,
+  FAQ_SECTION_TITLE_SX,
   Ttl,
   consultancyGhostOnDarkEnter,
   consultancyGhostOnDarkLeave,
@@ -335,7 +336,16 @@ export default function ServiceAIAgentsPageClient() {
             <ConsultancyInteractiveSurface
               key={fn}
               variant="muted"
-              style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr 1.2fr", gap: 8 }}
+              magnetic={false}
+              style={{
+                padding: "14px 16px",
+                display: "grid",
+                gridTemplateColumns: layout === "mobile" ? "1fr" : "1fr 1fr 1.2fr",
+                gap: 8,
+                alignItems: layout === "mobile" ? "start" : "center",
+                width: "100%",
+                boxSizing: "border-box",
+              }}
             >
               <div style={{ fontFamily: MN, fontSize: 12, fontWeight: 600, color: "#0f1118" }}>{fn}</div>
               <div style={{ fontFamily: MN, fontSize: 11, color: "rgba(15,17,24,0.82)" }}>{type}</div>
@@ -352,7 +362,7 @@ export default function ServiceAIAgentsPageClient() {
             <ScrollGridItem key={by} sectionIndex={7} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: 20 }}>
               <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.62)", marginBottom: 10, flex: 1 }}>&ldquo;{q}&rdquo;</div>
-              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>-- {by}</div>
+              <div style={{ fontFamily: MN, fontSize: 10.5, letterSpacing: "normal", color: L }}>{by}</div>
             </ConsultancyInteractiveSurface>
             </ScrollGridItem>
           ))}
@@ -360,7 +370,7 @@ export default function ServiceAIAgentsPageClient() {
       </ScrollSection>
 
       <ScrollSection as="section" index={8} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-        <div style={{ marginBottom: 24 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
+        <div style={{ marginBottom: 24 }}><Lbl ch="Got questions" /><Ttl ch="FAQs." sx={FAQ_SECTION_TITLE_SX} /></div>
         <ConsultancyFaqAccordion items={FAQS} tone="light" />
       </ScrollSection>
 

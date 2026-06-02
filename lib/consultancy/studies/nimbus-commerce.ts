@@ -120,6 +120,6 @@ export const nimbusCommerceStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your boldest ecommerce metric. We will show you how AI for ecommerce, powered by product recommendation AI, AI personalization software for ecommerce, and agent-driven journeys, can turn it into a case study your team is proud of.",
-    button: "Start a project ↗",
+    button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

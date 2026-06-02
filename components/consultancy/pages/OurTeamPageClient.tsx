@@ -57,23 +57,9 @@ type TeamPerson = {
   tags: string[];
 };
 
-function PersonCard({ p, big = false, dark = false }: { p: TeamPerson; big?: boolean; dark?: boolean }) {
-  const pad = big ? "30px 28px" : "22px";
-  const gap = big ? 14 : 10;
+function PersonCardBody({ p, big, dark }: { p: TeamPerson; big: boolean; dark: boolean }) {
   return (
-    <ConsultancyInteractiveSurface
-      variant={dark ? "darkGlass" : "gradient"}
-      style={{
-        ...(dark ? { background: "rgba(255,255,255,0.04)" } : {}),
-        border: dark ? "1px solid rgba(255,255,255,0.08)" : `1px solid ${PL}`,
-        borderRadius: 14,
-        padding: pad,
-        display: "flex",
-        flexDirection: "column",
-        gap,
-        height: "100%",
-      }}
-    >
+    <>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
         <div style={{ width: big ? 56 : 46, height: big ? 56 : 46, borderRadius: "50%", background: `linear-gradient(135deg,${L},${L2})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontWeight: 700, fontSize: big ? 16 : 14, color: "#000" }}>{p.init}</div>
         <div>
@@ -87,6 +73,34 @@ function PersonCard({ p, big = false, dark = false }: { p: TeamPerson; big?: boo
           <div key={t} style={{ padding: "3px 9px", background: dark ? "rgba(255,255,255,0.08)" : "rgba(21,24,43,0.06)", borderRadius: 5, fontFamily: MN, fontSize: 9.5, fontWeight: 600, letterSpacing: "normal", color: dark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)", textTransform: "uppercase" }}>{t}</div>
         ))}
       </div>
+    </>
+  );
+}
+
+function PersonCard({ p, big = false, dark = false }: { p: TeamPerson; big?: boolean; dark?: boolean }) {
+  const pad = big ? "30px 28px" : "22px";
+  const gap = big ? 14 : 10;
+  return (
+    <ConsultancyInteractiveSurface
+      variant={dark ? "darkGlass" : "gradient"}
+      style={{
+        ...(dark
+          ? {
+              background: "rgba(255,255,255,0.11)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+            }
+          : { border: `1px solid ${PL}` }),
+        borderRadius: 14,
+        padding: pad,
+        display: "flex",
+        flexDirection: "column",
+        gap,
+        height: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      <PersonCardBody p={p} big={big} dark={dark} />
     </ConsultancyInteractiveSurface>
   );
 }
@@ -105,7 +119,9 @@ function TeamHero() {
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 32 }}>
                 <Link href="/" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
-                <span style={{ color: "rgba(255,255,255,0.5)" }}>About</span>
+                <Link href="/about" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+                  About
+                </Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: L2 }}>Team</span>
               </div>
@@ -150,7 +166,7 @@ export default function OurTeamPageClient() {
       <TeamHero />
       <ScrollSection as="section" index={1} style={{ padding: `${pv}px ${gv}px`, background: DK, position: "relative", zIndex: 2, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ marginBottom: 36 }}><Lbl ch="Founders and C-Suite" lt /><Ttl ch="LEADERSHIP." lt /></div>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 2, 1), gap: 16, isolation: "isolate" }}>
           {LEADERSHIP.map((p, i) => (
             <ScrollGridItem key={p.init} sectionIndex={1} cardIndex={i}>
               <PersonCard p={p} big dark />

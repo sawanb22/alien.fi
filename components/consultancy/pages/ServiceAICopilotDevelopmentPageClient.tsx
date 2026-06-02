@@ -11,6 +11,7 @@ import {
   Footer,
   Lbl,
   Nav,
+  FAQ_SECTION_TITLE_SX,
   Ttl,
   consultancyGhostOnDarkEnter,
   consultancyGhostOnDarkLeave,
@@ -350,7 +351,7 @@ function Deliverables() {
           <ScrollGridItem key={d.h} sectionIndex={3} cardIndex={i}>
             <ConsultancyInteractiveSurface variant="dk" style={{ padding: "24px 20px" }}>
               <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 11, color: L, letterSpacing: "normal", marginBottom: 8 }}>
-                {String(i + 1).padStart(2, "0")} —
+                {String(i + 1).padStart(2, "0")}
               </div>
               <div style={{ fontFamily: MN, fontSize: 15, fontWeight: 600, color: "#fff", marginBottom: 8 }}>{d.h}</div>
               <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(255,255,255,0.58)" }}>{d.d}</div>
@@ -461,7 +462,7 @@ function FAQ() {
   const pv = sectionVPad(layout);
   return (
     <ScrollSection as="section" index={8} style={{ padding: `${pv}px ${gv}px`, background: BG2, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-      <div style={{ marginBottom: 28 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
+      <div style={{ marginBottom: 28 }}><Lbl ch="Got questions" /><Ttl ch="FAQs." sx={FAQ_SECTION_TITLE_SX} /></div>
       <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="paper" />
     </ScrollSection>
   );

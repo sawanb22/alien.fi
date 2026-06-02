@@ -11,7 +11,6 @@ import {
   Footer,
   Lbl,
   Nav,
-  Tilt,
   Ttl,
   consultancyGhostOnDarkEnter,
   consultancyGhostOnDarkLeave,
@@ -322,7 +321,17 @@ function PhasesSection() {
           <Lbl ch="Eight weeks · Four phases" />
           <Ttl ch="THE METHOD." />
         </div>
-        <div style={{ fontFamily: SN, fontSize: 14, color: "rgba(0,0,0,0.55)", maxWidth: 540, lineHeight: 1.7 }}>
+        <div
+          style={{
+            fontFamily: SN,
+            fontSize: 14,
+            color: "rgba(0,0,0,0.55)",
+            maxWidth: 540,
+            lineHeight: 1.7,
+            marginLeft: layout === "desktop" ? "auto" : undefined,
+            textAlign: layout === "desktop" ? "right" : "left",
+          }}
+        >
           Each phase produces tangible output. Each output earns the next. No surprises in week 8.
         </div>
       </div>
@@ -365,20 +374,26 @@ function DeliverablesGrid() {
       </div>
       <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="dark">
         {DELIVERABLES.map((d, i) => (
-          <ScrollGridItem key={d.h} sectionIndex={3} cardIndex={i}>
-            <Tilt
-              int={5}
-              ch={
-                <ConsultancyInteractiveSurface variant="dk" style={{ padding: "34px 32px", height: "100%" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
-                    <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L }}>{String(i + 1).padStart(2, "0")}</div>
-                    <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
-                  </div>
-                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#fff", letterSpacing: "normal", marginBottom: 14 }}>{d.h}</div>
-                  <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)" }}>{d.d}</div>
-                </ConsultancyInteractiveSurface>
-              }
-            />
+          <ScrollGridItem key={d.h} sectionIndex={3} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
+            <ConsultancyInteractiveSurface
+              variant="dk"
+              style={{
+                padding: "34px 32px",
+                height: "100%",
+                minHeight: 0,
+                flex: "1 1 auto",
+                display: "flex",
+                flexDirection: "column",
+                boxSizing: "border-box",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 12, letterSpacing: "normal", color: L }}>{String(i + 1).padStart(2, "0")}</div>
+                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.08)" }} />
+              </div>
+              <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 17, color: "#fff", letterSpacing: "normal", marginBottom: 14 }}>{d.h}</div>
+              <div style={{ fontFamily: SN, fontSize: 13, lineHeight: 1.7, color: "rgba(255,255,255,0.5)", flex: 1 }}>{d.d}</div>
+            </ConsultancyInteractiveSurface>
           </ScrollGridItem>
         ))}
       </ConsultancyCardGrid>

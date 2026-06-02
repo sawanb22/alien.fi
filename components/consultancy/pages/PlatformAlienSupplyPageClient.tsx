@@ -11,7 +11,6 @@ import {
   Footer,
   Lbl,
   Nav,
-  Tilt,
   Ttl,
   consultancyPrimaryBlackCtaEnter,
   consultancyPrimaryBlackCtaLeave,
@@ -389,23 +388,40 @@ function ModulesSection() {
       </div>
       <ConsultancyCardGrid desktopCols={3} tabletCols={2} tone="light">
         {MODULES.map((m, i) => (
-          <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i}>
-          <Tilt
-            int={4}
-            ch={
-              <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>
-                <ConsultancyInteractiveSurface variant="gradient" magnetic={false} style={{ padding: "30px 28px", height: "100%", display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
-                    <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: L2 }}>{`0${i + 1}`}</div>
-                  </div>
-                  <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "normal", lineHeight: 1.3 }}>{m.t}</div>
-                  <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1 }}>{m.d}</div>
-                  <div style={{ padding: "10px 12px", background: "#000", borderRadius: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, color: L, letterSpacing: "normal" }}>{m.m}</div>
-                </ConsultancyInteractiveSurface>
-              </div>
-            }
-          />
+          <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
+            <div
+              id={`${m.t.toLowerCase().replace(/\s/g, "-")}`}
+              style={{
+                height: "100%",
+                minHeight: 0,
+                scrollMarginTop: 88,
+                display: "flex",
+                flexDirection: "column",
+                boxSizing: "border-box",
+              }}
+            >
+              <ConsultancyInteractiveSurface
+                variant="gradient"
+                style={{
+                  padding: "30px 28px",
+                  height: "100%",
+                  minHeight: 0,
+                  flex: "1 1 auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 14,
+                  boxSizing: "border-box",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgb(229,231,245)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: MN, fontSize: 24, fontWeight: 700, color: "rgba(0,0,0,0.55)" }}>{m.ic}</div>
+                  <div style={{ fontFamily: MN, fontWeight: 700, fontSize: 9, letterSpacing: "normal", color: L2 }}>{`0${i + 1}`}</div>
+                </div>
+                <div style={{ fontFamily: MN, fontWeight: 600, fontSize: 15, color: "#000", letterSpacing: "normal", lineHeight: 1.3 }}>{m.t}</div>
+                <div style={{ fontFamily: SN, fontSize: 12.5, lineHeight: 1.65, color: "rgba(0,0,0,0.5)", flex: 1, minHeight: 0 }}>{m.d}</div>
+                <div style={{ padding: "10px 12px", background: "#000", borderRadius: 8, fontFamily: MN, fontSize: 11, fontWeight: 700, color: L, letterSpacing: "normal", marginTop: "auto" }}>{m.m}</div>
+              </ConsultancyInteractiveSurface>
+            </div>
           </ScrollGridItem>
         ))}
       </ConsultancyCardGrid>

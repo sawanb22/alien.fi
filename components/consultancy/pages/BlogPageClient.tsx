@@ -120,9 +120,13 @@ export default function BlogPageClient() {
             })}
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: gridCols(layout, 3, 2), gap: 16, isolation: "isolate" }}>
           {filtered.map((p, i) => (
-            <ScrollGridItem key={p.t} sectionIndex={2} cardIndex={i}>
+            <ScrollGridItem key={p.t} sectionIndex={2} cardIndex={i} style={{ height: "100%", minHeight: 0 }}>
+            <div
+              data-consultancy-grid-card=""
+              style={{ position: "relative", height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}
+            >
             <ConsultancyInteractiveSurface
               variant="gradient"
               style={{
@@ -133,6 +137,8 @@ export default function BlogPageClient() {
                 flexDirection: "column",
                 gap: 14,
                 height: "100%",
+                flex: "1 1 auto",
+                boxSizing: "border-box",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -148,6 +154,7 @@ export default function BlogPageClient() {
                 <span style={{ fontFamily: MN, fontSize: 10, letterSpacing: "normal", color: "rgba(0,0,0,0.4)" }}>{p.date}</span>
               </div>
             </ConsultancyInteractiveSurface>
+            </div>
             </ScrollGridItem>
           ))}
         </div>

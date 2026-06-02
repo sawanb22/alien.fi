@@ -120,6 +120,6 @@ export const auroraRetailStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your boldest retail metric. We will show you how AI for retail, from AI for retail stores to AI agents for retail campaigns, can turn it into a case study your team is proud of.",
-    button: "Start a project ↗",
+    button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

@@ -12,10 +12,12 @@ import {
   useSpring,
 } from "motion/react";
 
-const SPRING = { stiffness: 150, damping: 15, mass: 0.1 };
+const SPRING = { stiffness: 120, damping: 22, mass: 0.12 };
+
+const MAX_MAGNETIC_OFFSET_PX = 6;
 
 /** Match `CONSULTANCY_CARD_GRID_HOVER_Z` in consultancy-ui (avoid circular import). */
-const MOSAIC_CELL_HOVER_Z = 24;
+const MOSAIC_CELL_HOVER_Z = 12;
 
 function elevateMosaicGridCell(el: HTMLElement, active: boolean) {
   const z = active ? String(MOSAIC_CELL_HOVER_Z) : "0";
@@ -23,6 +25,11 @@ function elevateMosaicGridCell(el: HTMLElement, active: boolean) {
   if (cell instanceof HTMLElement) {
     cell.style.zIndex = z;
     cell.style.position = "relative";
+  }
+  const gridCard = el.closest("[data-consultancy-grid-card]");
+  if (gridCard instanceof HTMLElement) {
+    gridCard.style.zIndex = z;
+    gridCard.style.position = "relative";
   }
 }
 
@@ -58,7 +65,6 @@ export const ScrollSection = forwardRef<HTMLElement, ScrollSectionProps>(
     ref,
   ) {
     const reduced = useReducedMotion();
-    const fromX = reduced ? 0 : index % 2 === 0 ? -50 : 50;
     const Comp = as === "section" ? m.section : m.div;
     return (
       <Comp
@@ -66,9 +72,9 @@ export const ScrollSection = forwardRef<HTMLElement, ScrollSectionProps>(
         id={id}
         data-expanded={dataExpanded}
         className={className}
-        style={{ ...style, willChange: "transform" }}
-        initial={{ opacity: 0, x: fromX }}
-        whileInView={{ opacity: 1, x: 0 }}
+        style={style}
+        initial={{ opacity: 1, x: 0 }}
+        whileInView={reduced ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
         viewport={SECTION_VIEWPORT}
         transition={SECTION_TRANSITION}
       >
@@ -99,7 +105,6 @@ export function ScrollGridItem({
   children,
 }: ScrollGridItemProps) {
   const reduced = useReducedMotion();
-  const fromX = reduced ? 0 : sectionIndex % 2 === 0 ? -50 : 50;
   return (
     <m.div
       className={className}
@@ -114,10 +119,9 @@ export function ScrollGridItem({
         position: "relative",
         zIndex: 0,
         ...style,
-        willChange: "transform",
       }}
-      initial={{ opacity: 0, x: fromX }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 1, x: 0 }}
+      whileInView={reduced ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
       viewport={SECTION_VIEWPORT}
       transition={{
         ...SECTION_TRANSITION,
@@ -151,8 +155,10 @@ export const MagneticWrap = forwardRef<HTMLDivElement, MagneticWrapProps>(
       const r = el.getBoundingClientRect();
       const cx = r.left + r.width / 2;
       const cy = r.top + r.height / 2;
-      x.set((e.clientX - cx) * strength);
-      y.set((e.clientY - cy) * strength);
+      const clamp = (v: number) =>
+        Math.max(-MAX_MAGNETIC_OFFSET_PX, Math.min(MAX_MAGNETIC_OFFSET_PX, v));
+      x.set(clamp((e.clientX - cx) * strength));
+      y.set(clamp((e.clientY - cy) * strength));
     };
 
     const onPointerEnter = (e: React.PointerEvent<HTMLDivElement>) => {

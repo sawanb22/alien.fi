@@ -568,7 +568,7 @@ export function MeridianCaseStudyPage() {
       <CTAStrip
         title="WRITE YOUR|STORY"
         sub="Tell us your most painful metric. We’ll show you how AI for insurance companies like Meridian turned similar baselines into audited results :- and outline three insurance AI solutions paths that could deliver measurable AI ROI for your book within 9 months."
-        cta="Start a Project ↗"
+        cta="Start a Project"
         ctaUppercase={false}
       />
       <Footer />

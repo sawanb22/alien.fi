@@ -40,7 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Cursor IDE / local debug (not part of the app)
+.cursor/
+debug.log
+
 # Generated from repo-root colors_and_type.css (see npm run sync:tokens)
 /public/colors_and_type.css
 
 .vercel
+
+.cursor/
+debug.log
+

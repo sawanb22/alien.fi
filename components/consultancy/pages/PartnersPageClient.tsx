@@ -92,7 +92,9 @@ function Hero() {
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: MN, fontSize: 9, fontWeight: 600, letterSpacing: "normal", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", marginBottom: 32 }}>
                 <Link href="/" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>Home</Link>
                 <span style={{ opacity: 0.4 }}>/</span>
-                <span style={{ color: "rgba(0,0,0,0.5)" }}>About</span>
+                <Link href="/about" style={{ color: "rgba(0,0,0,0.5)", textDecoration: "none" }}>
+                  About
+                </Link>
                 <span style={{ opacity: 0.4 }}>/</span>
                 <span style={{ color: "#000" }}>Partners</span>
               </div>

@@ -14,6 +14,10 @@ import {
   type ReactNode,
 } from "react";
 import { HOME_INDUSTRY_CARDS, industryHref } from "@/lib/consultancy/industries";
+import {
+  ALIENFI_HERO_LOCATION_LINE1,
+  ALIENFI_SOCIAL_LINKS,
+} from "@/lib/consultancy/social-links";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { CW, MN_WORD_SPACE, OT } from "@/lib/consultancy/tokens";
 import {
@@ -44,6 +48,10 @@ const L='rgb(150,238,82)',L2='rgb(177,238,82)';
 const BG='rgb(243,243,255)',BG2='rgb(224,226,241)';
 const PL='rgb(199,200,211)',CD='rgb(229,231,245)';
 const DK='rgb(21,24,43)';
+/** Body copy on home DK sections only (Process, Case study, Contact). */
+const DK_BODY = "rgba(255,255,255,0.58)";
+const DK_BODY_MUTED = "rgba(255,255,255,0.48)";
+const DK_LABEL = "rgba(255,255,255,0.52)";
 /** Pop-out shadow for home mosaic cards (magnetic grids). */
 const MOSAIC_POP_SHADOW =
   "0 0 0 1.5px rgba(150,238,82,0.42), 0 14px 36px rgba(21,24,43,0.12)";
@@ -61,6 +69,47 @@ const heroServices = [
 ];
 
 const TWEAK_DEFAULTS=/*EDITMODE-BEGIN*/{"showStats":true}/*EDITMODE-END*/;
+
+function HeroSocialLinks({ variant }: { variant: "desktop" | "narrow" }) {
+  const desktop = variant === "desktop";
+  return (
+    <div style={{ display: "flex", gap: 10 }}>
+      {ALIENFI_SOCIAL_LINKS.map(({ href, label, path }) => (
+        <MagneticWrap key={href} strength={0.35} style={{ display: "flex" }}>
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            className="hv"
+            style={{
+              width: desktop ? 34 : 36,
+              height: desktop ? 34 : 36,
+              borderRadius: desktop ? 8 : 9,
+              background: CD,
+              border: desktop ? "none" : `1px solid ${PL}`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "background .2s",
+              textDecoration: "none",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = L;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = CD;
+            }}
+          >
+            <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={0.65} aria-hidden>
+              <path d={path} />
+            </svg>
+          </a>
+        </MagneticWrap>
+      ))}
+    </div>
+  );
+}
 
 /* ── SMALL ATOMS ── */
 const Arr = ({ sz = 10, cl = "#fff", sw = 1.8 }) => (
@@ -352,7 +401,7 @@ function HeroDesktop({tweaks}){
           </div>
           <div style={{marginTop:32}}>
             <Lbl ch="Location"/>
-            <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY<br/>Operating globally</div>
+            <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.4)',lineHeight:1.8}}>{ALIENFI_HERO_LOCATION_LINE1}<br/>Operating globally</div>
           </div>
         </div>
 
@@ -436,19 +485,7 @@ function HeroDesktop({tweaks}){
           </div>
           <div>
             <Lbl ch="Follow"/>
-            <div style={{display:'flex',gap:10}}>
-              {['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
-                'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
-                'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'].map((d,i)=>(
-                <MagneticWrap key={i} strength={0.35} style={{ display: "flex" }}>
-                <div className="hv" style={{width:34,height:34,borderRadius:8,background:CD,display:'flex',alignItems:'center',justifyContent:'center',transition:'background .2s'}}
-                  onMouseEnter={e=>{e.currentTarget.style.background=L;}}
-                  onMouseLeave={e=>{e.currentTarget.style.background=CD;}}>
-                  <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.65}><path d={d}/></svg>
-                </div>
-                </MagneticWrap>
-              ))}
-            </div>
+            <HeroSocialLinks variant="desktop" />
           </div>
         </div>
       </div>
@@ -465,10 +502,6 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
   const frameInset=layout==='mobile'?10:12;
   const headlineFs=layout==='mobile'?'clamp(28px,8vw,44px)':'clamp(34px,5vw,52px)';
   const svc=['AI Strategy Consulting','Custom AI Development','Implementation & Integration','Managed AI Services','Training & Enablement'];
-  const socialPaths=['M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.927l4.262 5.613zm-1.161 17.52h1.833L7.084 4.126H5.117z',
-    'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z',
-    'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'];
-
   return(
     <HomeSection as="section" index={0} style={{paddingTop:60,background:`linear-gradient(180deg,${BG} 0%,${BG2} 100%)`,position:'relative'}}>
       <div style={{borderLeft:`1px solid ${PL}`,borderRight:`1px solid ${PL}`,marginLeft:g,marginRight:g,paddingLeft:frameInset,paddingRight:frameInset,boxSizing:'border-box'}}>
@@ -572,7 +605,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             ))}
             <div style={{marginTop:22}}>
               <Lbl ch="Location"/>
-              <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.42)',lineHeight:1.8}}>NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY<br/>Operating globally</div>
+              <div style={{fontFamily:MN,fontSize:12,fontWeight:500,color:'rgba(0,0,0,0.42)',lineHeight:1.8}}>{ALIENFI_HERO_LOCATION_LINE1}<br/>Operating globally</div>
             </div>
           </div>
           <div style={{borderTop:layout==='tablet'?'none':`1px solid ${PL}`,paddingTop:layout==='tablet'?0:26}}>
@@ -584,15 +617,7 @@ function HeroNarrow({tweaks,layout}:{tweaks:typeof TWEAK_DEFAULTS;layout:"tablet
             <Lbl ch="Contact"/>
             <div style={{fontFamily:MN,fontSize:11,fontWeight:500,color:'rgba(0,0,0,0.45)',lineHeight:1.9,letterSpacing: "normal",marginBottom:22}}>info@alien.fi<br/>sales@alien.fi<br/>+1 (800) 555-2946</div>
             <Lbl ch="Follow"/>
-            <div style={{display:'flex',gap:10}}>
-              {socialPaths.map((d,i)=>(
-                <MagneticWrap key={i} strength={0.35} style={{ display: "flex" }}>
-                <div className="hv" style={{width:36,height:36,borderRadius:9,background:CD,border:`1px solid ${PL}`,display:'flex',alignItems:'center',justifyContent:'center'}}>
-                  <svg width={14} height={14} viewBox="0 0 24 24" fill="black" opacity={.6}><path d={d}/></svg>
-                </div>
-                </MagneticWrap>
-              ))}
-            </div>
+            <HeroSocialLinks variant="narrow" />
           </div>
         </div>
       </div>
@@ -792,7 +817,7 @@ function Process(){
             }}
           >
             <div><Lbl ch="How we work" lt/><Ttl ch="THE PROCESS" lt/></div>
-            <div style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
+            <div style={{fontFamily:SN,fontSize:13,color:DK_BODY,maxWidth:layout==='mobile'?360:280,textAlign:layout==='mobile'?'left':'right',lineHeight:1.6}}>A four-phase engagement designed to reduce risk, accelerate execution, and make ai consulting firms accountable to real business outcomes.</div>
           </div>
         </div>
         </MagneticWrap>
@@ -849,7 +874,7 @@ function Process(){
                       {s.sub?<div style={{fontFamily:MN,fontWeight:500,fontSize:11,letterSpacing: "normal",color:L2,marginTop:4}}>{s.sub}</div>:null}
                     </div>
                     <div style={{height:1,background:processHov===i?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.06)',transition:'background .28s ease'}}/>
-                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:processHov===i?'rgba(255,255,255,0.52)':'rgba(255,255,255,0.42)',flexGrow:1,flexShrink:1,minHeight:0,transition:'color .28s ease'}}>{s.d}</div>
+                    <div style={{fontFamily:SN,fontSize:12.5,lineHeight:1.7,color:processHov===i?'rgba(255,255,255,0.60)':'rgba(255,255,255,0.50)',flexGrow:1,flexShrink:1,minHeight:0,transition:'color .28s ease'}}>{s.d}</div>
                   </div>
                 </div>
                   </MagneticWrap>
@@ -1064,7 +1089,7 @@ function CaseStudy(){
       <div style={{padding:'0'}}>
         <div style={{display:'flex',flexDirection:layout==='mobile'?'column':'row',alignItems:layout==='mobile'?'flex-start':'flex-end',justifyContent:'space-between',marginBottom:layout==='mobile'?36:52,gap:layout==='mobile'?12:0}}>
           <div><MagneticWrap strength={0.35} style={{ display: "inline-block" }}><Link href="/case-studies" className="hv" style={{display:'inline-block',textDecoration:'none'}}><Lbl ch="Case study" lt/></Link></MagneticWrap><Ttl ch="REAL RESULTS." lt/></div>
-          <div style={{fontFamily:SN,fontSize:13,color:'rgba(255,255,255,0.28)',maxWidth:layout==='mobile'?360:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees, 9-month transformation delivered through ai strategy consulting, custom ai development, and managed ai services.</div>
+          <div style={{fontFamily:SN,fontSize:13,color:DK_BODY,maxWidth:layout==='mobile'?360:300,textAlign:layout==='mobile'?'left':'right',lineHeight:1.65}}>Regional insurance company, 500+ employees, 9-month transformation delivered through ai strategy consulting, custom ai development, and managed ai services.</div>
         </div>
         <div style={{ marginBottom: layout === "mobile" ? 24 : 28 }}>
           <MagneticWrap strength={0.35} style={{ display: "inline-flex" }}>
@@ -1106,7 +1131,7 @@ function CaseStudy(){
               <div style={{background:'rgb(21,24,43)',padding:layout==='mobile'?'28px 22px':'36px 28px',height:'100%',minHeight:0,flex:1,display:'flex',flexDirection:'column',boxSizing:'border-box'}}>
                 <div style={{fontFamily:MN,fontWeight:700,fontSize:layout==='mobile'?'clamp(28px,8vw,40px)':52,letterSpacing: "normal",color:L,lineHeight:1,marginBottom:10}}>{m.val}</div>
                 <div style={{fontFamily:MN,fontWeight:600,fontSize:12,letterSpacing: "normal",color:'rgba(255,255,255,0.65)',marginBottom:4}}>{m.lbl}</div>
-                <div style={{fontFamily:SN,fontSize:11,color:'rgba(255,255,255,0.28)'}}>{m.sub}</div>
+                <div style={{fontFamily:SN,fontSize:11,color:DK_BODY_MUTED}}>{m.sub}</div>
               </div>
             </Tilt>
               </MagneticWrap>
@@ -1144,7 +1169,7 @@ function CaseStudy(){
             >
               <Chip ch={p.p} bg='rgba(150,238,82,0.1)' cl={L} sx={{marginBottom:12}}/>
               <div style={{fontFamily:MN,fontWeight:600,fontSize:12,color:phaseHov===i?'rgba(255,255,255,0.92)':'rgba(255,255,255,0.78)',marginBottom:8,letterSpacing: "normal",lineHeight:1.35,transition:'color .28s ease'}}>{p.n}</div>
-              <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:phaseHov===i?'rgba(255,255,255,0.42)':'rgba(255,255,255,0.32)',transition:'color .28s ease'}}>{p.d}</div>
+              <div style={{fontFamily:SN,fontSize:11.5,lineHeight:1.65,color:phaseHov===i?'rgba(255,255,255,0.55)':'rgba(255,255,255,0.45)',transition:'color .28s ease'}}>{p.d}</div>
             </div>
             </MagneticWrap>
             </HomeGridCard>
@@ -1450,10 +1475,10 @@ function CTA(){
         <div>
           <Lbl ch="Let's build together" lt/>
           <div style={{fontFamily:MN,fontWeight:700,fontSize:'clamp(40px,4vw,64px)',letterSpacing: "normal",lineHeight:1.0,color:'#fff',marginBottom:24}}>READY TO<br/><span style={{color:L}}>BUILD?</span></div>
-          <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:'rgba(255,255,255,0.36)',marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we will recommend the right next step.</div>
+          <div style={{fontFamily:SN,fontSize:14,lineHeight:1.75,color:DK_BODY,marginBottom:40,maxWidth:380}}>Whether you need ai strategy consulting, custom ai development, or long-term managed ai services, alien.fi helps businesses move faster with clarity, speed, and accountability. Tell us your goals and we will recommend the right next step.</div>
           <div style={{display:'flex',flexDirection:'column',gap:16}}>
             {[['NEW JERSEY DOMESTIC LIMITED-LIABILITY COMPANY'],['info@alien.fi'],['+1 (800) 555-2946']].map(([l])=>(
-              <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:'rgba(255,255,255,0.35)'}}>
+              <div key={l} style={{display:'flex',alignItems:'center',gap:12,fontFamily:MN,fontSize:12,fontWeight:500,letterSpacing: "normal",color:DK_BODY_MUTED}}>
                 <div style={{width:6,height:6,borderRadius:'50%',background:L2,flexShrink:0}}/>{l}
               </div>
             ))}
@@ -1463,20 +1488,20 @@ function CTA(){
           <div style={{display:'grid',gridTemplateColumns:layout==='desktop'?'1fr 1fr':'1fr',gap:12}}>
             {[['name','Full name','Your name'],['company','Company','Company name'],['email','Email','you@company.com'],['budget','Budget','$25K – $500K+']].map(([k,lb,ph])=>(
               <div key={k}>
-                <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>{lb}</div>
+                <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:DK_LABEL,marginBottom:7}}>{lb}</div>
                 {inp(k,ph)}
                 {showErr(k)?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors[k]}</div>:null}
               </div>
             ))}
           </div>
           <div>
-            <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:'rgba(255,255,255,0.28)',marginBottom:7}}>Tell us about your project</div>
+            <div style={{fontFamily:MN,fontSize:10,fontWeight:600,letterSpacing: "normal",textTransform:'uppercase',color:DK_LABEL,marginBottom:7}}>Tell us about your project</div>
             <textarea rows={4} value={form.project} placeholder="What are you looking to build or improve?" className="hv" style={{width:'100%',padding:'12px 14px',background:'rgba(255,255,255,0.05)',border:`1px solid ${showErr('project')?'rgba(255,110,110,0.9)':'rgba(255,255,255,0.1)'}`,borderRadius:8,outline:'none',resize:'none',fontFamily:MN,fontSize:12,color:'#fff',letterSpacing: "normal",transition:'border-color .2s'}}
               onChange={e=>setForm(v=>({...v,project:e.target.value}))}
               onFocus={e=>e.target.style.borderColor=showErr('project')?'rgba(255,110,110,0.9)':'rgba(150,238,82,0.5)'}
               onBlur={()=>setTouched(v=>({...v,project:true}))}/>
             {showErr('project')?<div style={{marginTop:6,fontFamily:SN,fontSize:11,color:'rgba(255,130,130,0.95)'}}>{errors.project}</div>:null}
-            <div style={{marginTop:8,fontFamily:SN,fontSize:11,lineHeight:1.55,color:'rgba(255,255,255,0.28)',maxWidth:520}}>Share your company, goals, timeline, and budget, and we will recommend the best engagement model for your project.</div>
+            <div style={{marginTop:8,fontFamily:SN,fontSize:11,lineHeight:1.55,color:DK_LABEL,maxWidth:520}}>Share your company, goals, timeline, and budget, and we will recommend the best engagement model for your project.</div>
           </div>
           {status?<div style={{fontFamily:SN,fontSize:12,color:statusIsError?'rgba(255,130,130,0.95)':'rgba(177,238,82,0.95)'}}>{status}</div>:null}
           {RECAPTCHA_SITE_KEY ? (

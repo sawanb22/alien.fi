@@ -11,6 +11,7 @@ import {
   Footer,
   Lbl,
   Nav,
+  FAQ_SECTION_TITLE_SX,
   Ttl,
   consultancyGhostOnDarkEnter,
   consultancyGhostOnDarkLeave,
@@ -214,7 +215,7 @@ export default function ServiceManagedAIPageClient() {
       </ScrollSection>
 
       <ScrollSection as="section" index={5} style={{ padding: `${pv}px ${gv}px`, background: BG, borderRadius: "24px 24px 0 0", marginTop: -24 }}>
-        <Lbl ch="Got questions" /><Ttl ch="FAQS." />
+        <Lbl ch="Got questions" /><Ttl ch="FAQs." sx={FAQ_SECTION_TITLE_SX} />
         <ConsultancyFaqAccordion items={FAQS} tone="paper" />
       </ScrollSection>
 

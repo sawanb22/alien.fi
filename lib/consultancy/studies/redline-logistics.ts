@@ -121,6 +121,6 @@ export const redlineLogisticsStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your boldest operations metric. We will show you how logistics software development services and AI for logistics, including agent-based routing and ETA prediction, could turn it into a case study your team is proud of.",
-    button: "Start a project ↗",
+    button: "Start a project",
   },
 } satisfies CaseStudyTemplateData;

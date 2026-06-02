@@ -120,6 +120,6 @@ export const kestrelBankStudy = {
   cta: {
     title: "WRITE YOUR STORY",
     sub: "Tell us your boldest banking metric: fraud, loss, or growth. We'll show you how AI for banking deployments like Kestrel's used a finance AI platform, generative AI for banking explainability, and AI integration for banks to turn similar baselines into audited outcomes in under 6 months.",
-    button: "Start a Project ↗",
+    button: "Start a Project",
   },
 } satisfies CaseStudyTemplateData;

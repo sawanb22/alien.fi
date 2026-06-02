@@ -196,7 +196,7 @@ function ModulesSection() {
         {MODULES.map((m, i) => (
           <ScrollGridItem key={m.t} sectionIndex={1} cardIndex={i}>
             <Tilt
-              int={4}
+              int={2}
               sx={{ height: "100%" }}
               ch={
                 <div id={`${m.t.toLowerCase().replace(/\s/g, "-")}`} style={{ height: "100%", scrollMarginTop: 88 }}>

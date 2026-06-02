@@ -11,6 +11,7 @@ import {
   Footer,
   Lbl,
   Nav,
+  FAQ_SECTION_TITLE_SX,
   Ttl,
   consultancyGhostOnDarkEnter,
   consultancyGhostOnDarkLeave,
@@ -360,7 +361,7 @@ function FAQSection() {
     const pv = sectionVPad(layout);
     return (
         <ScrollSection as="section" index={6} style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, borderRadius: '24px 24px 0 0', marginTop: -24 }}>
-            <div style={{ marginBottom: 32 }}><Lbl ch="Got questions" /><Ttl ch="FAQS." /></div>
+            <div style={{ marginBottom: 32 }}><Lbl ch="Got questions" /><Ttl ch="FAQs." sx={FAQ_SECTION_TITLE_SX} /></div>
             <ConsultancyFaqAccordion items={FAQ_ITEMS} tone="light" />
         </ScrollSection>
     );

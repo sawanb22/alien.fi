@@ -20,12 +20,15 @@ import {
   sectionVPad,
   useLandingLayout,
 } from "@/lib/landing-layout-context";
+import { ALIENFI_SOCIAL_LINKS } from "@/lib/consultancy/social-links";
 import { stripTrailingHeadingPeriod } from "@/lib/consultancy/strip-trailing-heading-period";
 import { MN, MN_WORD_SPACE, OT, SN } from "@/lib/consultancy/tokens";
 import { MagneticWrap } from "@/components/motion/scroll-primitives";
 
 const L = "rgb(150,238,82)";
 const L2 = "rgb(177,238,82)";
+/** Darker lime for legible accent lines on light hero backgrounds. */
+const L_TEXT_ON_LIGHT = "rgb(52, 82, 28)";
 const BG = "rgb(243,243,255)";
 const BG2 = "rgb(224,226,241)";
 const PL = "rgb(199,200,211)";
@@ -199,6 +202,11 @@ export function Ttl({
   );
 }
 
+/** Slightly smaller `Ttl` for FAQ section headings on service pages. */
+export const FAQ_SECTION_TITLE_SX: CSSProperties = {
+  fontSize: "clamp(30px, 3.1vw, 50px)",
+};
+
 export function Tilt({
   children,
   ch,
@@ -218,8 +226,8 @@ export function Tilt({
       const r = el.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `perspective(700px) rotateY(${x * int * 2}deg) rotateX(${-y * int * 1.5}deg) scale(1.025)`;
-      el.style.boxShadow = `${-x * 10}px ${-y * 10}px 32px rgba(0,0,0,0.1)`;
+      el.style.transform = `perspective(700px) rotateY(${x * int * 2}deg) rotateX(${-y * int * 1.5}deg) scale(1.01)`;
+      el.style.boxShadow = `${-x * 6}px ${-y * 6}px 20px rgba(0,0,0,0.08)`;
     },
     [int],
   );
@@ -431,8 +439,9 @@ const navLinks: {
   },
   {
     l: "About",
-    href: "/about/team",
+    href: "/about",
     sub: [
+      { l: "Overview", href: "/about" },
       { l: "Team", href: "/about/team" },
       { l: "Partners", href: "/about/partners" },
       { l: "Pitch deck", href: PITCH_DECK_PDF_URL, newTab: true },
@@ -1123,10 +1132,13 @@ export function ConsultancyCardGrid({
   );
 }
 
-/** Stacking level for hovered mosaic cards (magnetic pull + lift must clear grid gutters). */
-export const CONSULTANCY_CARD_GRID_HOVER_Z = 24;
+/** Default magnetic strength for `ConsultancyInteractiveSurface` (subtle pull). */
+export const CONSULTANCY_CARD_MAGNETIC_STRENGTH = 0.08;
 
-/** Raise hovered card above neighbors when using custom hover (not ConsultancyInteractiveSurface). */
+/** Stacking level for hovered mosaic cards (magnetic pull + lift must clear grid gutters). */
+export const CONSULTANCY_CARD_GRID_HOVER_Z = 12;
+
+/** Raise hovered card above neighbors (mosaic cells or plain grids with `data-consultancy-grid-card`). */
 export function consultancyCardGridCellLift(el: HTMLElement, active: boolean) {
   const z = active ? String(CONSULTANCY_CARD_GRID_HOVER_Z) : "0";
   el.style.zIndex = z;
@@ -1136,7 +1148,15 @@ export function consultancyCardGridCellLift(el: HTMLElement, active: boolean) {
     cell.style.zIndex = z;
     cell.style.position = "relative";
   }
+  const gridCard = el.closest("[data-consultancy-grid-card]");
+  if (gridCard instanceof HTMLElement) {
+    gridCard.style.zIndex = z;
+    gridCard.style.position = "relative";
+  }
 }
+
+/** @deprecated Use `consultancyCardGridCellLift` — same behavior. */
+export const consultancyGridCardLift = consultancyCardGridCellLift;
 
 const INTERACTIVE_CARD_PRESETS: Record<
   "dk" | "darkGlass" | "light" | "muted" | "gradient",
@@ -1152,8 +1172,8 @@ const INTERACTIVE_CARD_PRESETS: Record<
     },
     hover: {
       background: "rgb(52,56,88)",
-      boxShadow: "0 0 0 1.5px rgba(177,238,82,0.52), 0 12px 32px rgba(0,0,0,0.22)",
-      transform: "translateY(-2px)",
+      boxShadow: "0 0 0 1.5px rgba(177,238,82,0.52), 0 8px 18px rgba(0,0,0,0.16)",
+      transform: "translateY(-1px)",
       zIndex: CONSULTANCY_CARD_GRID_HOVER_Z,
     },
   },
@@ -1168,8 +1188,8 @@ const INTERACTIVE_CARD_PRESETS: Record<
     },
     hover: {
       background: "rgba(255,255,255,0.07)",
-      boxShadow: "0 0 0 1.5px rgba(177,238,82,0.48), 0 12px 28px rgba(0,0,0,0.22)",
-      transform: "translateY(-2px)",
+      boxShadow: "0 0 0 1.5px rgba(177,238,82,0.48), 0 8px 16px rgba(0,0,0,0.16)",
+      transform: "translateY(-1px)",
       zIndex: CONSULTANCY_CARD_GRID_HOVER_Z,
     },
   },
@@ -1177,8 +1197,8 @@ const INTERACTIVE_CARD_PRESETS: Record<
     rest: { background: BG, boxShadow: "none", transform: "translateY(0)", position: "relative", zIndex: 0 },
     hover: {
       background: "rgb(232,246,214)",
-      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.08)",
-      transform: "translateY(-2px)",
+      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 6px 16px rgba(21,24,43,0.06)",
+      transform: "translateY(-1px)",
       zIndex: 2,
     },
   },
@@ -1186,8 +1206,8 @@ const INTERACTIVE_CARD_PRESETS: Record<
     rest: { background: BG2, boxShadow: "none", transform: "translateY(0)", position: "relative", zIndex: 0 },
     hover: {
       background: "rgb(218,244,200)",
-      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
-      transform: "translateY(-2px)",
+      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 6px 16px rgba(21,24,43,0.05)",
+      transform: "translateY(-1px)",
       zIndex: 2,
     },
   },
@@ -1201,8 +1221,8 @@ const INTERACTIVE_CARD_PRESETS: Record<
     },
     hover: {
       background: `linear-gradient(160deg,rgb(228,244,210),${BG2})`,
-      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 10px 26px rgba(21,24,43,0.07)",
-      transform: "translateY(-2px)",
+      boxShadow: "0 0 0 1.5px rgba(150,238,82,0.38), 0 6px 16px rgba(21,24,43,0.05)",
+      transform: "translateY(-1px)",
       zIndex: 2,
     },
   },
@@ -1214,13 +1234,9 @@ function interactiveSurfaceHover(
 ): CSSProperties {
   const { hover } = INTERACTIVE_CARD_PRESETS[variant];
   if (!magnetic) return hover;
-  const shadow = hover.boxShadow as string;
   return {
     ...hover,
-    transform: "translateY(-3px)",
-    boxShadow: shadow.includes("32px")
-      ? shadow.replace("32px", "40px").replace("0.22)", "0.28")
-      : shadow.replace("26px", "34px").replace("0.08)", "0.12").replace("0.07)", "0.11"),
+    transform: "translateY(-1px)",
   };
 }
 
@@ -1230,7 +1246,7 @@ export function ConsultancyInteractiveSurface({
   style,
   children,
   /** Subtle pull toward cursor (same idea as home service cards). Set `false` or `0` inside `Tilt` to avoid stacked motion. */
-  magnetic = 0.2,
+  magnetic = CONSULTANCY_CARD_MAGNETIC_STRENGTH,
 }: {
   variant: keyof typeof INTERACTIVE_CARD_PRESETS;
   style?: CSSProperties;
@@ -1241,7 +1257,11 @@ export function ConsultancyInteractiveSurface({
   const { rest } = INTERACTIVE_CARD_PRESETS[variant];
   const mergedRest = { ...rest, ...style };
   const strength =
-    magnetic === false || magnetic === 0 ? 0 : typeof magnetic === "number" ? magnetic : 0.2;
+    magnetic === false || magnetic === 0
+      ? 0
+      : typeof magnetic === "number"
+        ? magnetic
+        : CONSULTANCY_CARD_MAGNETIC_STRENGTH;
   const fillHeight = mosaicFill || style?.height === "100%";
   const hasMagnetic = strength > 0;
   const faceFill = mosaicFill ? MOSAIC_CARD_FACE_FILL : {};
@@ -1395,13 +1415,14 @@ export function CTAStrip({
   sub?: string;
   cta?: string;
   href?: string;
-  /** When false, button label keeps original casing (e.g. "Start a Project ↗"). */
+  /** When false, button label keeps original casing (e.g. "Start a Project"). */
   ctaUppercase?: boolean;
 }) {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
   const pv = sectionVPad(layout);
   const [hov, setHov] = useState(false);
+  const ctaLabel = cta.replace(/\s*↗\s*$/u, "").trim();
   const titlePipe = title.includes("|");
   const pipeSegs = titlePipe
     ? title
@@ -1537,7 +1558,7 @@ export function CTAStrip({
                   : "0 4px 16px rgba(0,0,0,0.3)",
               }}
             >
-              {cta} <Arr sz={14} cl="#000" sw={2.5} />
+              {ctaLabel} <Arr sz={14} cl="#000" sw={2.5} />
             </a>
           ) : (
             <Link
@@ -1570,7 +1591,7 @@ export function CTAStrip({
                   : "0 4px 16px rgba(0,0,0,0.3)",
               }}
             >
-              {cta} <Arr sz={14} cl="#000" sw={2.5} />
+              {ctaLabel} <Arr sz={14} cl="#000" sw={2.5} />
             </Link>
           )}
         </div>
@@ -1584,26 +1605,7 @@ type FooterMouseHandler = MouseEventHandler<HTMLAnchorElement>;
 export function Footer() {
   const layout = useLandingLayout();
   const gv = sectionGutter(layout);
-  const socialLinks: { href: string; label: string; path: string }[] = [
-    {
-      href: "https://www.linkedin.com/company/alienfi",
-      label: "Alien on LinkedIn",
-      path:
-        "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z",
-    },
-    {
-      href: "https://www.instagram.com/alienfi_official/",
-      label: "Alien on Instagram",
-      path:
-        "M6 3h12a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zM12 7.5a4.5 4.5 0 1 0 0 9a4.5 4.5 0 1 0 0-9zM17.75 5.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3z",
-    },
-    {
-      href: "https://www.facebook.com/alien.fi.official",
-      label: "Alien on Facebook",
-      path:
-        "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956-.925-1.956-1.874v-2.25h3.328l-.532-3.47h-2.796V23.954C19.623 23.054 24 18.089 24 12.073z",
-    },
-  ];
+  const socialLinks = ALIENFI_SOCIAL_LINKS;
   const cols: {
     h: string;
     links: [string, string][];
@@ -1611,7 +1613,7 @@ export function Footer() {
     {
       h: "Company",
       links: [
-        ["About", "/about/partners"],
+        ["About", "/about"],
         ["Team", "/about/team"],
         ["Partners", "/about/partners"],
         ["Case Studies", "/case-studies"],
@@ -1652,23 +1654,19 @@ export function Footer() {
   ];
   const linkEnter: FooterMouseHandler = (e) => {
     e.currentTarget.style.color = "rgba(255,255,255,0.88)";
-    e.currentTarget.style.paddingLeft = "6px";
-    e.currentTarget.style.paddingRight = "0";
+    e.currentTarget.style.transform = "translateX(6px)";
   };
   const linkLeave: FooterMouseHandler = (e) => {
     e.currentTarget.style.color = "rgba(255,255,255,0.38)";
-    e.currentTarget.style.paddingLeft = "0";
-    e.currentTarget.style.paddingRight = "0";
+    e.currentTarget.style.transform = "translateX(0)";
   };
   const linkEnterEnd: FooterMouseHandler = (e) => {
     e.currentTarget.style.color = "rgba(255,255,255,0.88)";
-    e.currentTarget.style.paddingRight = "6px";
-    e.currentTarget.style.paddingLeft = "0";
+    e.currentTarget.style.transform = "translateX(-6px)";
   };
   const linkLeaveEnd: FooterMouseHandler = (e) => {
     e.currentTarget.style.color = "rgba(255,255,255,0.38)";
-    e.currentTarget.style.paddingLeft = "0";
-    e.currentTarget.style.paddingRight = "0";
+    e.currentTarget.style.transform = "translateX(0)";
   };
 
   const renderFooterNavCol = (
@@ -1692,41 +1690,51 @@ export function Footer() {
         >
           {h}
         </div>
-        {links.map(([label, href]) => {
-          const isProtocolLink = href.startsWith("mailto:") || href.startsWith("tel:");
-          const baseStyles = {
-            display: "block",
-            fontFamily: MN,
-            fontSize: 12,
-            fontWeight: 500,
-            letterSpacing: "normal",
-            color: "rgba(255,255,255,0.38)",
-            marginBottom: 10,
-            transition: "color .2s,padding-left .18s,padding-right .18s",
-            textDecoration: "none",
-          } as const;
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: align === "end" ? "flex-end" : "flex-start",
+          }}
+        >
+          {links.map(([label, href]) => {
+            const isProtocolLink = href.startsWith("mailto:") || href.startsWith("tel:");
+            const baseStyles = {
+              display: "inline-block",
+              width: "fit-content",
+              maxWidth: "100%",
+              fontFamily: MN,
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: "normal",
+              color: "rgba(255,255,255,0.38)",
+              marginBottom: 10,
+              transition: "color .2s, transform .18s ease",
+              textDecoration: "none",
+            } as const;
 
-          if (isProtocolLink) {
+            if (isProtocolLink) {
+              return (
+                <a
+                  key={label}
+                  href={href}
+                  className="hv"
+                  style={baseStyles}
+                  onMouseEnter={onEnter}
+                  onMouseLeave={onLeave}
+                >
+                  {label}
+                </a>
+              );
+            }
+
             return (
-              <a
-                key={label}
-                href={href}
-                className="hv"
-                style={baseStyles}
-                onMouseEnter={onEnter}
-                onMouseLeave={onLeave}
-              >
+              <Link key={label} href={href} className="hv" style={baseStyles} onMouseEnter={onEnter} onMouseLeave={onLeave}>
                 {label}
-              </a>
+              </Link>
             );
-          }
-
-          return (
-            <Link key={label} href={href} className="hv" style={baseStyles} onMouseEnter={onEnter} onMouseLeave={onLeave}>
-              {label}
-            </Link>
-          );
-        })}
+          })}
+        </div>
       </div>
     );
   };
@@ -1948,14 +1956,18 @@ export function PageHero({
     </div>
   );
 
+  const accentFontSize = layout === "mobile" ? 12 : 11;
+  const accentDotSize = layout === "mobile" ? 9 : 8;
+
   const accentInner = accent ? (
     <>
       <div
         style={{
-          width: 6,
-          height: 6,
+          width: accentDotSize,
+          height: accentDotSize,
           borderRadius: "50%",
-          background: L2,
+          background: L,
+          boxShadow: "0 0 0 1.5px rgba(150,238,82,0.35)",
           animation: "consultancy-dotPulse 1.8s ease-in-out infinite",
           flexShrink: 0,
         }}
@@ -1969,12 +1981,13 @@ export function PageHero({
     alignItems: "center",
     gap: 8,
     fontFamily: MN,
-    fontSize: 10,
-    fontWeight: 600,
+    fontSize: accentFontSize,
+    fontWeight: 700,
+    lineHeight: 1.4,
     letterSpacing: "normal",
     wordSpacing: MN_WORD_SPACE,
     textTransform: "uppercase",
-    color: L2,
+    color: L_TEXT_ON_LIGHT,
     textDecoration: "none",
   };
 

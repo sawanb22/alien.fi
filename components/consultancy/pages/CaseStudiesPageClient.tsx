@@ -393,6 +393,7 @@ function Grid() {
     : STUDIES;
 
   const filtered = baseStudies.filter((s) => active === "All" || s.industry === active);
+
   return (
     <ScrollSection as="section" index={1} id="real-outcomes" style={{ padding: `${pv}px ${gv}px`, background: `linear-gradient(180deg,${BG2},${BG})`, position: "relative", zIndex: 2 }}>
       <div
@@ -831,7 +832,7 @@ export default function CaseStudiesPageClient() {
       <CTAStrip
         title="WRITE THE NEXT ONE"
         sub="Tell us your boldest goal. We'll show you the most relevant AI case studies, the enterprise AI implementation success stories closest to your environment, and the AI ROI targets that would matter most for your team."
-        cta="Start a Project ↗"
+        cta="Start a Project"
         href="/contact"
       />
       <Footer />
