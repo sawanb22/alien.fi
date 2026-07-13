@@ -17,7 +17,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Alien.fi — Consultancy",
+  title: "Alien.fi Consultancy",
   description:
     "AI consultancy — services, industries, solutions, and case studies.",
 };
